@@ -1,4 +1,4 @@
-# screen-patron
+# Screen Patron
 
 - [Remix Docs](https://remix.run/docs)
 
