@@ -12,7 +12,10 @@ import { NextUIProvider } from '@nextui-org/react';
 
 import ScreeningForm from './components/ScreeningForm';
 
+import stylesheet from "~/tailwind.css";
+
 export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: stylesheet },
   ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
 ];
 
