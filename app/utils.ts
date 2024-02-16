@@ -34,8 +34,8 @@ export default function invariant(
 
 /**
  * Checks if file exists and is less than a certain file size.
- * @param event File Input event
- * @param fileLimit File size limit in MB
+ * @param event file input event
+ * @param fileLimit file size limit in MB
  */
 export function validateFile(event: React.ChangeEvent<HTMLInputElement>, fileLimit: number) {
   const files = event.target.files || [];
