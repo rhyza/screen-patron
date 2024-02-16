@@ -2,11 +2,13 @@ const isProduction: boolean = process.env.NODE_ENV === 'production';
 
 /**
  * Throws an error if the condition fails.
+ * @param condition Condition to evaluate as either truthy or falsy.
+ * @param message Error message to show -- can provide a string, or a function
+ * that returns a string for cases where the message takes a fair amount of
+ * effort to compute.
  */
 export default function invariant(
   condition: any,
-  // Can provide a string, or a function that returns a string for cases where
-  // the message takes a fair amount of effort to compute
   message?: string | (() => string),
 ): asserts condition {
   if (condition) {
@@ -14,16 +16,13 @@ export default function invariant(
   }
   // Condition not passed
 
-  const prefix: string = 'Invariant failed';
-
   // In production we strip the message but still throw
+  const prefix: string = 'Invariant failed';
   if (isProduction) {
     throw new Error(prefix);
   }
 
   // When not in production we allow the message to pass through
-  // *This block will be removed in production builds*
-
   const provided: string | undefined = typeof message === 'function' ? message() : message;
 
   // Options:
