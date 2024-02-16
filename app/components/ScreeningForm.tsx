@@ -2,13 +2,21 @@ import { Button, Card, CardFooter, Image, Input, Select, SelectItem } from '@nex
 import React, { useState } from 'react';
 import { Form } from '@remix-run/react';
 import { validateFile } from '~/utils';
+import EditIcon from './Icons';
 
 export default function ScreeningForm() {
   const [imageSrc, setImageSrc] = useState('');
-  const previewImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImagePreview = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (validateFile(event, 5)) {
       const files = event.target.files || [];
       setImageSrc(URL.createObjectURL(files[0]));
+    }
+  };
+
+  let fileUploadRef: HTMLInputElement | null;
+  const handleImageUpload = () => {
+    if (fileUploadRef) {
+      fileUploadRef.click();
     }
   };
 
@@ -26,25 +34,30 @@ export default function ScreeningForm() {
           radius='none'
           type='datetime-local'
         />
-        <Image
-          className='object-cover h-[200px]'
-          fallbackSrc='https://via.placeholder.com/200x200'
-          height={200}
-          id='avatarPreview'
-          radius='none'
-          src={imageSrc}
-          width={200}
-        />
-        <input
-          accept='image/*'
-          className='block w-full text-sm text-slate-500 file:mr-4 file:py-2
-            file:px-4 file:rounded-full file:border-0 file:text-sm
-            file:font-semibold file:bg-violet-50 file:text-violet-700
-          hover:file:bg-violet-100'
-          id='avatarUpload'
-          onChange={previewImage}
-          type='file'  
-           />
+        <Card shadow="sm" isPressable onPress={handleImageUpload} radius='none'>
+          <input
+            accept='image/*'
+            className='sr-only'
+            id='avatarUpload'
+            onChange={handleImagePreview}
+            ref={(input) => fileUploadRef = input}
+            type='file'  
+          />
+          <Image
+            className='object-cover h-[200px]'
+            fallbackSrc='https://via.placeholder.com/200x200'
+            height={200}
+            id='avatarPreview'
+            radius='none'
+            src={imageSrc}
+            width={200}
+          />
+          <CardFooter className="overflow-hidden absolute justify-end inset-x-0 bottom-0 text-small z-10">
+            <Button aria-hidden='true' className='bg-gradient-to-r from-cyan-500 to-blue-500' disableAnimation isIconOnly radius='full'>
+              <EditIcon aria-hidden='true' fill='white' />
+            </Button>
+          </CardFooter>
+        </Card>
       </Form>
       <Form>
         <Button>Save</Button>
