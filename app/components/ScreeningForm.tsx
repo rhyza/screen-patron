@@ -1,8 +1,8 @@
 import { Button, Card, CardFooter, Image, Input, Select, SelectItem } from '@nextui-org/react';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Form } from '@remix-run/react';
 import { validateFile } from '~/utils';
-import EditIcon from './Icons';
+import InputImage from './InputImage';
 
 export default function ScreeningForm() {
   const [imageSrc, setImageSrc] = useState('');
@@ -13,10 +13,10 @@ export default function ScreeningForm() {
     }
   };
 
-  let fileUploadRef: HTMLInputElement | null;
+  const fileUploadRef = useRef<HTMLInputElement>(null);;
   const handleImageUpload = () => {
-    if (fileUploadRef) {
-      fileUploadRef.click();
+    if (fileUploadRef.current) {
+      fileUploadRef.current.click();
     }
   };
 
@@ -34,30 +34,7 @@ export default function ScreeningForm() {
           radius='none'
           type='datetime-local'
         />
-        <Card shadow="sm" isPressable onPress={handleImageUpload} radius='none'>
-          <input
-            accept='image/*'
-            className='sr-only'
-            id='avatarUpload'
-            onChange={handleImagePreview}
-            ref={(input) => fileUploadRef = input}
-            type='file'  
-          />
-          <Image
-            className='object-cover h-[200px]'
-            fallbackSrc='https://via.placeholder.com/200x200'
-            height={200}
-            id='avatarPreview'
-            radius='none'
-            src={imageSrc}
-            width={200}
-          />
-          <CardFooter className="overflow-hidden absolute justify-end inset-x-0 bottom-0 text-small z-10">
-            <Button aria-hidden='true' className='bg-gradient-to-r from-cyan-500 to-blue-500' disableAnimation isIconOnly radius='full'>
-              <EditIcon aria-hidden='true' fill='white' />
-            </Button>
-          </CardFooter>
-        </Card>
+        <InputImage />
       </Form>
       <Form>
         <Button>Save</Button>
