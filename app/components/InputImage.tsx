@@ -1,19 +1,29 @@
 import { Card, CardFooter, Image } from '@nextui-org/react';
 import React, { useRef, useState } from 'react';
-import EditIcon from './Icons';
+import { EditIcon } from './Icons';
 import { validateFile } from '~/utils';
 
 /**
  * File input component that shows a preview of the uploaded image.
- * @param size sets both width and length of image in pixels (overridden by width and height params)
  * @param fileLimit file size limit in MB
+ * @param image img src link
+ * @param imageClassName img tag className string for use with tailwind
+ * @param cardProps InputImage accepts any number of additional props to apply
+ * to the containing Card component
  */
-export default function InputImage({ size = 200, width = 0, height = 0, fileLimit = 5 }) {
-  const [imageSrc, setImageSrc] = useState('');
+export default function InputImage({
+  fileLimit = 5,
+  iconClassName = 'rounded-full p-3 bg-gray-600',
+  iconFillColor = 'white',
+  image = 'https://placehold.co/800?text=Upload&font=roboto',
+  imageClassName = 'size-80',
+  ...cardProps
+}) {
+  const [src, setSrc] = useState(image);
   const handleImagePreview = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (validateFile(event, fileLimit)) {
       const files = event.target.files || [];
-      setImageSrc(URL.createObjectURL(files[0]));
+      setSrc(URL.createObjectURL(files[0]));
     }
   };
 
@@ -24,10 +34,10 @@ export default function InputImage({ size = 200, width = 0, height = 0, fileLimi
     }
   };
 
-  width = width || size;
-  height = height || size;
+  cardProps = {radius: 'none', shadow: 'sm', ...cardProps};
+
   return (
-    <Card shadow="sm" isPressable onPress={handleImageUpload} radius='none'>
+    <Card {...cardProps} isPressable onPress={handleImageUpload}>
       <input
         accept='image/*'
         className='sr-only'
@@ -36,18 +46,13 @@ export default function InputImage({ size = 200, width = 0, height = 0, fileLimi
         ref={fileUploadRef}
         type='file'
       />
-      <Image
-        className={`object-cover h-[${height}px]`}
-        fallbackSrc={`https://via.placeholder.com/${width}x${height}`}
-        height={height}
-        id='image-preview'
-        radius='none'
-        src={imageSrc}
-        width={width}
+      <img
+        className={'object-cover ' + imageClassName}
+        src={src}
       />
-      <CardFooter className="overflow-hidden absolute justify-end inset-x-0 bottom-0 text-small z-10">
-        <div aria-hidden='true' className='rounded-full p-2 bg-gradient-to-r from-cyan-500 to-blue-500'>
-          <EditIcon fill='white' />
+      <CardFooter className='overflow-hidden absolute justify-end inset-x-0 bottom-0 z-10'>
+        <div aria-hidden='true' className={iconClassName}>
+          <EditIcon fill={iconFillColor} />
         </div>
       </CardFooter>
     </Card>
