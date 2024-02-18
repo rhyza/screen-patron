@@ -11,7 +11,7 @@ export default function ScreeningForm() {
     <div className='w-full p-6'>
       <Form className='flex flex-wrap-reverse gap-6 justify-center'>
         <div className='flex-auto space-y-2 max-w-2xl min-w-[360px]'>
-          <Input label='Event Name' radius='none' type='text' />
+          <Input label='Event Name' radius='none' size='lg' type='text' />
           <Input
             label='Start Date'
             min={today.toLocaleDateString('fr-CA') + 'T00:00'}
@@ -42,8 +42,8 @@ export default function ScreeningForm() {
           <InputImage imageClassName='size-96' />
         </div>
       </Form>
-      <Form>
-        <Button radius='none'>Save</Button>
+      <Form className='flex justify-center'>
+        <Button className='m-6' radius='none' size='lg'>Save</Button>
       </Form>
     </div>
   );
