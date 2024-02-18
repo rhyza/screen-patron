@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import { Form } from '@remix-run/react';
 import { MapPinIcon, TicketIcon, UserGroupIcon } from './Icons';
@@ -38,8 +37,8 @@ export default function ScreeningForm() {
             radius='none'
           />
         </div>
-        <div className='flex-auto items-center justify-center max-w-96'>
-          <InputImage imageClassName='size-96' />
+        <div className='flex-auto items-center justify-center max-w-[28rem]'>
+          <InputImage imageClassName='size-[28rem]' />
         </div>
       </Form>
       <Form className='flex justify-center'>

@@ -10,8 +10,6 @@ import {
 } from '@remix-run/react';
 import { NextUIProvider } from '@nextui-org/react';
 
-import ScreeningForm from './components/ScreeningForm';
-
 import stylesheet from '~/tailwind.css';
 
 export const links: LinksFunction = () => [
@@ -30,7 +28,6 @@ export default function App() {
       </head>
       <body>
         <NextUIProvider>
-          <ScreeningForm />
           <Outlet />
           <ScrollRestoration />
           <Scripts />

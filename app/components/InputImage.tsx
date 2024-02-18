@@ -1,4 +1,4 @@
-import { Card, CardFooter, Image } from '@nextui-org/react';
+import { Card, CardFooter } from '@nextui-org/react';
 import React, { useRef, useState } from 'react';
 import { EditIcon } from './Icons';
 import { validateFile } from '~/utils';
