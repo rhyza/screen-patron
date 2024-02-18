@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import { Form } from '@remix-run/react';
-import { ClockIcon,MapPinIcon, TicketIcon } from './Icons';
+import { MapPinIcon, TicketIcon, UserGroupIcon } from './Icons';
 import InputImage from './InputImage';
 
 export default function ScreeningForm() {
@@ -25,6 +25,12 @@ export default function ScreeningForm() {
               <TicketIcon />
               <span className='ml-1'>$</span>
             </>}
+            type='number'
+          />
+          <Input
+            placeholder='Max Capacity'
+            radius='none'
+            startContent={<UserGroupIcon />}
             type='number'
           />
           <Textarea
