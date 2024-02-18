@@ -27,7 +27,7 @@ export default function InputImage({
     }
   };
 
-  const fileUploadRef = useRef<HTMLInputElement>(null);;
+  const fileUploadRef = useRef<HTMLInputElement>(null);
   const handleImageUpload = () => {
     if (fileUploadRef.current) {
       fileUploadRef.current.click();
