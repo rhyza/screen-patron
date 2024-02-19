@@ -19,17 +19,17 @@ export default function ScreeningForm() {
             type='datetime-local'
           />
           <Input placeholder='Location' radius='none' startContent={<MapPinIcon />} type='text' />
+          <Input
+            placeholder='Max Capacity'
+            radius='none'
+            startContent={<UserGroupIcon />}
+            type='number'
+          />
           <Input placeholder='Cost per person' radius='none'
             startContent={<>
               <TicketIcon />
               <span className='ml-1'>$</span>
             </>}
-            type='number'
-          />
-          <Input
-            placeholder='Max Capacity'
-            radius='none'
-            startContent={<UserGroupIcon />}
             type='number'
           />
           <Textarea
