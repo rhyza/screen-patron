@@ -1,5 +1,6 @@
 import { Avatar, Button } from '@nextui-org/react';
 import { MapPinIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
+import { getDateString, getTimeString } from '~/utils';
 
 export default function ScreeningForm() {
   const description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
@@ -25,15 +26,50 @@ export default function ScreeningForm() {
     );
   };
 
+  const dateRange = (start: Date, end?: Date) => {
+    let date = getDateString(start);
+    let time = getTimeString(start);
+
+    if (end) {
+      const endDate = getDateString(end);
+      const endTime = getTimeString(end);
+
+      if (end.getDate() === start.getDate()) {
+        time += ` — ${endTime}`;
+      } else {
+        if (end.getFullYear() != start.getFullYear()) {
+          date = getDateString(start, false);
+        }
+        return (
+          <div>
+            <p className='text-2xl'>{date + ' · ' + time + ' — '}</p>
+            <p className='text-2xl'>{endDate + ' · ' + endTime}</p>
+          </div>
+        );
+      }
+    }
+
+    return (
+      <div>
+        <p className='text-3xl font-medium'>{date}</p>
+        <p className='text-xl font-medium text-neutral-600'>{time}</p>
+      </div>
+    );
+  };
+
+  // Testing Only
+  const start = new Date('February 22, 2024 19:00');
+  const endSameDay = new Date('February 22, 2024 21:00');
+  const endNextDay = new Date('February 23, 2024 1:00');
+  const nye = new Date('December 31, 2024 20:00');
+  const nyd = new Date('January 1, 2025 01:00');
+
   return (
     <div className='w-full p-6'>
       <div className='flex flex-wrap-reverse gap-6 justify-center'>
         <div className='flex-auto space-y-4 max-w-xl min-w-[360px]'>
-          <h1 className='text-5xl'> Event Name</h1>
-          <div>
-            <p className='text-3xl'>Wednesday, Feb 21</p>
-            <p className='text-2xl'>7:00pm – 10:00pm</p>
-          </div>
+          <h1 className='text-5xl font-medium'> Event Name</h1>
+          {dateRange(start)}
           {infoField(<MapPinIcon />, 'Location')}
           {infoField(<TicketIcon />, `$${cost} per person`)}
           {infoField(<UserGroupIcon />, 'Unlimited Spots')}
