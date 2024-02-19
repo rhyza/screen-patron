@@ -3,10 +3,20 @@ import { MapPinIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
 import { getDateString, getTimeString } from '~/utils';
 
 export default function ScreeningForm() {
-  const description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+  const eventName = 'Event Name';
+  const location = 'Location TBD';
   const cost = 5;
+  const numSpots = 'Unlimited Spots';
+  const description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
   const going = 14;
   const maybe = 2;
+
+  // Testing Only
+  const start = new Date('February 22, 2024 19:00');
+  const endSameDay = new Date('February 22, 2024 21:00');
+  const endNextDay = new Date('February 23, 2024 1:00');
+  const nye = new Date('December 31, 2024 20:00');
+  const nyd = new Date('January 1, 2025 01:00');
 
   const infoField = (icon: JSX.Element, text: string | JSX.Element) => {
     return (
@@ -57,22 +67,18 @@ export default function ScreeningForm() {
     );
   };
 
-  // Testing Only
-  const start = new Date('February 22, 2024 19:00');
-  const endSameDay = new Date('February 22, 2024 21:00');
-  const endNextDay = new Date('February 23, 2024 1:00');
-  const nye = new Date('December 31, 2024 20:00');
-  const nyd = new Date('January 1, 2025 01:00');
-
   return (
     <div className='w-full p-6'>
       <div className='flex flex-wrap-reverse gap-6 justify-center'>
         <div className='flex-auto space-y-4 max-w-xl min-w-[360px]'>
-          <h1 className='text-5xl font-medium'> Event Name</h1>
-          {dateRange(start)}
-          {infoField(<MapPinIcon />, 'Location')}
-          {infoField(<TicketIcon />, `$${cost} per person`)}
-          {infoField(<UserGroupIcon />, 'Unlimited Spots')}
+          <h1 className='text-5xl font-medium'>{eventName}</h1>
+          {start
+            ? dateRange(start)
+            : <p className='text-2xl font-medium'>Date & Time TBD</p>
+          }
+          {infoField(<MapPinIcon />, location)}
+          {cost && infoField(<TicketIcon />, `$${cost} per person`)}
+          {infoField(<UserGroupIcon />, numSpots)}
           <p>{description}</p>
           <div className='flex items-center gap-2'>
             <span className='flex-none'>{going} Going</span>
