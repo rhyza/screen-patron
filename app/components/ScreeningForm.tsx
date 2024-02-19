@@ -9,7 +9,7 @@ export default function ScreeningForm() {
   return (
     <div className='w-full p-6'>
       <Form className='flex flex-wrap-reverse justify-center gap-6'>
-        <div className='flex-auto space-y-2 min-w-[360px] max-w-2xl'>
+        <div className='flex-auto space-y-2 min-w-[320px] max-w-2xl'>
           <Input label='Event Name' radius='none' size='lg' type='text' />
           <Input
             label='Start Date'
@@ -37,8 +37,8 @@ export default function ScreeningForm() {
             radius='none'
           />
         </div>
-        <div className='flex-auto justify-center max-w-[28rem]'>
-          <InputImage imageClassName='size-[28rem]' />
+        <div className='flex-auto justify-center max-w-[20rem] sm:max-w-[28rem]'>
+          <InputImage imageClassName='size-[20rem] sm:size-[28rem]' />
         </div>
       </Form>
       <Form className='flex justify-center'>

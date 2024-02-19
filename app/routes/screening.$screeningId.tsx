@@ -29,8 +29,8 @@ export default function Screening() {
 
   const rsvpButton = (icon: string | JSX.Element, label?: string) => {
     return (
-      <div className='flex flex-wrap justify-center'>
-        <Button className='text-5xl w-fit h-fit p-4' isIconOnly radius='full'>{icon}</Button>
+      <div className='flex flex-wrap justify-center w-24 sm:w-28'>
+        <Button className='text-4xl sm:text-5xl w-fit h-fit p-4' isIconOnly radius='full'>{icon}</Button>
         <p>{label}</p>
       </div>
     );
@@ -70,7 +70,7 @@ export default function Screening() {
   return (
     <div className='w-full p-6'>
       <div className='flex flex-wrap-reverse gap-6 justify-center'>
-        <div className='flex-auto space-y-4 max-w-xl min-w-[360px]'>
+        <div className='flex-auto space-y-4 max-w-xl min-w-[300px]'>
           <h1 className='text-5xl font-medium'>{eventName}</h1>
           {start
             ? dateRange(start)
@@ -84,22 +84,22 @@ export default function Screening() {
             <span className='flex-none'>{going} Going</span>
             {maybe && <span className='flex-none'>{maybe} Maybe</span>}
           </div>
-          <div className="flex items-center gap-2">
-            <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-            <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
-            <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
-            <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
-            <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
-            <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c" />
-            <Avatar name="+10" />
+          <div className='flex items-center gap-2'>
+            <Avatar src='https://i.pravatar.cc/150?u=a042581f4e29026024d' />
+            <Avatar src='https://i.pravatar.cc/150?u=a04258a2462d826712d' />
+            <Avatar src='https://i.pravatar.cc/150?u=a042581f4e29026704d' />
+            <Avatar src='https://i.pravatar.cc/150?u=a04258114e29026302d' />
+            <Avatar src='https://i.pravatar.cc/150?u=a04258114e29026702d' />
+            <Avatar src='https://i.pravatar.cc/150?u=a04258114e29026708c' />
+            <Avatar name='+10' />
           </div>
         </div>
-        <div className='flex-auto max-w-96'>
+        <div className='flex-auto max-w-80 sm:max-w-96'>
           <img
-            className='size-96'
+            className='size-80 sm:size-96'
             src='https://placehold.co/800?text=Poster&font=roboto'
           />
-          <div className='flex justify-around p-6'>
+          <div className='flex justify-around m-6'>
             {rsvpButton('👍', 'Going')}
             {rsvpButton('🤔', 'Maybe')}
             {rsvpButton('👎', 'Not Going')}
