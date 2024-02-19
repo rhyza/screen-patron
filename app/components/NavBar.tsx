@@ -8,7 +8,7 @@ import {
 } from '@nextui-org/react';
 import { InstagramIcon } from './Icons';
 
-export default function App() {
+export default function NavBar() {
   const location = useLocation();
 
   return (

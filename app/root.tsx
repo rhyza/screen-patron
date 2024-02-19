@@ -10,7 +10,7 @@ import {
 } from '@remix-run/react';
 import { NextUIProvider } from '@nextui-org/react';
 
-import Nav from '~/components/Nav';
+import NavBar from '~/components/NavBar';
 import stylesheet from '~/tailwind.css';
 
 export const links: LinksFunction = () => [
@@ -29,7 +29,7 @@ export default function App() {
       </head>
       <body>
         <NextUIProvider>
-          <Nav />
+          <NavBar />
           <Outlet />
           <ScrollRestoration />
           <Scripts />
