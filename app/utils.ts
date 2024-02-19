@@ -1,5 +1,28 @@
 const isProduction: boolean = process.env.NODE_ENV === 'production';
 
+export function getDateString(date: Date, omitSameYear = true, shortWeekday = true, shortMonth = true) {
+  const today = new Date(Date.now());
+  const includeYear = !(omitSameYear && date.getFullYear() === today.getFullYear());
+
+  const options = {
+    weekday: shortWeekday ? 'short' : 'long',
+    month: shortMonth ? 'short' : 'long',
+    day: 'numeric',
+    year:  includeYear ? 'numeric' : undefined,
+  } as const;
+
+  return date.toLocaleDateString('en-US', options);
+}
+
+export function getTimeString(date: Date, includeTimeZone = false) {
+  const options = {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZoneName: includeTimeZone ? 'short' : undefined,
+  } as const;
+  return date.toLocaleTimeString('en-US', options);
+}
+
 /**
  * Throws an error if the condition fails.
  * @param condition Condition to evaluate as either truthy or falsy.
@@ -7,7 +30,7 @@ const isProduction: boolean = process.env.NODE_ENV === 'production';
  * that returns a string for cases where the message takes a fair amount of
  * effort to compute.
  */
-export default function invariant(
+export function invariant(
   condition: any,
   message?: string | (() => string),
 ): asserts condition {
