@@ -1,23 +1,21 @@
-import { NavLink, useLocation } from '@remix-run/react';
+import { NavLink, useLocation, useNavigate } from '@remix-run/react';
 import {
   Avatar,
   Button,
   Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger,
-  Link,
   Navbar, NavbarBrand, NavbarContent, NavbarItem,
 } from '@nextui-org/react';
 import { InstagramIcon } from './Icons';
 
 export default function NavBar() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <Navbar maxWidth='full'>
-      <NavbarBrand>
-        <Link color='foreground' href='/'>
-          <InstagramIcon />
-          <p className='font-bold text-inherit ml-2'>ACME</p>
-        </Link>     
+      <NavbarBrand as={NavLink} onClick={() => navigate('/')}>
+        <InstagramIcon />
+        <p className='font-bold text-inherit ml-2'>ACME</p>
       </NavbarBrand>
 
       <NavbarContent as='div' justify='end'>
@@ -59,8 +57,8 @@ export default function NavBar() {
               </DropdownItem>
             </DropdownSection>
             <DropdownSection showDivider>
-              <DropdownItem key='profile' href='/user/1'>My Profile</DropdownItem>
-              <DropdownItem key='profile' href='/screening/1'>My Events</DropdownItem>
+              <DropdownItem key='profile' onClick={() => navigate('/user/1')}>My Profile</DropdownItem>
+              <DropdownItem key='events' onClick={() => navigate('/screening/1')}>My Events</DropdownItem>
             </DropdownSection>
             <DropdownSection>
               <DropdownItem key='logout' color='danger'>
