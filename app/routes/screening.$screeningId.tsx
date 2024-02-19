@@ -2,7 +2,7 @@ import { Avatar, Button } from '@nextui-org/react';
 import { MapPinIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
 import { getDateString, getTimeString } from '~/utils';
 
-export default function ScreeningForm() {
+export default function Screening() {
   const eventName = 'Event Name';
   const location = 'Location TBD';
   const cost = 5;

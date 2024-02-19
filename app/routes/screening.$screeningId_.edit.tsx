@@ -1,6 +1,6 @@
 import ScreeningForm from '~/components/ScreeningForm';
 
-export default function CreateScreening() {
+export default function EditScreening() {
   return (
     <ScreeningForm />
   );

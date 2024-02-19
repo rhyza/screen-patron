@@ -34,7 +34,7 @@ export default function InputImage({
     }
   };
 
-  cardProps = {radius: 'none', shadow: 'sm', ...cardProps};
+  cardProps = {radius: 'none', shadow: 'none', ...cardProps};
 
   return (
     <Card {...cardProps} isPressable onPress={handleImageUpload}>
