@@ -84,7 +84,7 @@ export default function Screening() {
             <span className='flex-none'>{going} Going</span>
             {maybe && <span className='flex-none'>{maybe} Maybe</span>}
           </div>
-          <div className="flex gap-2 items-center">
+          <div className="flex items-center gap-2">
             <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
             <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
             <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
@@ -94,9 +94,9 @@ export default function Screening() {
             <Avatar name="+10" />
           </div>
         </div>
-        <div className='flex-auto items-center justify-center max-w-96'>
+        <div className='flex-auto max-w-96'>
           <img
-            className='object-cover size-96'
+            className='size-96'
             src='https://placehold.co/800?text=Poster&font=roboto'
           />
           <div className='flex justify-around p-6'>
