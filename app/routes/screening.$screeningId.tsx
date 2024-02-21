@@ -1,8 +1,11 @@
-import { Avatar, Button } from '@nextui-org/react';
+import { NavLink } from '@remix-run/react';
+import { Avatar, Button, Link } from '@nextui-org/react';
 import { MapPinIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
 import { getDateString, getTimeString } from '~/utils';
 
 export default function Screening() {
+  const isUser = true;
+  const isGuest = true;
   const eventName = 'Event Name';
   const location = 'Location TBD';
   const cost = 5;
@@ -30,7 +33,9 @@ export default function Screening() {
   const rsvpButton = (icon: string | JSX.Element, label?: string) => {
     return (
       <div className='flex flex-wrap justify-center w-24 sm:w-28'>
-        <Button className='text-4xl sm:text-5xl w-fit h-fit p-4' isIconOnly radius='full'>{icon}</Button>
+        <Button className='text-4xl sm:text-5xl w-fit h-fit p-4' isIconOnly radius='full'>
+          {icon}
+        </Button>
         <p>{label}</p>
       </div>
     );
@@ -71,10 +76,21 @@ export default function Screening() {
     <div className='w-full p-6'>
       <div className='flex flex-wrap-reverse gap-6 justify-center'>
         <div className='flex-auto space-y-4 max-w-xl min-w-[300px]'>
-          <h1 className='text-5xl font-medium'>{eventName}</h1>
+          <div className='flex items-center gap-6'>
+            <h1 className='text-5xl font-medium'>{eventName}</h1>
+            {isUser &&
+              <Button as={NavLink} to='./edit' radius='none'>Edit</Button>
+            }
+          </div>
           {start
             ? dateRange(start)
             : <p className='text-2xl font-medium'>Date & Time TBD</p>
+          }
+          {(isUser || isGuest) &&
+            <div className='flex gap-6 items-center'>
+              <Link className='btn-link mb-2' onClick={() => alert('share options')}>share</Link>
+              <Link className='btn-link mb-2' isExternal href='https://calendar.google.com/'>add to calendar</Link>
+            </div>
           }
           {infoField(<MapPinIcon />, location)}
           {cost && infoField(<TicketIcon />, `$${cost} per person`)}

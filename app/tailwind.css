@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .btn-link {
+    @apply cursor-pointer bg-transparent p-0 underline underline-offset-4 text-small uppercase text-foreground hover:text-indigo-600 decoration-indigo-600 decoration-2;
+  }
+}
