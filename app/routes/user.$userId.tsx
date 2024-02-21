@@ -1,6 +1,6 @@
+import { NavLink } from '@remix-run/react';
 import { Button, Link } from '@nextui-org/react';
 import { InstagramIcon, LinkIcon, TwitterIcon } from '~/components/Icons';
-import InputImage from '~/components/InputImage';
 
 export default function User() {
   const isUser = true;
@@ -10,12 +10,13 @@ export default function User() {
   const instagram = undefined; //'rhyza_';
   const twitter = undefined; //'remix_run';
   const website = 'https://tailwindcss.com/';
+  const joinDate = 'Feb \'24';
 
   const socialChip = (label: string, url: string, icon: JSX.Element) => {
     return (
       <Button
         as={Link}
-        className='bg-gradient-to-br from-indigo-500 to-pink-500 text-white'
+        className='bg-gradiant'
         href={url}
         isExternal
         radius='full'
@@ -32,41 +33,36 @@ export default function User() {
     <div className='flex flex-wrap md:flex-nowrap gap-6 justify-center'>
       <div className='flex-auto space-y-4 max-w-fit min-w-80'>
         <div className='flex justify-center'>
-          {isUser
-          ? <InputImage
-              iconClassName='mb-1 mr-1 rounded-full p-3 bg-gray-600'
-              image={photo}
-              imageClassName='rounded-full size-[16rem]'
-            />
-          : <img
-              className='rounded-full size-[16rem]'
-              src={photo}
-            />
-          }
+          <img
+            className='rounded-full size-[16rem]'
+            src={photo}
+          />
         </div>
         <div className='flex justify-center'>
-          {isUser && <Button className='' radius='none'>Edit Profile</Button>}
+          {isUser && <Button as={NavLink} className='w-[16rem]' to='./edit' radius='none'>Edit Profile</Button>}
         </div>
       </div>
       <div className='flex-auto max-w-96 text-center md:text-left'>
         <div className='flex items-center md:h-[16rem] w-fit mb-4 md:m-0'>
           <h1 className='text-6xl md:text-7xl font-medium'>{name}</h1>
         </div>
-        {true && <p className='mb-4'>{bio}</p>}
-        {(instagram || twitter || website) &&
-          <div className='flex gap-2 mb-4 justify-center md:justify-start'>
-            {instagram &&
-              socialChip(`@${instagram}`, `https://www.instagram.com/${instagram}`, <InstagramIcon className='w-4 h-4'/>)
-            }
-            {twitter &&
-              socialChip(`@${twitter}`, `https://www.twitter.com/${twitter}`, <TwitterIcon className='w-4 h-4'/>)
-            }
-            {website &&
-              socialChip('Website', website, <LinkIcon className='w-5 h-5'/>)
-            }
-          </div>
-        }
-        <p className='mb-4'>Joined Feb '24</p>
+        <div className='grid gap-4'>
+          {bio && <p>{bio}</p>}
+          {(instagram || twitter || website) &&
+            <div className='flex gap-2 justify-center md:justify-start'>
+              {instagram &&
+                socialChip(`@${instagram}`, `https://www.instagram.com/${instagram}`, <InstagramIcon className='w-4 h-4'/>)
+              }
+              {twitter &&
+                socialChip(`@${twitter}`, `https://www.twitter.com/${twitter}`, <TwitterIcon className='w-4 h-4'/>)
+              }
+              {website &&
+                socialChip('Website', website, <LinkIcon className='w-5 h-5'/>)
+              }
+            </div>
+          }
+          <p>Joined {joinDate}</p>
+        </div>
       </div>
     </div>
   </div>
