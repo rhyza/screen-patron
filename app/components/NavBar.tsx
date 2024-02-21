@@ -22,7 +22,7 @@ export default function NavBar() {
         <NavbarItem>
           <Button
             as={NavLink}
-            className={location.pathname === '/screening/create'  ? 'hidden' : ''}
+            className={location.pathname === '/screening/create' ? 'hidden' : ''}
             radius='none'
             to='/screening/create'
             variant='flat'

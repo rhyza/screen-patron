@@ -34,16 +34,16 @@ export default function User() {
       <div className='flex-auto space-y-4 max-w-fit min-w-80'>
         <div className='flex justify-center'>
           <img
-            className='rounded-full size-[16rem]'
+            className='rounded-full size-64'
             src={photo}
           />
         </div>
         <div className='flex justify-center'>
-          {isUser && <Button as={NavLink} className='w-[16rem]' to='./edit' radius='none'>Edit Profile</Button>}
+          {isUser && <Button as={NavLink} className='w-64' to='./edit' radius='none'>Edit</Button>}
         </div>
       </div>
       <div className='flex-auto max-w-96 text-center md:text-left'>
-        <div className='flex items-center md:h-[16rem] w-fit mb-4 md:m-0'>
+        <div className='flex items-center md:h-64 w-fit mb-4 md:m-0'>
           <h1 className='text-6xl md:text-7xl font-medium'>{name}</h1>
         </div>
         <div className='grid gap-4'>

@@ -75,7 +75,7 @@ export default function Screening() {
   return (
     <div className='w-full p-6'>
       <div className='flex flex-wrap-reverse gap-6 justify-center'>
-        <div className='flex-auto space-y-4 max-w-xl min-w-[300px]'>
+        <div className='flex-auto space-y-4 min-w-[300px] max-w-xl '>
           <div className='flex items-center gap-6'>
             <h1 className='text-5xl font-medium'>{eventName}</h1>
             {isUser &&

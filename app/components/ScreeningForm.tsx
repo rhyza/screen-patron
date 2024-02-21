@@ -1,15 +1,16 @@
+import { Form, useNavigate } from '@remix-run/react';
 import { Button, Input, Textarea } from '@nextui-org/react';
-import { Form } from '@remix-run/react';
 import { MapPinIcon, TicketIcon, UserGroupIcon } from './Icons';
 import InputImage from './InputImage';
 
 export default function ScreeningForm() {
+  const navigate = useNavigate();
   const today = new Date(Date.now());
 
   return (
     <div className='w-full p-6'>
-      <Form className='flex flex-wrap-reverse justify-center gap-6'>
-        <div className='flex-auto space-y-2 min-w-[320px] max-w-2xl'>
+      <Form className='flex flex-wrap-reverse justify-center gap-6' method='post'>
+        <div className='flex-auto space-y-2 min-w-[300px] max-w-xl'>
           <Input label='Event Name' radius='none' size='lg' type='text' />
           <Input
             label='Start Date'
@@ -37,12 +38,12 @@ export default function ScreeningForm() {
             radius='none'
           />
         </div>
-        <div className='flex-auto justify-center max-w-[20rem] sm:max-w-[28rem]'>
-          <InputImage imageClassName='size-[20rem] sm:size-[28rem]' />
+        <div className='flex-auto justify-center max-w-80 sm:max-w-96'>
+          <InputImage imageClassName='size-80 sm:size-96' />
         </div>
       </Form>
       <Form className='flex justify-center'>
-        <Button className='m-6' radius='none' size='lg'>Save</Button>
+        <Button className='m-6' onClick={() => navigate(-1)} radius='none' size='lg' type='submit'>Save</Button>
       </Form>
     </div>
   );
