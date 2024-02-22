@@ -1,25 +1,51 @@
+import type { LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 import { NavLink } from '@remix-run/react';
 import { Avatar, Button, Link } from '@nextui-org/react';
 import { MapPinIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
 import { getDateString, getTimeString } from '~/utils';
+import { getScreening } from '~/services/screening';
+
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+	const screening = await getScreening(params.screeningId);
+	if (!screening) {
+		throw new Response('Not Found', {status: 404});
+	}
+	return json({ screening });
+};
+
+// Remove Before Prod
+const isUser = true;
+const isGuest = true;
+const testDates = {
+  startDay: 'February 22, 2024 19:00',
+  endSameDay: 'February 22, 2024 21:00',
+  endNextDay: 'February 23, 2024 1:00',
+  nye: 'December 31, 2024 20:00',
+  nyd: 'January 1, 2025 01:00',
+}
 
 export default function Screening() {
-  const isUser = true;
-  const isGuest = true;
-  const eventName = 'Event Name';
-  const location = 'Location TBD';
-  const cost = 5;
-  const numSpots = 'Unlimited Spots';
-  const description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-  const going = 14;
-  const maybe = 2;
-
-  // Testing Only
-  const start = new Date('February 22, 2024 19:00');
-  const endSameDay = new Date('February 22, 2024 21:00');
-  const endNextDay = new Date('February 23, 2024 1:00');
-  const nye = new Date('December 31, 2024 20:00');
-  const nyd = new Date('January 1, 2025 01:00');
+  const { screening } = useLoaderData<typeof loader>();
+  const {
+    name,
+    coverImage = 'https://placehold.co/800?text=Poster&font=roboto',
+    dateStart,
+    dateEnd,
+    location = 'Location TBD',
+    cost = 0,
+    capacity = 100,
+    description,
+    guests,
+  } = screening;
+  const start = dateStart ? new Date(dateStart) : undefined;
+  const end = dateEnd ? new Date(dateEnd) : undefined;
+  const guestsGoing = guests ? guests.filter((guest) => guest.status === 'going') : undefined;
+  const guestsMaybe = guests ? guests.filter((guest) => guest.status === 'maybe') : undefined;
+  const going = guestsGoing ? guestsGoing.length : 0;
+  const maybe = guestsMaybe ? guestsMaybe.length : 0;
+  const totalGuests = going + maybe;
 
   const infoField = (icon: JSX.Element, text: string | JSX.Element) => {
     return (
@@ -77,43 +103,49 @@ export default function Screening() {
       <div className='flex flex-wrap-reverse gap-6 justify-center'>
         <div className='flex-auto space-y-4 min-w-[300px] max-w-xl '>
           <div className='flex items-center gap-6'>
-            <h1 className='text-5xl font-medium'>{eventName}</h1>
+            <h1 className='text-5xl font-medium'>{name}</h1>
             {isUser &&
               <Button as={NavLink} to='./edit' radius='none'>Edit</Button>
             }
           </div>
           {start
-            ? dateRange(start)
+            ? dateRange(start, end)
             : <p className='text-2xl font-medium'>Date & Time TBD</p>
           }
           {(isUser || isGuest) &&
             <div className='flex gap-6 items-center'>
-              <Link className='btn-link mb-2' onClick={() => alert('share options')}>share</Link>
-              <Link className='btn-link mb-2' isExternal href='https://calendar.google.com/'>add to calendar</Link>
+              <Link className='btn-link mb-2' onClick={() => alert('share options')}>
+                share
+              </Link>
+              <Link className='btn-link mb-2' isExternal href='https://calendar.google.com/'>
+                add to calendar
+              </Link>
             </div>
           }
           {infoField(<MapPinIcon />, location)}
-          {cost && infoField(<TicketIcon />, `$${cost} per person`)}
-          {infoField(<UserGroupIcon />, numSpots)}
+          {cost != undefined && infoField(
+            <TicketIcon />, cost > 0 ? `$${cost} per person`: 'Free'
+          )}
+          {capacity && infoField(
+            <UserGroupIcon />, 
+            <p><span className='text-accent'>{capacity - totalGuests}</span> / {capacity} spots left</p>
+          )}
           <p>{description}</p>
           <div className='flex items-center gap-2'>
             <span className='flex-none'>{going} Going</span>
-            {maybe && <span className='flex-none'>{maybe} Maybe</span>}
+            {maybe > 0 && <span className='flex-none'>{maybe} Maybe</span>}
           </div>
           <div className='flex items-center gap-2'>
-            <Avatar src='https://i.pravatar.cc/150?u=a042581f4e29026024d' />
-            <Avatar src='https://i.pravatar.cc/150?u=a04258a2462d826712d' />
-            <Avatar src='https://i.pravatar.cc/150?u=a042581f4e29026704d' />
-            <Avatar src='https://i.pravatar.cc/150?u=a04258114e29026302d' />
-            <Avatar src='https://i.pravatar.cc/150?u=a04258114e29026702d' />
-            <Avatar src='https://i.pravatar.cc/150?u=a04258114e29026708c' />
-            <Avatar name='+10' />
+            {guests && guests.slice(0, 6).map((guest) => (
+              <Avatar showFallback src={guest.avatar} />
+            ))}
+            {(totalGuests > 6) && <Avatar name={`+${totalGuests - 6}`} />}
           </div>
         </div>
         <div className='flex-auto max-w-80 sm:max-w-96'>
           <img
-            className='size-80 sm:size-96'
-            src='https://placehold.co/800?text=Poster&font=roboto'
+            className='size-80 sm:size-96 object-cover'
+            src={coverImage}
           />
           <div className='flex justify-around m-6'>
             {rsvpButton('👍', 'Going')}

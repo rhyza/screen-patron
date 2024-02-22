@@ -26,7 +26,7 @@ export default function ScreeningCard({
         <p className='text-xs text-default-500'>{timeString}</p>
         <p className='text-base font-bold justify-self-start truncate overflow-hidden'>{name}</p>
       </CardHeader>
-      <img className={'rounded-md ' + imageClassName} src={image} />
+      <img className={'object-cover rounded-md ' + imageClassName} src={image} />
     </Card>
   );
 }

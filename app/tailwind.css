@@ -14,4 +14,8 @@
   .btn-link {
     @apply cursor-pointer bg-transparent p-0 underline underline-offset-4 text-small uppercase text-foreground hover:text-indigo-600 decoration-indigo-600 decoration-2;
   }
+
+  .text-accent {
+    @apply font-medium text-indigo-500
+  }
 }
