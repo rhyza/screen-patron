@@ -3,17 +3,25 @@ import { matchSorter } from 'match-sorter';
 import sortBy from 'sort-by';
 import { invariant } from '../utils';
 
+type Guest = {
+  guestId: string;
+  status: string;
+  avatar?: string;
+}
+
 type ScreeningMutation = {
   id?: string;
   name?: string;
   coverImage?: string;
   description?: string;
-  hosts?: string[];
-  guests?: string[];
+  hosts?: Guest[];
+  guests?: Guest[];
   location?: string;
   dateStart?: string;
   dateEnd?: string;
   cost?: number;
+  capacity?: number;
+  private?: boolean;
 };
 
 export type ScreeningRecord = ScreeningMutation & {
@@ -22,7 +30,7 @@ export type ScreeningRecord = ScreeningMutation & {
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-// This is just a fake DB table. In a real app you'd be talking to a real db or
+// This is just a fake DB table. In a real app we'd be talking to a real db or
 // fetching from an existing API.
 const fakeScreenings = {
   records: {} as Record<string, ScreeningRecord>,
@@ -77,7 +85,10 @@ export async function createEmptyScreening() {
   return screening;
 }
 
-export async function getScreening(id: string) {
+export async function getScreening(id: string | undefined) {
+  if (!id) {
+    return null;
+  }
   return fakeScreenings.get(id);
 }
 
@@ -104,6 +115,7 @@ export async function deleteScreening(id: string) {
     dateStart: '2024-02-22T23:30',
     dateEnd: '2024-02-22T20:30',
     cost: 5,
+    guests: getFakeGuestList(18, 5),
   },
   {
     coverImage:
@@ -113,6 +125,7 @@ export async function deleteScreening(id: string) {
     location: 'My House',
     dateStart: '2024-02-22T23:30',
     dateEnd: '2024-02-21T01:30',
+    guests: getFakeGuestList(2, 1),
   },
   {
     coverImage:
@@ -121,7 +134,9 @@ export async function deleteScreening(id: string) {
     location: 'Somewhere Theater',
     dateStart: '2025-02-22T23:30',
     dateEnd: '2025-02-22T20:30',
+    capacity: 100,
     cost: 20,
+    guests: getFakeGuestList(32, 12),
   },
   {
     coverImage:
@@ -132,6 +147,7 @@ export async function deleteScreening(id: string) {
     dateStart: '2024-12-31T21:00',
     dateEnd: '2025-01-01T03:00',
     cost: 25,
+    guests: getFakeGuestList(3, 3),
   },
   {
     coverImage:
@@ -144,3 +160,42 @@ export async function deleteScreening(id: string) {
     id: `${screening.name.toLowerCase().replace(/\s/g, '-')}`,
   });
 });
+
+fakeScreenings.create({
+  id: 'test',
+  name: 'Unnamed Event',
+  location: 'Unnamed Location',
+  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+  coverImage: 'https://images.unsplash.com/photo-1535016120720-40c646be5580',
+  guests: getFakeGuestList(),
+});
+
+export function getFakeGuestList(going = 14, maybe = 2): Guest[] {
+  let guestList = [];
+  const avatarList = [
+    'https://i.pravatar.cc/150?u=a042581f4e29026024d',
+    'https://i.pravatar.cc/150?u=a04258a2462d826712d',
+    'https://i.pravatar.cc/150?u=a042581f4e29026704d',
+    'https://i.pravatar.cc/150?u=a04258114e29026302d',
+    'https://i.pravatar.cc/150?u=a04258114e29026702d',
+    'https://i.pravatar.cc/150?u=a04258114e29026708c',
+    'https://avatars.githubusercontent.com/u/30373425',
+    'https://i.pravatar.cc/300?u=a042581f4e29026709d',
+  ];
+  let guest: Guest;
+  for (let i = 0; i < going; i++) {
+    guestList.push({
+      guestId: `going-${i}`,
+      status: 'going',
+      avatar: i < avatarList.length ? avatarList[i] : undefined,
+    } as const);
+  }
+  for (let i = 0; i < maybe; i++) {
+    guestList.push({
+      guestId: `maybe-${i}`,
+      status: 'maybe',
+      avatar: '',
+    });
+  }
+  return guestList;
+}
