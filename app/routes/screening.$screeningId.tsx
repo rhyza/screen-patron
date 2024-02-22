@@ -42,18 +42,18 @@ export default function Screening() {
   };
 
   const dateRange = (start: Date, end?: Date) => {
-    let date = getDateString(start);
-    let time = getTimeString(start);
+    let date = getDateString({date: start});
+    let time = getTimeString({date: start});
 
     if (end) {
-      const endDate = getDateString(end);
-      const endTime = getTimeString(end);
+      const endDate = getDateString({date: end});
+      const endTime = getTimeString({date: end});
 
       if (end.getDate() === start.getDate()) {
         time += ` — ${endTime}`;
       } else {
         if (end.getFullYear() != start.getFullYear()) {
-          date = getDateString(start, false);
+          date = getDateString({date: start, omitSameYear: false});
         }
         return (
           <div>

@@ -1,12 +1,21 @@
 const isProduction: boolean = process.env.NODE_ENV === 'production';
 
-export function getDateString(date: Date, omitSameYear = true, shortWeekday = true, shortMonth = true) {
+type DateOptions = {
+  date: Date;
+  timeZone?: string;
+  includeTimeZone?: boolean;
+  omitSameYear?: boolean;
+  fullWeekDay?: boolean;
+  fullMonth?: boolean;
+}
+
+export function getDateString({date, omitSameYear = true, fullWeekDay, fullMonth} : DateOptions) {
   const today = new Date(Date.now());
   const includeYear = !(omitSameYear && date.getFullYear() === today.getFullYear());
 
   const options = {
-    weekday: shortWeekday ? 'short' : 'long',
-    month: shortMonth ? 'short' : 'long',
+    weekday: fullWeekDay ? 'long' : 'short',
+    month: fullMonth ? 'long' : 'short',
     day: 'numeric',
     year:  includeYear ? 'numeric' : undefined,
   } as const;
@@ -14,10 +23,11 @@ export function getDateString(date: Date, omitSameYear = true, shortWeekday = tr
   return date.toLocaleDateString('en-US', options);
 }
 
-export function getTimeString(date: Date, includeTimeZone = false) {
+export function getTimeString({date, timeZone, includeTimeZone}: DateOptions) {
   const options = {
     hour: 'numeric',
     minute: '2-digit',
+    timeZone: timeZone || undefined,
     timeZoneName: includeTimeZone ? 'short' : undefined,
   } as const;
   return date.toLocaleTimeString('en-US', options);
