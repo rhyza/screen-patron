@@ -1,6 +1,6 @@
 import { useNavigate } from '@remix-run/react';
 import { Card, CardFooter, CardHeader } from '@nextui-org/react';
-import { ScreeningRecord } from '~/models/screening';
+import { ScreeningRecord } from '~/services/screening';
 import { getDateString, getTimeString } from '~/utils';
 
 export default function ScreeningCard({
