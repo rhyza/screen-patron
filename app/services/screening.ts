@@ -80,8 +80,8 @@ export async function getScreenings(query?: string | null) {
   return screenings.sort(sortBy('createdAt', 'name'));
 }
 
-export async function createEmptyScreening() {
-  const screening = await fakeScreenings.create({});
+export async function createScreening(values: ScreeningMutation) {
+  const screening = await fakeScreenings.create(values);
   return screening;
 }
 
