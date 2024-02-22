@@ -9,7 +9,7 @@ type DateOptions = {
   fullMonth?: boolean;
 }
 
-export function getDateString({date, omitSameYear = true, fullWeekDay, fullMonth} : DateOptions) {
+function getDateString({date, omitSameYear = true, fullWeekDay, fullMonth} : DateOptions) {
   const today = new Date(Date.now());
   const includeYear = !(omitSameYear && date.getFullYear() === today.getFullYear());
 
@@ -23,7 +23,7 @@ export function getDateString({date, omitSameYear = true, fullWeekDay, fullMonth
   return date.toLocaleDateString('en-US', options);
 }
 
-export function getTimeString({date, timeZone, includeTimeZone}: DateOptions) {
+function getTimeString({date, timeZone, includeTimeZone}: DateOptions) {
   const options = {
     hour: 'numeric',
     minute: '2-digit',
@@ -40,7 +40,7 @@ export function getTimeString({date, timeZone, includeTimeZone}: DateOptions) {
  * that returns a string for cases where the message takes a fair amount of
  * effort to compute.
  */
-export function invariant(
+function invariant(
   condition: any,
   message?: string | (() => string),
 ): asserts condition {
@@ -70,7 +70,7 @@ export function invariant(
  * @param event file input event
  * @param fileLimit file size limit in MB
  */
-export function validateFile(event: React.ChangeEvent<HTMLInputElement>, fileLimit: number) {
+function validateFile(event: React.ChangeEvent<HTMLInputElement>, fileLimit: number) {
   const files = event.target.files || [];
   if (files.length === 0 || files[0].size > fileLimit * 1000000) {
     event.target.value = '';
@@ -78,3 +78,5 @@ export function validateFile(event: React.ChangeEvent<HTMLInputElement>, fileLim
   }
   return true;
 }
+
+export { getDateString, getTimeString, invariant, validateFile };
