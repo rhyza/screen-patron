@@ -42,6 +42,7 @@ export default function InputImage({
         accept='image/*'
         className='sr-only'
         id='avatarUpload'
+        name='coverImage'
         onChange={handleImagePreview}
         ref={fileUploadRef}
         type='file'

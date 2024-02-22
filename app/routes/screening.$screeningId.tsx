@@ -137,7 +137,7 @@ export default function Screening() {
           </div>
           <div className='flex items-center gap-2'>
             {guests && guests.slice(0, 6).map((guest) => (
-              <Avatar showFallback src={guest.avatar} />
+              <Avatar showFallback key={guest.guestId} src={guest.avatar} />
             ))}
             {(totalGuests > 6) && <Avatar name={`+${totalGuests - 6}`} />}
           </div>
