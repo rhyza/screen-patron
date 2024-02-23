@@ -5,7 +5,7 @@ import { NavLink } from '@remix-run/react';
 import { Avatar, Button, Link } from '@nextui-org/react';
 import { MapPinIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
 import { getDateString, getTimeString } from '~/utils';
-import { getScreening } from '~/services/screening';
+import { getScreening, getGuestCount } from '~/services/screening';
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
 	const screening = await getScreening(params.screeningId);
@@ -41,11 +41,7 @@ export default function Screening() {
   } = screening;
   const start = dateStart ? new Date(dateStart) : undefined;
   const end = dateEnd ? new Date(dateEnd) : undefined;
-  const guestsGoing = guests ? guests.filter((guest) => guest.status === 'going') : undefined;
-  const guestsMaybe = guests ? guests.filter((guest) => guest.status === 'maybe') : undefined;
-  const going = guestsGoing ? guestsGoing.length : 0;
-  const maybe = guestsMaybe ? guestsMaybe.length : 0;
-  const totalGuests = going + maybe;
+  const guestCount = getGuestCount(guests);
 
   const infoField = (icon: JSX.Element, text: string | JSX.Element) => {
     return (
@@ -128,18 +124,19 @@ export default function Screening() {
           )}
           {capacity && infoField(
             <UserGroupIcon />, 
-            <p><span className='text-accent'>{capacity - totalGuests}</span> / {capacity} spots left</p>
+            <p><span className='text-accent'>{capacity - guestCount.total}</span> / {capacity} spots left</p>
           )}
           <p>{description}</p>
           <div className='flex items-center gap-2'>
-            <span className='flex-none'>{going} Going</span>
-            {maybe > 0 && <span className='flex-none'>{maybe} Maybe</span>}
+            <span className='flex-none'>{guestCount.going} Going</span>
+            {guestCount.maybe > 0 && <span className='flex-none'>{guestCount.maybe} Maybe</span>}
           </div>
           <div className='flex items-center gap-2'>
-            {guests && guests.slice(0, 6).map((guest) => (
-              <Avatar showFallback key={guest.guestId} src={guest.avatar} />
-            ))}
-            {(totalGuests > 6) && <Avatar name={`+${totalGuests - 6}`} />}
+            {guests && Object.keys(guests).slice(0, 6).map((id) => {
+              let guest = guests[id];
+              return <Avatar showFallback key={id} name={guest.name} src={guest.avatar} />;
+            })}
+            {(guestCount.total > 6) && <Avatar name={`+${guestCount.total - 6}`} />}
           </div>
         </div>
         <div className='flex-auto max-w-80 sm:max-w-96'>

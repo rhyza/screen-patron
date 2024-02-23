@@ -4,10 +4,11 @@ import sortBy from 'sort-by';
 import { invariant } from '../utils';
 
 type Guest = {
-  guestId: string;
+  id: string;
   status: string;
-  avatar?: string;
-  name?: string;
+  name?: string | undefined;
+  avatar?: string | undefined;
+  plusOne?: number;
 }
 
 type ScreeningMutation = {
@@ -15,8 +16,8 @@ type ScreeningMutation = {
   name?: string;
   coverImage?: string;
   description?: string;
-  hosts?: Guest[];
-  guests?: Guest[];
+  hosts?: Record<string, Guest>;
+  guests?: Record<string, Guest>;
   location?: string;
   dateStart?: string;
   dateEnd?: string;
@@ -82,7 +83,7 @@ export async function getScreenings(query?: string | null) {
 }
 
 export async function createScreening(values: ScreeningMutation) {
-  const screening = await fakeScreenings.create(values);
+  const screening = await fakeScreenings.create({...values, guests: {}});
   return screening;
 }
 
@@ -104,6 +105,44 @@ export async function updateScreening(id: string, updates: ScreeningMutation) {
 
 export async function deleteScreening(id: string) {
   fakeScreenings.destroy(id);
+}
+
+export async function updateGuestList(
+  screeningId: string, guestId: string, status: string, name?: string, avatar?: string, plusOne = 0
+) {
+  const screening = await fakeScreenings.get(screeningId);
+  if (!screening) {
+    throw new Error(`No screening found for ${screeningId}`);
+  }
+  let guests = screening.guests || {};
+  if (guests && status === 'not going') {
+    delete guests[guestId];
+  } else {
+    guests[guestId] = {
+      id: guestId,
+      status: status,
+      name: name,
+      avatar: avatar,
+      plusOne: plusOne,
+    };
+  }
+  await fakeScreenings.set(screeningId, { guests: guests, ...screening });
+  return { ...guests };
+}
+
+export function getGuestCount(guests: Record<string, Guest> | undefined) {
+  let going = 0;
+  let maybe = 0;
+  for (let id in guests) {
+    let guest = guests[id];
+    let plusOne = guest.plusOne || 0;
+    if (guest.status === 'going') {
+      going += 1 + plusOne;
+    } else if (guest.status === 'maybe') {
+      maybe += 1 + plusOne;
+    }
+  }
+  return { going: going, maybe: maybe, total: going + maybe};
 }
 
 [
@@ -171,8 +210,8 @@ fakeScreenings.create({
   guests: getFakeGuestList(),
 });
 
-export function getFakeGuestList(going = 14, maybe = 2): Guest[] {
-  const guestList = [];
+export function getFakeGuestList(going = 14, maybe = 2): Record<string, Guest> {
+  const guestList: Record<string, Guest> = {};
   const avatarList = [
     'https://i.pravatar.cc/150?u=a042581f4e29026024d',
     'https://i.pravatar.cc/150?u=a04258a2462d826712d',
@@ -184,18 +223,20 @@ export function getFakeGuestList(going = 14, maybe = 2): Guest[] {
     'https://i.pravatar.cc/300?u=a042581f4e29026709d',
   ];
   for (let i = 0; i < going; i++) {
-    guestList.push({
-      guestId: `going-${i}`,
+    let id = `going-${i}`;
+    guestList[id] = {
+      id: id,
       status: 'going',
       avatar: i < avatarList.length ? avatarList[i] : undefined,
-    } as const);
+    } as const;
   }
   for (let i = 0; i < maybe; i++) {
-    guestList.push({
-      guestId: `maybe-${i}`,
+    let id = `maybe-${i}`;
+    guestList[id] = {
+      id: id,
       status: 'maybe',
-      avatar: '',
-    });
+      avatar: i < avatarList.length ? avatarList[i] : undefined,
+    } as const;
   }
   return guestList;
 }
