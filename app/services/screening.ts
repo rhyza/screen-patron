@@ -7,6 +7,7 @@ type Guest = {
   guestId: string;
   status: string;
   avatar?: string;
+  name?: string;
 }
 
 type ScreeningMutation = {
@@ -171,7 +172,7 @@ fakeScreenings.create({
 });
 
 export function getFakeGuestList(going = 14, maybe = 2): Guest[] {
-  let guestList = [];
+  const guestList = [];
   const avatarList = [
     'https://i.pravatar.cc/150?u=a042581f4e29026024d',
     'https://i.pravatar.cc/150?u=a04258a2462d826712d',
@@ -182,7 +183,6 @@ export function getFakeGuestList(going = 14, maybe = 2): Guest[] {
     'https://avatars.githubusercontent.com/u/30373425',
     'https://i.pravatar.cc/300?u=a042581f4e29026709d',
   ];
-  let guest: Guest;
   for (let i = 0; i < going; i++) {
     guestList.push({
       guestId: `going-${i}`,

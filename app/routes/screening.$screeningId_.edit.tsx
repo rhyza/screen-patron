@@ -11,7 +11,6 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     return;
   }
   const formData = await request.formData();
-  console.log(formData.get('name'));
   const updates = Object.fromEntries(formData);
   await updateScreening(params.screeningId, updates);
   return redirect(`/screening/${params.screeningId}`);
