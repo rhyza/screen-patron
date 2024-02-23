@@ -1,16 +1,39 @@
-import { NavLink } from '@remix-run/react';
+import type { LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { NavLink, useLoaderData } from '@remix-run/react';
 import { Button, Link } from '@nextui-org/react';
 import { InstagramIcon, LinkIcon, TwitterIcon } from '~/components/Icons';
+import { getUser } from '~/services/user';
+import { getDateString } from '~/utils';
+
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+	const user = await getUser(params.userId);
+	if (!user) {
+		throw new Response('Not Found', {status: 404});
+	}
+	return json({ user });
+};
+
+// Remove Before Prod
+const isUser = true;
 
 export default function User() {
-  const isUser = true;
-  const name = 'Anonymous Patron';
-  const photo = 'https://placehold.co/800?text=Profile+Picture&font=roboto';
-  const bio = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
-  const instagram = undefined; //'rhyza_';
-  const twitter = undefined; //'remix_run';
-  const website = 'https://tailwindcss.com/';
-  const joinDate = 'Feb \'24';
+  const { user } = useLoaderData<typeof loader>();
+  const {
+    name = 'Anonymous Patron',
+    avatar = 'https://images.unsplash.com/photo-1604076913837-52ab5629fba9',
+    bio,
+    instagram,
+    twitter,
+    website,
+    createdAt,
+  } = user;
+  const joinDate = getDateString({
+    date: new Date(createdAt),
+    includeWeekDay: false,
+    includeDate: false,
+    omitSameYear: false,
+  });
 
   const socialChip = (label: string, url: string, icon: JSX.Element) => {
     return (
@@ -35,7 +58,7 @@ export default function User() {
         <div className='flex justify-center'>
           <img
             className='rounded-full size-64'
-            src={photo}
+            src={avatar}
           />
         </div>
         <div className='flex justify-center'>

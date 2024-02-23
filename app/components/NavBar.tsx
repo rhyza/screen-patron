@@ -57,8 +57,8 @@ export default function NavBar() {
               </DropdownItem>
             </DropdownSection>
             <DropdownSection showDivider>
-              <DropdownItem key='profile' onClick={() => navigate('/user/1')}>My Profile</DropdownItem>
-              <DropdownItem key='events' onClick={() => navigate('/screening/1')}>My Events</DropdownItem>
+              <DropdownItem key='profile' onClick={() => navigate('/user/test')}>My Profile</DropdownItem>
+              <DropdownItem key='events' onClick={() => navigate('/screening/test')}>My Events</DropdownItem>
             </DropdownSection>
             <DropdownSection>
               <DropdownItem key='logout' color='danger'>

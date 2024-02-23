@@ -8,6 +8,9 @@ type UserMutation = {
   name?: string;
   avatar?: string;
   bio?: string;
+  instagram?: string;
+  twitter?: string;
+  website?: string;
   screenings?: string[];
 };
 
@@ -72,7 +75,10 @@ export async function createEmptyUser() {
   return user;
 }
 
-export async function getUser(id: string) {
+export async function getUser(id: string | undefined) {
+  if (!id) {
+    return null;
+  }
   return fakeUsers.get(id);
 }
 
@@ -276,4 +282,13 @@ export async function deleteUser(id: string) {
     ...user,
     id: `${user.name.toLowerCase().replace(/\s/g, '-')}`,
   });
+});
+
+fakeUsers.create({
+  id: 'test',
+  name: 'Anonymous Patron',
+  bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+  avatar: 'https://placekitten.com/g/400/400',
+  instagram: 'nekotofurukagu',
+  website: 'https://tailwindcss.com/',
 });

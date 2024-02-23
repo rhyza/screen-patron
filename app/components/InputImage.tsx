@@ -15,7 +15,7 @@ export default function InputImage({
   fileLimit = 5,
   iconClassName = 'rounded-full p-3 bg-gray-600',
   iconFillColor = 'white',
-  image = 'https://placehold.co/800?text=Upload&font=roboto',
+  image = 'https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0',
   imageClassName = 'size-80',
   ...cardProps
 }) {
