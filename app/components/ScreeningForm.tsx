@@ -4,14 +4,14 @@ import { MapPinIcon, TicketIcon, UserGroupIcon } from './Icons';
 import InputImage from './InputImage';
 
 type ScreeningFormValues = {
-  name?: string | undefined,
-  coverImage?: string | undefined,
-  dateStart?: string | undefined,
-  dateEnd?: string | undefined,
-  location?: string | undefined,
-  cost?: number | undefined,
-  capacity?: number | undefined,
-  description?: string | undefined,
+  name?: string | undefined;
+  coverImage?: string | undefined;
+  dateStart?: string | undefined;
+  dateEnd?: string | undefined;
+  location?: string | undefined;
+  cost?: number | undefined;
+  capacity?: number | undefined;
+  description?: string | undefined;
 };
 
 export default function ScreeningForm({

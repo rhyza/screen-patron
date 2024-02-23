@@ -4,20 +4,33 @@ type DateOptions = {
   date: Date;
   timeZone?: string;
   includeTimeZone?: boolean;
+  includeWeekDay?: boolean;
+  includeDate?: boolean;
+  includeYear?: boolean;
   omitSameYear?: boolean;
   fullWeekDay?: boolean;
   fullMonth?: boolean;
-}
+  fullYear?: boolean;
+};
 
-function getDateString({date, omitSameYear = true, fullWeekDay, fullMonth} : DateOptions) {
+function getDateString({
+  date,
+  includeWeekDay = true,
+  includeDate = true,
+  includeYear = true,
+  omitSameYear,
+  fullWeekDay,
+  fullMonth,
+  fullYear = true,
+} : DateOptions) {
   const today = new Date(Date.now());
-  const includeYear = !(omitSameYear && date.getFullYear() === today.getFullYear());
+  includeYear = includeYear && !(omitSameYear && date.getFullYear() === today.getFullYear());
 
   const options = {
-    weekday: fullWeekDay ? 'long' : 'short',
+    weekday: !includeWeekDay ? undefined : fullWeekDay ? 'long' : 'short',
     month: fullMonth ? 'long' : 'short',
-    day: 'numeric',
-    year:  includeYear ? 'numeric' : undefined,
+    day: includeDate ? 'numeric' : undefined,
+    year: !includeYear ? undefined : fullYear ? 'numeric' : '2-digit',
   } as const;
 
   return date.toLocaleDateString('en-US', options);
