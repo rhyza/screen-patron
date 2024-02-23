@@ -3,21 +3,38 @@ import { Button, Input, Textarea } from '@nextui-org/react';
 import { InstagramIcon, LinkIcon, TwitterIcon } from '~/components/Icons';
 import InputImage from '~/components/InputImage';
 
-export default function UserForm() {
-  const userId = 1;
-  const photo = 'https://placehold.co/800?text=Profile+Picture&font=roboto';
+type UserFormValues = {
+  name?: string | undefined;
+  avatar?: string | undefined;
+  bio?: string | undefined;
+  instagram?: string | undefined;
+  twitter?: string | undefined;
+  website?: string | undefined;
+};
+
+export default function UserForm({
+  name, avatar, bio, instagram, twitter, website,
+}: UserFormValues) {
   const navigate = useNavigate();
 
-  const socialInput = (label: string, icon: JSX.Element, startText: string) => {
+  const socialInput = (
+    defaultValue: string | undefined,
+    label: string,
+    name: string,
+    icon: JSX.Element,
+    startText: string
+  ) => {
     return (
       <Input
+        defaultValue={defaultValue}
+        name={name}
         placeholder={label}
         radius='none'
         size='sm'
         startContent={
-          <div className='flex gap-2'>
+          <div className='flex gap-2 items-center'>
             {icon}
-            <span className='ml-1 text-neutral-500'>{startText}</span>
+            <span className='ml-1 text-sm text-neutral-500'>{startText}</span>
           </div>
         }
         type='text'
@@ -32,24 +49,37 @@ export default function UserForm() {
           <div className='flex justify-center'>
             <InputImage
               iconClassName='mb-1 mr-1 rounded-full p-3 bg-gray-600'
-              image={photo}
+              image={avatar}
               imageClassName='rounded-full size-[16rem]'
+              name='avatar'
             />
           </div>
           <div className='flex justify-center'>
-            <Button className='w-32 bg-primary' onClick={() => navigate(-1)} radius='none' type='submit'>Save</Button>
+            <Button className='w-32 bg-primary' radius='none' type='submit'>Save</Button>
             <Button className='w-32' onClick={() => navigate(-1)} radius='none'>Cancel</Button>
           </div>
         </div>
         <div className='flex-auto max-w-96 text-center md:text-left'>
           <div className='flex items-center md:h-[16rem] w-full mb-4 md:m-0'>
-            <Input label='Name' radius='none' size='lg' type='text' />
+            <Input
+              defaultValue={name}
+              label='Name'
+              name='name'
+              radius='none'
+              size='lg'
+              type='text'
+            />
           </div>
           <div className='grid gap-4'>
-            <Textarea label='Description' radius='none' />
-            {socialInput('Instagram', <InstagramIcon />, '@')}
-            {socialInput('Twitter', <TwitterIcon />, '@')}
-            {socialInput('Website', <LinkIcon />, 'https://')}
+            <Textarea
+              defaultValue={bio}
+              label='Bio'
+              name='bio'
+              radius='none'
+            />
+            {socialInput(instagram, 'Instagram', 'instagram', <InstagramIcon />, '@')}
+            {socialInput(twitter, 'Twitter', 'twitter', <TwitterIcon />, '@')}
+            {socialInput(website, 'Website', 'website', <LinkIcon />, 'https://')}
           </div>
         </div>
       </Form>
