@@ -1,5 +1,5 @@
-import { Card, CardFooter } from '@nextui-org/react';
 import React, { useRef, useState } from 'react';
+import { Card, CardFooter, VisuallyHidden } from '@nextui-org/react';
 import { EditIcon } from './Icons';
 import { validateFile } from '~/utils';
 
@@ -17,6 +17,7 @@ export default function InputImage({
   iconFillColor = 'white',
   image = 'https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0',
   imageClassName = 'size-80',
+  inputName = 'coverImage',
   ...cardProps
 }) {
   const [src, setSrc] = useState(image);
@@ -38,15 +39,16 @@ export default function InputImage({
 
   return (
     <Card {...cardProps} isPressable onPress={handleImageUpload}>
-      <input
-        accept='image/*'
-        className='sr-only'
-        id='avatarUpload'
-        name='coverImage'
-        onChange={handleImagePreview}
-        ref={fileUploadRef}
-        type='file'
-      />
+      <VisuallyHidden>
+        <input
+          accept='image/*'
+          id='avatarUpload'
+          //name={$inputName}
+          onChange={handleImagePreview}
+          ref={fileUploadRef}
+          type='file'
+        />
+      </VisuallyHidden>
       <img
         className={'object-cover ' + imageClassName}
         src={src}

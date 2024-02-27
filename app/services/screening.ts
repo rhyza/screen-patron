@@ -8,7 +8,6 @@ type Guest = {
   status: string;
   name?: string | undefined;
   avatar?: string | undefined;
-  plusOne?: number;
 }
 
 type ScreeningMutation = {
@@ -108,7 +107,7 @@ export async function deleteScreening(id: string) {
 }
 
 export async function updateGuestList(
-  screeningId: string, guestId: string, status: string, name?: string, avatar?: string, plusOne = 0
+  screeningId: string, guestId: string, status: string, name?: string, avatar?: string
 ) {
   const screening = await fakeScreenings.get(screeningId);
   if (!screening) {
@@ -123,7 +122,6 @@ export async function updateGuestList(
       status: status,
       name: name,
       avatar: avatar,
-      plusOne: plusOne,
     };
   }
   await fakeScreenings.set(screeningId, { guests: guests, ...screening });
@@ -135,11 +133,10 @@ export function getGuestCount(guests: Record<string, Guest> | undefined) {
   let maybe = 0;
   for (let id in guests) {
     let guest = guests[id];
-    let plusOne = guest.plusOne || 0;
     if (guest.status === 'going') {
-      going += 1 + plusOne;
+      going++;
     } else if (guest.status === 'maybe') {
-      maybe += 1 + plusOne;
+      maybe++;
     }
   }
   return { going: going, maybe: maybe, total: going + maybe};
