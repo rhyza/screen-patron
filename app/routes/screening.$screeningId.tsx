@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import type { LoaderFunctionArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { NavLink } from '@remix-run/react';
-import { Avatar, Button, Link } from '@nextui-org/react';
-import { MapPinIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
-import { getDateString, getTimeString } from '~/utils';
+import { Avatar, Button, Link, Tooltip, useDisclosure } from '@nextui-org/react';
+import { MapPinIcon, StarIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
+import { IconButton } from '~/components/IconButton';
 import { getScreening, getGuestCount } from '~/services/screening';
+import { getDateString, getTimeString } from '~/utils';
+import RSVPModal from '~/components/RSVPModal';
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
 	const screening = await getScreening(params.screeningId);
@@ -43,22 +46,18 @@ export default function Screening() {
   const end = dateEnd ? new Date(dateEnd) : undefined;
   const guestCount = getGuestCount(guests);
 
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const [rsvp, setRsvp] = useState('');
+  const handleModalOpen = (value: string) => {
+    setRsvp(() => value);
+    onOpen();
+  }
+
   const infoField = (icon: JSX.Element, text: string | JSX.Element) => {
     return (
       <div className='flex items-center gap-2'>
         <span className='flex-none'>{icon}</span>
         <span className='flex-initial'>{text}</span>
-      </div>
-    );
-  };
-
-  const rsvpButton = (icon: string | JSX.Element, label?: string) => {
-    return (
-      <div className='flex flex-wrap justify-center w-24 sm:w-28'>
-        <Button className='text-4xl sm:text-5xl w-fit h-fit p-4' isIconOnly radius='full'>
-          {icon}
-        </Button>
-        <p>{label}</p>
       </div>
     );
   };
@@ -118,13 +117,20 @@ export default function Screening() {
               </Link>
             </div>
           }
+          
+          {infoField(
+            <StarIcon />, 
+            <div className='flex items-center gap-2'>
+              Hosted by <Avatar showFallback /> {`hostname`}
+            </div>
+          )}
           {infoField(<MapPinIcon />, location)}
           {cost != undefined && infoField(
             <TicketIcon />, cost > 0 ? `$${cost} per person`: 'Free'
           )}
           {capacity && infoField(
             <UserGroupIcon />, 
-            <p><span className='text-accent'>{capacity - guestCount.total}</span> / {capacity} spots left</p>
+            <p><span className='text-accent'>{capacity - guestCount.going}</span> / {capacity} spots left</p>
           )}
           <p>{description}</p>
           <div className='flex items-center gap-2'>
@@ -134,7 +140,12 @@ export default function Screening() {
           <div className='flex items-center gap-2'>
             {guests && Object.keys(guests).slice(0, 6).map((id) => {
               let guest = guests[id];
-              return <Avatar showFallback key={id} name={guest.name} src={guest.avatar} />;
+              let tooltip = {};
+              return (
+                <Tooltip content={guest.name ? guest.name : 'Attendee'}>
+                  <Avatar showFallback key={id} name={guest.name} src={guest.avatar} />
+                </Tooltip>
+              );
             })}
             {(guestCount.total > 6) && <Avatar name={`+${guestCount.total - 6}`} />}
           </div>
@@ -145,9 +156,10 @@ export default function Screening() {
             src={coverImage}
           />
           <div className='flex justify-around m-6'>
-            {rsvpButton('👍', 'Going')}
-            {rsvpButton('🤔', 'Maybe')}
-            {rsvpButton('👎', 'Not Going')}
+            <IconButton key='going' label='Going' onPress={() => handleModalOpen('going')}>👍</IconButton>
+            <IconButton key='maybe' label='Maybe' onPress={() => handleModalOpen('maybe')}>🤔</IconButton>
+            <IconButton key='not going' label='Not Going' onPress={() => handleModalOpen('not going')}>👎</IconButton>
+            <RSVPModal isOpen={isOpen} onOpenChange={onOpenChange} selected={rsvp} />
           </div>
         </div>
       </div>
