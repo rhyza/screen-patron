@@ -7,7 +7,7 @@ export function IconButton({
   size = 'md',
   ...buttonProps
 }: {label?: string | JSX.Element, isSelected?: boolean, size?: string, [propName: string]: any}) {
-  const sizes: {[key: string]: string} = {
+  const sizeMap: {[key: string]: string} = {
     sm: 'text-2xl sm:text-3xl w-16 h-16 p-4',
     md: 'text-3xl sm:text-4xl w-20 h-20 p-4',
     lg: 'text-4xl sm:text-5xl w-24 h-24 p-4',
@@ -17,7 +17,7 @@ export function IconButton({
     <div className='flex flex-wrap justify-center w-24 sm:w-28'>
       <Button
         className={cn(
-          sizes[size],
+          sizeMap[size],
           isSelected ? 'border-4 border-secondary p-3 bg-indigo-200' : ''
         )}
         isIconOnly

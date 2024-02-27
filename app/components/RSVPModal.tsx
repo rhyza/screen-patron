@@ -1,14 +1,9 @@
-import { useState } from 'react';
 import { Form } from '@remix-run/react';
 import { Button, Input, Modal, ModalBody, ModalContent, RadioGroup } from '@nextui-org/react';
 import { RadioIcon } from './RadioIcon';
 
 export default function RSVPModal({...props}) {
   const { selected, ...modalProps } = props;
-  const [rsvp, setRsvp] = useState(selected);
-  const handlePress = (value: string) => {
-    setRsvp(() => value);
-  }
 
   return (
     <Modal  hideCloseButton {...modalProps}>
@@ -45,7 +40,6 @@ export default function RSVPModal({...props}) {
                 <Button className='w-32' onClick={onClose} radius='none'>Cancel</Button>
               </div>
             </Form>
-            
           </ModalBody>
         )}
       </ModalContent>
