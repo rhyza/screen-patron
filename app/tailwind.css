@@ -4,7 +4,7 @@
 
 @layer utilities {
   .bg-primary {
-    @apply bg-indigo-500 text-white;
+    @apply bg-gradient-to-br from-purple-500 to-violet-500 text-white;
   }
 
   .bg-gradiant {

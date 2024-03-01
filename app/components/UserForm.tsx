@@ -5,12 +5,12 @@ import { InstagramIcon, LinkIcon, TwitterIcon } from './Icons';
 import InputImage from './InputImage';
 
 type UserFormValues = {
-  name?: string | undefined;
-  avatar?: string | undefined;
-  bio?: string | undefined;
-  instagram?: string | undefined;
-  twitter?: string | undefined;
-  website?: string | undefined;
+  name?: string;
+  avatar?: string;
+  bio?: string;
+  instagram?: string;
+  twitter?: string;
+  website?: string;
 };
 
 export default function UserForm({
