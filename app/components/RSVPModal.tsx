@@ -6,8 +6,8 @@ export default function RSVPModal({...props}) {
   const { selected, ...modalProps } = props;
 
   return (
-    <Modal  hideCloseButton {...modalProps}>
-      <ModalContent >
+    <Modal hideCloseButton {...modalProps}>
+      <ModalContent className='dark'>
         {(onClose) => (
           <ModalBody className='p-6'>
             <Form className='flex flex-wrap justify-center gap-6'>
