@@ -29,7 +29,7 @@ export default function Events() {
             <NavLink className={getClassName} end id='hosting' to='/events/hosting'>
               Hosting
             </NavLink>
-            <NavLink className={getClassName} end id='attended' to='/events/past'>
+            <NavLink className={getClassName} end id='attended' to='/events/attended'>
               Attended
             </NavLink>
           </div>
