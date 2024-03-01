@@ -5,7 +5,7 @@ import { getDateString, getTimeString } from '~/utils';
 
 export default function ScreeningCard({
   screening,
-  imageClassName = 'size-full',
+  imageClassName = 'size-80',
   ...cardProps
 }: {screening: ScreeningRecord, [propName: string]: any}) {
   const { id, name, coverImage, dateStart, cost } = screening;
@@ -22,12 +22,12 @@ export default function ScreeningCard({
 
   return (
     <Card className='flex-1 m-4 w-full bg-transparent p-2 text-foreground' isPressable key={id} onPress={handlePress} radius='sm' shadow='sm' {...cardProps}>
-      <CardHeader className='flex flex-col items-start'>
+      <img className={'object-cover rounded-md ' + imageClassName} src={image} />
+      <CardFooter className='flex flex-col items-start'>
         <p className='text-xs uppercase font-bold'>{dateString}</p>
         <p className='text-xs text-default-500'>{timeString} - {costString}</p>
-        <p className='text-base font-bold justify-self-start truncate overflow-hidden'>{name}</p>
-      </CardHeader>
-      <img className={'object-cover rounded-md ' + imageClassName} src={image} />
+        <p className='text-base font-bold justify-self-start'>{name}</p>
+      </CardFooter>
     </Card>
   );
 }
