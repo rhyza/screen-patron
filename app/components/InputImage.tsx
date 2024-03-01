@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Card, CardFooter, VisuallyHidden } from '@nextui-org/react';
+
 import { EditIcon } from './Icons';
 import { validateFile } from '~/utils';
 

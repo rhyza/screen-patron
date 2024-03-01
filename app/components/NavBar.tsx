@@ -5,6 +5,7 @@ import {
   Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger,
   Navbar, NavbarBrand, NavbarContent, NavbarItem,
 } from '@nextui-org/react';
+
 import { InstagramIcon } from './Icons';
 
 export default function NavBar() {

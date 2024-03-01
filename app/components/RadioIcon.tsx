@@ -1,6 +1,6 @@
-import {useRadio, VisuallyHidden, cn} from '@nextui-org/react';
+import { useRadio, VisuallyHidden, cn } from '@nextui-org/react';
 
-export const RadioIcon = (props: any) => {
+export default function RadioIcon (props: any) {
   const {
     Component,
     children,

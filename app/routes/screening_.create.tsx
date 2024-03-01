@@ -1,7 +1,8 @@
+import type { ActionFunctionArgs } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
+
 import ScreeningForm from '~/components/ScreeningForm';
 import { createScreening } from '~/services/screening';
-import type { ActionFunctionArgs } from '@remix-run/node';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();

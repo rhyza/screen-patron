@@ -86,4 +86,14 @@ function UserGroupIcon(props: IconProps) {
   );
 }
 
-export { ClockIcon, EditIcon, InstagramIcon, LinkIcon, MapPinIcon, StarIcon, TicketIcon, TwitterIcon, UserGroupIcon };
+export {
+  ClockIcon,
+  EditIcon,
+  InstagramIcon,
+  LinkIcon,
+  MapPinIcon,
+  StarIcon,
+  TicketIcon,
+  TwitterIcon,
+  UserGroupIcon
+};

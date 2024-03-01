@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import type { LoaderFunctionArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
-import { NavLink } from '@remix-run/react';
+import { NavLink, useLoaderData } from '@remix-run/react';
 import { Avatar, Button, Link, Tooltip, useDisclosure } from '@nextui-org/react';
+
+import IconButton from '~/components/IconButton';
 import { MapPinIcon, StarIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
-import { IconButton } from '~/components/IconButton';
+import RSVPModal from '~/components/RSVPModal';
 import { getScreening, getGuestCount } from '~/services/screening';
 import { getDateString, getTimeString } from '~/utils';
-import RSVPModal from '~/components/RSVPModal';
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const screening = await getScreening(params.screeningId);

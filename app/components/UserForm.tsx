@@ -1,7 +1,8 @@
 import { Form, useNavigate } from '@remix-run/react';
 import { Button, Input, Textarea } from '@nextui-org/react';
-import { InstagramIcon, LinkIcon, TwitterIcon } from '~/components/Icons';
-import InputImage from '~/components/InputImage';
+
+import { InstagramIcon, LinkIcon, TwitterIcon } from './Icons';
+import InputImage from './InputImage';
 
 type UserFormValues = {
   name?: string | undefined;

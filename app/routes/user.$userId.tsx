@@ -2,6 +2,7 @@ import type { LoaderFunctionArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { NavLink, useLoaderData } from '@remix-run/react';
 import { Button, Link } from '@nextui-org/react';
+
 import { InstagramIcon, LinkIcon, TwitterIcon } from '~/components/Icons';
 import { getUser } from '~/services/user';
 import { getDateString } from '~/utils';

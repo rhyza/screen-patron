@@ -1,6 +1,7 @@
 import { Form } from '@remix-run/react';
 import { Button, Input, Modal, ModalBody, ModalContent, RadioGroup } from '@nextui-org/react';
-import { RadioIcon } from './RadioIcon';
+
+import RadioIcon from './RadioIcon';
 
 export default function RSVPModal({...props}) {
   const { selected, ...modalProps } = props;

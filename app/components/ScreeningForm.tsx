@@ -1,5 +1,6 @@
 import { Form, useNavigate } from '@remix-run/react';
 import { Button, Input, Textarea } from '@nextui-org/react';
+
 import { MapPinIcon, TicketIcon, UserGroupIcon } from './Icons';
 import InputImage from './InputImage';
 

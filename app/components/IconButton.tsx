@@ -1,6 +1,6 @@
 import { Button, cn } from '@nextui-org/react';
 
-export function IconButton({
+export default function IconButton({
   children,
   label,
   isSelected,

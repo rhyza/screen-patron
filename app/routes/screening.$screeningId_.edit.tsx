@@ -1,6 +1,7 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
+
 import ScreeningForm from '~/components/ScreeningForm';
 import { ScreeningRecord, getScreening, updateScreening } from '~/services/screening';
 import { invariant } from '~/utils';

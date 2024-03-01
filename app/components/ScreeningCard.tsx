@@ -1,5 +1,6 @@
 import { useNavigate } from '@remix-run/react';
-import { Card, CardFooter, CardHeader } from '@nextui-org/react';
+import { Card, CardFooter } from '@nextui-org/react';
+
 import { ScreeningRecord } from '~/services/screening';
 import { getDateString, getTimeString } from '~/utils';
 

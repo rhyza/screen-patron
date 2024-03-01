@@ -1,7 +1,7 @@
 // @ts-expect-error - no types, but it's a tiny function
 import { matchSorter } from 'match-sorter';
 import sortBy from 'sort-by';
-import { invariant } from '../utils';
+import { invariant } from '~/utils';
 
 type Guest = {
   id: string;
