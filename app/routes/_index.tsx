@@ -62,10 +62,10 @@ export default function Index() {
             discover
           </NavLink>
           {renderBreakpoint('sm')}
-          <span>local film events or show one</span>
+          <span>local film events or put on</span>
           {renderBreakpoint('sm')}
           <NavLink className={heroLinkClassName} to='e/create'>
-            yourself
+            your own
           </NavLink>
         </h1>
         <img
