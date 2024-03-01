@@ -131,7 +131,7 @@ export default function Event() {
               Hosted by <Avatar showFallback src={host.avatar} /> {host.name}
             </div>
           )}
-          {renderInfoField(<MapPinIcon />, location)}
+          {renderInfoField(<MapPinIcon />, location.length > 0 ? location : 'Location TBD')}
           {cost != undefined && renderInfoField(
             <TicketIcon />, cost > 0 ? `$${cost} per person`: 'Free'
           )}

@@ -58,7 +58,7 @@ export default function User() {
       <div className='flex-auto space-y-6 max-w-fit min-w-80'>
         <div className='flex justify-center'>
           <img
-            className='rounded-full size-64'
+            className='rounded-full object-cover size-64'
             src={avatar}
           />
         </div>

@@ -1,5 +1,5 @@
 import { ChangeEvent, useRef, useState } from 'react';
-import { Card, CardFooter, VisuallyHidden } from '@nextui-org/react';
+import { Card, CardFooter, cn, VisuallyHidden } from '@nextui-org/react';
 
 import { EditIcon } from './Icons';
 import { validateFile } from '~/utils';
@@ -16,7 +16,7 @@ export default function InputImage({
   fileLimit = 5,
   iconClassName = 'rounded-full p-3 bg-gray-600',
   iconFillColor = 'white',
-  image = 'https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0',
+  image = 'https://images.unsplash.com/photo-1604079628040-94301bb21b91',
   imageClassName = 'size-80',
   inputName = 'coverImage',
   ...cardProps
@@ -36,7 +36,12 @@ export default function InputImage({
     }
   };
 
-  cardProps = {radius: 'none', shadow: 'none', ...cardProps};
+  cardProps = {
+    className: 'bg-transparent',
+    radius: 'none',
+    shadow: 'none',
+    ...cardProps
+  };
 
   return (
     <Card {...cardProps} isPressable onPress={handleImageUpload}>
@@ -51,7 +56,7 @@ export default function InputImage({
         />
       </VisuallyHidden>
       <img
-        className={'object-cover ' + imageClassName}
+        className={cn('object-cover', imageClassName)}
         src={src}
       />
       <CardFooter className='overflow-hidden absolute justify-end inset-x-0 bottom-0 z-10'>

@@ -288,7 +288,7 @@ fakeUsers.create({
   id: 'test',
   name: 'Anonymous Patron',
   bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-  avatar: 'https://placekitten.com/g/400/400',
+  avatar: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba',
   instagram: 'nekotofurukagu',
   website: 'https://tailwindcss.com/',
 });

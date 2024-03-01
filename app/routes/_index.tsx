@@ -58,7 +58,7 @@ export default function Index() {
           'font-extrabold uppercase text-balance ',
           'selection:bg-fuchsia-300 selection:text-fuchsia-900'
         )}>
-          <NavLink className={heroLinkClassName} to='events'>
+          <NavLink className={heroLinkClassName} to='browse'>
             discover
           </NavLink>
           {renderBreakpoint('sm')}
