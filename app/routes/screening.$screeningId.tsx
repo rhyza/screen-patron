@@ -137,7 +137,10 @@ export default function Screening() {
           )}
           {capacity && infoField(
             <UserGroupIcon />, 
-            <p><span className='text-primary'>{capacity - guestCount.going}</span> / {capacity} spots left</p>
+            <p>
+              <span className='text-primary'>{capacity - guestCount.going}</span>
+              &nbsp;/ {capacity} spots left
+            </p>
           )}
           <p>{description}</p>
           <div className='flex items-center gap-2'>
