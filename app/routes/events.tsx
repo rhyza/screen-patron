@@ -19,7 +19,7 @@ export default function Events() {
     <div className='w-full p-6 flex justify-center'>
       <div className='max-w-[70rem]'>
         <div className='grid px-2 pb-6'>
-          <div className='flex gap-2 overflow-x-auto'>
+          <div className='flex gap-2 max-sm:w-80 max-sm:text-small max-sm:overflow-x-auto'>
             <NavLink className={getClassName} end id='browse' to='/events'>
               What's On
             </NavLink>
