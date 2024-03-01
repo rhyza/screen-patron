@@ -15,7 +15,7 @@ export const RadioIcon = (props: any) => {
     sm: ' text-2xl sm:text-3xl size-16 p-4',
     md: ' text-3xl sm:text-4xl size-20 p-4',
     lg: ' text-4xl sm:text-5xl size-28 p-4',
-  }
+  };
 
   return (
     <div className='flex flex-col items-center justify-center'>

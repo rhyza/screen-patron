@@ -11,11 +11,11 @@ import { getDateString, getTimeString } from '~/utils';
 import RSVPModal from '~/components/RSVPModal';
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-	const screening = await getScreening(params.screeningId);
-	if (!screening) {
-		throw new Response('Not Found', {status: 404});
-	}
-	return json({ screening });
+  const screening = await getScreening(params.screeningId);
+  if (!screening) {
+    throw new Response('Not Found', {status: 404});
+  }
+  return json({ screening });
 };
 
 // Remove Before Prod
@@ -27,7 +27,7 @@ const testDates = {
   endNextDay: 'February 23, 2024 1:00',
   nye: 'December 31, 2024 20:00',
   nyd: 'January 1, 2025 01:00',
-}
+};
 
 export default function Screening() {
   const { screening } = useLoaderData<typeof loader>();
@@ -51,7 +51,7 @@ export default function Screening() {
   const handleModalOpen = (value: string) => {
     setRsvp(() => value);
     onOpen();
-  }
+  };
 
   const infoField = (icon: JSX.Element, text: string | JSX.Element) => {
     return (

@@ -11,7 +11,7 @@ export function IconButton({
     sm: 'text-2xl sm:text-3xl w-16 h-16 p-4',
     md: 'text-3xl sm:text-4xl w-20 h-20 p-4',
     lg: 'text-4xl sm:text-5xl w-24 h-24 p-4',
-  }
+  };
 
   return (
     <div className='flex flex-wrap justify-center w-24 sm:w-28'>

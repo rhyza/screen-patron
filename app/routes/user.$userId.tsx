@@ -7,11 +7,11 @@ import { getUser } from '~/services/user';
 import { getDateString } from '~/utils';
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-	const user = await getUser(params.userId);
-	if (!user) {
-		throw new Response('Not Found', {status: 404});
-	}
-	return json({ user });
+  const user = await getUser(params.userId);
+  if (!user) {
+    throw new Response('Not Found', {status: 404});
+  }
+  return json({ user });
 };
 
 // Remove Before Prod
@@ -89,5 +89,5 @@ export default function User() {
       </div>
     </div>
   </div>
-  )
+  );
 }
