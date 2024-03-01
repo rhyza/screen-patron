@@ -5,14 +5,14 @@ import { MapPinIcon, TicketIcon, UserGroupIcon } from './Icons';
 import InputImage from './InputImage';
 
 type ScreeningFormValues = {
-  name?: string | undefined;
-  coverImage?: string | undefined;
-  dateStart?: string | undefined;
-  dateEnd?: string | undefined;
-  location?: string | undefined;
-  cost?: number | undefined;
-  capacity?: number | undefined;
-  description?: string | undefined;
+  name?: string;
+  coverImage?: string;
+  dateStart?: string;
+  dateEnd?: string;
+  location?: string;
+  cost?: number;
+  capacity?: number;
+  description?: string;
 };
 
 export default function ScreeningForm({
@@ -80,7 +80,7 @@ export default function ScreeningForm({
           <InputImage image={coverImage} imageClassName='size-80 sm:size-96' />
           <div className='flex justify-center'>
             <Button className='w-32 bg-primary' radius='none' type='submit'>Save</Button>
-            <Button className='w-32' onClick={() => navigate(-1)} radius='none'>Cancel</Button>
+            <Button className='w-32' onPress={() => navigate(-1)} radius='none'>Cancel</Button>
           </div>
         </div>
       </Form>

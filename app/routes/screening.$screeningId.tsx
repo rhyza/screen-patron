@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { PressEvent } from '@react-types/shared';
 import type { LoaderFunctionArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { NavLink, useLoaderData } from '@remix-run/react';
@@ -53,8 +54,9 @@ export default function Screening() {
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [rsvp, setRsvp] = useState('');
-  const handleModalOpen = (value: string) => {
-    setRsvp(() => value);
+  const handleModalOpen = (event: PressEvent) => {
+    const { id } = event.target;
+    setRsvp(() => id);
     onOpen();
   };
 
@@ -114,7 +116,7 @@ export default function Screening() {
           }
           {(isUser || isGuest) &&
             <div className='flex gap-6 items-center'>
-              <Link className='btn-link mb-2' onClick={() => alert('share options')}>
+              <Link className='btn-link mb-2' onPress={() => alert('share options')}>
                 share
               </Link>
               <Link className='btn-link mb-2' isExternal href='https://calendar.google.com/'>
@@ -147,8 +149,8 @@ export default function Screening() {
               let guest = guests[id];
               let tooltip = {};
               return (
-                <Tooltip content={guest.name ? guest.name : 'Attendee'}>
-                  <Avatar showFallback key={id} name={guest.name} src={guest.avatar} />
+                <Tooltip content={guest.name ? guest.name : 'Attendee'} key={id}>
+                  <Avatar showFallback name={guest.name} src={guest.avatar} />
                 </Tooltip>
               );
             })}
@@ -160,10 +162,10 @@ export default function Screening() {
             className='size-80 sm:size-96 object-cover'
             src={coverImage}
           />
-          <div className='flex justify-around m-6'>
-            <IconButton key='going' label='Going' onPress={() => handleModalOpen('going')}>👍</IconButton>
-            <IconButton key='maybe' label='Maybe' onPress={() => handleModalOpen('maybe')}>🤔</IconButton>
-            <IconButton key='not going' label='Not Going' onPress={() => handleModalOpen('not going')}>👎</IconButton>
+          <div className='flex justify-around m-6' key='2j'>
+            <IconButton id='going' label='Going' onPress={handleModalOpen}>👍</IconButton>
+            <IconButton id='maybe' label='Maybe' onPress={handleModalOpen}>🤔</IconButton>
+            <IconButton id='not going' label='Not Going' onPress={handleModalOpen}>👎</IconButton>
             <RSVPModal isOpen={isOpen} onOpenChange={onOpenChange} selected={rsvp} />
           </div>
         </div>

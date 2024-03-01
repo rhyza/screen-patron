@@ -45,7 +45,7 @@ export default function NavBar() {
           </DropdownTrigger>
           <DropdownMenu aria-label='Profile Actions' variant='flat'>
             <DropdownSection showDivider>
-              <DropdownItem key='create'>
+              <DropdownItem key='create' textValue='Create'>
                 <Button
                   as={NavLink}
                   fullWidth
@@ -58,11 +58,15 @@ export default function NavBar() {
               </DropdownItem>
             </DropdownSection>
             <DropdownSection showDivider>
-              <DropdownItem key='profile' onClick={() => navigate('/user/test')}>My Profile</DropdownItem>
-              <DropdownItem key='events' onClick={() => navigate('/screening/test')}>My Events</DropdownItem>
+              <DropdownItem key='profile' onClick={() => navigate('/user/test')} textValue='My Profile'>
+                My Profile
+              </DropdownItem>
+              <DropdownItem key='events' onClick={() => navigate('/screening/test')} textValue='My Events'>
+                My Events
+              </DropdownItem>
             </DropdownSection>
             <DropdownSection>
-              <DropdownItem key='logout' color='danger'>
+              <DropdownItem key='logout' color='danger' textValue='Log Out'>
                 Log Out
               </DropdownItem>
             </DropdownSection>

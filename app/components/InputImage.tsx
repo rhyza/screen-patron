@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { Card, CardFooter, VisuallyHidden } from '@nextui-org/react';
 
 import { EditIcon } from './Icons';
@@ -22,7 +22,7 @@ export default function InputImage({
   ...cardProps
 }) {
   const [src, setSrc] = useState(image);
-  const handleImagePreview = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImagePreview = (event: ChangeEvent<HTMLInputElement>) => {
     if (validateFile(event, fileLimit)) {
       const files = event.target.files || [];
       setSrc(URL.createObjectURL(files[0]));
