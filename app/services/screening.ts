@@ -287,7 +287,7 @@ export function getFakeGuestList(going = 14, maybe = 2): Record<string, Guest> {
     guestList[id] = {
       id: id,
       status: i < going ? 'going' : 'maybe',
-      name: i < nameList.length ? nameList[i] : undefined,
+      name: i < nameList.length ? nameList[i] : 'Anonymous Attendee',
       avatar: i < avatarList.length ? avatarList[i] : undefined,
     } as const;
   }
