@@ -1,12 +1,6 @@
-import { useState } from 'react';
-import { PressEvent } from '@react-types/shared';
-import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
-import { Button } from '@nextui-org/react';
-
-import EventCards from '~/components/EventCards';
-import { getEvents } from '~/services/event';
+import type { MetaFunction } from '@remix-run/node';
+import { NavLink, Outlet } from '@remix-run/react';
+import { cn } from '@nextui-org/react';
 
 export const meta: MetaFunction = () => {
   return [
@@ -15,47 +9,32 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const url = new URL(request.url);
-  const q = url.searchParams.get('q');
-  const events = await getEvents(q);
-  return json({events, q});
-};
-
 export default function Events() {
-  const { events, q } = useLoaderData<typeof loader>();
-
-  const [section, setSection] = useState('browse');
-  const handlePress = (event: PressEvent) => {
-    const { id } = event.target;
-    setSection(() => id);
-  };
-
-  const sectionButton = (id: string, label: string) => {
-    return (
-      <Button
-        className={section === id ? 'bg-gradiant' : ''}
-        id={id}
-        onPress={handlePress}
-        radius='full'
-      >
-        {label}
-      </Button>
-    );
-  };
+  const getClassName = ({ isActive }: {isActive: boolean}) => {
+    const names = 'flex justify-center items-center rounded-full bg-default px-4 py-2';
+    return isActive ? cn(names, 'bg-gradiant') : names;
+  }
 
   return (
     <div className='w-full p-6 flex justify-center'>
       <div className='max-w-[70rem]'>
         <div className='grid px-2 pb-6'>
           <div className='flex gap-2'>
-            {sectionButton('browse', 'What\'s On')}
-            {sectionButton('upcoming', 'Upcoming')}
-            {sectionButton('hosting', 'Hosting')}
-            {sectionButton('attended', 'Attended')}
+            <NavLink className={getClassName} end id='browse' to='/events'>
+              What's On
+            </NavLink>
+            <NavLink className={getClassName} end id='upcoming' to='/events/upcoming'>
+              Upcoming
+            </NavLink>
+            <NavLink className={getClassName} end id='hosting' to='/events/hosting'>
+              Hosting
+            </NavLink>
+            <NavLink className={getClassName} end id='attended' to='/events/past'>
+              Attended
+            </NavLink>
           </div>
         </div>
-        <EventCards events={events} />
+        <Outlet />
       </div>
     </div>
   );

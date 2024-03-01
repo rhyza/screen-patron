@@ -81,6 +81,13 @@ export async function getEvents(query?: string | null) {
   return events.sort(sortBy('createdAt', 'name'));
 }
 
+export async function getUserEvents(query = 'test') {
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  let events = await fakeEvents.getAll();
+  events = events.filter((event) => event.id === 'test');
+  return events;
+}
+
 export async function createEvent(values: EventMutation) {
   const event = await fakeEvents.create({...values, guests: {}});
   return event;
