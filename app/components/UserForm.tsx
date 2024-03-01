@@ -45,7 +45,7 @@ export default function UserForm({
   return (
     <div className='w-full p-6'>
       <Form className='flex flex-wrap md:flex-nowrap gap-6 justify-center' method='post'>
-        <div className='flex-auto space-y-4 max-w-fit min-w-80'>
+        <div className='flex-auto space-y-6 max-w-fit min-w-80'>
           <div className='flex justify-center'>
             <InputImage
               iconClassName='mb-1 mr-1 rounded-full p-3 bg-gray-600'

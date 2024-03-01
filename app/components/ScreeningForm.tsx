@@ -75,16 +75,12 @@ export default function ScreeningForm({
             radius='none'
           />
         </div>
-        <div className='flex-auto justify-center max-w-80 sm:max-w-96'>
+        <div className='flex-auto justify-center space-y-6 max-w-80 sm:max-w-96'>
           <InputImage image={coverImage} imageClassName='size-80 sm:size-96' />
-          <Button
-            className='m-6'
-            radius='none'
-            size='lg'
-            type='submit'
-          >
-            Save
-          </Button>
+          <div className='flex justify-center'>
+            <Button className='w-32 bg-primary' radius='none' type='submit'>Save</Button>
+            <Button className='w-32' onClick={() => navigate(-1)} radius='none'>Cancel</Button>
+          </div>
         </div>
       </Form>
     </div>

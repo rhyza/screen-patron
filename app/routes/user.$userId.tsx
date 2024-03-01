@@ -54,7 +54,7 @@ export default function User() {
   return (
     <div className='w-full p-6'>
     <div className='flex flex-wrap md:flex-nowrap gap-6 justify-center'>
-      <div className='flex-auto space-y-4 max-w-fit min-w-80'>
+      <div className='flex-auto space-y-6 max-w-fit min-w-80'>
         <div className='flex justify-center'>
           <img
             className='rounded-full size-64'
