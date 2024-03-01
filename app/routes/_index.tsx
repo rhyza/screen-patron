@@ -10,8 +10,8 @@ import { getScreenings } from '~/services/screening';
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'New Remix App' },
-    { name: 'description', content: 'Welcome to Remix!' },
+    {title: 'New Remix App'},
+    {name: 'description', content: 'Welcome to Remix!'},
   ];
 };
 
@@ -19,7 +19,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const q = url.searchParams.get('q');
   const screenings = await getScreenings(q);
-  return json({ screenings, q });
+  return json({screenings, q});
 };
 
 export default function Index() {
@@ -28,7 +28,6 @@ export default function Index() {
   const [section, setSection] = useState('upcoming');
   const handlePress = (event: PressEvent) => {
     const { id } = event.target;
-    console.log(id);
     setSection(() => id);
   };
 

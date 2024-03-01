@@ -19,7 +19,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   if (!screening) {
     throw new Response('Not Found', {status: 404});
   }
-  return json({ screening });
+  return json({screening});
 };
 
 export default function EditScreening() {
