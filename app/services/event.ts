@@ -10,7 +10,7 @@ type Guest = {
   avatar?: string | undefined;
 }
 
-type ScreeningMutation = {
+type EventMutation = {
   id?: string;
   name?: string;
   coverImage?: string;
@@ -25,7 +25,7 @@ type ScreeningMutation = {
   private?: boolean;
 };
 
-export type ScreeningRecord = ScreeningMutation & {
+export type EventRecord = EventMutation & {
   id: string;
   createdAt: string;
 };
@@ -33,87 +33,87 @@ export type ScreeningRecord = ScreeningMutation & {
 ////////////////////////////////////////////////////////////////////////////////
 // This is just a fake DB table. In a real app we'd be talking to a real db or
 // fetching from an existing API.
-const fakeScreenings = {
-  records: {} as Record<string, ScreeningRecord>,
+const fakeEvents = {
+  records: {} as Record<string, EventRecord>,
 
-  async getAll(): Promise<ScreeningRecord[]> {
-    return Object.keys(fakeScreenings.records)
-      .map((key) => fakeScreenings.records[key])
+  async getAll(): Promise<EventRecord[]> {
+    return Object.keys(fakeEvents.records)
+      .map((key) => fakeEvents.records[key])
       .sort(sortBy('-createdAt', 'name'));
   },
 
-  async get(id: string): Promise<ScreeningRecord | null> {
-    return fakeScreenings.records[id] || null;
+  async get(id: string): Promise<EventRecord | null> {
+    return fakeEvents.records[id] || null;
   },
 
-  async create(values: ScreeningMutation): Promise<ScreeningRecord> {
+  async create(values: EventMutation): Promise<EventRecord> {
     const id = values.id || Math.random().toString(36).substring(2, 9);
     const createdAt = new Date().toISOString();
-    const newScreening = { id, createdAt, ...values };
-    fakeScreenings.records[id] = newScreening;
-    return newScreening;
+    const newEvent = { id, createdAt, ...values };
+    fakeEvents.records[id] = newEvent;
+    return newEvent;
   },
 
-  async set(id: string, values: ScreeningMutation): Promise<ScreeningRecord> {
-    const screening = await fakeScreenings.get(id);
-    invariant(screening, `No screening found for ${id}`);
-    const updatedScreening = { ...screening, ...values };
-    fakeScreenings.records[id] = updatedScreening;
-    return updatedScreening;
+  async set(id: string, values: EventMutation): Promise<EventRecord> {
+    const event = await fakeEvents.get(id);
+    invariant(event, `No event found for ${id}`);
+    const updatedEvent = { ...event, ...values };
+    fakeEvents.records[id] = updatedEvent;
+    return updatedEvent;
   },
 
   destroy(id: string): null {
-    delete fakeScreenings.records[id];
+    delete fakeEvents.records[id];
     return null;
   },
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 // Handful of helper functions to be called from route loaders and actions
-export async function getScreenings(query?: string | null) {
+export async function getEvents(query?: string | null) {
   await new Promise((resolve) => setTimeout(resolve, 500));
-  let screenings = await fakeScreenings.getAll();
+  let events = await fakeEvents.getAll();
   /*if (query) {
-    screenings = matchSorter(screenings, query, {
+    events = matchSorter(events, query, {
       keys: ['name'],
     });
   }*/
-  return screenings.sort(sortBy('createdAt', 'name'));
+  return events.sort(sortBy('createdAt', 'name'));
 }
 
-export async function createScreening(values: ScreeningMutation) {
-  const screening = await fakeScreenings.create({...values, guests: {}});
-  return screening;
+export async function createEvent(values: EventMutation) {
+  const event = await fakeEvents.create({...values, guests: {}});
+  return event;
 }
 
-export async function getScreening(id: string | undefined) {
+export async function getEvent(id: string | undefined) {
   if (!id) {
     return null;
   }
-  return fakeScreenings.get(id);
+  return fakeEvents.get(id);
 }
 
-export async function updateScreening(id: string, updates: ScreeningMutation) {
-  const screening = await fakeScreenings.get(id);
-  if (!screening) {
-    throw new Error(`No screening found for ${id}`);
+export async function updateEvent(id: string, updates: EventMutation) {
+  const event = await fakeEvents.get(id);
+  if (!event) {
+    throw new Error(`No event found for ${id}`);
   }
-  await fakeScreenings.set(id, { ...screening, ...updates });
-  return screening;
+  await fakeEvents.set(id, { ...event, ...updates });
+  return event;
 }
 
-export async function deleteScreening(id: string) {
-  fakeScreenings.destroy(id);
+export async function deleteEvent(id: string) {
+  fakeEvents.destroy(id);
 }
 
 export async function updateGuestList(
-  screeningId: string, guestId: string, status: string, name?: string, avatar?: string
+  eventId: string, guestId: string, status: string, name?: string, avatar?: string
 ) {
-  const screening = await fakeScreenings.get(screeningId);
-  if (!screening) {
-    throw new Error(`No screening found for ${screeningId}`);
+  const event = await fakeEvents.get(eventId);
+  if (!event) {
+    throw new Error(`No event found for ${eventId}`);
   }
-  let guests = screening.guests || {};
+  let guests = event.guests || {};
   if (guests && status === 'not going') {
     delete guests[guestId];
   } else {
@@ -124,7 +124,7 @@ export async function updateGuestList(
       avatar: avatar,
     };
   }
-  await fakeScreenings.set(screeningId, { guests: guests, ...screening });
+  await fakeEvents.set(eventId, { guests: guests, ...event });
   return { ...guests };
 }
 
@@ -146,7 +146,7 @@ export function getGuestCount(guests: Record<string, Guest> | undefined) {
   {
     coverImage:
       'https://images.unsplash.com/photo-1536440136628-849c177e76a1',
-    name: 'Shruti Kapoor\'s Screening',
+    name: 'Shruti Kapoor\'s Event',
     description: '@shrutikapoor08',
     location: 'Copley Square Theater',
     dateStart: '2024-02-22T23:30',
@@ -158,7 +158,7 @@ export function getGuestCount(guests: Record<string, Guest> | undefined) {
   {
     coverImage:
       'https://plus.unsplash.com/premium_photo-1682125157065-cbc4eb0fe0bb',
-    name: 'Glenn Reyes\'s Screening',
+    name: 'Glenn Reyes\'s Event',
     description: '@glnnrys',
     location: 'My House',
     dateStart: '2024-02-22T23:30',
@@ -174,7 +174,7 @@ export function getGuestCount(guests: Record<string, Guest> | undefined) {
   {
     coverImage:
       'https://images.unsplash.com/photo-1511875762315-c773eb98eec0',
-    name: 'Ryan Florence\'s Screening',
+    name: 'Ryan Florence\'s Event',
     location: 'Somewhere Theater',
     dateStart: '2025-02-22T23:30',
     dateEnd: '2025-02-22T20:30',
@@ -191,7 +191,7 @@ export function getGuestCount(guests: Record<string, Guest> | undefined) {
   {
     coverImage:
       'https://images.unsplash.com/photo-1611419010196-a360856fc42f',
-    name: 'Oscar Newman\'s Screening',
+    name: 'Oscar Newman\'s Event',
     description: '@__oscarnewman',
     location: 'New Years Theater',
     dateStart: '2024-12-31T21:00',
@@ -208,7 +208,7 @@ export function getGuestCount(guests: Record<string, Guest> | undefined) {
   {
     coverImage:
       'https://images.unsplash.com/photo-1590179068383-b9c69aacebd3',
-    name: 'Michael Jackson\'s Screening',
+    name: 'Michael Jackson\'s Event',
     hosts:
       getHostsRecord(
         'michael-jackson',
@@ -219,7 +219,7 @@ export function getGuestCount(guests: Record<string, Guest> | undefined) {
   {
     coverImage:
       'https://images.unsplash.com/photo-1709040567086-ee176caa99f9',
-    name: 'Oscar Newman\'s 2nd Screening',
+    name: 'Oscar Newman\'s 2nd Event',
     description: '@__oscarnewman',
     location: 'New Years Theater',
     dateStart: '2024-12-31T21:00',
@@ -233,14 +233,14 @@ export function getGuestCount(guests: Record<string, Guest> | undefined) {
       ),
     guests: getFakeGuestList(3, 3),
   },
-].forEach((screening) => {
-  fakeScreenings.create({
-    ...screening,
-    id: `${screening.name.toLowerCase().replace(/\s/g, '-')}`,
+].forEach((event) => {
+  fakeEvents.create({
+    ...event,
+    id: `${event.name.toLowerCase().replace(/\s/g, '-')}`,
   });
 });
 
-fakeScreenings.create({
+fakeEvents.create({
   id: 'test',
   name: 'Unnamed Event',
   location: 'Unnamed Location',

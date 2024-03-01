@@ -1,19 +1,19 @@
 import type { ActionFunctionArgs } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
 
-import ScreeningForm from '~/components/ScreeningForm';
-import { createScreening } from '~/services/screening';
+import EventForm from '~/components/EventForm';
+import { createEvent } from '~/services/event';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const values = Object.fromEntries(formData);
   const hosts = {'userId': {id: 'userId', status: 'going'}};
-  const screening = await createScreening({...values, hosts});
-  return redirect(`/screening/${screening.id}`);
+  const event = await createEvent({...values, hosts});
+  return redirect(`/e/${event.id}`);
 };
 
-export default function CreateScreening() {
+export default function CreateEvent() {
   return (
-    <ScreeningForm />
+    <EventForm />
   );
 }

@@ -5,8 +5,8 @@ import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Button } from '@nextui-org/react';
 
-import ScreeningCards from '~/components/ScreeningCards';
-import { getScreenings } from '~/services/screening';
+import EventCards from '~/components/EventCards';
+import { getEvents } from '~/services/event';
 
 export const meta: MetaFunction = () => {
   return [
@@ -18,12 +18,12 @@ export const meta: MetaFunction = () => {
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const q = url.searchParams.get('q');
-  const screenings = await getScreenings(q);
-  return json({screenings, q});
+  const events = await getEvents(q);
+  return json({events, q});
 };
 
 export default function Events() {
-  const { screenings, q } = useLoaderData<typeof loader>();
+  const { events, q } = useLoaderData<typeof loader>();
 
   const [section, setSection] = useState('browse');
   const handlePress = (event: PressEvent) => {
@@ -55,7 +55,7 @@ export default function Events() {
             {sectionButton('attended', 'Attended')}
           </div>
         </div>
-        <ScreeningCards screenings={screenings} />
+        <EventCards events={events} />
       </div>
     </div>
   );

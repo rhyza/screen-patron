@@ -6,7 +6,7 @@ import { cn } from '@nextui-org/react';
 export const meta: MetaFunction = () => {
   return [
     {title: 'Screen Patron'},
-    {name: 'description', content: 'DIY Film Screenings'},
+    {name: 'description', content: 'DIY Film Events'},
   ];
 };
 
@@ -62,9 +62,9 @@ export default function Index() {
             discover
           </NavLink>
           {renderBreakpoint('sm')}
-          <span>local film screenings or show one</span>
+          <span>local film events or show one</span>
           {renderBreakpoint('sm')}
-          <NavLink className={heroLinkClassName} to='screening/create'>
+          <NavLink className={heroLinkClassName} to='e/create'>
             yourself
           </NavLink>
         </h1>

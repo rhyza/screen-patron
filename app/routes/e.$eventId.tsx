@@ -8,15 +8,15 @@ import { Avatar, Button, Link, Tooltip, useDisclosure } from '@nextui-org/react'
 import IconButton from '~/components/IconButton';
 import { MapPinIcon, StarIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
 import RSVPModal from '~/components/RSVPModal';
-import { getScreening, getGuestCount } from '~/services/screening';
+import { getEvent, getGuestCount } from '~/services/event';
 import { getDateString, getTimeString } from '~/utils';
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const screening = await getScreening(params.screeningId);
-  if (!screening) {
+  const event = await getEvent(params.eventId);
+  if (!event) {
     throw new Response('Not Found', {status: 404});
   }
-  return json({screening});
+  return json({event});
 };
 
 // Remove Before Prod
@@ -30,8 +30,8 @@ const testDates = {
   nyd: 'January 1, 2025 01:00',
 };
 
-export default function Screening() {
-  const { screening } = useLoaderData<typeof loader>();
+export default function Event() {
+  const { event } = useLoaderData<typeof loader>();
   const {
     name,
     coverImage = 'https://placehold.co/800?text=Poster&font=roboto',
@@ -43,7 +43,7 @@ export default function Screening() {
     description,
     hosts = {},
     guests,
-  } = screening;
+  } = event;
   const start = dateStart ? new Date(dateStart) : undefined;
   const end = dateEnd ? new Date(dateEnd) : undefined;
   const guestCount = getGuestCount(guests);

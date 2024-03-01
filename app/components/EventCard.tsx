@@ -1,15 +1,15 @@
 import { useNavigate } from '@remix-run/react';
 import { Card, CardFooter } from '@nextui-org/react';
 
-import { ScreeningRecord } from '~/services/screening';
+import { EventRecord } from '~/services/event';
 import { getDateString, getTimeString } from '~/utils';
 
-export default function ScreeningCard({
-  screening,
+export default function EventCard({
+  event,
   imageClassName = 'size-80',
   ...cardProps
-}: {screening: ScreeningRecord, [propName: string]: any}) {
-  const { id, name, coverImage, dateStart, cost } = screening;
+}: {event: EventRecord, [propName: string]: any}) {
+  const { id, name, coverImage, dateStart, cost } = event;
   const image = coverImage || 'https://placehold.co/800?text=Event&font=roboto';
   const date = dateStart ? new Date(dateStart) : undefined;
   const dateString = date ? getDateString({date: date}) : 'Date TBD';
@@ -18,7 +18,7 @@ export default function ScreeningCard({
 
   const navigate = useNavigate();
   const handlePress = () => {
-    navigate('/screening/' + id);
+    navigate('/e/' + id);
   };
 
   return (

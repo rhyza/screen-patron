@@ -11,7 +11,7 @@ type UserMutation = {
   instagram?: string;
   twitter?: string;
   website?: string;
-  screenings?: string[];
+  events?: string[];
 };
 
 export type UserRecord = UserMutation & {

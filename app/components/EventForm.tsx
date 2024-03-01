@@ -4,7 +4,7 @@ import { Button, Input, Textarea } from '@nextui-org/react';
 import { MapPinIcon, TicketIcon, UserGroupIcon } from './Icons';
 import InputImage from './InputImage';
 
-type ScreeningFormValues = {
+type EventFormValues = {
   name?: string;
   coverImage?: string;
   dateStart?: string;
@@ -15,9 +15,9 @@ type ScreeningFormValues = {
   description?: string;
 };
 
-export default function ScreeningForm({
+export default function EventForm({
   name, coverImage, dateStart, dateEnd, location, cost, capacity, description,
-}: ScreeningFormValues) {
+}: EventFormValues) {
   const navigate = useNavigate();
   const today = new Date(Date.now());
 
