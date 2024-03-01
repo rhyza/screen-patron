@@ -3,13 +3,10 @@ import { json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { getUser, updateUser, UserRecord } from '~/services/user';
 import UserForm from '~/components/UserForm';
-import { invariant } from 'framer-motion';
+import { invariant } from '~/utils';
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
-  if (!params.userId) {
-    invariant(false, 'Missing userId param');
-    return;
-  }
+  invariant(params.userId, 'Missing userId param');
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
   await updateUser(params.userId, updates);
@@ -17,11 +14,11 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 };
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-	const user: UserRecord | null = await getUser(params.userId);
-	if (!user) {
-		throw new Response('Not Found', {status: 404});
-	}
-	return json({ user });
+  const user: UserRecord | null = await getUser(params.userId);
+  if (!user) {
+    throw new Response('Not Found', {status: 404});
+  }
+  return json({ user });
 };
 
 export default function EditUser() {
