@@ -124,7 +124,7 @@ export default function Event() {
               </Link>
             </div>
           }
-          
+
           {renderInfoField(
             <StarIcon />,
             <div className='flex items-center gap-2'>
@@ -165,7 +165,7 @@ export default function Event() {
             className='size-80 sm:size-96 object-cover'
             src={coverImage}
           />
-          <div className='flex justify-around m-6' key='2j'>
+          <div className='flex justify-around m-6'>
             <IconButton id='going' label='Going' onPress={handleModalOpen}>👍</IconButton>
             <IconButton id='maybe' label='Maybe' onPress={handleModalOpen}>🤔</IconButton>
             <IconButton id='not going' label='Not Going' onPress={handleModalOpen}>👎</IconButton>
