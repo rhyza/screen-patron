@@ -40,11 +40,13 @@ export default function Screening() {
     cost = 0,
     capacity = 100,
     description,
+    hosts = {},
     guests,
   } = screening;
   const start = dateStart ? new Date(dateStart) : undefined;
   const end = dateEnd ? new Date(dateEnd) : undefined;
   const guestCount = getGuestCount(guests);
+  const host = Object.values(hosts)[0];
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [rsvp, setRsvp] = useState('');
@@ -121,7 +123,7 @@ export default function Screening() {
           {infoField(
             <StarIcon />, 
             <div className='flex items-center gap-2'>
-              Hosted by <Avatar showFallback /> {`hostname`}
+              Hosted by <Avatar showFallback src={host.avatar} /> {host.name || 'Anonymous Filmmaker'}
             </div>
           )}
           {infoField(<MapPinIcon />, location)}

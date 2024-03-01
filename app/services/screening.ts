@@ -145,51 +145,93 @@ export function getGuestCount(guests: Record<string, Guest> | undefined) {
 [
   {
     coverImage:
-      'https://sessionize.com/image/124e-400o400o2-wHVdAuNaxi8KJrgtN3ZKci.jpg',
+      'https://images.unsplash.com/photo-1536440136628-849c177e76a1',
     name: 'Shruti Kapoor\'s Screening',
     description: '@shrutikapoor08',
     location: 'Copley Square Theater',
     dateStart: '2024-02-22T23:30',
     dateEnd: '2024-02-22T20:30',
     cost: 5,
+    hosts: getHostsRecord('shrutikapoor08', 'Shruti Kapoor', 'https://sessionize.com/image/124e-400o400o2-wHVdAuNaxi8KJrgtN3ZKci.jpg'),
     guests: getFakeGuestList(18, 5),
   },
   {
     coverImage:
-      'https://sessionize.com/image/1940-400o400o2-Enh9dnYmrLYhJSTTPSw3MH.jpg',
+      'https://plus.unsplash.com/premium_photo-1682125157065-cbc4eb0fe0bb',
     name: 'Glenn Reyes\'s Screening',
     description: '@glnnrys',
     location: 'My House',
     dateStart: '2024-02-22T23:30',
     dateEnd: '2024-02-21T01:30',
+    hosts:
+      getHostsRecord(
+        'glnnrys',
+        'Glenn Reyes',
+        'https://sessionize.com/image/1940-400o400o2-Enh9dnYmrLYhJSTTPSw3MH.jpg'
+      ),
     guests: getFakeGuestList(2, 1),
   },
   {
     coverImage:
-      'https://sessionize.com/image/9273-400o400o2-3tyrUE3HjsCHJLU5aUJCja.jpg',
+      'https://images.unsplash.com/photo-1511875762315-c773eb98eec0',
     name: 'Ryan Florence\'s Screening',
     location: 'Somewhere Theater',
     dateStart: '2025-02-22T23:30',
     dateEnd: '2025-02-22T20:30',
     capacity: 100,
     cost: 20,
+    hosts:
+      getHostsRecord(
+        'ryan-florence',
+        'Ryan Florence',
+        'https://sessionize.com/image/9273-400o400o2-3tyrUE3HjsCHJLU5aUJCja.jpg'
+      ),
     guests: getFakeGuestList(32, 12),
   },
   {
     coverImage:
-      'https://sessionize.com/image/d14d-400o400o2-pyB229HyFPCnUcZhHf3kWS.png',
+      'https://images.unsplash.com/photo-1611419010196-a360856fc42f',
     name: 'Oscar Newman\'s Screening',
     description: '@__oscarnewman',
     location: 'New Years Theater',
     dateStart: '2024-12-31T21:00',
     dateEnd: '2025-01-01T03:00',
     cost: 25,
+    hosts:
+      getHostsRecord(
+        'oscarnewman',
+        'Oscar Newman',
+        'https://sessionize.com/image/d14d-400o400o2-pyB229HyFPCnUcZhHf3kWS.png'
+      ),
     guests: getFakeGuestList(3, 3),
   },
   {
     coverImage:
-      'https://sessionize.com/image/fd45-400o400o2-fw91uCdGU9hFP334dnyVCr.jpg',
+      'https://images.unsplash.com/photo-1590179068383-b9c69aacebd3',
     name: 'Michael Jackson\'s Screening',
+    hosts:
+      getHostsRecord(
+        'michael-jackson',
+        'Michael Jackson',
+        'https://sessionize.com/image/fd45-400o400o2-fw91uCdGU9hFP334dnyVCr.jpg'
+      ),
+  },
+  {
+    coverImage:
+      'https://images.unsplash.com/photo-1709040567086-ee176caa99f9',
+    name: 'Oscar Newman\'s 2nd Screening',
+    description: '@__oscarnewman',
+    location: 'New Years Theater',
+    dateStart: '2024-12-31T21:00',
+    dateEnd: '2025-01-01T03:00',
+    cost: 25,
+    hosts:
+      getHostsRecord(
+        'oscarnewman',
+        'Oscar Newman',
+        'https://sessionize.com/image/d14d-400o400o2-pyB229HyFPCnUcZhHf3kWS.png'
+      ),
+    guests: getFakeGuestList(3, 3),
   },
 ].forEach((screening) => {
   fakeScreenings.create({
@@ -207,6 +249,17 @@ fakeScreenings.create({
   guests: getFakeGuestList(),
 });
 
+function getHostsRecord(id: string, name?: string, avatar?: string): Record<string, Guest> {
+  const hostList: Record<string, Guest> = {};
+  hostList[id] = {
+    id: id,
+    status: 'going',
+    name: name,
+    avatar: avatar,
+  } as const;
+  return hostList;
+}
+
 export function getFakeGuestList(going = 14, maybe = 2): Record<string, Guest> {
   const guestList: Record<string, Guest> = {};
   const avatarList = [
@@ -219,19 +272,22 @@ export function getFakeGuestList(going = 14, maybe = 2): Record<string, Guest> {
     'https://avatars.githubusercontent.com/u/30373425',
     'https://i.pravatar.cc/300?u=a042581f4e29026709d',
   ];
-  for (let i = 0; i < going; i++) {
-    let id = `going-${i}`;
+  const nameList = [
+    'Alex',
+    'Charlie',
+    'Jesse',
+    'Aiden',
+    'Riley',
+    'Luca',
+    'Jade',
+    'River',
+  ];
+  for (let i = 0; i < going + maybe; i++) {
+    let id = i < going ? `going-${i}` : `maybe-${i}`;
     guestList[id] = {
       id: id,
-      status: 'going',
-      avatar: i < avatarList.length ? avatarList[i] : undefined,
-    } as const;
-  }
-  for (let i = 0; i < maybe; i++) {
-    let id = `maybe-${i}`;
-    guestList[id] = {
-      id: id,
-      status: 'maybe',
+      status: i < going ? 'going' : 'maybe',
+      name: i < nameList.length ? nameList[i] : undefined,
       avatar: i < avatarList.length ? avatarList[i] : undefined,
     } as const;
   }
