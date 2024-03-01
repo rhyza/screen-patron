@@ -2,11 +2,12 @@ import { NavLink, useLocation, useNavigate } from '@remix-run/react';
 import {
   Avatar,
   Button,
+  cn,
   Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger,
   Navbar, NavbarBrand, NavbarContent, NavbarItem,
 } from '@nextui-org/react';
 
-import { InstagramIcon } from './Icons';
+import { FilmIcon } from './Icons';
 
 export default function NavBar() {
   const location = useLocation();
@@ -15,21 +16,27 @@ export default function NavBar() {
   return (
     <Navbar maxWidth='full'>
       <NavbarBrand as={NavLink} onClick={() => navigate('/')}>
-        <InstagramIcon />
-        <p className='font-bold text-inherit ml-2'>ACME</p>
+        <FilmIcon classNames='max-sm:hidden mr-2'/>
+        <p className='font-bold text-inherit uppercase'>Screen Patron</p>
       </NavbarBrand>
 
       <NavbarContent as='div' justify='end'>
         <NavbarItem>
           <Button
             as={NavLink}
-            className={'bg-primary ' + (location.pathname === '/screening/create' ? 'hidden' : '')}
+            className={cn(
+              'bg-primary ' + (location.pathname === '/screening/create' ? 'hidden' : ''),
+              'max-sm:hidden'
+            )}
             radius='none'
-            to='/screening/create'
+            to='screening/create'
             variant='flat'
           >
             Create
           </Button>
+        </NavbarItem>
+        <NavbarItem>
+          <NavLink className='max-sm:hidden mx-4' to='events'>Browse Events</NavLink>
         </NavbarItem>
         <Dropdown placement='bottom-end'>
           <DropdownTrigger>
@@ -44,25 +51,30 @@ export default function NavBar() {
             />
           </DropdownTrigger>
           <DropdownMenu aria-label='Profile Actions' variant='flat'>
-            <DropdownSection showDivider>
+            <DropdownSection className='sm:hidden' showDivider>
               <DropdownItem key='create' textValue='Create'>
                 <Button
                   as={NavLink}
                   fullWidth
                   radius='none'
-                  to='/screening/create'
+                  to='screening/create'
                   variant='flat'
                 >
                   Create
                 </Button>
               </DropdownItem>
             </DropdownSection>
-            <DropdownSection showDivider>
-              <DropdownItem key='profile' onClick={() => navigate('/user/test')} textValue='My Profile'>
-                My Profile
+            <DropdownSection className='sm:hidden' showDivider>
+              <DropdownItem key='events' onClick={() => navigate('screening/test')} textValue='My Events'>
+                Browse Events
               </DropdownItem>
-              <DropdownItem key='events' onClick={() => navigate('/screening/test')} textValue='My Events'>
+            </DropdownSection>
+            <DropdownSection showDivider>
+              <DropdownItem key='events' onClick={() => navigate('screening/test')} textValue='My Events'>
                 My Events
+              </DropdownItem>
+              <DropdownItem key='profile' onClick={() => navigate('user/test')} textValue='My Profile'>
+                My Profile
               </DropdownItem>
             </DropdownSection>
             <DropdownSection>
