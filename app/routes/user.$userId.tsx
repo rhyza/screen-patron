@@ -36,7 +36,7 @@ export default function User() {
     omitSameYear: false,
   });
 
-  const socialChip = (label: string, url: string, icon: JSX.Element) => {
+  const renderSocialChip = (label: string, url: string, icon: JSX.Element) => {
     return (
       <Button
         as={Link}
@@ -75,13 +75,13 @@ export default function User() {
           {(instagram || twitter || website) &&
             <div className='flex gap-2 justify-center md:justify-start'>
               {instagram &&
-                socialChip(`@${instagram}`, `https://www.instagram.com/${instagram}`, <InstagramIcon className='w-4 h-4'/>)
+                renderSocialChip(`@${instagram}`, `https://www.instagram.com/${instagram}`, <InstagramIcon className='w-4 h-4'/>)
               }
               {twitter &&
-                socialChip(`@${twitter}`, `https://www.twitter.com/${twitter}`, <TwitterIcon className='w-4 h-4'/>)
+                renderSocialChip(`@${twitter}`, `https://www.twitter.com/${twitter}`, <TwitterIcon className='w-4 h-4'/>)
               }
               {website &&
-                socialChip('Website', website, <LinkIcon className='w-5 h-5'/>)
+                renderSocialChip('Website', website, <LinkIcon className='w-5 h-5'/>)
               }
             </div>
           }

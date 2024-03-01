@@ -4,7 +4,6 @@ import type { EventRecord } from '~/services/event';
 export default function EventCards({
   events = []
 }: {events: EventRecord[]}) {
-
   return (
     <div>
       {events.length ? (

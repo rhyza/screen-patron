@@ -18,7 +18,7 @@ export default function UserForm({
 }: UserFormValues) {
   const navigate = useNavigate();
 
-  const socialInput = (
+  const renderSocialInput = (
     defaultValue: string | undefined,
     label: string,
     name: string,
@@ -78,9 +78,9 @@ export default function UserForm({
               name='bio'
               radius='none'
             />
-            {socialInput(instagram, 'Instagram', 'instagram', <InstagramIcon />, '@')}
-            {socialInput(twitter, 'Twitter', 'twitter', <TwitterIcon />, '@')}
-            {socialInput(website, 'Website', 'website', <LinkIcon />, 'https://')}
+            {renderSocialInput(instagram, 'Instagram', 'instagram', <InstagramIcon />, '@')}
+            {renderSocialInput(twitter, 'Twitter', 'twitter', <TwitterIcon />, '@')}
+            {renderSocialInput(website, 'Website', 'website', <LinkIcon />, 'https://')}
           </div>
         </div>
       </Form>

@@ -6,7 +6,6 @@ import { Button } from '@nextui-org/react';
 
 import EventCards from '~/components/EventCards';
 import { getUserEvents } from '~/services/event';
-import { render } from 'react-dom';
 
 export const loader = async () => {
   const events = await getUserEvents();

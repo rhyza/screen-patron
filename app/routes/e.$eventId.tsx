@@ -60,7 +60,7 @@ export default function Event() {
     onOpen();
   };
 
-  const infoField = (icon: JSX.Element, text: string | JSX.Element) => {
+  const renderInfoField = (icon: JSX.Element, text: string | JSX.Element) => {
     return (
       <div className='flex items-center gap-2'>
         <span className='flex-none'>{icon}</span>
@@ -69,7 +69,7 @@ export default function Event() {
     );
   };
 
-  const dateRange = (start: Date, end?: Date) => {
+  const renderDateRange = (start: Date, end?: Date) => {
     let date = getDateString({date: start, omitSameYear: true});
     let time = getTimeString({date: start});
 
@@ -111,7 +111,7 @@ export default function Event() {
             }
           </div>
           {start
-            ? dateRange(start, end)
+            ? renderDateRange(start, end)
             : <p className='text-2xl font-medium'>Date & Time TBD</p>
           }
           {(isUser || isGuest) &&
@@ -125,18 +125,18 @@ export default function Event() {
             </div>
           }
           
-          {infoField(
-            <StarIcon />, 
+          {renderInfoField(
+            <StarIcon />,
             <div className='flex items-center gap-2'>
               Hosted by <Avatar showFallback src={host.avatar} /> {host.name}
             </div>
           )}
-          {infoField(<MapPinIcon />, location)}
-          {cost != undefined && infoField(
+          {renderInfoField(<MapPinIcon />, location)}
+          {cost != undefined && renderInfoField(
             <TicketIcon />, cost > 0 ? `$${cost} per person`: 'Free'
           )}
-          {capacity && infoField(
-            <UserGroupIcon />, 
+          {capacity && renderInfoField(
+            <UserGroupIcon />,
             <p>
               <span className='text-primary'>{capacity - guestCount.going}</span>
               &nbsp;/ {capacity} spots left
