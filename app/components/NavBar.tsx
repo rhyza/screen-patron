@@ -70,7 +70,7 @@ export default function NavBar() {
               </DropdownItem>
             </DropdownSection>
             <DropdownSection showDivider>
-              <DropdownItem key='events' onClick={() => navigate('e/test')} textValue='My Events'>
+              <DropdownItem key='events' onClick={() => navigate('events/hosting')} textValue='My Events'>
                 My Events
               </DropdownItem>
               <DropdownItem key='profile' onClick={() => navigate('user/test')} textValue='My Profile'>
