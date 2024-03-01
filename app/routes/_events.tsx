@@ -10,27 +10,22 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Events() {
+  const names = 'flex justify-center items-center rounded-full bg-default px-4 py-2 text-nowrap';
+
   const getClassName = ({ isActive }: {isActive: boolean}) => {
-    const names = 'flex justify-center items-center rounded-full bg-default px-4 py-2 text-nowrap';
     return isActive ? cn(names, 'bg-gradiant') : names;
   }
 
   return (
     <div className='w-full p-6 flex justify-center'>
       <div className='max-w-[70rem]'>
-        <div className='grid px-2 pb-6'>
+        <div className='grid p-2 gap-4'>
           <div className='flex gap-2 max-sm:w-80 max-sm:text-small max-sm:overflow-x-auto'>
-            <NavLink className={getClassName} end id='browse' to='/events'>
+            <NavLink className={getClassName} end id='browse' to='/browse'>
               What's On
             </NavLink>
-            <NavLink className={getClassName} end id='upcoming' to='/events/upcoming'>
-              Upcoming
-            </NavLink>
-            <NavLink className={getClassName} end id='hosting' to='/events/hosting'>
-              Hosting
-            </NavLink>
-            <NavLink className={getClassName} end id='attended' to='/events/attended'>
-              Attended
+            <NavLink className={getClassName} end id='events' to='/events'>
+              My Events
             </NavLink>
           </div>
         </div>
