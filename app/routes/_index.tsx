@@ -3,6 +3,8 @@ import { NavLink } from '@remix-run/react';
 import type { MetaFunction } from '@remix-run/node';
 import { cn } from '@nextui-org/react';
 
+import { heroImages } from '~/assets';
+
 export const meta: MetaFunction = () => {
   return [
     {title: 'Screen Patron'},
@@ -15,24 +17,9 @@ export default function Index() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCounter((prev) => prev + 1);
-      console.log(counter);
     }, 1500);
     return () => clearInterval(interval);
   }, [counter]);
-
-  const srcMap = [
-    'https://images.unsplash.com/photo-1625503650421-e1561cf432cf',
-    'https://images.unsplash.com/photo-1542509058-f39fe2575189',
-    'https://images.unsplash.com/photo-1532800783378-1bed60adaf58',
-    'https://images.unsplash.com/photo-1621544271296-8384d27ec046',
-    'https://images.unsplash.com/photo-1541362762083-cbf93d30defa',
-    'https://images.unsplash.com/photo-1588823400943-b85ba1a6d19a',
-    'https://images.unsplash.com/photo-1632094623687-5643447fadcc',
-    'https://images.unsplash.com/photo-1568720888838-51fd77a98242',
-    'https://images.unsplash.com/photo-1552417559-f62e53cba705',
-    'https://images.unsplash.com/photo-1605958610903-43aa1dfc9697',
-    'https://images.unsplash.com/photo-1574622731854-f06af7345d28',
-  ];
 
   const heroLinkClassName = cn(
     'bg-clip-text hover:text-transparent',
@@ -86,7 +73,7 @@ export default function Index() {
               'min-[2800px]:h-[65rem] min-[3400px]:h-[80rem]',
               'object-contain p-8 saturate-[.85]',
             )}
-            src={srcMap[counter % srcMap.length]}
+            src={heroImages[counter % heroImages.length]}
           />
         </div>
     </div>
