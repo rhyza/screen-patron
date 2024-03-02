@@ -34,31 +34,6 @@ export default function Index() {
     'https://images.unsplash.com/photo-1574622731854-f06af7345d28',
   ];
 
-  const renderBreakpoint = (breakpoint: string) => {
-    let brClass, spaceClass;
-
-    switch(breakpoint) {
-      case 'landscape':
-        brClass = 'portrait:hidden';
-        spaceClass = 'landscape:hidden';
-        break;
-      case 'portrait':
-        brClass = 'landscape:hidden';
-        spaceClass = 'portrait:hidden';
-        break;
-      default:
-        brClass = `${breakpoint}:hidden`;
-        spaceClass = `max-${breakpoint}:hidden`;
-    }
-
-    return (
-      <>
-        <br className={brClass}/>
-        <span className={spaceClass}>&nbsp;</span>
-      </>
-    );
-  };
-
   const heroLinkClassName = cn(
     'bg-clip-text hover:text-transparent',
     'hover:bg-gradient-to-r hover:from-pink-500 hover:to-violet-500',
@@ -78,9 +53,7 @@ export default function Index() {
           <NavLink className={heroLinkClassName} to='browse'>
             discover
           </NavLink>
-          {renderBreakpoint('sm')}
-          <span>local film events or put on</span>
-          {renderBreakpoint('sm')}
+          <span> local film events or put on </span>
           <NavLink className={heroLinkClassName} to='e/create'>
             your own
           </NavLink>
