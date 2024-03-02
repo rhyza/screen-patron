@@ -41,23 +41,26 @@ export default function Index() {
 
   return (
     <div className='container overflow-clip overscroll-none py-10'>
-      <h1
-        className={cn(
-          'absolute z-10 landscape:bottom-0 left-0 portrait:pt-8',
-          'object-contain overflow-hidden bg-clip-text',
-          'text-6xl sm:text-6xl md:text-7xl lg:text-9xl 2xl:text-[10rem]',
-          'min-[2000px]:text-[12rem] min-[2600px]:text-[14rem] min-[2800px]:text-[16rem]',
-          'font-extrabold uppercase text-balance ',
-          'selection:bg-fuchsia-300 selection:text-fuchsia-900'
-        )}>
-          <NavLink className={heroLinkClassName} to='browse'>
-            discover
-          </NavLink>
-          <span> local film events or put on </span>
-          <NavLink className={heroLinkClassName} to='e/create'>
-            your own
-          </NavLink>
-        </h1>
+        <div className='text-balance'>
+          <h1
+            className={cn(
+              'absolute z-10 landscape:bottom-0 left-0 portrait:pt-8',
+              'object-contain overflow-hidden bg-clip-text',
+              'text-6xl sm:text-6xl md:text-7xl lg:text-9xl 2xl:text-[10rem]',
+              'min-[2000px]:text-[12rem] min-[2600px]:text-[14rem] min-[2800px]:text-[16rem]',
+              'font-extrabold uppercase',
+              'selection:bg-fuchsia-300 selection:text-fuchsia-900'
+            )}
+          >
+            <NavLink className={heroLinkClassName} to='browse'>
+              discover
+            </NavLink>
+            <span> local film events or put on </span>
+            <NavLink className={heroLinkClassName} to='e/create'>
+              your own
+            </NavLink>
+          </h1>
+        </div>
         <img
           className={cn(
             'absolute z-0 right-0 mix-blend-exclusion saturate-[.85]',
