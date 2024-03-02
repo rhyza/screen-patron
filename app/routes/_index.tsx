@@ -70,7 +70,8 @@ export default function Index() {
         className={cn(
           'absolute z-10 landscape:bottom-0 left-0 portrait:pt-8',
           'object-contain overflow-hidden bg-clip-text',
-          'text-5xl sm:text-6xl md:text-7xl lg:text-9xl',
+          'text-6xl sm:text-6xl md:text-7xl lg:text-9xl 2xl:text-[10rem]',
+          'min-[2000px]:text-[12rem] min-[2600px]:text-[14rem] min-[2800px]:text-[16rem]',
           'font-extrabold uppercase text-balance ',
           'selection:bg-fuchsia-300 selection:text-fuchsia-900'
         )}>
