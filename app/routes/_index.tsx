@@ -35,10 +35,26 @@ export default function Index() {
   ];
 
   const renderBreakpoint = (breakpoint: string) => {
+    let brClass, spaceClass;
+
+    switch(breakpoint) {
+      case 'landscape':
+        brClass = 'portrait:hidden';
+        spaceClass = 'landscape:hidden';
+        break;
+      case 'portrait':
+        brClass = 'landscape:hidden';
+        spaceClass = 'portrait:hidden';
+        break;
+      default:
+        brClass = `${breakpoint}:hidden`;
+        spaceClass = `max-${breakpoint}:hidden`;
+    }
+
     return (
       <>
-        <span className={`${breakpoint}:hidden`}><br/></span>
-        <span className={`max-${breakpoint}:hidden`}>&nbsp;</span>
+        <br className={brClass}/>
+        <span className={spaceClass}>&nbsp;</span>
       </>
     );
   };
