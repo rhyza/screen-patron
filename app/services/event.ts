@@ -1,6 +1,7 @@
 // @ts-expect-error - no types, but it's a tiny function
 import { matchSorter } from 'match-sorter';
 import sortBy from 'sort-by';
+import { loremIpsum } from '~/assets';
 import { invariant } from '~/utils';
 
 type Guest = {
@@ -251,7 +252,7 @@ fakeEvents.create({
   id: 'test',
   name: 'Unnamed Event',
   location: 'Unnamed Location',
-  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+  description: loremIpsum,
   coverImage: 'https://images.unsplash.com/photo-1535016120720-40c646be5580',
   guests: getFakeGuestList(),
 });
