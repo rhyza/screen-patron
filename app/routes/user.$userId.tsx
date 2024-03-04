@@ -63,7 +63,11 @@ export default function User() {
             />
           </div>
           <div className='flex justify-center'>
-            {isUser && <Button as={NavLink} className='w-64' to='./edit' radius='none'>Edit</Button>}
+            {isUser &&
+              <Button as={NavLink} className='w-64' to='./edit' radius='none'>
+                Edit
+              </Button>
+            }
           </div>
         </div>
         <div className='flex-auto max-w-96 text-center md:text-left'>
@@ -74,15 +78,19 @@ export default function User() {
             {bio && <p>{bio}</p>}
             {(instagram || twitter || website) &&
               <div className='flex gap-2 justify-center md:justify-start'>
-                {instagram &&
-                  renderSocialChip(`@${instagram}`, `https://www.instagram.com/${instagram}`, <InstagramIcon className='w-4 h-4'/>)
-                }
-                {twitter &&
-                  renderSocialChip(`@${twitter}`, `https://www.twitter.com/${twitter}`, <TwitterIcon className='w-4 h-4'/>)
-                }
-                {website &&
-                  renderSocialChip('Website', website, <LinkIcon className='w-5 h-5'/>)
-                }
+                {instagram && renderSocialChip(
+                  `@${instagram}`,
+                  `https://www.instagram.com/${instagram}`,
+                  <InstagramIcon className='w-4 h-4'/>
+                )}
+                {twitter && renderSocialChip(
+                  `@${twitter}`,
+                  `https://www.twitter.com/${twitter}`,
+                  <TwitterIcon className='w-4 h-4'/>
+                )}
+                {website && renderSocialChip(
+                  'Website', website, <LinkIcon className='w-5 h-5'/>
+                )}
               </div>
             }
             <p>Joined {joinDate}</p>

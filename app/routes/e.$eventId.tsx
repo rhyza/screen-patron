@@ -145,7 +145,9 @@ export default function Event() {
           <p>{description}</p>
           <div className='flex items-center gap-2'>
             <span className='flex-none'>{guestCount.going} Going</span>
-            {guestCount.maybe > 0 && <span className='flex-none'>{guestCount.maybe} Maybe</span>}
+            {guestCount.maybe > 0 &&
+              <span className='flex-none'>{guestCount.maybe} Maybe</span>
+            }
           </div>
           <div className='flex items-center gap-2'>
             {guests && Object.keys(guests).slice(0, 6).map((id) => {
@@ -166,9 +168,15 @@ export default function Event() {
             src={coverImage}
           />
           <div className='flex justify-around m-6'>
-            <IconButton id='going' label='Going' onPress={handleModalOpen}>👍</IconButton>
-            <IconButton id='maybe' label='Maybe' onPress={handleModalOpen}>🤔</IconButton>
-            <IconButton id='not going' label='Not Going' onPress={handleModalOpen}>👎</IconButton>
+            <IconButton id='going' label='Going' onPress={handleModalOpen}>
+              👍
+            </IconButton>
+            <IconButton id='maybe' label='Maybe' onPress={handleModalOpen}>
+              🤔
+            </IconButton>
+            <IconButton id='not going' label="Can't Go" onPress={handleModalOpen}>
+              😢
+            </IconButton>
             <RSVPModal isOpen={isOpen} onOpenChange={onOpenChange} selected={rsvp} />
           </div>
         </div>

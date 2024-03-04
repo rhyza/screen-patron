@@ -160,7 +160,12 @@ export function getGuestCount(guests: Record<string, Guest> | undefined) {
     dateStart: '2024-02-22T23:30',
     dateEnd: '2024-02-22T20:30',
     cost: 5,
-    hosts: getHostsRecord('shrutikapoor08', 'Shruti Kapoor', 'https://sessionize.com/image/124e-400o400o2-wHVdAuNaxi8KJrgtN3ZKci.jpg'),
+    hosts:
+      getHostsRecord(
+        'shrutikapoor08',
+        'Shruti Kapoor',
+        'https://sessionize.com/image/124e-400o400o2-wHVdAuNaxi8KJrgtN3ZKci.jpg'
+      ),
     guests: getFakeGuestList(18, 5),
   },
   {

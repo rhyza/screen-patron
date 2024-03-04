@@ -56,8 +56,12 @@ export default function UserForm({
             />
           </div>
           <div className='flex justify-center'>
-            <Button className='w-32 bg-primary' radius='none' type='submit'>Save</Button>
-            <Button className='w-32' onPress={() => navigate(-1)} radius='none'>Cancel</Button>
+            <Button className='w-32 bg-primary' radius='none' type='submit'>
+              Save
+            </Button>
+            <Button className='w-32' onPress={() => navigate(-1)} radius='none'>
+              Cancel
+            </Button>
           </div>
         </div>
         <div className='flex-auto max-w-96 text-center md:text-left'>
@@ -78,9 +82,15 @@ export default function UserForm({
               name='bio'
               radius='none'
             />
-            {renderSocialInput(instagram, 'Instagram', 'instagram', <InstagramIcon />, '@')}
-            {renderSocialInput(twitter, 'Twitter', 'twitter', <TwitterIcon />, '@')}
-            {renderSocialInput(website, 'Website', 'website', <LinkIcon />, 'https://')}
+            {renderSocialInput(
+              instagram, 'Instagram', 'instagram', <InstagramIcon />, '@'
+            )}
+            {renderSocialInput(
+              twitter, 'Twitter', 'twitter', <TwitterIcon />, '@'
+            )}
+            {renderSocialInput(
+              website, 'Website', 'website', <LinkIcon />, 'https://'
+            )}
           </div>
         </div>
       </Form>

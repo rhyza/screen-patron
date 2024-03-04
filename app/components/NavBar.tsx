@@ -25,8 +25,8 @@ export default function NavBar() {
           <Button
             as={NavLink}
             className={cn(
-              'bg-primary ' + (location.pathname === '/e/create' ? 'hidden' : ''),
-              'max-sm:hidden'
+              'bg-primary max-sm:hidden',
+              location.pathname === '/e/create' ? 'hidden' : ''
             )}
             radius='none'
             to='e/create'
@@ -36,7 +36,9 @@ export default function NavBar() {
           </Button>
         </NavbarItem>
         <NavbarItem>
-          <NavLink className='max-sm:hidden mx-4' to='browse'>Browse Events</NavLink>
+          <NavLink className='max-sm:hidden mx-4' to='browse'>
+            Browse Events
+          </NavLink>
         </NavbarItem>
         <Dropdown placement='bottom-end'>
           <DropdownTrigger>
@@ -65,15 +67,27 @@ export default function NavBar() {
               </DropdownItem>
             </DropdownSection>
             <DropdownSection className='sm:hidden' showDivider>
-              <DropdownItem key='events' onClick={() => navigate('browse')} textValue='Browse Events'>
+              <DropdownItem
+                key='events'
+                onClick={() => navigate('browse')}
+                textValue='Browse Events'
+              >
                 Browse Events
               </DropdownItem>
             </DropdownSection>
             <DropdownSection showDivider>
-              <DropdownItem key='events' onClick={() => navigate('events')} textValue='My Events'>
+              <DropdownItem
+                key='events'
+                onClick={() => navigate('events')}
+                textValue='My Events'
+              >
                 My Events
               </DropdownItem>
-              <DropdownItem key='profile' onClick={() => navigate('user/test')} textValue='My Profile'>
+              <DropdownItem
+                key='profile'
+                onClick={() => navigate('user/test')}
+                textValue='My Profile'
+              >
                 My Profile
               </DropdownItem>
             </DropdownSection>

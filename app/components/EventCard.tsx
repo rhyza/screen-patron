@@ -22,7 +22,15 @@ export default function EventCard({
   };
 
   return (
-    <Card className='flex-1 w-full bg-transparent p-2 text-foreground' isPressable key={id} onPress={handlePress} radius='sm' shadow='sm' {...cardProps}>
+    <Card
+      className='flex-1 w-full bg-transparent p-2 text-foreground'
+      isPressable
+      key={id}
+      onPress={handlePress}
+      radius='sm'
+      shadow='sm'
+      {...cardProps}
+    >
       <img className={'object-cover rounded-md ' + imageClassName} src={image} />
       <CardFooter className='flex flex-col items-start'>
         <p className='text-xs uppercase font-bold'>{dateString}</p>

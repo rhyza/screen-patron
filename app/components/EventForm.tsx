@@ -79,8 +79,12 @@ export default function EventForm({
         <div className='flex-auto justify-center space-y-6 max-w-80 sm:max-w-96'>
           <InputImage image={coverImage} imageClassName='size-80 sm:size-96' />
           <div className='flex justify-center'>
-            <Button className='w-32 bg-primary' radius='none' type='submit'>Save</Button>
-            <Button className='w-32' onPress={() => navigate(-1)} radius='none'>Cancel</Button>
+            <Button className='w-32 bg-primary' radius='none' type='submit'>
+              Save
+            </Button>
+            <Button className='w-32' onPress={() => navigate(-1)} radius='none'>
+              Cancel
+            </Button>
           </div>
         </div>
       </Form>

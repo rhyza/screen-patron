@@ -12,9 +12,9 @@ export default function RadioIcon (props: any) {
   const { size } = props;
 
   const sizeMap: {[key: string]: string} = {
-    sm: ' text-2xl sm:text-3xl size-16 p-4',
-    md: ' text-3xl sm:text-4xl size-20 p-4',
-    lg: ' text-4xl sm:text-5xl size-28 p-4',
+    sm: 'text-2xl sm:text-3xl size-16 p-4',
+    md: 'text-3xl sm:text-4xl size-20 p-4',
+    lg: 'text-4xl sm:text-5xl size-28 p-4',
   };
 
   return (
@@ -24,9 +24,10 @@ export default function RadioIcon (props: any) {
         className={cn(
           'flex items-center justify-center tap-highlight-transparent',
           'bg-slate-200 hover:bg-indigo-100 active:opacity-50',
-          'cursor-pointer border-0 border-default rounded-full mb-2', sizeMap[size || 'md'],
+          'cursor-pointer border-0 border-default rounded-full mb-2',
           'data-[selected=true]:border-secondary data-[selected=true]:border-4',
           'data-[selected=true]:p-3 data-[selected=true]:bg-indigo-200',
+          sizeMap[size || 'md'],
         )}
       >
         <VisuallyHidden>

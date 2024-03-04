@@ -37,8 +37,12 @@ export default function RSVPModal({...props}) {
                 type='text'
               />
               <div className='flex justify-center'>
-                <Button className='w-32 bg-primary' radius='none' type='submit'>Save</Button>
-                <Button className='w-32' onPress={onClose} radius='none'>Cancel</Button>
+                <Button className='w-32 bg-primary' radius='none' type='submit'>
+                  Save
+                </Button>
+                <Button className='w-32' onPress={onClose} radius='none'>
+                  Cancel
+                </Button>
               </div>
             </Form>
           </ModalBody>
