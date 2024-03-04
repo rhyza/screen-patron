@@ -65,16 +65,22 @@ export default function Index() {
             'min-[2000px]:left-1/2',
           )}
         >
-          <img
-            className={cn(
-              'h-[20rem] sm:h-[30rem] md:h-[35rem]',
-              'lg:h-[40rem] xl:h-[45rem] 2xl:h-[50rem]',
-              'min-[2000px]:h-[55rem] min-[2600px]:h-[60rem]',
-              'min-[2800px]:h-[65rem] min-[3400px]:h-[80rem]',
-              'object-contain p-8 saturate-[.85]',
-            )}
-            src={heroImages[counter % heroImages.length]}
-          />
+          {
+            heroImages.map((src, i) => (
+              <img
+                className={cn(
+                  'h-[20rem] sm:h-[30rem] md:h-[35rem]',
+                  'lg:h-[40rem] xl:h-[45rem] 2xl:h-[50rem]',
+                  'min-[2000px]:h-[55rem] min-[2600px]:h-[60rem]',
+                  'min-[2800px]:h-[65rem] min-[3400px]:h-[80rem]',
+                  'object-contain p-8 saturate-[.85]',
+                  (counter % heroImages.length === i) ? '' : 'hidden'
+                )}
+                key={i}
+                src={src}
+              />
+            ))
+          }
         </div>
     </div>
   );
