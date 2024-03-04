@@ -98,183 +98,152 @@ export async function deleteUser(id: string) {
 
 [
   {
-    avatar:
-      'https://sessionize.com/image/124e-400o400o2-wHVdAuNaxi8KJrgtN3ZKci.jpg',
+    avatar: 'https://sessionize.com/image/124e-400o400o2-wHVdAuNaxi8KJrgtN3ZKci.jpg',
     name: 'Shruti Kapoor',
     twitter: 'shrutikapoor08',
   },
   {
-    avatar:
-      'https://sessionize.com/image/1940-400o400o2-Enh9dnYmrLYhJSTTPSw3MH.jpg',
+    avatar: 'https://sessionize.com/image/1940-400o400o2-Enh9dnYmrLYhJSTTPSw3MH.jpg',
     name: 'Glenn Reyes',
     twitter: 'glnnrys',
   },
   {
-    avatar:
-      'https://sessionize.com/image/9273-400o400o2-3tyrUE3HjsCHJLU5aUJCja.jpg',
+    avatar: 'https://sessionize.com/image/9273-400o400o2-3tyrUE3HjsCHJLU5aUJCja.jpg',
     name: 'Ryan Florence',
   },
   {
-    avatar:
-      'https://sessionize.com/image/d14d-400o400o2-pyB229HyFPCnUcZhHf3kWS.png',
+    avatar: 'https://sessionize.com/image/d14d-400o400o2-pyB229HyFPCnUcZhHf3kWS.png',
     name: 'Oscar Newman',
     twitter: '__oscarnewman',
   },
   {
-    avatar:
-      'https://sessionize.com/image/fd45-400o400o2-fw91uCdGU9hFP334dnyVCr.jpg',
+    avatar: 'https://sessionize.com/image/fd45-400o400o2-fw91uCdGU9hFP334dnyVCr.jpg',
     name: 'Michael Jackson',
   },
   {
-    avatar:
-      'https://sessionize.com/image/b07e-400o400o2-KgNRF3S9sD5ZR4UsG7hG4g.jpg',
+    avatar: 'https://sessionize.com/image/b07e-400o400o2-KgNRF3S9sD5ZR4UsG7hG4g.jpg',
     name: 'Christopher Chedeau',
     twitter: 'Vjeux',
   },
   {
-    avatar:
-      'https://sessionize.com/image/262f-400o400o2-UBPQueK3fayaCmsyUc1Ljf.jpg',
+    avatar: 'https://sessionize.com/image/262f-400o400o2-UBPQueK3fayaCmsyUc1Ljf.jpg',
     name: 'Cameron Matheson',
     twitter: 'cmatheson',
   },
   {
-    avatar:
-      'https://sessionize.com/image/820b-400o400o2-Ja1KDrBAu5NzYTPLSC3GW8.jpg',
+    avatar: 'https://sessionize.com/image/820b-400o400o2-Ja1KDrBAu5NzYTPLSC3GW8.jpg',
     name: 'Brooks Lybrand',
     twitter: 'BrooksLybrand',
   },
   {
-    avatar:
-      'https://sessionize.com/image/df38-400o400o2-JwbChVUj6V7DwZMc9vJEHc.jpg',
+    avatar: 'https://sessionize.com/image/df38-400o400o2-JwbChVUj6V7DwZMc9vJEHc.jpg',
     name: 'Alex Anderson',
     twitter: 'ralex1993',
   },
   {
-    avatar:
-      'https://sessionize.com/image/5578-400o400o2-BMT43t5kd2U1XstaNnM6Ax.jpg',
+    avatar: 'https://sessionize.com/image/5578-400o400o2-BMT43t5kd2U1XstaNnM6Ax.jpg',
     name: 'Kent C. Dodds',
     twitter: 'kentcdodds',
   },
   {
-    avatar:
-      'https://sessionize.com/image/c9d5-400o400o2-Sri5qnQmscaJXVB8m3VBgf.jpg',
+    avatar: 'https://sessionize.com/image/c9d5-400o400o2-Sri5qnQmscaJXVB8m3VBgf.jpg',
     name: 'Nevi Shah',
     twitter: 'nevikashah',
   },
   {
-    avatar:
-      'https://sessionize.com/image/2694-400o400o2-MYYTsnszbLKTzyqJV17w2q.png',
+    avatar: 'https://sessionize.com/image/2694-400o400o2-MYYTsnszbLKTzyqJV17w2q.png',
     name: 'Andrew Petersen',
   },
   {
-    avatar:
-      'https://sessionize.com/image/907a-400o400o2-9TM2CCmvrw6ttmJiTw4Lz8.jpg',
+    avatar: 'https://sessionize.com/image/907a-400o400o2-9TM2CCmvrw6ttmJiTw4Lz8.jpg',
     name: 'Scott Smerchek',
     twitter: 'smerchek',
   },
   {
-    avatar:
-      'https://sessionize.com/image/08be-400o400o2-WtYGFFR1ZUJHL9tKyVBNPV.jpg',
+    avatar: 'https://sessionize.com/image/08be-400o400o2-WtYGFFR1ZUJHL9tKyVBNPV.jpg',
     name: 'Giovanni Benussi',
     twitter: 'giovannibenussi',
   },
   {
-    avatar:
-      'https://sessionize.com/image/f814-400o400o2-n2ua5nM9qwZA2hiGdr1T7N.jpg',
+    avatar: 'https://sessionize.com/image/f814-400o400o2-n2ua5nM9qwZA2hiGdr1T7N.jpg',
     name: 'Igor Minar',
     twitter: 'IgorMinar',
   },
   {
-    avatar:
-      'https://sessionize.com/image/fb82-400o400o2-LbvwhTVMrYLDdN3z4iEFMp.jpeg',
+    avatar: 'https://sessionize.com/image/fb82-400o400o2-LbvwhTVMrYLDdN3z4iEFMp.jpeg',
     name: 'Brandon Kish',
   },
   {
-    avatar:
-      'https://sessionize.com/image/fcda-400o400o2-XiYRtKK5Dvng5AeyC8PiUA.png',
+    avatar: 'https://sessionize.com/image/fcda-400o400o2-XiYRtKK5Dvng5AeyC8PiUA.png',
     name: 'Arisa Fukuzaki',
     twitter: 'arisa_dev',
   },
   {
-    avatar:
-      'https://sessionize.com/image/c8c3-400o400o2-PR5UsgApAVEADZRixV4H8e.jpeg',
+    avatar: 'https://sessionize.com/image/c8c3-400o400o2-PR5UsgApAVEADZRixV4H8e.jpeg',
     name: 'Alexandra Spalato',
     twitter: 'alexadark',
   },
   {
-    avatar:
-      'https://sessionize.com/image/7594-400o400o2-hWtdCjbdFdLgE2vEXBJtyo.jpg',
+    avatar: 'https://sessionize.com/image/7594-400o400o2-hWtdCjbdFdLgE2vEXBJtyo.jpg',
     name: 'Cat Johnson',
   },
   {
-    avatar:
-      'https://sessionize.com/image/5636-400o400o2-TWgi8vELMFoB3hB9uPw62d.jpg',
+    avatar: 'https://sessionize.com/image/5636-400o400o2-TWgi8vELMFoB3hB9uPw62d.jpg',
     name: 'Ashley Narcisse',
     twitter: '_darkfadr',
   },
   {
-    avatar:
-      'https://sessionize.com/image/6aeb-400o400o2-Q5tAiuzKGgzSje9ZsK3Yu5.JPG',
+    avatar: 'https://sessionize.com/image/6aeb-400o400o2-Q5tAiuzKGgzSje9ZsK3Yu5.JPG',
     name: 'Edmund Hung',
     twitter: '_edmundhung',
   },
   {
-    avatar:
-      'https://sessionize.com/image/30f1-400o400o2-wJBdJ6sFayjKmJycYKoHSe.jpg',
+    avatar: 'https://sessionize.com/image/30f1-400o400o2-wJBdJ6sFayjKmJycYKoHSe.jpg',
     name: 'Clifford Fajardo',
     twitter: 'cliffordfajard0',
   },
   {
-    avatar:
-      'https://sessionize.com/image/6faa-400o400o2-amseBRDkdg7wSK5tjsFDiG.jpg',
+    avatar: 'https://sessionize.com/image/6faa-400o400o2-amseBRDkdg7wSK5tjsFDiG.jpg',
     name: 'Erick Tamayo',
     twitter: 'ericktamayo',
   },
   {
-    avatar:
-      'https://sessionize.com/image/feba-400o400o2-R4GE7eqegJNFf3cQ567obs.jpg',
+    avatar: 'https://sessionize.com/image/feba-400o400o2-R4GE7eqegJNFf3cQ567obs.jpg',
     name: 'Paul Bratslavsky',
     twitter: 'codingthirty',
   },
   {
-    avatar:
-      'https://sessionize.com/image/c315-400o400o2-spjM5A6VVfVNnQsuwvX3DY.jpg',
+    avatar: 'https://sessionize.com/image/c315-400o400o2-spjM5A6VVfVNnQsuwvX3DY.jpg',
     name: 'Pedro Cattori',
     twitter: 'pcattori',
   },
   {
-    avatar:
-      'https://sessionize.com/image/eec1-400o400o2-HkvWKLFqecmFxLwqR9KMRw.jpg',
+    avatar: 'https://sessionize.com/image/eec1-400o400o2-HkvWKLFqecmFxLwqR9KMRw.jpg',
     name: 'Andre Landgraf',
     twitter: 'AndreLandgraf94',
   },
   {
-    avatar:
-      'https://sessionize.com/image/c73a-400o400o2-4MTaTq6ftC15hqwtqUJmTC.jpg',
+    avatar: 'https://sessionize.com/image/c73a-400o400o2-4MTaTq6ftC15hqwtqUJmTC.jpg',
     name: 'Monica Powell',
     twitter: 'indigitalcolor',
   },
   {
-    avatar:
-      'https://sessionize.com/image/cef7-400o400o2-KBZUydbjfkfGACQmjbHEvX.jpeg',
+    avatar: 'https://sessionize.com/image/cef7-400o400o2-KBZUydbjfkfGACQmjbHEvX.jpeg',
     name: 'Brian Lee',
     twitter: 'brian_dlee',
   },
   {
-    avatar:
-      'https://sessionize.com/image/f83b-400o400o2-Pyw3chmeHMxGsNoj3nQmWU.jpg',
+    avatar: 'https://sessionize.com/image/f83b-400o400o2-Pyw3chmeHMxGsNoj3nQmWU.jpg',
     name: 'Sean McQuaid',
     twitter: 'SeanMcQuaidCode',
   },
   {
-    avatar:
-      'https://sessionize.com/image/a9fc-400o400o2-JHBnWZRoxp7QX74Hdac7AZ.jpg',
+    avatar: 'https://sessionize.com/image/a9fc-400o400o2-JHBnWZRoxp7QX74Hdac7AZ.jpg',
     name: 'Shane Walker',
     twitter: 'swalker326',
   },
   {
-    avatar:
-      'https://sessionize.com/image/6644-400o400o2-aHnGHb5Pdu3D32MbfrnQbj.jpg',
+    avatar: 'https://sessionize.com/image/6644-400o400o2-aHnGHb5Pdu3D32MbfrnQbj.jpg',
     name: 'Jon Jensen',
     twitter: 'jenseng',
   },

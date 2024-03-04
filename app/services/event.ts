@@ -9,7 +9,7 @@ type Guest = {
   status: string;
   name?: string | undefined;
   avatar?: string | undefined;
-}
+};
 
 type EventMutation = {
   id?: string;
@@ -90,7 +90,7 @@ export async function getUserEvents(query = 'test') {
 }
 
 export async function createEvent(values: EventMutation) {
-  const event = await fakeEvents.create({...values, guests: {}});
+  const event = await fakeEvents.create({ ...values, guests: {} });
   return event;
 }
 
@@ -115,7 +115,11 @@ export async function deleteEvent(id: string) {
 }
 
 export async function updateGuestList(
-  eventId: string, guestId: string, status: string, name?: string, avatar?: string
+  eventId: string,
+  guestId: string,
+  status: string,
+  name?: string,
+  avatar?: string,
 ) {
   const event = await fakeEvents.get(eventId);
   if (!event) {
@@ -147,103 +151,91 @@ export function getGuestCount(guests: Record<string, Guest> | undefined) {
       maybe++;
     }
   }
-  return { going: going, maybe: maybe, total: going + maybe};
+  return { going: going, maybe: maybe, total: going + maybe };
 }
 
 [
   {
-    coverImage:
-      'https://images.unsplash.com/photo-1536440136628-849c177e76a1',
-    name: 'Shruti Kapoor\'s Event',
+    coverImage: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1',
+    name: "Shruti Kapoor's Event",
     description: '@shrutikapoor08',
     location: 'Copley Square Theater',
     dateStart: '2024-02-22T23:30',
     dateEnd: '2024-02-22T20:30',
     cost: 5,
-    hosts:
-      getHostsRecord(
-        'shrutikapoor08',
-        'Shruti Kapoor',
-        'https://sessionize.com/image/124e-400o400o2-wHVdAuNaxi8KJrgtN3ZKci.jpg'
-      ),
+    hosts: getHostsRecord(
+      'shrutikapoor08',
+      'Shruti Kapoor',
+      'https://sessionize.com/image/124e-400o400o2-wHVdAuNaxi8KJrgtN3ZKci.jpg',
+    ),
     guests: getFakeGuestList(18, 5),
   },
   {
-    coverImage:
-      'https://plus.unsplash.com/premium_photo-1682125157065-cbc4eb0fe0bb',
-    name: 'Glenn Reyes\'s Event',
+    coverImage: 'https://plus.unsplash.com/premium_photo-1682125157065-cbc4eb0fe0bb',
+    name: "Glenn Reyes's Event",
     description: '@glnnrys',
     location: 'My House',
     dateStart: '2024-02-22T23:30',
     dateEnd: '2024-02-21T01:30',
-    hosts:
-      getHostsRecord(
-        'glnnrys',
-        'Glenn Reyes',
-        'https://sessionize.com/image/1940-400o400o2-Enh9dnYmrLYhJSTTPSw3MH.jpg'
-      ),
+    hosts: getHostsRecord(
+      'glnnrys',
+      'Glenn Reyes',
+      'https://sessionize.com/image/1940-400o400o2-Enh9dnYmrLYhJSTTPSw3MH.jpg',
+    ),
     guests: getFakeGuestList(2, 1),
   },
   {
-    coverImage:
-      'https://images.unsplash.com/photo-1511875762315-c773eb98eec0',
-    name: 'Ryan Florence\'s Event',
+    coverImage: 'https://images.unsplash.com/photo-1511875762315-c773eb98eec0',
+    name: "Ryan Florence's Event",
     location: 'Somewhere Theater',
     dateStart: '2025-02-22T23:30',
     dateEnd: '2025-02-22T20:30',
     capacity: 100,
     cost: 20,
-    hosts:
-      getHostsRecord(
-        'ryan-florence',
-        'Ryan Florence',
-        'https://sessionize.com/image/9273-400o400o2-3tyrUE3HjsCHJLU5aUJCja.jpg'
-      ),
+    hosts: getHostsRecord(
+      'ryan-florence',
+      'Ryan Florence',
+      'https://sessionize.com/image/9273-400o400o2-3tyrUE3HjsCHJLU5aUJCja.jpg',
+    ),
     guests: getFakeGuestList(32, 12),
   },
   {
-    coverImage:
-      'https://images.unsplash.com/photo-1611419010196-a360856fc42f',
-    name: 'Oscar Newman\'s Event',
+    coverImage: 'https://images.unsplash.com/photo-1611419010196-a360856fc42f',
+    name: "Oscar Newman's Event",
     description: '@__oscarnewman',
     location: 'New Years Theater',
     dateStart: '2024-12-31T21:00',
     dateEnd: '2025-01-01T03:00',
     cost: 25,
-    hosts:
-      getHostsRecord(
-        'oscarnewman',
-        'Oscar Newman',
-        'https://sessionize.com/image/d14d-400o400o2-pyB229HyFPCnUcZhHf3kWS.png'
-      ),
+    hosts: getHostsRecord(
+      'oscarnewman',
+      'Oscar Newman',
+      'https://sessionize.com/image/d14d-400o400o2-pyB229HyFPCnUcZhHf3kWS.png',
+    ),
     guests: getFakeGuestList(3, 3),
   },
   {
-    coverImage:
-      'https://images.unsplash.com/photo-1590179068383-b9c69aacebd3',
-    name: 'Michael Jackson\'s Event',
-    hosts:
-      getHostsRecord(
-        'michael-jackson',
-        'Michael Jackson',
-        'https://sessionize.com/image/fd45-400o400o2-fw91uCdGU9hFP334dnyVCr.jpg'
-      ),
+    coverImage: 'https://images.unsplash.com/photo-1590179068383-b9c69aacebd3',
+    name: "Michael Jackson's Event",
+    hosts: getHostsRecord(
+      'michael-jackson',
+      'Michael Jackson',
+      'https://sessionize.com/image/fd45-400o400o2-fw91uCdGU9hFP334dnyVCr.jpg',
+    ),
   },
   {
-    coverImage:
-      'https://images.unsplash.com/photo-1709040567086-ee176caa99f9',
-    name: 'Oscar Newman\'s 2nd Event',
+    coverImage: 'https://images.unsplash.com/photo-1709040567086-ee176caa99f9',
+    name: "Oscar Newman's 2nd Event",
     description: '@__oscarnewman',
     location: 'New Years Theater',
     dateStart: '2024-12-31T21:00',
     dateEnd: '2025-01-01T03:00',
     cost: 25,
-    hosts:
-      getHostsRecord(
-        'oscarnewman',
-        'Oscar Newman',
-        'https://sessionize.com/image/d14d-400o400o2-pyB229HyFPCnUcZhHf3kWS.png'
-      ),
+    hosts: getHostsRecord(
+      'oscarnewman',
+      'Oscar Newman',
+      'https://sessionize.com/image/d14d-400o400o2-pyB229HyFPCnUcZhHf3kWS.png',
+    ),
     guests: getFakeGuestList(3, 3),
   },
 ].forEach((event) => {
@@ -285,16 +277,7 @@ export function getFakeGuestList(going = 14, maybe = 2): Record<string, Guest> {
     'https://avatars.githubusercontent.com/u/30373425',
     'https://i.pravatar.cc/300?u=a042581f4e29026709d',
   ];
-  const nameList = [
-    'Alex',
-    'Charlie',
-    'Jesse',
-    'Aiden',
-    'Riley',
-    'Luca',
-    'Jade',
-    'River',
-  ];
+  const nameList = ['Alex', 'Charlie', 'Jesse', 'Aiden', 'Riley', 'Luca', 'Jade', 'River'];
   for (let i = 0; i < going + maybe; i++) {
     let id = i < going ? `going-${i}` : `maybe-${i}`;
     guestList[id] = {

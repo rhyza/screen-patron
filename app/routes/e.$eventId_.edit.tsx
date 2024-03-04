@@ -17,15 +17,13 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const event: EventRecord | null = await getEvent(params.eventId);
   if (!event) {
-    throw new Response('Not Found', {status: 404});
+    throw new Response('Not Found', { status: 404 });
   }
-  return json({event});
+  return json({ event });
 };
 
 export default function EditEvent() {
   const { event } = useLoaderData<typeof loader>();
 
-  return (
-    <EventForm {...event} />
-  );
+  return <EventForm {...event} />;
 }

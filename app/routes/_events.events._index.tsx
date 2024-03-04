@@ -9,7 +9,7 @@ import { getUserEvents } from '~/services/event';
 
 export const loader = async () => {
   const events = await getUserEvents();
-  return json({events});
+  return json({ events });
 };
 
 export default function MyEvents() {
@@ -19,19 +19,19 @@ export default function MyEvents() {
   const handlePress = (event: PressEvent) => {
     const { id } = event.target;
     setTab(() => id);
-  }
+  };
   const renderTab = (id: string, children: string | JSX.Element) => {
     const active = id === tab ? 'bg-foreground text-background' : '';
     return (
-      <Button className={active} onPress={handlePress} id={id} radius='full'>
+      <Button className={active} onPress={handlePress} id={id} radius="full">
         {children}
       </Button>
     );
-  }
+  };
 
   return (
     <>
-      <div className='flex gap-2 p-2'>
+      <div className="flex gap-2 p-2">
         {renderTab('upcoming', 'Upcoming')}
         {renderTab('hosting', 'Hosting')}
         {renderTab('attended', 'Attended')}

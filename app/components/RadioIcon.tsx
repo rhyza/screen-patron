@@ -1,24 +1,19 @@
 import { useRadio, VisuallyHidden, cn } from '@nextui-org/react';
 
-export default function RadioIcon (props: any) {
+export default function RadioIcon(props: any) {
   const {
-    Component,
-    children,
-    isSelected,
-    description,
-    getBaseProps,
-    getInputProps,
+    Component, children, isSelected, description, getBaseProps, getInputProps
   } = useRadio(props);
   const { size } = props;
 
-  const sizeMap: {[key: string]: string} = {
+  const sizeMap: { [key: string]: string } = {
     sm: 'text-2xl sm:text-3xl size-16 p-4',
     md: 'text-3xl sm:text-4xl size-20 p-4',
     lg: 'text-4xl sm:text-5xl size-28 p-4',
   };
 
   return (
-    <div className='flex flex-col items-center justify-center'>
+    <div className="flex flex-col items-center justify-center">
       <Component
         {...getBaseProps()}
         className={cn(
@@ -42,9 +37,7 @@ export default function RadioIcon (props: any) {
           {children}
         </div>
       </Component>
-      <div className='flex justify-center'>
-        {description}
-      </div>
+      <div className="flex justify-center">{description}</div>
     </div>
   );
-};
+}

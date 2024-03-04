@@ -3,44 +3,38 @@ import { Button, Input, Modal, ModalBody, ModalContent, RadioGroup } from '@next
 
 import RadioIcon from './RadioIcon';
 
-export default function RSVPModal({...props}) {
+export default function RSVPModal({ ...props }) {
   const { selected, ...modalProps } = props;
 
   return (
     <Modal hideCloseButton {...modalProps}>
-      <ModalContent className='dark'>
+      <ModalContent className="dark">
         {(onClose) => (
-          <ModalBody className='p-6'>
-            <Form className='flex flex-wrap justify-center gap-6'>
+          <ModalBody className="p-6">
+            <Form className="flex flex-wrap justify-center gap-6">
               <RadioGroup
-                className='p-6'
+                className="p-6"
                 defaultValue={selected}
                 isRequired
-                name='rsvp'
-                orientation='horizontal'
+                name="rsvp"
+                orientation="horizontal"
               >
-                <RadioIcon description='Going' size='lg' value='going'>
+                <RadioIcon description="Going" size="lg" value="going">
                   👍
                 </RadioIcon>
-                <RadioIcon description='Maybe' size='lg' value='maybe'>
+                <RadioIcon description="Maybe" size="lg" value="maybe">
                   🤔
                 </RadioIcon>
-                <RadioIcon description='Not Going' size='lg' value='not going'>
+                <RadioIcon description="Not Going" size="lg" value="not going">
                   👎
                 </RadioIcon>
               </RadioGroup>
-              <Input
-                label='Your Name'
-                name='name'
-                radius='none'
-                size='lg'
-                type='text'
-              />
-              <div className='flex justify-center'>
-                <Button className='w-32 bg-primary' radius='none' type='submit'>
+              <Input label="Your Name" name="name" radius="none" size="lg" type="text" />
+              <div className="flex justify-center">
+                <Button className="w-32 bg-primary" radius="none" type="submit">
                   Save
                 </Button>
-                <Button className='w-32' onPress={onClose} radius='none'>
+                <Button className="w-32" onPress={onClose} radius="none">
                   Cancel
                 </Button>
               </div>

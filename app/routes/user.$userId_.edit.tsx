@@ -17,7 +17,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const user: UserRecord | null = await getUser(params.userId);
   if (!user) {
-    throw new Response('Not Found', {status: 404});
+    throw new Response('Not Found', { status: 404 });
   }
   return json({ user });
 };
@@ -25,7 +25,5 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 export default function EditUser() {
   const { user } = useLoaderData<typeof loader>();
 
-  return (
-    <UserForm {...user} />
-  );
+  return <UserForm {...user} />;
 }

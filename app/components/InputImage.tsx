@@ -40,27 +40,24 @@ export default function InputImage({
     className: 'bg-transparent',
     radius: 'none',
     shadow: 'none',
-    ...cardProps
+    ...cardProps,
   };
 
   return (
     <Card {...cardProps} isPressable onPress={handleImageUpload}>
       <VisuallyHidden>
         <input
-          accept='image/*'
-          id='avatarUpload'
+          accept="image/*"
+          id="avatarUpload"
           //name={$inputName}
           onChange={handleImagePreview}
           ref={fileUploadRef}
-          type='file'
+          type="file"
         />
       </VisuallyHidden>
-      <img
-        className={cn('object-cover', imageClassName)}
-        src={src}
-      />
-      <CardFooter className='overflow-hidden absolute justify-end inset-x-0 bottom-0 z-10'>
-        <div aria-hidden='true' className={iconClassName}>
+      <img className={cn('object-cover', imageClassName)} src={src} />
+      <CardFooter className="overflow-hidden absolute justify-end inset-x-0 bottom-0 z-10">
+        <div aria-hidden="true" className={iconClassName}>
           <EditIcon fill={iconFillColor} />
         </div>
       </CardFooter>

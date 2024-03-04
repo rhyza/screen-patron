@@ -22,7 +22,7 @@ function getDateString({
   fullWeekDay,
   fullMonth,
   fullYear = true,
-} : DateOptions) {
+}: DateOptions) {
   const today = new Date(Date.now());
   includeYear = includeYear && !(omitSameYear && date.getFullYear() === today.getFullYear());
 
@@ -36,7 +36,7 @@ function getDateString({
   return date.toLocaleDateString('en-US', options);
 }
 
-function getTimeString({date, timeZone, includeTimeZone}: DateOptions) {
+function getTimeString({ date, timeZone, includeTimeZone }: DateOptions) {
   const options = {
     hour: 'numeric',
     minute: '2-digit',
@@ -53,10 +53,7 @@ function getTimeString({date, timeZone, includeTimeZone}: DateOptions) {
  * that returns a string for cases where the message takes a fair amount of
  * effort to compute.
  */
-function invariant(
-  condition: any,
-  message?: string | (() => string),
-): asserts condition {
+function invariant(condition: any, message?: string | (() => string)): asserts condition {
   if (condition) {
     return;
   }
