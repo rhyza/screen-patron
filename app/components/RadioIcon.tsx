@@ -1,9 +1,8 @@
 import { useRadio, VisuallyHidden, cn } from '@nextui-org/react';
 
 export default function RadioIcon(props: any) {
-  const {
-    Component, children, isSelected, description, getBaseProps, getInputProps
-  } = useRadio(props);
+  const { Component, children, isSelected, description, getBaseProps, getInputProps } =
+    useRadio(props);
   const { size } = props;
 
   const sizeMap: { [key: string]: string } = {

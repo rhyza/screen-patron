@@ -148,19 +148,23 @@ export default function Event() {
           <p>{description}</p>
           <div className="flex items-center gap-2">
             <span className="flex-none">{guestCount.going} Going</span>
-            {guestCount.maybe > 0 && <span className="flex-none">{guestCount.maybe} Maybe</span>}
+            {guestCount.maybe > 0 && (
+              <span className="flex-none">{guestCount.maybe} Maybe</span>
+            )}
           </div>
           <div className="flex items-center gap-2">
             {guests &&
-              Object.keys(guests).slice(0, 6).map((id) => {
-                let guest = guests[id];
-                let tooltip = {};
-                return (
-                  <Tooltip content={guest.name ? guest.name : 'Attendee'} key={id}>
-                    <Avatar showFallback name={guest.name} src={guest.avatar} />
-                  </Tooltip>
-                );
-              })}
+              Object.keys(guests)
+                .slice(0, 6)
+                .map((id) => {
+                  let guest = guests[id];
+                  let tooltip = {};
+                  return (
+                    <Tooltip content={guest.name ? guest.name : 'Attendee'} key={id}>
+                      <Avatar showFallback name={guest.name} src={guest.avatar} />
+                    </Tooltip>
+                  );
+                })}
             {guestCount.total > 6 && <Avatar name={`+${guestCount.total - 6}`} />}
           </div>
         </div>

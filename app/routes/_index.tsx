@@ -6,10 +6,7 @@ import { cn } from '@nextui-org/react';
 import { heroImages } from '~/assets';
 
 export const meta: MetaFunction = () => {
-  return [
-    {title: 'Screen Patron'},
-    {name: 'description', content: 'DIY Film Events'},
-  ];
+  return [{ title: 'Screen Patron' }, { name: 'description', content: 'DIY Film Events' }];
 };
 
 export default function Index() {
