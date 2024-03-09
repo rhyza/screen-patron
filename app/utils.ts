@@ -18,19 +18,19 @@ function getDateString({
   includeWeekDay = true,
   includeDate = true,
   includeYear = true,
-  omitSameYear,
-  fullWeekDay,
-  fullMonth,
+  omitSameYear = false,
+  fullWeekDay = false,
+  fullMonth = false,
   fullYear = true,
 }: DateOptions) {
   const today = new Date(Date.now());
   includeYear = includeYear && !(omitSameYear && date.getFullYear() === today.getFullYear());
 
   const options = {
-    weekday: !includeWeekDay ? undefined : fullWeekDay ? 'long' : 'short',
+    weekday: includeWeekDay ? (fullWeekDay ? 'long' : 'short') : undefined,
     month: fullMonth ? 'long' : 'short',
     day: includeDate ? 'numeric' : undefined,
-    year: !includeYear ? undefined : fullYear ? 'numeric' : '2-digit',
+    year: includeYear ? (fullYear ? 'numeric' : '2-digit') : undefined,
   } as const;
 
   return date.toLocaleDateString('en-US', options);

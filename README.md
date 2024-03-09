@@ -2,7 +2,6 @@
 
 A place where you can find, share, and support local DIY film screenings. Still in development.
 
-
 ## Development
 
 From your terminal:

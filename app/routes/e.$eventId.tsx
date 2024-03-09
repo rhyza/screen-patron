@@ -70,22 +70,22 @@ export default function Event() {
   };
 
   const renderDateRange = (start: Date, end?: Date) => {
-    let date = getDateString({ date: start, omitSameYear: true });
-    let time = getTimeString({ date: start });
+    let startDate = getDateString({
+      date: start,
+      omitSameYear: !(end && end.getFullYear() != start.getFullYear()),
+    });
+    let startTime = getTimeString({ date: start });
 
     if (end) {
       const endDate = getDateString({ date: end, omitSameYear: true });
       const endTime = getTimeString({ date: end });
 
       if (end.getDate() === start.getDate()) {
-        time += ` — ${endTime}`;
+        startTime += ` — ${endTime}`;
       } else {
-        if (end.getFullYear() != start.getFullYear()) {
-          date = getDateString({ date: start });
-        }
         return (
           <div>
-            <p className="text-2xl">{date + ' · ' + time + ' — '}</p>
+            <p className="text-2xl">{startDate + ' · ' + startTime + ' — '}</p>
             <p className="text-2xl">{endDate + ' · ' + endTime}</p>
           </div>
         );
@@ -94,8 +94,8 @@ export default function Event() {
 
     return (
       <div>
-        <p className="text-3xl font-medium">{date}</p>
-        <p className="text-xl font-medium text-neutral-600">{time}</p>
+        <p className="text-3xl font-medium">{startDate}</p>
+        <p className="text-xl font-medium text-neutral-600">{startTime}</p>
       </div>
     );
   };
