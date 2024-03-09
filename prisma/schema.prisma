@@ -32,7 +32,7 @@ model User {
 
 model Event {
   id     String @id @default(cuid())
-  name   String
+  name   String?
   hosts  Host[]
   guests RSVP[]
 
@@ -44,7 +44,7 @@ model Event {
   location    String?
   city        String?
   capacity    Int?
-  cost        Decimal   @default(0) @db.Decimal(6, 2)
+  cost        Decimal   @db.Decimal(6, 2) @default(0)
 
   plusOneLimit Int?
   reminders    DateTime[] @db.Timestamptz(3)
