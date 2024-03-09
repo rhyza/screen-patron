@@ -53,6 +53,7 @@ function getTimeString({ date, timeZone, includeTimeZone }: DateOptions) {
  * that returns a string for cases where the message takes a fair amount of
  * effort to compute.
  */
+// Borrowed from alexreardon's tiny-invariant.
 function invariant(condition: any, message?: string | (() => string)): asserts condition {
   if (condition) {
     return;

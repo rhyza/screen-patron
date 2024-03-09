@@ -68,8 +68,8 @@ model Host {
   eventId    String
   user       User       @relation(fields: [userId], references: [id])
   userId     String
-  name       String?
   permission Permission
+  name       String?
 
   @@id(name: "id", fields: [eventId, userId])
 }
@@ -79,8 +79,8 @@ model RSVP {
   eventId     String
   user        User    @relation(fields: [userId], references: [id])
   userId      String
-  name        String?
   status      Status
+  name        String?
   numPlusOnes Int     @default(0)
 
   @@id(name: "id", fields: [eventId, userId])
