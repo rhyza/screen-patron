@@ -12,3 +12,87 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id      String @id @default(cuid())
+  email   String @unique
+  hosting Host[]
+  events  RSVP[]
+
+  name      String?
+  photo     String?
+  city      String?
+  bio       String?
+  instagram String?
+  twitter   String?
+  website   String?
+
+  createdAt DateTime @default(now())
+}
+
+model Event {
+  id     String @id @default(cuid())
+  name   String
+  hosts  Host[]
+  guests RSVP[]
+
+  photo       String?
+  description String?
+  trailer     String?
+  dateStart   DateTime? @db.Timestamptz(3)
+  dateEnd     DateTime? @db.Timestamptz(3)
+  location    String?
+  city        String?
+  capacity    Int?
+  cost        Decimal   @default(0) @db.Decimal(6, 2)
+
+  plusOneLimit Int?
+  reminders    DateTime[] @db.Timestamptz(3)
+  survey       String[]
+
+  acceptRSVP       Boolean @default(true)
+  requestDonations Boolean @default(false)
+  requireApproval  Boolean @default(false)
+  requirePassword  Boolean @default(false)
+  requireSurvey    Boolean @default(false)
+  showGuestCount   Boolean @default(true)
+  showGuestList    Boolean @default(true)
+  showLocation     Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  published Boolean  @default(false)
+}
+
+model Host {
+  event      Event      @relation(fields: [eventId], references: [id])
+  eventId    String
+  user       User       @relation(fields: [userId], references: [id])
+  userId     String
+  name       String?
+  permission Permission
+
+  @@id(name: "id", fields: [eventId, userId])
+}
+
+model RSVP {
+  event       Event   @relation(fields: [eventId], references: [id])
+  eventId     String
+  user        User    @relation(fields: [userId], references: [id])
+  userId      String
+  name        String?
+  status      Status
+  numPlusOnes Int     @default(0)
+
+  @@id(name: "id", fields: [eventId, userId])
+}
+
+enum Permission {
+  ADMIN
+  MOD
+}
+
+enum Status {
+  GOING
+  MAYBE
+  NOT_GOING
+}
