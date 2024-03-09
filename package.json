@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "@nextui-org/react": "^2.2.9",
+    "@prisma/client": "^5.10.2",
     "@remix-run/css-bundle": "^2.6.0",
     "@remix-run/node": "^2.6.0",
     "@remix-run/react": "^2.6.0",
