@@ -57,7 +57,9 @@ export async function updateUser(id: User['id'], data: Omit<User, 'id' | 'create
  * Deletes a User and cascade deletes all RSVPs. If a User is the only Host of an Event,
  * an error is thrown, unless `deleteSoloHostedEvents` is set to `true` in which case that
  * Event will also be deleted.
+ * @param id ID of User to delete
  * @param deleteSoloHostedEvents Default value is `false`
+ * @returns Deleted User
  */
 export async function deleteUser(id: User['id'], deleteSoloHostedEvents = false) {
   const hosting = await prisma.user.findUnique({

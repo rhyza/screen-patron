@@ -3,6 +3,12 @@ import { prisma } from '~/db.server';
 
 export type { Event } from '@prisma/client';
 
+/**
+ * Creates a new event. Must include User to set as Host.
+ * @param userId User to add as Host of Event
+ * @param name Display name for Host (optional)
+ * @returns Event created
+ */
 export async function createEvent(userId: User['id'], name?: string) {
   return prisma.event.create({
     data: {
