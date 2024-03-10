@@ -11,12 +11,7 @@ export async function addGuest(
 ) {
   // Create new Rsvp record
   const guest = prisma.rsvp.create({
-    data: {
-      eventId,
-      userId,
-      status,
-      name,
-    },
+    data: { eventId, userId, status, name },
   });
 
   // Connect Host record to its Event and User
@@ -46,4 +41,34 @@ export async function addGuest(
   });
 
   return guest;
+}
+
+export async function getGuest(eventId: Rsvp['eventId'], userId: Rsvp['userId']) {
+  return prisma.rsvp.findUnique({
+    where: {
+      id: { eventId, userId },
+    },
+  });
+}
+
+export async function updateGuest(
+  eventId: Rsvp['eventId'],
+  userId: Rsvp['userId'],
+  status?: Status,
+  name?: Rsvp['name'],
+) {
+  return prisma.rsvp.update({
+    where: {
+      id: { eventId, userId },
+    },
+    data: { status, name },
+  });
+}
+
+export async function deleteGuest(eventId: Rsvp['eventId'], userId: Rsvp['userId']) {
+  return prisma.rsvp.delete({
+    where: {
+      id: { eventId, userId },
+    },
+  });
 }
