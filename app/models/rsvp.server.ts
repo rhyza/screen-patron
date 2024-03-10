@@ -14,7 +14,7 @@ export async function addGuest(
     data: { eventId, userId, status, name },
   });
 
-  // Connect Host record to its Event and User
+  // Connect Rsvp record to its Event and User
   prisma.event.update({
     where: {
       id: eventId,
@@ -43,10 +43,20 @@ export async function addGuest(
   return guest;
 }
 
+/**
+ * Returns RSVP info along with User's name and photo.
+ */
 export async function getGuest(eventId: Rsvp['eventId'], userId: Rsvp['userId']) {
-  return prisma.rsvp.findUnique({
-    where: {
-      id: { eventId, userId },
+  return prisma.user.findFirst({
+    select: {
+      name: true,
+      photo: true,
+      events: {
+        where: {
+          eventId,
+          userId,
+        },
+      },
     },
   });
 }
