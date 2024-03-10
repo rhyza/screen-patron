@@ -13,6 +13,17 @@ type DateOptions = {
   fullYear?: boolean;
 };
 
+/**
+ * Takes a Date object, `date` (**required**), and formats it into a String based off of
+ * additional specifications (**optional**).
+ *
+ * Default string format
+ * > Mon, Jan 1, 2024
+ *
+ * Call format
+ * > `getDateString({ date: date, [optionName]: [boolean], ... })`
+ * @returns A formatted date string
+ */
 function getDateString({
   date,
   includeWeekDay = true,
@@ -36,6 +47,17 @@ function getDateString({
   return date.toLocaleDateString('en-US', options);
 }
 
+/**
+ * Takes a Date object, `date` (**required**), and formats it into a String based off of
+ * additional specifications (**optional**).
+ *
+ * Default string format
+ * > Mon, Jan 1, 2024
+ *
+ * Call format
+ * > `getTimeString({ date: date, [timeZone]: [string], [includeTimeZone]: [boolean] })`
+ * @returns A formatted time string
+ */
 function getTimeString({ date, timeZone, includeTimeZone }: DateOptions) {
   const options = {
     hour: 'numeric',
@@ -48,10 +70,10 @@ function getTimeString({ date, timeZone, includeTimeZone }: DateOptions) {
 
 /**
  * Throws an error if the condition fails.
- * @param condition Condition to evaluate as either truthy or falsy.
- * @param message Error message to show -- can provide a string, or a function
+ * @param condition The condition to evaluate as either truthy or falsy
+ * @param message The Error message to show -- can provide a string, or a function
  * that returns a string for cases where the message takes a fair amount of
- * effort to compute.
+ * effort to compute
  */
 // Borrowed from alexreardon's tiny-invariant.
 function invariant(condition: any, message?: string | (() => string)): asserts condition {
@@ -86,8 +108,8 @@ const singleton = <Value>(name: string, valueFactory: () => Value): Value => {
 
 /**
  * Checks if file exists and is less than a certain file size.
- * @param event file input event
- * @param fileLimit file size limit in MB
+ * @param event The file input event
+ * @param fileLimit The file size limit in MB
  */
 function validateFile(event: React.ChangeEvent<HTMLInputElement>, fileLimit: number) {
   const files = event.target.files || [];
