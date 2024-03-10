@@ -52,17 +52,45 @@ export async function addGuest(
 
 /**
  * @requires `eventId`, `userId`
- * @returns The RSVP record along with User's profile name and photo.
+ * @returns The RSVP record for an Event guest along with User's profile name and photo.
  */
 export async function getGuest(eventId: Rsvp['eventId'], userId: Rsvp['userId']) {
   return prisma.user.findFirst({
+    where: {
+      id: userId,
+    },
     select: {
       name: true,
       photo: true,
       events: {
         where: {
           eventId,
-          userId,
+        },
+      },
+    },
+  });
+}
+
+/**
+ * @requires `eventId`
+ * @returns The guest list for an Event with the Users' profile name, profile photo, and
+ * RSVP record.
+ */
+export async function getGuests(eventId: Rsvp['eventId']) {
+  return prisma.user.findMany({
+    where: {
+      events: {
+        some: {
+          eventId,
+        },
+      },
+    },
+    select: {
+      name: true,
+      photo: true,
+      events: {
+        where: {
+          eventId,
         },
       },
     },

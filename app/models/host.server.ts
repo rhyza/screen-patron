@@ -56,17 +56,45 @@ export async function addHost(
 
 /**
  * @requires `eventId`, `userId`
- * @returns The User's name, photo, and Host record.
+ * @returns The host for an event with the User's name, photo, and Host record.
  */
 export async function getHost(eventId: Host['eventId'], userId: Host['userId']) {
   return prisma.user.findFirst({
+    where: {
+      id: userId,
+    },
     select: {
       name: true,
       photo: true,
-      events: {
+      hosting: {
         where: {
           eventId,
-          userId,
+        },
+      },
+    },
+  });
+}
+
+/**
+ * @requires `eventId`
+ * @returns The host list for an Event with the Users' profile name, profile photo, and
+ * Host record.
+ */
+export async function getHosts(eventId: Host['eventId']) {
+  return prisma.user.findMany({
+    where: {
+      hosting: {
+        some: {
+          eventId,
+        },
+      },
+    },
+    select: {
+      name: true,
+      photo: true,
+      hosting: {
+        where: {
+          eventId,
         },
       },
     },
