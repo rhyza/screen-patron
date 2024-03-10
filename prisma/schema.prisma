@@ -17,7 +17,7 @@ model User {
   id      String @id @default(cuid())
   email   String @unique
   hosting Host[]
-  events  RSVP[]
+  events  Rsvp[]
 
   name      String?
   photo     String?
@@ -34,7 +34,7 @@ model Event {
   id     String @id @default(cuid())
   name   String?
   hosts  Host[]
-  guests RSVP[]
+  guests Rsvp[]
 
   photo       String?
   description String?
@@ -50,7 +50,7 @@ model Event {
   reminders    DateTime[] @db.Timestamptz(3)
   survey       String[]
 
-  acceptRSVP       Boolean @default(true)
+  acceptRsvp       Boolean @default(true)
   requestDonations Boolean @default(false)
   requireApproval  Boolean @default(false)
   requirePassword  Boolean @default(false)
@@ -64,7 +64,7 @@ model Event {
 }
 
 model Host {
-  event      Event      @relation(fields: [eventId], references: [id])
+  event      Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId    String
   user       User       @relation(fields: [userId], references: [id])
   userId     String
@@ -74,10 +74,10 @@ model Host {
   @@id(name: "id", fields: [eventId, userId])
 }
 
-model RSVP {
-  event       Event   @relation(fields: [eventId], references: [id])
+model Rsvp {
+  event       Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId     String
-  user        User    @relation(fields: [userId], references: [id])
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   status      Status
   name        String?
