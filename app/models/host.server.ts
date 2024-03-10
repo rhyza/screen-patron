@@ -11,6 +11,7 @@ export async function addHost(
   permission = Permission.MOD,
   name?: Host['name'],
 ) {
+  // Create new Host record
   const host = prisma.host.create({
     data: {
       eventId,
@@ -19,16 +20,34 @@ export async function addHost(
       name,
     },
   });
-  return prisma.event.update({
+
+  // Connect Host record to its Event and User
+  prisma.event.update({
     where: {
       id: eventId,
     },
     data: {
       hosts: {
-        create: [{ userId, permission, name }],
+        connect: {
+          id: { eventId, userId },
+        },
       },
     },
   });
+  prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      hosting: {
+        connect: {
+          id: { eventId, userId },
+        },
+      },
+    },
+  });
+
+  return host;
 }
 
 export async function updateHost(
