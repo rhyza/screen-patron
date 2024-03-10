@@ -48,6 +48,14 @@ export async function addHost(
   return host;
 }
 
+export async function getHost(eventId: Host['eventId'], userId: Host['userId']) {
+  return prisma.host.findUnique({
+    where: {
+      id: { eventId, userId },
+    },
+  });
+}
+
 export async function updateHost(
   eventId: Host['eventId'],
   userId: Host['userId'],
@@ -110,4 +118,36 @@ export async function removeHost(
       id: { eventId, userId },
     },
   });
+}
+
+export async function removeHostAllEvents(
+  userId: Host['userId'],
+  deleteSoloHostedEvent = false,
+) {
+  const soloEvents = await prisma.event.count({
+    where: {
+      hosts: {
+        every: {
+          userId,
+        },
+      },
+    }
+  });
+
+  invariant(
+    !(soloEvents > 0 && !deleteSoloHostedEvent),
+    'This host is the only host for this event. You must add another host before you can remove the selected host.',
+  );
+
+  if (deleteSoloHostedEvent) {
+    prisma.event.deleteMany({
+      where: {
+        hosts: {
+          every: {
+            userId,
+          },
+        },
+      },
+    });
+  }
 }
