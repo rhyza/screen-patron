@@ -1,4 +1,4 @@
-import { Event, Permission, User } from '@prisma/client';
+import { Event, User } from '@prisma/client';
 import { prisma } from '~/db.server';
 
 export type { Event } from '@prisma/client';
@@ -7,13 +7,7 @@ export async function createEvent(userId: User['id'], name?: string) {
   return prisma.event.create({
     data: {
       hosts: {
-        create: [
-          {
-            userId,
-            permission: Permission.ADMIN,
-            name,
-          },
-        ],
+        create: [{ userId, name }],
       },
     },
   });

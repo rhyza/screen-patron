@@ -1,4 +1,4 @@
-import { Host, Permission } from '@prisma/client';
+import { Host } from '@prisma/client';
 import { prisma } from '~/db.server';
 import { deleteEvent } from './event.server';
 import { invariant } from '~/utils';
@@ -8,7 +8,6 @@ export type { Host } from '@prisma/client';
 export async function addHost(
   eventId: Host['eventId'],
   userId: Host['userId'],
-  permission = Permission.MOD,
   name?: Host['name'],
 ) {
   // Create new Host record
@@ -16,7 +15,6 @@ export async function addHost(
     data: {
       eventId,
       userId,
-      permission,
       name,
     },
   });
@@ -107,15 +105,6 @@ export async function removeHost(
   );
 
   // User is not the only host for this event.
-  prisma.host.updateMany({
-    where: {
-      eventId,
-    },
-    data: {
-      permission: Permission.ADMIN,
-    },
-  });
-
   return prisma.host.delete({
     where: {
       id: { eventId, userId },
