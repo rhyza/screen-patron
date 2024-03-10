@@ -82,7 +82,7 @@ export async function getEvents(id: User['id']) {
  */
 export async function updateUser(
   id: User['id'],
-  data: Omit<User, 'id' | 'createdAt'>,
+  data: Partial<Omit<User, 'id' | 'createdAt'>>,
   includeEvents = false,
 ) {
   return prisma.user.update({

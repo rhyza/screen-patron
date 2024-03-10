@@ -74,7 +74,10 @@ export function countGuests(guests: Rsvp[] | undefined) {
  * > `data: { propName: value, ... }`
  * @returns The updated Event record
  */
-export async function updateEvent(id: Event['id'], data: Omit<Event, 'id' | 'createdAt'>) {
+export async function updateEvent(
+  id: Event['id'],
+  data: Partial<Omit<Event, 'id' | 'createdAt'>>,
+) {
   return prisma.event.update({
     where: { id },
     data: { ...data },

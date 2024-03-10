@@ -106,7 +106,7 @@ export async function getGuests(eventId: Rsvp['eventId']) {
 export async function updateGuest(
   eventId: Rsvp['eventId'],
   userId: Rsvp['userId'],
-  data: Omit<Event, 'eventId' | 'userId'>,
+  data: Partial<Omit<Event, 'eventId' | 'userId'>>,
 ) {
   return prisma.rsvp.update({
     where: {

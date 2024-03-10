@@ -110,7 +110,7 @@ export async function getHosts(eventId: Host['eventId']) {
 export async function updateHost(
   eventId: Host['eventId'],
   userId: Host['userId'],
-  data: Omit<Host, 'eventId' | 'userId'>,
+  data: Partial<Omit<Host, 'eventId' | 'userId'>>,
 ) {
   return prisma.host.update({
     where: {
