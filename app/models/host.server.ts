@@ -103,16 +103,22 @@ export async function updateHost(
  * @requires `eventId`, `userId`
  * @returns The newly created Host record
  */
-export async function promoteToHost(eventId: Host['eventId'], userId: Host['userId']) {
-  const guest = await prisma.rsvp.delete({
-    where: {
-      id: { eventId, userId },
-    },
-    select: {
-      name: true,
-    },
-  });
-  const name = guest?.name;
+export async function promoteToHost(
+  eventId: Host['eventId'],
+  userId: Host['userId'],
+  name?: Host['name'],
+) {
+  if (!name) {
+    const guest = await prisma.rsvp.delete({
+      where: {
+        id: { eventId, userId },
+      },
+      select: {
+        name: true,
+      },
+    });
+    name = guest?.name;
+  }
 
   return prisma.host.create({
     data: {
@@ -136,6 +142,7 @@ export async function demoteToGuest(
   eventId: Host['eventId'],
   userId: Host['userId'],
   status = Status.GOING,
+  name?: Host['name'],
 ) {
   const host = await prisma.host.findUnique({
     where: {
@@ -145,7 +152,7 @@ export async function demoteToGuest(
       name: true,
     },
   });
-  const name = host?.name;
+  name = name || host?.name;
   removeHost(eventId, userId);
 
   return prisma.rsvp.create({
