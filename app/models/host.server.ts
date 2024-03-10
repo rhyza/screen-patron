@@ -1,4 +1,4 @@
-import { Host } from '@prisma/client';
+import { Host, Status } from '@prisma/client';
 import { prisma } from '~/db.server';
 import { deleteEvent } from './event.server';
 import { invariant } from '~/utils';
@@ -7,6 +7,9 @@ export type { Host } from '@prisma/client';
 
 /**
  * Adds a User as a Host to an Event.
+ * @requires `eventId`, `userId`
+ * @param name (optional) The display name for Host
+ * @returns The Host record created
  */
 export async function addHost(
   eventId: Host['eventId'],
@@ -52,9 +55,10 @@ export async function addHost(
 }
 
 /**
- * Returns Host info along with User's name and photo.
+ * @requires `eventId`, `userId`
+ * @returns The User's name, photo, and Host record.
  */
-export async function getGuest(eventId: Host['eventId'], userId: Host['userId']) {
+export async function getHost(eventId: Host['eventId'], userId: Host['userId']) {
   return prisma.user.findFirst({
     select: {
       name: true,
@@ -69,6 +73,12 @@ export async function getGuest(eventId: Host['eventId'], userId: Host['userId'])
   });
 }
 
+/**
+ * Updates any of a Host's info.
+ * @requires `eventId`, `userId`, `data`
+ * > `data: { propName: value, ... }`
+ * @returns The updated Host record
+ */
 export async function updateHost(
   eventId: Host['eventId'],
   userId: Host['userId'],
@@ -186,20 +196,32 @@ export async function removeHost(
   );
 
   // User is not the only host for this event.
-  return prisma.host.delete({
+  return prisma.event.update({
     where: {
-      id: { eventId, userId },
+      id: eventId,
+    },
+    data: {
+      hosts: {
+        delete: {
+          id: { eventId, userId },
+        },
+      },
+    },
+    include: {
+      hosts: true,
+      guests: true,
     },
   });
 }
 
 /**
- * Remove a User as a Host from all Events the User is a Host for. If the Host is the only
- * Host for an Event, then an error is thrown unless otherwise specified by
- * `deleteSoloHostedEvent`.
- * @param userId User to remove as Host
- * @param deleteSoloHostedEvent Defaults to `false`. If `true`, deletes all Events that the
- * User is the only Host for.
+ * Removes a User as a Host from all Events the User is a Host for.
+ * > If the Host is the only Host for an Event and `deleteSoloHostedEvent` is `false`,
+ * then an error is thrown, otherwise those Events are deleted.
+ * @requires `userId`
+ * @param deleteSoloHostedEvent (optional) Specifies whether to delete any Event records
+ * the User is the sole host for, defaults to `false`
+ * @returns nothing
  */
 export async function removeHostAllEvents(
   userId: Host['userId'],
@@ -213,7 +235,7 @@ export async function removeHostAllEvents(
           userId,
         },
       },
-    }
+    },
   });
 
   // Check if the user is the sole host for any events and if such events should be deleted.

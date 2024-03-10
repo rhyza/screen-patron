@@ -1,9 +1,14 @@
 import type { User } from '@prisma/client';
 import { prisma } from '~/db.server';
-import { removeHost } from './host.server';
+import { removeHostAllEvents } from './host.server';
 
 export type { User } from '@prisma/client';
 
+/**
+ * Creates a new User. A unique email is required.
+ * @requires `email`
+ * @returns The newly created User record
+ */
 export async function createUser(email: User['email']) {
   return prisma.user.create({
     data: {
@@ -12,6 +17,12 @@ export async function createUser(email: User['email']) {
   });
 }
 
+/**
+ * @requires `id` (`userId`)
+ * @param includeEvents (optional) Specifies whether returned User record should include
+ * the list of Events the User is Hosting or has RSVP'd, defaults to `false`
+ * @returns The User record
+ */
 export async function getUser(id: User['id'], includeEvents = false) {
   return prisma.user.findUnique({
     where: { id },
@@ -22,6 +33,12 @@ export async function getUser(id: User['id'], includeEvents = false) {
   });
 }
 
+/**
+ * @requires `email`
+ * @param includeEvents (optional) Specifies whether returned User record should include
+ * the list of Events the User is Hosting or has RSVP'd, defaults to `false`
+ * @returns The User record
+ */
 export async function getUserByEmail(email: User['email'], includeEvents = false) {
   return prisma.user.findUnique({
     where: { email },
@@ -32,6 +49,10 @@ export async function getUserByEmail(email: User['email'], includeEvents = false
   });
 }
 
+/**
+ * @requires `id` (`userId`)
+ * @returns The User's ID, name, and profile photo.
+ */
 export async function getUserSnippet(id: User['id']) {
   return prisma.user.findUnique({
     where: { id },
@@ -39,6 +60,11 @@ export async function getUserSnippet(id: User['id']) {
   });
 }
 
+/**
+ * @requires `id` (`userId`)
+ * @returns The list of Events the User is Hosting or has RSVP'd.
+ * > `{ hosting[], events[] }`
+ */
 export async function getEvents(id: User['id']) {
   return prisma.user.findUnique({
     where: { id },
@@ -46,32 +72,41 @@ export async function getEvents(id: User['id']) {
   });
 }
 
-export async function updateUser(id: User['id'], data: Omit<User, 'id' | 'createdAt'>) {
+/**
+ * Updates a User's email or any profile info.
+ * @requires `id` (`userId`), `data`
+ * > `data: { propName: value, ... }`
+ * @param includeEvents (optional) Specifies whether returned User record should include
+ * the list of Events the User is Hosting or has RSVP'd, defaults to `false`
+ * @returns The updated User record
+ */
+export async function updateUser(
+  id: User['id'],
+  data: Omit<User, 'id' | 'createdAt'>,
+  includeEvents = false,
+) {
   return prisma.user.update({
     where: { id },
     data: { ...data },
+    include: {
+      hosting: includeEvents,
+      events: includeEvents,
+    },
   });
 }
 
 /**
- * Deletes a User and cascade deletes all RSVPs. If a User is the only Host of an Event,
- * an error is thrown, unless `deleteSoloHostedEvents` is set to `true` in which case that
- * Event will also be deleted.
- * @param id ID of User to delete
- * @param deleteSoloHostedEvents Default value is `false`
- * @returns Deleted User
+ * Deletes a User and cascade deletes all related RSVPs. The User is removed as a Host from
+ * all Events for which there are other Hosts and those Event records will remain.
+ * > If the Host is the only Host for an Event and `deleteSoloHostedEvent` is `false`,
+ * then an error is thrown, otherwise those Events are deleted as well.
+ * @requires `id` (`userId`)
+ * @param deleteSoloHostedEvents (optional) Specifies whether to delete any Event records
+ * the User is the sole host for, defaults to `false`
+ * @returns The deleted User record
  */
 export async function deleteUser(id: User['id'], deleteSoloHostedEvents = false) {
-  const hosting = await prisma.user.findUnique({
-    where: { id },
-    select: { hosting: true },
-  });
-
-  if (hosting && hosting.hosting.length > 0) {
-    hosting.hosting.map(({ eventId, userId }) =>
-      removeHost(eventId, userId, deleteSoloHostedEvents),
-    );
-  }
+  removeHostAllEvents(id, deleteSoloHostedEvents);
 
   return prisma.user.delete({
     where: { id },
