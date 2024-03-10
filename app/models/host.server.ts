@@ -53,7 +53,7 @@ export async function addHost(
 export async function updateHost(
   eventId: Host['eventId'],
   userId: Host['userId'],
-  data: Pick<Host, 'name' | 'permission'>,
+  data: Omit<Host, 'eventId' | 'userId'>,
 ) {
   return prisma.host.update({
     where: {
