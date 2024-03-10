@@ -1,4 +1,4 @@
-import { Event, User } from '@prisma/client';
+import { Event, Rsvp, Status, User } from '@prisma/client';
 import { prisma } from '~/db.server';
 
 export type { Event } from '@prisma/client';
@@ -21,16 +21,51 @@ export async function createEvent(userId: User['id'], name?: string) {
 
 /**
  * @requires `id` (`eventId`)
+ * @param includeGuests (optional) Specifies whether returned Event record should include
+ * the list of Guests the Event has, defaults to `true`
  * @returns The Event record including the list of Hosts and Guests.
  */
-export async function getEvent(id: Event['id']) {
+export async function getEvent(id: Event['id'], includeGuests = true) {
   return prisma.event.findUnique({
     where: { id },
     include: {
       hosts: true,
+      guests: includeGuests,
+    },
+  });
+}
+
+/**
+ * @param eventId The Event to count the number of guests for
+ * @returns The number of guests for each RSVP status
+ */
+export async function getGuestCount(eventId: Event['id']) {
+  const result = await prisma.event.findUnique({
+    where: {
+      id: eventId,
+    },
+    select: {
       guests: true,
     },
   });
+  const guestList = result?.guests;
+
+  return countGuests(guestList);
+}
+
+/**
+ * @param guests The list of guests (RSVP records) to count
+ * @returns The number of guests for each RSVP status
+ */
+export function countGuests(guests: Rsvp[] | undefined) {
+  let guestCount = {
+    GOING: 0,
+    MAYBE: 0,
+    NOT_GOING: 0,
+  };
+
+  guests?.map((rsvp) => (guestCount[rsvp.status] += 1 + rsvp.numPlusOnes));
+  return guestCount;
 }
 
 /**
