@@ -6,32 +6,76 @@ export type { Event } from '@prisma/client';
 /**
  * Creates a new event. Must include User to set as Host.
  * @param userId The User to add as a Host of the Event
+ * @param data (optional) The info to add to the Event
  * @param name (optional) The display name for Host
  * @returns The newly created Event record
  */
-export async function createEvent(userId: User['id'], name?: string) {
+export async function createEvent(
+  userId: User['id'],
+  data?: Partial<Omit<Event, 'id' | 'createdAt'>>,
+  name?: string,
+) {
   return prisma.event.create({
     data: {
       hosts: {
         create: [{ userId, name }],
       },
+      ...data,
     },
   });
 }
 
 /**
  * @requires `id` (`eventId`)
- * @param includeGuests (optional) Specifies whether returned Event record should include
- * the list of Guests the Event has, defaults to `true`
- * @returns The Event record including the list of Hosts and Guests.
+ * @param all (optional) Specifies whether to return the entire Event record (all fields)
+ * or just the fields containing basic info, defaults to `false`
+ * @param includeRelations (optional) Specifies whether returned Event record should include
+ * the list of Hosts and Guests the Event has -- only electable if `all` is `true`,
+ * defaults to `false`
+ * @returns Either `{ id, name, photo, dateStart, dateEnd, location, cost }`
+ * or the full Event record
  */
-export async function getEvent(id: Event['id'], includeGuests = true) {
+export async function getEvent(id: Event['id'], all = false, includeRelations = false) {
+  const selection = {
+    id: true,
+    name: true,
+    photo: true,
+    dateStart: true,
+    dateEnd: true,
+    location: true,
+    cost: true,
+  };
+
+  const filter: object = all
+    ? { include: { hosts: includeRelations, guests: includeRelations } }
+    : { select: { ...selection } };
+
   return prisma.event.findUnique({
     where: { id },
-    include: {
-      hosts: true,
-      guests: includeGuests,
-    },
+    ...filter,
+  });
+}
+
+/**
+ * @param query (optional) The query to filter Events by
+ * @param selection (optional) The Event fields to return, defaults to
+ * `{ id, name, photo, dateStart, dateEnd, location, cost }`
+ * @returns List of all Event records
+ */
+export async function getEvents(query?: object, selection?: object) {
+  const filter = selection || {
+    id: true,
+    name: true,
+    photo: true,
+    dateStart: true,
+    dateEnd: true,
+    location: true,
+    cost: true,
+  };
+
+  return prisma.event.findMany({
+    where: { ...query },
+    select: { ...filter },
   });
 }
 
