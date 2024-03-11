@@ -57,14 +57,21 @@ export async function getGuestCount(eventId: Event['id']) {
  * @param guests The list of guests (RSVP records) to count
  * @returns The number of guests for each RSVP status
  */
-export function countGuests(guests: Rsvp[] | undefined) {
+export function countGuests(
+  guests: (Rsvp & { name?: string | null; photo?: string | null })[] | undefined,
+) {
   let guestCount = {
     GOING: 0,
     MAYBE: 0,
     NOT_GOING: 0,
+    TOTAL_GUESTS: 0,
+    TOTAL_RESPONSES: 0,
   };
 
   guests?.map((rsvp) => (guestCount[rsvp.status] += 1 + rsvp.numPlusOnes));
+  guestCount.TOTAL_GUESTS = guestCount.GOING + guestCount.MAYBE;
+  guestCount.TOTAL_RESPONSES = guestCount.TOTAL_GUESTS + guestCount.NOT_GOING;
+
   return guestCount;
 }
 

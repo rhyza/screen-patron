@@ -38,7 +38,7 @@ model Event {
   location    String?
   city        String?
   capacity    Int?
-  cost        Decimal   @db.Decimal(6, 2) @default(0)
+  cost        Int?      @default(0)
 
   plusOneLimit Int?
   reminders    DateTime[] @db.Timestamptz(3)

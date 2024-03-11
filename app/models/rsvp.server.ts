@@ -55,7 +55,7 @@ export async function addGuest(
  * @returns The RSVP record for an Event guest along with User's profile name and photo.
  */
 export async function getGuest(eventId: Rsvp['eventId'], userId: Rsvp['userId']) {
-  return prisma.user.findFirst({
+  const user = await prisma.user.findFirst({
     where: {
       id: userId,
     },
@@ -69,6 +69,8 @@ export async function getGuest(eventId: Rsvp['eventId'], userId: Rsvp['userId'])
       },
     },
   });
+
+  return { profileName: user?.name, profilePhoto: user?.photo, ...user?.events[0] };
 }
 
 /**
@@ -77,7 +79,8 @@ export async function getGuest(eventId: Rsvp['eventId'], userId: Rsvp['userId'])
  * RSVP record.
  */
 export async function getGuests(eventId: Rsvp['eventId']) {
-  return prisma.user.findMany({
+  let guests;
+  const users = await prisma.user.findMany({
     where: {
       events: {
         some: {
@@ -95,6 +98,12 @@ export async function getGuests(eventId: Rsvp['eventId']) {
       },
     },
   });
+
+  return users.map((user) => ({
+    profileName: user.name,
+    profilePhoto: user.photo,
+    ...user.events[0],
+  }));
 }
 
 /**
