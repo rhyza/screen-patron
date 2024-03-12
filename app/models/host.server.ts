@@ -56,8 +56,8 @@ export async function addHost(
 
 /**
  * @requires `eventId`, `userId`
- * @returns The host for an Event with the User's profile name, profile photo, and Host
- * record
+ * @returns The Host record for a specific Event and User along with the User's profile name
+ * and profile photo
  */
 export async function getHost(eventId: Host['eventId'], userId: Host['userId']) {
   const user = await prisma.user.findFirst({
@@ -80,8 +80,8 @@ export async function getHost(eventId: Host['eventId'], userId: Host['userId']) 
 
 /**
  * @requires `eventId`
- * @returns The host list for an Event with the Users' profile name, profile photo, and
- * Host record
+ * @returns The list of Host reocrds for an Event along with each User's profile name and
+ * profile photo
  */
 export async function getHosts(eventId: Host['eventId']) {
   const users = await prisma.user.findMany({
@@ -135,7 +135,7 @@ export async function updateHost(
 }
 
 /**
- * Removes a User from an Event's guest list, and instead adds them as a Host.
+ * Removes a User from an Event's guest list, and instead adds them as a host.
  * The associated RSVP record is deleted and the newly created Host record is returned.
  * @requires `eventId`, `userId`
  * @returns The newly created Host record
@@ -145,17 +145,16 @@ export async function promoteToHost(
   userId: Host['userId'],
   name?: Host['name'],
 ) {
-  if (!name) {
-    const guest = await prisma.rsvp.delete({
-      where: {
-        id: { eventId, userId },
-      },
-      select: {
-        name: true,
-      },
-    });
-    name = guest?.name;
-  }
+  const guest = await prisma.rsvp.delete({
+    where: {
+      id: { eventId, userId },
+    },
+    select: {
+      name: true,
+    },
+  });
+  // Use User's display name from their RSVP record if new display name not specified
+  name = name || guest?.name;
 
   return prisma.host.create({
     data: {
@@ -181,15 +180,19 @@ export async function demoteToGuest(
   status = Status.GOING,
   name?: Host['name'],
 ) {
-  const host = await prisma.host.findUnique({
-    where: {
-      id: { eventId, userId },
-    },
-    select: {
-      name: true,
-    },
-  });
-  name = name || host?.name;
+  // Retrieve User's display name from Host record if new display name not specified
+  if (!name) {
+    const host = await prisma.host.findUnique({
+      where: {
+        id: { eventId, userId },
+      },
+      select: {
+        name: true,
+      },
+    });
+    name = name || host?.name;
+  }
+
   removeHost(eventId, userId);
 
   return prisma.rsvp.create({
@@ -285,9 +288,10 @@ export async function removeHostAllEvents(
   // Check if the user is the sole host for any events and if such events should be deleted.
   invariant(
     !(numSoloEvents > 0 && !deleteSoloHostedEvent),
-    'This host is the only host for this event. You must add another host before you can remove the selected host.',
+    'This host is the only host for an event. You must add another host before you can remove the selected host.',
   );
 
+  // Delete solo hosted Events if allowed
   if (deleteSoloHostedEvent) {
     prisma.event.deleteMany({
       where: {
@@ -299,4 +303,11 @@ export async function removeHostAllEvents(
       },
     });
   }
+
+  // Delete all of User's remaining Host records
+  prisma.host.deleteMany({
+    where: {
+      userId,
+    },
+  });
 }
