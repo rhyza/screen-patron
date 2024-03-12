@@ -1,9 +1,16 @@
-import { Host, Status } from '@prisma/client';
+import { Event, Host, Rsvp, Status, User } from '@prisma/client';
 import { prisma } from '~/db.server';
 import { deleteEvent } from './event.server';
 import { invariant } from '~/utils';
 
 export type { Host } from '@prisma/client';
+export type HostInfo = {
+  eventId?: string;
+  userId?: string;
+  name?: string | null;
+  profileName?: string | null;
+  profilePhoto?: string | null;
+};
 
 /**
  * Adds a User as a Host to an Event.
@@ -15,7 +22,7 @@ export async function addHost(
   eventId: Host['eventId'],
   userId: Host['userId'],
   name?: Host['name'],
-) {
+): Promise<[Host, Event, User]> {
   // Create new Host record
   const createHost = prisma.host.create({
     data: {
@@ -60,7 +67,7 @@ export async function addHost(
  * @returns The Host record for a specific Event and User along with the User's profile name
  * and profile photo
  */
-export async function getHost(eventId: Host['eventId'], userId: Host['userId']) {
+export async function getHost(eventId: Host['eventId'], userId: Host['userId']): Promise<HostInfo> {
   const user = await prisma.user.findFirst({
     where: {
       id: userId,
@@ -84,7 +91,7 @@ export async function getHost(eventId: Host['eventId'], userId: Host['userId']) 
  * @returns The list of Host reocrds for an Event along with each User's profile name and
  * profile photo
  */
-export async function getHosts(eventId: Host['eventId']) {
+export async function getHosts(eventId: Host['eventId']): Promise<HostInfo[]> {
   const users = await prisma.user.findMany({
     where: {
       hosting: {
@@ -121,7 +128,7 @@ export async function updateHost(
   eventId: Host['eventId'],
   userId: Host['userId'],
   data: Partial<Omit<Host, 'eventId' | 'userId'>>,
-) {
+): Promise<Host> {
   return prisma.host.update({
     where: {
       id: {
@@ -145,7 +152,7 @@ export async function promoteToHost(
   eventId: Host['eventId'],
   userId: Host['userId'],
   name?: Host['name'],
-) {
+): Promise<Host> {
   const guest = await prisma.rsvp.delete({
     where: {
       id: { eventId, userId },
@@ -180,10 +187,10 @@ export async function demoteToGuest(
   userId: Host['userId'],
   status = Status.GOING,
   name?: Host['name'],
-) {
+): Promise<Rsvp> {
   // Retrieve User's display name from Host record if new display name not specified
   if (!name) {
-    const host = await prisma.host.findUnique({
+    const host = await prisma.host.findUniqueOrThrow({
       where: {
         id: { eventId, userId },
       },
@@ -219,8 +226,8 @@ export async function removeHost(
   eventId: Host['eventId'],
   userId: Host['userId'],
   deleteSoloHostedEvent = false,
-) {
-  const event = await prisma.event.findUnique({
+): Promise<Event> {
+  const event = await prisma.event.findUniqueOrThrow({
     where: { id: eventId },
     select: { hosts: true },
   });

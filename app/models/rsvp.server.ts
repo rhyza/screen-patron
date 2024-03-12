@@ -1,7 +1,16 @@
-import type { Event, Rsvp, Status } from '@prisma/client';
+import type { Event, Rsvp, Status, User } from '@prisma/client';
 import { prisma } from '~/db.server';
 
 export type { Host, Rsvp } from '@prisma/client';
+export type RsvpInfo = {
+  eventId?: string;
+  userId?: string;
+  status?: Status;
+  name?: string | null;
+  numPlusOnes?: number | null;
+  profileName?: string | null;
+  profilePhoto?: string | null;
+};
 
 /**
  * Adds a User to an Event's guest list. Must include the RSVP response.
@@ -15,7 +24,7 @@ export async function addGuest(
   userId: Rsvp['userId'],
   status: Status,
   name?: Rsvp['name'],
-) {
+): Promise<[Rsvp, Event, User]> {
   // Create new RSVP record
   const createGuest = prisma.rsvp.create({
     data: { eventId, userId, status, name },
@@ -55,7 +64,7 @@ export async function addGuest(
  * @requires `eventId`, `userId`
  * @returns The RSVP record for an Event guest along with User's profile name and photo.
  */
-export async function getGuest(eventId: Rsvp['eventId'], userId: Rsvp['userId']) {
+export async function getGuest(eventId: Rsvp['eventId'], userId: Rsvp['userId']): Promise<RsvpInfo> {
   const user = await prisma.user.findFirst({
     where: {
       id: userId,
@@ -79,7 +88,7 @@ export async function getGuest(eventId: Rsvp['eventId'], userId: Rsvp['userId'])
  * @returns The guest list for an Event with the Users' profile name, profile photo, and
  * RSVP record.
  */
-export async function getGuests(eventId: Rsvp['eventId']) {
+export async function getGuests(eventId: Rsvp['eventId']): Promise<RsvpInfo[]> {
   let guests;
   const users = await prisma.user.findMany({
     where: {
@@ -117,7 +126,7 @@ export async function updateGuest(
   eventId: Rsvp['eventId'],
   userId: Rsvp['userId'],
   data: Partial<Omit<Event, 'eventId' | 'userId'>>,
-) {
+): Promise<Rsvp> {
   return prisma.rsvp.update({
     where: {
       id: { eventId, userId },
@@ -152,7 +161,7 @@ export async function updateGuests(
  * @requires `eventId`, `userId`
  * @returns The deleted RSVP record
  */
-export async function removeGuest(eventId: Rsvp['eventId'], userId: Rsvp['userId']) {
+export async function removeGuest(eventId: Rsvp['eventId'], userId: Rsvp['userId']): Promise<Rsvp> {
   return prisma.rsvp.delete({
     where: {
       id: { eventId, userId },
