@@ -97,7 +97,7 @@ export async function getEventsHosting(id: User['id']) {
       name: true,
       photo: true,
       dateStart: true,
-      dateEnd: true,
+      city: true,
       location: true,
       cost: true,
     },
@@ -106,17 +106,10 @@ export async function getEventsHosting(id: User['id']) {
 
 /**
  * @requires `id` (`userId`)
- * @param filter (optional) Specifies conditions for which Events to return
- * @param excludeRejected (optional) Specifies whether to include Events for which the User has
- * responded "not going", defaults to `true`
- * @returns The User's list of Event records for Events the User is attending plus
- * their RSVP response.
+ * @returns The User's list of Event records for Events the User has answered GOING or MAYBE
+ * plus their RSVP response and grouped by date: `{ past, future }`
  */
-export async function getEventsResponded(
-  id: User['id'],
-  filter?: object,
-  excludeRejected = true,
-) {
+export async function getEventsResponded(id: User['id']) {
   const events = await prisma.event.findMany({
     where: {
       guests: {
@@ -124,14 +117,13 @@ export async function getEventsResponded(
           userId: id,
         },
       },
-      ...filter,
     },
     select: {
       id: true,
       name: true,
       photo: true,
       dateStart: true,
-      dateEnd: true,
+      city: true,
       location: true,
       cost: true,
       guests: {
@@ -142,17 +134,29 @@ export async function getEventsResponded(
     },
   });
 
-  return events.map((event) => {
-    const { guests, ...rest } = event;
+  const past: object[] = [];
+  const future: object[] = [];
+  const today = new Date(Date.now());
+  today.setHours(0, 0, 0);
 
-    // Filter out all NOT_GOING responses if excludeRejected is true
-    if (!(excludeRejected && guests[0].status === 'NOT_GOING')) {
-      return {
-        status: guests[0].status,
-        ...rest,
-      };
+  events.map((event) => {
+    const { guests, ...rest } = event;
+    const flattenedEvent = {
+      status: guests[0].status,
+      ...rest,
+    };
+
+    // Filter out all NOT_GOING responses
+    if (guests[0].status != 'NOT_GOING') {
+      if (rest.dateStart && rest.dateStart < today) {
+        past.push(flattenedEvent);
+      } else {
+        future.push(flattenedEvent);
+      }
     }
   });
+
+  return { past, future };
 }
 
 /**
