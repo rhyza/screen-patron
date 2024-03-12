@@ -107,7 +107,7 @@ export async function getGuests(eventId: Rsvp['eventId']) {
 }
 
 /**
- * Updates any of a User's RSVP info.
+ * Updates any of a User's RSVP info for an Event.
  * @requires `eventId`, `userId`, `data`
  * > `data: { propName: value, ... }`
  * @returns The updated RSVP record
@@ -126,6 +126,27 @@ export async function updateGuest(
 }
 
 /**
+ * Batch updates RSVP info for all guests of an Event.
+ * @requires `eventId`, `userId`, `data`
+ * > `data: { propName: value, ... }`
+ * @param filter (optional) Specifies conditions for which RSVP records to modify
+ * @returns The updated RSVP record
+ */
+export async function updateGuests(
+  eventId: Rsvp['eventId'],
+  data: Partial<Omit<Event, 'eventId' | 'userId'>>,
+  filter?: object,
+) {
+  return prisma.rsvp.updateMany({
+    where: {
+      eventId,
+      ...filter,
+    },
+    data: { ...data },
+  });
+}
+
+/**
  * Removes a User from an Event's guest list.
  * @requires `eventId`, `userId`
  * @returns The deleted RSVP record
@@ -136,4 +157,20 @@ export async function removeGuest(eventId: Rsvp['eventId'], userId: Rsvp['userId
       id: { eventId, userId },
     },
   });
+}
+
+/**
+ * Batch remove all Users from an Event's guest list.
+ * @requires `eventId`, `userId`, `data`
+ * > `data: { propName: value, ... }`
+ * @param filter (optional) Specifies conditions for which guests' RSVP records to delete
+ * @returns The list of deleted RSVP records
+ */
+export async function removeGuests(eventId: Rsvp['eventId'], filter?: object) {
+  return prisma.rsvp.deleteMany({
+    where: {
+      eventId,
+      ...filter
+    }
+  })
 }
