@@ -58,7 +58,10 @@ export async function getUser(
  * the list of Events the User is Hosting or has RSVP'd, defaults to `false`
  * @returns The User record
  */
-export async function getUserByEmail(email: User['email'], includeEvents = false): Promise<User> {
+export async function getUserByEmail(
+  email: User['email'],
+  includeEvents = false,
+): Promise<User> {
   return prisma.user.findUniqueOrThrow({
     where: { email },
     include: {
@@ -73,7 +76,9 @@ export async function getUserByEmail(email: User['email'], includeEvents = false
  * @returns The User's list of Host and RSVP records.
  * > `{ hosting[], events[] }`
  */
-export async function getEvents(id: User['id']): Promise<{hosting: Host[], events: Rsvp[]}> {
+export async function getEvents(
+  id: User['id'],
+): Promise<{ hosting: Host[]; events: Rsvp[] }> {
   return prisma.user.findUniqueOrThrow({
     where: { id },
     select: { hosting: true, events: true },
@@ -85,8 +90,10 @@ export async function getEvents(id: User['id']): Promise<{hosting: Host[], event
  * @returns The User's list of Event records for Events the User is hosting with the fields:
  * `{ id, name, photo, dateStart, city, location, cost }`
  */
-export async function getEventsHosting(id: User['id']): Promise<EventInfo[]> {
-  return prisma.event.findMany({
+export async function getEventsHosting(
+  id: User['id'],
+): Promise<{ past: EventInfo[]; future: EventInfo[] }> {
+  const events = await prisma.event.findMany({
     where: {
       hosts: {
         some: {
@@ -104,6 +111,21 @@ export async function getEventsHosting(id: User['id']): Promise<EventInfo[]> {
       cost: true,
     },
   });
+
+  const past: EventInfo[] = [];
+  const future: EventInfo[] = [];
+  const today = new Date(Date.now());
+  today.setHours(0, 0, 0);
+
+  events.map((event) => {
+    if (event.dateStart && event.dateStart < today) {
+      past.push(event);
+    } else {
+      future.push(event);
+    }
+  });
+
+  return { past, future };
 }
 
 /**
@@ -194,7 +216,10 @@ export async function updateUser(
  * the User is the sole host for, defaults to `false`
  * @returns The deleted User record
  */
-export async function deleteUser(id: User['id'], deleteSoloHostedEvents = false): Promise<User> {
+export async function deleteUser(
+  id: User['id'],
+  deleteSoloHostedEvents = false,
+): Promise<User> {
   removeHostAllEvents(id, deleteSoloHostedEvents);
 
   return prisma.user.delete({

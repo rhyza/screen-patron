@@ -67,7 +67,10 @@ export async function addHost(
  * @returns The Host record for a specific Event and User along with the User's profile name
  * and profile photo
  */
-export async function getHost(eventId: Host['eventId'], userId: Host['userId']): Promise<HostInfo> {
+export async function getHost(
+  eventId: Host['eventId'],
+  userId: Host['userId'],
+): Promise<HostInfo> {
   const user = await prisma.user.findFirst({
     where: {
       id: userId,

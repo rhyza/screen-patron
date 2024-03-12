@@ -64,7 +64,10 @@ export async function addGuest(
  * @requires `eventId`, `userId`
  * @returns The RSVP record for an Event guest along with User's profile name and photo.
  */
-export async function getGuest(eventId: Rsvp['eventId'], userId: Rsvp['userId']): Promise<RsvpInfo> {
+export async function getGuest(
+  eventId: Rsvp['eventId'],
+  userId: Rsvp['userId'],
+): Promise<RsvpInfo> {
   const user = await prisma.user.findFirst({
     where: {
       id: userId,
@@ -161,7 +164,10 @@ export async function updateGuests(
  * @requires `eventId`, `userId`
  * @returns The deleted RSVP record
  */
-export async function removeGuest(eventId: Rsvp['eventId'], userId: Rsvp['userId']): Promise<Rsvp> {
+export async function removeGuest(
+  eventId: Rsvp['eventId'],
+  userId: Rsvp['userId'],
+): Promise<Rsvp> {
   return prisma.rsvp.delete({
     where: {
       id: { eventId, userId },
