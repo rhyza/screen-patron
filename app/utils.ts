@@ -1,7 +1,7 @@
 const isProduction: boolean = process.env.NODE_ENV === 'production';
 
 type DateOptions = {
-  date: Date;
+  date: Date | null;
   timeZone?: string;
   includeTimeZone?: boolean;
   includeWeekDay?: boolean;
@@ -34,6 +34,8 @@ function getDateString({
   fullMonth = false,
   fullYear = true,
 }: DateOptions) {
+  if (!date) return '';
+
   const today = new Date(Date.now());
   includeYear = includeYear && !(omitSameYear && date.getFullYear() === today.getFullYear());
 
@@ -59,12 +61,15 @@ function getDateString({
  * @returns A formatted time string
  */
 function getTimeString({ date, timeZone, includeTimeZone }: DateOptions) {
+  if (!date) return '';
+
   const options = {
     hour: 'numeric',
     minute: '2-digit',
     timeZone: timeZone || undefined,
     timeZoneName: includeTimeZone ? 'short' : undefined,
   } as const;
+
   return date.toLocaleTimeString('en-US', options);
 }
 

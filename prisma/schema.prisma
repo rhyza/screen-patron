@@ -60,7 +60,7 @@ model Event {
 model Host {
   event   Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId String
-  user    User    @relation(fields: [userId], references: [id])
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  String
   name    String?
 

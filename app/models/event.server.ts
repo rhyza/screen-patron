@@ -1,7 +1,16 @@
 import { Event, Rsvp, Status, User } from '@prisma/client';
 import { prisma } from '~/db.server';
 
-export type { Event } from '@prisma/client';
+export type { Event, Status } from '@prisma/client';
+export type EventInfo = {
+  id: string;
+  name: string | null;
+  photo: string | null;
+  dateStart: Date | string | null;
+  city: string | null;
+  location: string | null;
+  cost: number | null;
+};
 
 /**
  * Creates a new event. Must include User to set as Host.
@@ -14,7 +23,7 @@ export async function createEvent(
   userId: User['id'],
   data?: Partial<Omit<Event, 'id' | 'createdAt'>>,
   name?: string,
-) {
+): Promise<Event> {
   return prisma.event.create({
     data: {
       hosts: {
@@ -35,7 +44,7 @@ export async function createEvent(
  * @returns Either `{ id, name, photo, dateStart, dateEnd, location, cost }`
  * or the full Event record
  */
-export async function getEvent(id: Event['id'], all = false, includeRelations = false) {
+export async function getEvent(id: Event['id'], all = false, includeRelations = false): Promise<Partial<Event> | null> {
   const selection = {
     id: true,
     name: true,
@@ -58,24 +67,21 @@ export async function getEvent(id: Event['id'], all = false, includeRelations = 
 
 /**
  * @param query (optional) The query to filter Events by
- * @param selection (optional) The Event fields to return, defaults to
- * `{ id, name, photo, dateStart, dateEnd, location, cost }`
- * @returns List of all Event records
+ * @returns List of all Event records with the fields:
+ * `{ id, name, photo, dateStart, city, location, cost }`
  */
-export async function getEvents(query?: object, selection?: object) {
-  const filter = selection || {
-    id: true,
-    name: true,
-    photo: true,
-    dateStart: true,
-    dateEnd: true,
-    location: true,
-    cost: true,
-  };
-
+export async function getEvents(query?: object): Promise<EventInfo[]> {
   return prisma.event.findMany({
     where: { ...query },
-    select: { ...filter },
+    select: {
+      id: true,
+      name: true,
+      photo: true,
+      dateStart: true,
+      city: true,
+      location: true,
+      cost: true,
+    },
   });
 }
 
@@ -128,7 +134,7 @@ export function countGuests(
 export async function updateEvent(
   id: Event['id'],
   data: Partial<Omit<Event, 'id' | 'createdAt'>>,
-) {
+): Promise<Event> {
   return prisma.event.update({
     where: { id },
     data: { ...data },
@@ -140,7 +146,7 @@ export async function updateEvent(
  * @requires `id` (`eventId`)
  * @returns The deleted Event
  */
-export async function deleteEvent(id: Event['id']) {
+export async function deleteEvent(id: Event['id']): Promise<Event> {
   return prisma.event.delete({
     where: { id },
     include: {
