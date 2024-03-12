@@ -112,6 +112,20 @@ const singleton = <Value>(name: string, valueFactory: () => Value): Value => {
 };
 
 /**
+ * Evaluates to `false` if a given value is both an Array and is empty,
+ * otherwise returns `true`.
+ */
+function isNotEmptyArray(value: any) {
+  if (!Array.isArray(value)) {
+    return true;
+  } else if (value.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/**
  * Checks if file exists and is less than a certain file size.
  * @param event The file input event
  * @param fileLimit The file size limit in MB
@@ -125,4 +139,4 @@ function validateFile(event: React.ChangeEvent<HTMLInputElement>, fileLimit: num
   return true;
 }
 
-export { getDateString, getTimeString, invariant, singleton, validateFile };
+export { getDateString, getTimeString, invariant, isNotEmptyArray, singleton, validateFile };

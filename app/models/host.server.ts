@@ -1,7 +1,7 @@
 import { Event, Host, Rsvp, Status, User } from '@prisma/client';
 import { prisma } from '~/db.server';
 import { deleteEvent } from './event.server';
-import { invariant } from '~/utils';
+import { invariant, isNotEmptyArray } from '~/utils';
 
 export type { Host } from '@prisma/client';
 export type HostInfo = {
@@ -230,17 +230,15 @@ export async function removeHost(
   userId: Host['userId'],
   deleteSoloHostedEvent = false,
 ): Promise<Event> {
-  const event = await prisma.event.findUniqueOrThrow({
-    where: { id: eventId },
-    select: { hosts: true },
+  const hosts = await prisma.host.findMany({
+    where: { eventId }
   });
 
-  const hosts = event?.hosts;
-  invariant(hosts, 'There are no hosts associated with this event.');
+  invariant(hosts && isNotEmptyArray, 'There are no hosts associated with this event.');
 
   // Check if user is a host for this event.
   invariant(
-    hosts.filter((host) => host.userId === userId).length === 0,
+    hosts.find((host) => host.userId === userId),
     'This user is not a host for this event.',
   );
 
