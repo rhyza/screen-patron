@@ -8,7 +8,7 @@ export type { Host, Rsvp } from '@prisma/client';
  * @requires `eventId`, `userId`
  * @param status The User's RSVP response (GOING, MAYBE, NOT_GOING)
  * @param name (optional) The display name for Guest
- * @returns The User's RSVP record
+ * @returns [ the RSVP record created, the updated Event record, the updated User record ]
  */
 export async function addGuest(
   eventId: Rsvp['eventId'],
@@ -17,12 +17,12 @@ export async function addGuest(
   name?: Rsvp['name'],
 ) {
   // Create new RSVP record
-  const guest = prisma.rsvp.create({
+  const createGuest = prisma.rsvp.create({
     data: { eventId, userId, status, name },
   });
 
   // Connect RSVP record to its associated Event and User
-  prisma.event.update({
+  const connectEvent = prisma.event.update({
     where: {
       id: eventId,
     },
@@ -34,7 +34,8 @@ export async function addGuest(
       },
     },
   });
-  prisma.user.update({
+
+  const connectUser = prisma.user.update({
     where: {
       id: userId,
     },
@@ -47,7 +48,7 @@ export async function addGuest(
     },
   });
 
-  return guest;
+  return prisma.$transaction([createGuest, connectEvent, connectUser]);
 }
 
 /**
@@ -170,7 +171,7 @@ export async function removeGuests(eventId: Rsvp['eventId'], filter?: object) {
   return prisma.rsvp.deleteMany({
     where: {
       eventId,
-      ...filter
-    }
-  })
+      ...filter,
+    },
+  });
 }

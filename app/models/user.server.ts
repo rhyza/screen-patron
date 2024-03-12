@@ -106,12 +106,17 @@ export async function getEventsHosting(id: User['id']) {
 
 /**
  * @requires `id` (`userId`)
- * @param excludeRejected Specifies whether to include Events for which the User has
+ * @param filter (optional) Specifies conditions for which Events to return
+ * @param excludeRejected (optional) Specifies whether to include Events for which the User has
  * responded "not going", defaults to `true`
  * @returns The User's list of Event records for Events the User is attending plus
  * their RSVP response.
  */
-export async function getEventsUpcoming(id: User['id'], excludeRejected = true) {
+export async function getEventsResponded(
+  id: User['id'],
+  filter?: object,
+  excludeRejected = true,
+) {
   const events = await prisma.event.findMany({
     where: {
       guests: {
@@ -119,6 +124,7 @@ export async function getEventsUpcoming(id: User['id'], excludeRejected = true) 
           userId: id,
         },
       },
+      ...filter,
     },
     select: {
       id: true,

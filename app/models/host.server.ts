@@ -9,7 +9,7 @@ export type { Host } from '@prisma/client';
  * Adds a User as a Host to an Event.
  * @requires `eventId`, `userId`
  * @param name (optional) The display name for Host
- * @returns The Host record created
+ * @returns [ the Host record created, the updated Event record, the updated User record ]
  */
 export async function addHost(
   eventId: Host['eventId'],
@@ -17,7 +17,7 @@ export async function addHost(
   name?: Host['name'],
 ) {
   // Create new Host record
-  const host = prisma.host.create({
+  const createHost = prisma.host.create({
     data: {
       eventId,
       userId,
@@ -26,7 +26,7 @@ export async function addHost(
   });
 
   // Connect Host record to its Event and User
-  prisma.event.update({
+  const connectEvent = prisma.event.update({
     where: {
       id: eventId,
     },
@@ -38,7 +38,8 @@ export async function addHost(
       },
     },
   });
-  prisma.user.update({
+
+  const connectUser = prisma.user.update({
     where: {
       id: userId,
     },
@@ -51,7 +52,7 @@ export async function addHost(
     },
   });
 
-  return host;
+  return prisma.$transaction([createHost, connectEvent, connectUser]);
 }
 
 /**
@@ -291,23 +292,27 @@ export async function removeHostAllEvents(
     'This host is the only host for an event. You must add another host before you can remove the selected host.',
   );
 
-  // Delete solo hosted Events if allowed
-  if (deleteSoloHostedEvent) {
-    prisma.event.deleteMany({
-      where: {
-        hosts: {
-          every: {
-            userId,
-          },
-        },
-      },
-    });
-  }
-
-  // Delete all of User's remaining Host records
-  prisma.host.deleteMany({
+  const deleteHosts = prisma.host.deleteMany({
     where: {
       userId,
     },
   });
+
+  const deleteEvents = prisma.event.deleteMany({
+    where: {
+      hosts: {
+        every: {
+          userId,
+        },
+      },
+    },
+  });
+
+  if (deleteSoloHostedEvent) {
+    // Delete solo hosted Events if allowed
+    return prisma.$transaction([deleteEvents, deleteHosts]);
+  } else {
+    // Delete all of User's remaining Host records
+    return deleteHosts;
+  }
 }
