@@ -44,7 +44,11 @@ export async function createEvent(
  * @returns Either `{ id, name, photo, dateStart, dateEnd, location, cost }`
  * or the full Event record
  */
-export async function getEvent(id: Event['id'], all = false, includeRelations = false): Promise<Partial<Event> | null> {
+export async function getEvent(
+  id: Event['id'],
+  all = false,
+  includeRelations = false,
+): Promise<Partial<Event>> {
   const selection = {
     id: true,
     name: true,
@@ -59,7 +63,7 @@ export async function getEvent(id: Event['id'], all = false, includeRelations = 
     ? { include: { hosts: includeRelations, guests: includeRelations } }
     : { select: { ...selection } };
 
-  return prisma.event.findUnique({
+  return prisma.event.findUniqueOrThrow({
     where: { id },
     ...filter,
   });
@@ -90,7 +94,7 @@ export async function getEvents(query?: object): Promise<EventInfo[]> {
  * @returns The number of guests for each RSVP status
  */
 export async function getGuestCount(eventId: Event['id']) {
-  const result = await prisma.event.findUnique({
+  const result = await prisma.event.findUniqueOrThrow({
     where: {
       id: eventId,
     },
@@ -98,7 +102,7 @@ export async function getGuestCount(eventId: Event['id']) {
       guests: true,
     },
   });
-  const guestList = result?.guests;
+  const guestList = result.guests;
 
   return countGuests(guestList);
 }
@@ -108,7 +112,7 @@ export async function getGuestCount(eventId: Event['id']) {
  * @returns The number of guests for each RSVP status
  */
 export function countGuests(
-  guests: (Rsvp & { name?: string | null; photo?: string | null })[] | undefined,
+  guests: (Rsvp & { name?: string | null; photo?: string | null })[],
 ) {
   let guestCount = {
     GOING: 0,
