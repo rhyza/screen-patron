@@ -25,7 +25,7 @@ model User {
 }
 
 model Event {
-  id     String @id @default(cuid())
+  id     String  @id @default(cuid())
   name   String?
   hosts  Host[]
   guests Rsvp[]
@@ -58,11 +58,11 @@ model Event {
 }
 
 model Host {
-  event      Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  eventId    String
-  user       User       @relation(fields: [userId], references: [id])
-  userId     String
-  name       String?
+  event   Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId String
+  user    User    @relation(fields: [userId], references: [id])
+  userId  String
+  name    String?
 
   @@id(name: "id", fields: [eventId, userId])
 }
