@@ -86,7 +86,7 @@ model GroupRsvp {
   id        String   @id @default(cuid())
   owner     User     @relation(fields: [ownerId], references: [id])
   ownerId   String
-  partySize Int      @default(2)
+  partySize Int
   rsvps     Rsvp[]
   names     String[]
   emails    String[]

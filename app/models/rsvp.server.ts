@@ -3,13 +3,15 @@ import { prisma } from '~/db.server';
 
 export type { Host, Rsvp } from '@prisma/client';
 export type RsvpInfo = {
-  eventId?: string;
-  userId?: string;
-  status?: Status;
-  name?: string | null;
-  numPlusOnes?: number | null;
-  profileName?: string | null;
-  profilePhoto?: string | null;
+  eventId: string;
+  userId: string;
+  status: Status;
+  name: string | null;
+  partySize: number | null;
+  user: {
+    name: string | null;
+    photo: string | null;
+  };
 };
 
 /**
@@ -68,22 +70,19 @@ export async function getGuest(
   eventId: Rsvp['eventId'],
   userId: Rsvp['userId'],
 ): Promise<RsvpInfo> {
-  const user = await prisma.user.findFirst({
+  return prisma.rsvp.findUniqueOrThrow({
     where: {
-      id: userId,
+      id: { eventId, userId },
     },
-    select: {
-      name: true,
-      photo: true,
-      events: {
-        where: {
-          eventId,
+    include: {
+      user: {
+        select: {
+          name: true,
+          photo: true,
         },
       },
     },
   });
-
-  return { profileName: user?.name, profilePhoto: user?.photo, ...user?.events[0] };
 }
 
 /**
@@ -92,31 +91,19 @@ export async function getGuest(
  * RSVP record.
  */
 export async function getGuests(eventId: Rsvp['eventId']): Promise<RsvpInfo[]> {
-  let guests;
-  const users = await prisma.user.findMany({
+  return prisma.rsvp.findMany({
     where: {
-      events: {
-        some: {
-          eventId,
-        },
-      },
+      eventId,
     },
-    select: {
-      name: true,
-      photo: true,
-      events: {
-        where: {
-          eventId,
+    include: {
+      user: {
+        select: {
+          name: true,
+          photo: true,
         },
       },
     },
   });
-
-  return users.map((user) => ({
-    profileName: user.name,
-    profilePhoto: user.photo,
-    ...user.events[0],
-  }));
 }
 
 /**
