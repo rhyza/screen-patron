@@ -5,11 +5,13 @@ import { invariant, isNotEmptyArray } from '~/utils';
 
 export type { Host } from '@prisma/client';
 export type HostInfo = {
-  eventId?: string;
-  userId?: string;
-  name?: string | null;
-  profileName?: string | null;
-  profilePhoto?: string | null;
+  eventId: string;
+  userId: string;
+  name: string | null;
+  user: {
+    name: string | null;
+    photo: string | null;
+  };
 };
 
 /**
@@ -71,54 +73,40 @@ export async function getHost(
   eventId: Host['eventId'],
   userId: Host['userId'],
 ): Promise<HostInfo> {
-  const user = await prisma.user.findFirst({
+  return prisma.host.findUniqueOrThrow({
     where: {
-      id: userId,
+      id: { eventId, userId },
     },
-    select: {
-      name: true,
-      photo: true,
-      hosting: {
-        where: {
-          eventId,
+    include: {
+      user: {
+        select: {
+          name: true,
+          photo: true,
         },
       },
     },
   });
-
-  return { profileName: user?.name, profilePhoto: user?.photo, ...user?.hosting[0] };
 }
 
 /**
  * @requires `eventId`
- * @returns The list of Host reocrds for an Event along with each User's profile name and
+ * @returns The list of Host records for an Event along with each User's profile name and
  * profile photo
  */
 export async function getHosts(eventId: Host['eventId']): Promise<HostInfo[]> {
-  const users = await prisma.user.findMany({
+  return prisma.host.findMany({
     where: {
-      hosting: {
-        some: {
-          eventId,
-        },
-      },
+      eventId,
     },
-    select: {
-      name: true,
-      photo: true,
-      hosting: {
-        where: {
-          eventId,
+    include: {
+      user: {
+        select: {
+          name: true,
+          photo: true,
         },
       },
     },
   });
-
-  return users.map((user) => ({
-    profileName: user.name,
-    profilePhoto: user.photo,
-    ...user.hosting[0],
-  }));
 }
 
 /**
