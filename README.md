@@ -1,7 +1,10 @@
 # Screen Patron
 
-A place where you can find, share, and support local DIY film screenings. Still in development.
+A place where you can find, share, and support local DIY film screenings.
 
+## Version
+
+This branch is a proof of concept version of the app using dummy data. You can interact with the app but there is no actual database backing it.
 
 ## Development
 
@@ -27,7 +30,7 @@ Then run the app in production mode:
 npm start
 ```
 
-The app is currently using the built-in Remix app server which is production-ready. This may change as in the future, since I still need to decide a host to deploy it to.
+The pre-alpha verison of the app is using the built-in Remix app server which is production-ready.
 
 Once ready, deploy the output of `remix build`:
 
