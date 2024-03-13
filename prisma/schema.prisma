@@ -83,10 +83,13 @@ model Rsvp {
 }
 
 model GroupRsvp {
-  id      String @id @default(cuid())
-  owner   User   @relation(fields: [ownerId], references: [id])
-  ownerId String
-  rsvps   Rsvp[]
+  id        String   @id @default(cuid())
+  owner     User     @relation(fields: [ownerId], references: [id])
+  ownerId   String
+  partySize Int      @default(2)
+  rsvps     Rsvp[]
+  names     String[]
+  emails    String[]
 }
 
 enum Status {
