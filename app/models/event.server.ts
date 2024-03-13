@@ -122,7 +122,7 @@ export function countGuests(
     TOTAL_RESPONSES: 0,
   };
 
-  guests?.map((rsvp) => (guestCount[rsvp.status] += 1 + rsvp.numPlusOnes));
+  guests?.map((rsvp) => (guestCount[rsvp.status] += rsvp.partySize));
   guestCount.TOTAL_GUESTS = guestCount.GOING + guestCount.MAYBE;
   guestCount.TOTAL_RESPONSES = guestCount.TOTAL_GUESTS + guestCount.NOT_GOING;
 
