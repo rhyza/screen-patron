@@ -144,6 +144,7 @@ export async function promoteToHost(
   userId: Host['userId'],
   name?: Host['name'],
 ): Promise<Host> {
+  // Attempt to delete Rsvp record
   const guest = await prisma.rsvp.delete({
     where: {
       id: { eventId, userId },
@@ -177,20 +178,10 @@ export async function demoteToGuest(
   status = Status.GOING,
   name?: Host['name'],
 ): Promise<Rsvp> {
-  // Retrieve User's display name from Host record if new display name not specified
-  if (!name) {
-    const host = await prisma.host.findUniqueOrThrow({
-      where: {
-        id: { eventId, userId },
-      },
-      select: {
-        name: true,
-      },
-    });
-    name = name || host?.name;
-  }
-
-  removeHost(eventId, userId);
+  // Attempt to delete Host record
+  const host = await removeHost(eventId, userId);
+  // Use User's display name from Host record if new display name not specified
+  name = name || host?.name;
 
   return prisma.rsvp.upsert({
     where: { id: { eventId, userId } },
