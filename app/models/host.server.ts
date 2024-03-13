@@ -167,12 +167,10 @@ export async function promoteToHost(
   // Use User's display name from their RSVP record if new display name not specified
   name = name || guest?.name;
 
-  return prisma.host.create({
-    data: {
-      eventId,
-      userId,
-      name,
-    },
+  return prisma.host.upsert({
+    where: { id: { eventId, userId } },
+    update: { name },
+    create: { eventId, userId, name },
   });
 }
 
@@ -206,13 +204,10 @@ export async function demoteToGuest(
 
   removeHost(eventId, userId);
 
-  return prisma.rsvp.create({
-    data: {
-      eventId,
-      userId,
-      status,
-      name,
-    },
+  return prisma.rsvp.upsert({
+    where: { id: { eventId, userId } },
+    update: { status, name },
+    create: { eventId, userId, status, name },
   });
 }
 
@@ -231,7 +226,7 @@ export async function removeHost(
   deleteSoloHostedEvent = false,
 ): Promise<Event> {
   const hosts = await prisma.host.findMany({
-    where: { eventId }
+    where: { eventId },
   });
 
   invariant(hosts && isNotEmptyArray, 'There are no hosts associated with this event.');
