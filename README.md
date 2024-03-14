@@ -1,35 +1,20 @@
 # Screen Patron
 
-A place where you can find, share, and support local DIY film screenings. Still in development.
+A place where you can find, share, and support local DIY film screenings. Still in development (pre-alpha).
 
-
-## Development
-
-From your terminal:
-
+## Quick Start
 ```sh
+git clone https://github.com/rhyza/screen-patron.git
+cd screen-patron
+npm install
 npm run dev
 ```
 
-This starts the app in development mode, rebuilding assets on file changes.
+## Documentation
 
-## Deployment
+More info about developing and deploying the app can be found in the [Wiki](https://github.com/rhyza/screen-patron/wiki).
 
-First, build the app for production:
+Relevant pages:
 
-```sh
-npm run build
-```
-
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-The app is currently using the built-in Remix app server which is production-ready. This may change as in the future, since I still need to decide a host to deploy it to.
-
-Once ready, deploy the output of `remix build`:
-
-- `build/`
-- `public/build/`
+- How to set up your local environment, develop locally, and deploy the app: [Local Development](https://github.com/rhyza/screen-patron/wiki/Local-Development)
+- How to work with the tech stack: [Code Guide](https://github.com/rhyza/screen-patron/wiki/Code-Guide)
