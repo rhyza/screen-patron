@@ -117,6 +117,20 @@ function isNotEmptyArray(value: any) {
   }
 }
 
+/**
+ * Returns `value` unchanged if not `null`. If `value` is `null`, returns `alt` if given or
+ * `undefined`. If `value` is an object, then any property that's `null` gets set to `alt`
+ * if given or `undefined`.
+ */
+function retypeNull(value: any, alt?: any) {
+  if (typeof value === 'object') {
+    const keys = Object.keys(value);
+    return keys.map((key) => value[key] === null ? alt : value[key]);
+  } else {
+    return value === null ? alt : value;
+  }
+}
+
 // Borrowed from https://github.com/remix-run/blues-stack/blob/main/app/singleton.server.ts
 const singleton = <Value>(name: string, valueFactory: () => Value): Value => {
   const g = global as unknown as { __singletons: Record<string, unknown> };
@@ -139,4 +153,12 @@ function validateFile(event: React.ChangeEvent<HTMLInputElement>, fileLimit: num
   return true;
 }
 
-export { getDateString, getTimeString, invariant, isNotEmptyArray, singleton, validateFile };
+export {
+  getDateString,
+  getTimeString,
+  invariant,
+  isNotEmptyArray,
+  retypeNull,
+  singleton,
+  validateFile,
+};
