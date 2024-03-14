@@ -5,20 +5,31 @@ import { useLoaderData } from '@remix-run/react';
 import { Button } from '@nextui-org/react';
 
 import EventCards from '~/components/EventCards';
-import { getUserEvents } from '~/services/event';
-
+import { getEventsHosting, getEventsResponded } from '~/models/user.server';
+import { invariant } from '~/utils';
 export const loader = async () => {
-  const events = await getUserEvents();
-  return json({ events });
+  const userId = 'test';
+  invariant(userId, "Missing signed in user's id");
+  const hosting = await getEventsHosting(userId);
+  const responded = await getEventsResponded(userId);
+  return json({ hosting, responded });
 };
 
 export default function MyEvents() {
-  const { events } = useLoaderData<typeof loader>();
+  const { hosting, responded } = useLoaderData<typeof loader>();
 
   const [tab, setTab] = useState('upcoming');
+  const [events, setEvents] = useState([...hosting.future, ...responded.future]);
   const handlePress = (event: PressEvent) => {
     const { id } = event.target;
     setTab(() => id);
+    if (id === 'upcoming') {
+      setEvents([...hosting.future, ...responded.future]);
+    } else if (id === 'hosting') {
+      setEvents(hosting.future);
+    } else {
+      setEvents([...hosting.past, ...responded.past]);
+    }
   };
   const renderTab = (id: string, children: string | JSX.Element) => {
     const active = id === tab ? 'bg-foreground text-background' : '';

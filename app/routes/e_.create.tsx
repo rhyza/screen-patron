@@ -2,13 +2,15 @@ import type { ActionFunctionArgs } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
 
 import EventForm from '~/components/EventForm';
-import { createEvent } from '~/services/event';
+import { createEvent } from '~/models/event.server';
+import { invariant } from '~/utils';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  const userId = 'test'; // replace
+  invariant(userId, "Missing signed in user's id");
   const formData = await request.formData();
   const values = Object.fromEntries(formData);
-  const hosts = { userId: { id: 'userId', status: 'going' } };
-  const event = await createEvent({ ...values, hosts });
+  const event = await createEvent(userId, { ...values });
   return redirect(`/e/${event.id}`);
 };
 

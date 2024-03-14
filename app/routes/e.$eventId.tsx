@@ -5,18 +5,24 @@ import { json } from '@remix-run/node';
 import { NavLink, useLoaderData } from '@remix-run/react';
 import { Avatar, Button, Link, Tooltip, useDisclosure } from '@nextui-org/react';
 
+import { eventPlaceholderImage } from '~/assets';
 import IconButton from '~/components/IconButton';
 import { MapPinIcon, StarIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
 import RSVPModal from '~/components/RSVPModal';
-import { getEvent, getGuestCount } from '~/services/event';
-import { getDateString, getTimeString } from '~/utils';
+import { Event, countGuests, getEvent } from '~/models/event.server';
+import { getHosts } from '~/models/host.server';
+import { getGuests } from '~/models/rsvp.server';
+import { getDateString, getTimeString, invariant, retypeNull } from '~/utils';
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const event = await getEvent(params.eventId);
+  invariant(params.eventId, 'Missing eventId param');
+  const event: Partial<Event> | null = await getEvent(params.eventId);
+  const hosts = await getHosts(params.eventId);
+  const guests = await getGuests(params.eventId);
   if (!event) {
     throw new Response('Not Found', { status: 404 });
   }
-  return json({ event });
+  return json({ event, hosts, guests });
 };
 
 // Remove Before Prod
@@ -31,26 +37,15 @@ const testDates = {
 };
 
 export default function Event() {
-  const { event } = useLoaderData<typeof loader>();
   const {
-    name,
-    coverImage = 'https://placehold.co/800?text=Poster&font=roboto',
-    dateStart,
-    dateEnd,
-    location = 'Location TBD',
-    cost = 0,
-    capacity = 100,
-    description,
-    hosts = {},
+    event: { name, photo, dateStart, dateEnd, location, cost, capacity, description },
+    hosts,
     guests,
-  } = event;
+  } = useLoaderData<typeof loader>();
   const start = dateStart ? new Date(dateStart) : undefined;
   const end = dateEnd ? new Date(dateEnd) : undefined;
-  const guestCount = getGuestCount(guests);
-  const host = Object.values(hosts)[0] || {
-    avatar: undefined,
-    name: 'Anonymous Filmmaker',
-  };
+  const guestCount = countGuests(guests);
+  const host = Object.values(hosts)[0]; // change to allow multiple hosts
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [rsvp, setRsvp] = useState('');
@@ -131,45 +126,51 @@ export default function Event() {
           {renderInfoField(
             <StarIcon />,
             <div className="flex items-center gap-2">
-              Hosted by <Avatar showFallback src={host.avatar} /> {host.name}
+              Hosted by <Avatar showFallback src={retypeNull(host.user.photo)} />{' '}
+              {retypeNull(host.name, 'Anonymous Filmmaker')}
             </div>,
           )}
-          {renderInfoField(<MapPinIcon />, location.length > 0 ? location : 'Location TBD')}
+          {renderInfoField(<MapPinIcon />, location || 'Location TBD')}
           {cost != undefined &&
             renderInfoField(<TicketIcon />, cost > 0 ? `$${cost} per person` : 'Free')}
           {capacity &&
             renderInfoField(
               <UserGroupIcon />,
               <p>
-                <span className="text-primary">{capacity - guestCount.going}</span>
+                <span className="text-primary">{capacity - guestCount.GOING}</span>
                 &nbsp;/ {capacity} spots left
               </p>,
             )}
           <p>{description}</p>
           <div className="flex items-center gap-2">
-            <span className="flex-none">{guestCount.going} Going</span>
-            {guestCount.maybe > 0 && (
-              <span className="flex-none">{guestCount.maybe} Maybe</span>
-            )}
+            <span className="flex-none">{guestCount.GOING} Going</span>
+            {guestCount.MAYBE && <span className="flex-none">{guestCount.MAYBE} Maybe</span>}
           </div>
           <div className="flex items-center gap-2">
-            {guests &&
-              Object.keys(guests)
-                .slice(0, 6)
-                .map((id) => {
-                  let guest = guests[id];
-                  let tooltip = {};
-                  return (
-                    <Tooltip content={guest.name ? guest.name : 'Attendee'} key={id}>
-                      <Avatar showFallback name={guest.name} src={guest.avatar} />
-                    </Tooltip>
-                  );
-                })}
-            {guestCount.total > 6 && <Avatar name={`+${guestCount.total - 6}`} />}
+            {guests.map((guest, index) => {
+              return (
+                <Tooltip
+                  content={retypeNull(guest.name, guest.user.name) || 'Attendee'}
+                  key={index}
+                >
+                  <Avatar
+                    showFallback
+                    name={retypeNull(guest.name, guest.user.name) || 'Attendee'}
+                    src={retypeNull(guest.user.photo)}
+                  />
+                </Tooltip>
+              );
+            })}
+            {guestCount.TOTAL_GUESTS > 6 && (
+              <Avatar name={`+${guestCount.TOTAL_GUESTS - 6}`} />
+            )}
           </div>
         </div>
         <div className="flex-auto max-w-80 sm:max-w-96">
-          <img className="size-80 sm:size-96 object-cover" src={coverImage} />
+          <img
+            className="size-80 sm:size-96 object-cover"
+            src={photo || eventPlaceholderImage}
+          />
           <div className="flex justify-around m-6">
             <IconButton id="going" label="Going" onPress={handleModalOpen}>
               👍

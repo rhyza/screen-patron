@@ -1,5 +1,7 @@
-import { Event, Rsvp, Status, User } from '@prisma/client';
+import type { Event, User } from '@prisma/client';
+import type { Rsvp, RsvpInfo } from './rsvp.server';
 import { prisma } from '~/db.server';
+import { retypeNull } from '~/utils';
 
 export type { Event, Status } from '@prisma/client';
 export type EventInfo = {
@@ -94,15 +96,11 @@ export async function getEvents(query?: object): Promise<EventInfo[]> {
  * @returns The number of guests for each RSVP status
  */
 export async function getGuestCount(eventId: Event['id']) {
-  const result = await prisma.event.findUniqueOrThrow({
+  const guestList = await prisma.rsvp.findMany({
     where: {
-      id: eventId,
-    },
-    select: {
-      guests: true,
+      eventId,
     },
   });
-  const guestList = result.guests;
 
   return countGuests(guestList);
 }
@@ -111,9 +109,7 @@ export async function getGuestCount(eventId: Event['id']) {
  * @param guests The list of guests (RSVP records) to count
  * @returns The number of guests for each RSVP status
  */
-export function countGuests(
-  guests: (Rsvp & { name?: string | null; photo?: string | null })[],
-) {
+export function countGuests(guests: Rsvp[] | RsvpInfo[]) {
   let guestCount = {
     GOING: 0,
     MAYBE: 0,
@@ -122,7 +118,7 @@ export function countGuests(
     TOTAL_RESPONSES: 0,
   };
 
-  guests?.map((rsvp) => (guestCount[rsvp.status] += rsvp.partySize));
+  guests?.map((rsvp) => (guestCount[rsvp.status] += retypeNull(rsvp.partySize, 1)));
   guestCount.TOTAL_GUESTS = guestCount.GOING + guestCount.MAYBE;
   guestCount.TOTAL_RESPONSES = guestCount.TOTAL_GUESTS + guestCount.NOT_GOING;
 

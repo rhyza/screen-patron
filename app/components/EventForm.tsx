@@ -6,7 +6,7 @@ import InputImage from './InputImage';
 
 type EventFormValues = {
   name?: string;
-  coverImage?: string;
+  photo?: string;
   dateStart?: string;
   dateEnd?: string;
   location?: string;
@@ -17,7 +17,7 @@ type EventFormValues = {
 
 export default function EventForm({
   name,
-  coverImage,
+  photo,
   dateStart,
   dateEnd,
   location,
@@ -86,7 +86,7 @@ export default function EventForm({
           />
         </div>
         <div className="flex-auto justify-center space-y-6 max-w-80 sm:max-w-96">
-          <InputImage image={coverImage} imageClassName="size-80 sm:size-96" />
+          <InputImage image={photo} imageClassName="size-80 sm:size-96" />
           <div className="flex justify-center">
             <Button className="w-32 bg-primary" radius="none" type="submit">
               Save
