@@ -125,7 +125,7 @@ function isNotEmptyArray(value: any) {
 function retypeNull(value: any, alt?: any) {
   if (typeof value === 'object') {
     const keys = Object.keys(value);
-    return keys.map((key) => value[key] === null ? alt : value[key]);
+    return keys.map((key) => (value[key] === null ? alt : value[key]));
   } else {
     return value === null ? alt : value;
   }

@@ -6,7 +6,7 @@ import InputImage from './InputImage';
 
 type UserFormValues = {
   name?: string;
-  avatar?: string;
+  photo?: string;
   bio?: string;
   instagram?: string;
   twitter?: string;
@@ -15,7 +15,7 @@ type UserFormValues = {
 
 export default function UserForm({
   name,
-  avatar,
+  photo,
   bio,
   instagram,
   twitter,
@@ -55,9 +55,9 @@ export default function UserForm({
           <div className="flex justify-center">
             <InputImage
               iconClassName="mb-1 mr-1 rounded-full p-3 bg-gray-600"
-              image={avatar}
+              image={photo}
               imageClassName="rounded-full size-[16rem]"
-              name="avatar"
+              name="photo"
             />
           </div>
           <div className="flex justify-center">

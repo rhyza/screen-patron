@@ -2,6 +2,7 @@ import { ChangeEvent, useRef, useState } from 'react';
 import { Card, CardFooter, cn, VisuallyHidden } from '@nextui-org/react';
 
 import { EditIcon } from './Icons';
+import { eventPlaceholderImage } from '~/assets';
 import { validateFile } from '~/utils';
 
 /**
@@ -16,7 +17,7 @@ export default function InputImage({
   fileLimit = 5,
   iconClassName = 'rounded-full p-3 bg-gray-600',
   iconFillColor = 'white',
-  image = 'https://images.unsplash.com/photo-1604079628040-94301bb21b91',
+  image = eventPlaceholderImage,
   imageClassName = 'size-80',
   inputName = 'coverImage',
   ...cardProps

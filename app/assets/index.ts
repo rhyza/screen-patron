@@ -22,9 +22,9 @@ export const heroImages = [
   hero_image_10,
 ];
 
-export const abstract_image_01 =
+export const userPlaceholderImage =
   'https://images.unsplash.com/photo-1604076913837-52ab5629fba9';
-export const abstract_image_02 =
+export const eventPlaceholderImage =
   'https://images.unsplash.com/photo-1604079628040-94301bb21b91';
 
 export const loremIpsum =
