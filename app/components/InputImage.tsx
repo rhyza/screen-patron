@@ -14,7 +14,7 @@ import { validateFile } from '~/utils';
  * to the containing Card component
  */
 export default function InputImage({
-  fileLimit = 5,
+  fileLimit = 2,
   iconClassName = 'rounded-full p-3 bg-gray-600',
   iconFillColor = 'white',
   image = eventPlaceholderImage,
@@ -50,7 +50,6 @@ export default function InputImage({
         <input
           accept="image/*"
           id="avatarUpload"
-          //name={$inputName}
           onChange={handleImagePreview}
           ref={fileUploadRef}
           type="file"

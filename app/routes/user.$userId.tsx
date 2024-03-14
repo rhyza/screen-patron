@@ -5,12 +5,12 @@ import { Button, Link } from '@nextui-org/react';
 
 import { userPlaceholderImage } from '~/assets';
 import { InstagramIcon, LinkIcon, TwitterIcon } from '~/components/Icons';
-import { getUser } from '~/models/user.server';
+import { getUser, User } from '~/models/user.server';
 import { getDateString, invariant } from '~/utils';
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(params.userId, 'Missing userId param');
-  const user = await getUser(params.userId);
+  const user: User | null = await getUser(params.userId);
   if (!user) {
     throw new Response('Not Found', { status: 404 });
   }
