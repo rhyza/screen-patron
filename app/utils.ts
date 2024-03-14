@@ -103,14 +103,6 @@ function invariant(condition: any, message?: string | (() => string)): asserts c
   throw new Error(value);
 }
 
-// Borrowed from https://github.com/remix-run/blues-stack/blob/main/app/singleton.server.ts
-const singleton = <Value>(name: string, valueFactory: () => Value): Value => {
-  const g = global as unknown as { __singletons: Record<string, unknown> };
-  g.__singletons ??= {};
-  g.__singletons[name] ??= valueFactory();
-  return g.__singletons[name] as Value;
-};
-
 /**
  * Evaluates to `false` if a given value is both an Array and is empty,
  * otherwise returns `true`.
@@ -124,6 +116,14 @@ function isNotEmptyArray(value: any) {
     return false;
   }
 }
+
+// Borrowed from https://github.com/remix-run/blues-stack/blob/main/app/singleton.server.ts
+const singleton = <Value>(name: string, valueFactory: () => Value): Value => {
+  const g = global as unknown as { __singletons: Record<string, unknown> };
+  g.__singletons ??= {};
+  g.__singletons[name] ??= valueFactory();
+  return g.__singletons[name] as Value;
+};
 
 /**
  * Checks if file exists and is less than a certain file size.
