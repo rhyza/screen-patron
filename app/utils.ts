@@ -14,6 +14,23 @@ type DateOptions = {
 };
 
 /**
+ * Takes a date representation and returns a string in the format 'YYYY-MM-DDT00:00'
+ * or if a null value is passed, an empty string.
+ * @param date The date as a Date object or an ISO string
+ * @returns Date string in the format 'YYYY-MM-DDT00:00'
+ */
+function getDateInputString(date: Date | string | null): string {
+  if (date === null) {
+    return '';
+  } else if (typeof date === 'string') {
+    return date.substring(0, 16);
+  } else {
+    const isoString = date.toISOString();
+    return isoString.substring(0, 16);
+  }
+}
+
+/**
  * Takes a Date object, `date` (**required**), and formats it into a String based off of
  * additional specifications (**optional**).
  *
@@ -123,9 +140,10 @@ function isNotEmptyArray(value: any) {
  * if given or `undefined`.
  */
 function retypeNull(value: any, alt?: any) {
-  if (typeof value === 'object') {
+  if (typeof value === 'object' && value != null) {
     const keys = Object.keys(value);
-    return keys.map((key) => (value[key] === null ? alt : value[key]));
+    keys.map((key) => (value[key] === null ? (value[key] = alt) : (value[key] = value[key])));
+    return value;
   } else {
     return value === null ? alt : value;
   }
@@ -138,6 +156,22 @@ const singleton = <Value>(name: string, valueFactory: () => Value): Value => {
   g.__singletons[name] ??= valueFactory();
   return g.__singletons[name] as Value;
 };
+
+/**
+ * Takes an object and if any property is falsy, remove that property altogether.
+ * @param values The object to strip
+ * @returns An object with no falsy values
+ */
+function stripFalseValues(values: { [propName: string]: any }) {
+  let result: { [propName: string]: any } = {};
+  const keys = Object.keys(values);
+  keys.map((key) => {
+    if (values[key]) {
+      result[key] = values[key];
+    }
+  });
+  return result;
+}
 
 /**
  * Checks if file exists and is less than a certain file size.
@@ -154,11 +188,13 @@ function validateFile(event: React.ChangeEvent<HTMLInputElement>, fileLimit: num
 }
 
 export {
+  getDateInputString,
   getDateString,
   getTimeString,
   invariant,
   isNotEmptyArray,
   retypeNull,
   singleton,
+  stripFalseValues,
   validateFile,
 };
