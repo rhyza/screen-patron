@@ -20,7 +20,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 // Remove Before Prod
 const isUser = true;
 
-export default function User() {
+export default function UserPage() {
   const {
     user: { name, photo, bio, instagram, twitter, website, createdAt },
   } = useLoaderData<typeof loader>();
@@ -86,7 +86,11 @@ export default function User() {
                     <TwitterIcon className="w-4 h-4" />,
                   )}
                 {website &&
-                  renderSocialChip('Website', website, <LinkIcon className="w-5 h-5" />)}
+                  renderSocialChip(
+                    'Website',
+                    `https://${website}`,
+                    <LinkIcon className="w-5 h-5" />,
+                  )}
               </div>
             )}
             <p>Joined {joinDate}</p>
