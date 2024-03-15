@@ -3,32 +3,14 @@ import { invariant, singleton } from './utils';
 
 // Hard-code a unique key, so client can be looked up when this module gets re-imported
 const prisma = singleton('prisma', getPrismaClient);
+const isLocal = true;
 
 function getPrismaClient() {
-  const { DATABASE_URL } = process.env;
-  invariant(typeof DATABASE_URL === 'string', 'DATABASE_URL env var not set');
+  const { DATABASE_URL, LOCAL_DATABASE_URL } = process.env;
+  const url = isLocal ? LOCAL_DATABASE_URL : DATABASE_URL;
+  invariant(typeof url === 'string', 'DATABASE_URL env var not set');
 
-  const databaseUrl = new URL(DATABASE_URL);
-
-  /*
-  const isLocalHost = databaseUrl.hostname === 'localhost';
-
-  const PRIMARY_REGION = isLocalHost ? null : process.env.PRIMARY_REGION;
-  const FLY_REGION = isLocalHost ? null : process.env.FLY_REGION;
-
-  const isReadReplicaRegion = !PRIMARY_REGION || PRIMARY_REGION === FLY_REGION;
-
-  if (!isLocalHost) {
-    if (databaseUrl.host.endsWith('.internal')) {
-      databaseUrl.host = `${FLY_REGION}.${databaseUrl.host}`;
-    }
-
-    if (!isReadReplicaRegion) {
-      // 5433 is the read-replica port
-      databaseUrl.port = '5433';
-    }
-  }
-  */
+  const databaseUrl = new URL(url);
 
   console.log(`🔌 setting up prisma client to ${databaseUrl.host}`);
   // NOTE: during development if you change anything in this function, remember
