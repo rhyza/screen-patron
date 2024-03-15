@@ -110,7 +110,7 @@ export async function getGuestCount(eventId: Event['id']) {
  * @returns The number of guests for each RSVP status
  */
 export function countGuests(guests: Rsvp[] | RsvpInfo[]) {
-  let guestCount = {
+  const guestCount = {
     GOING: 0,
     MAYBE: 0,
     NOT_GOING: 0,

@@ -19,32 +19,26 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const event: Partial<Event> | null = await getEvent(params.eventId);
   const hosts = await getHosts(params.eventId);
   const guests = await getGuests(params.eventId);
+  const guestCount = countGuests(guests);
   if (!event) {
     throw new Response('Not Found', { status: 404 });
   }
-  return json({ event, hosts, guests });
+  return json({ event, hosts, guests, guestCount });
 };
 
 // Remove Before Prod
 const isUser = true;
 const isGuest = true;
-const testDates = {
-  startDay: 'February 22, 2024 19:00',
-  endSameDay: 'February 22, 2024 21:00',
-  endNextDay: 'February 23, 2024 1:00',
-  nye: 'December 31, 2024 20:00',
-  nyd: 'January 1, 2025 01:00',
-};
 
-export default function Event() {
+export default function EventPage() {
   const {
     event: { name, photo, dateStart, dateEnd, location, cost, capacity, description },
     hosts,
     guests,
+    guestCount,
   } = useLoaderData<typeof loader>();
   const start = dateStart ? new Date(dateStart) : undefined;
   const end = dateEnd ? new Date(dateEnd) : undefined;
-  const guestCount = countGuests(guests);
   const host = Object.values(hosts)[0]; // change to allow multiple hosts
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -127,7 +121,7 @@ export default function Event() {
             <StarIcon />,
             <div className="flex items-center gap-2">
               Hosted by <Avatar showFallback src={retypeNull(host.user.photo)} />{' '}
-              {retypeNull(host.name, 'Anonymous Filmmaker')}
+              {retypeNull(host.name, host.user.name) || 'Anonymous Filmmaker'}
             </div>,
           )}
           {renderInfoField(<MapPinIcon />, location || 'Location TBD')}
@@ -144,7 +138,9 @@ export default function Event() {
           <p>{description}</p>
           <div className="flex items-center gap-2">
             <span className="flex-none">{guestCount.GOING} Going</span>
-            {guestCount.MAYBE && <span className="flex-none">{guestCount.MAYBE} Maybe</span>}
+            {guestCount.MAYBE > 0 && (
+              <span className="flex-none">{guestCount.MAYBE} Maybe</span>
+            )}
           </div>
           <div className="flex items-center gap-2">
             {guests.map((guest, index) => {
@@ -153,11 +149,7 @@ export default function Event() {
                   content={retypeNull(guest.name, guest.user.name) || 'Attendee'}
                   key={index}
                 >
-                  <Avatar
-                    showFallback
-                    name={retypeNull(guest.name, guest.user.name) || 'Attendee'}
-                    src={retypeNull(guest.user.photo)}
-                  />
+                  <Avatar showFallback name="f" src={retypeNull(guest.user.photo)} />
                 </Tooltip>
               );
             })}
