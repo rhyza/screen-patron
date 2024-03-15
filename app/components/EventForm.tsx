@@ -3,12 +3,13 @@ import { Button, Input, Textarea } from '@nextui-org/react';
 
 import { MapPinIcon, TicketIcon, UserGroupIcon } from './Icons';
 import InputImage from './InputImage';
+import { getDateInputString } from '~/utils';
 
 type EventFormValues = {
   name?: string;
   photo?: string;
-  dateStart?: string;
-  dateEnd?: string;
+  dateStart?: Date;
+  dateEnd?: Date;
   location?: string;
   cost?: number;
   capacity?: number;
@@ -26,7 +27,9 @@ export default function EventForm({
   description,
 }: EventFormValues) {
   const navigate = useNavigate();
-  const today = new Date(Date.now());
+  const today = getDateInputString(new Date(Date.now()));
+  const start = dateStart ? getDateInputString(dateStart) : '';
+  const end = dateEnd ? getDateInputString(dateEnd) : '';
 
   return (
     <div className="w-full p-6">
@@ -41,9 +44,9 @@ export default function EventForm({
             type="text"
           />
           <Input
-            defaultValue={dateStart}
+            defaultValue={start}
             label="Start Date"
-            min={today.toLocaleDateString('fr-CA') + 'T00:00'}
+            min={today}
             name="dateStart"
             placeholder="TBD"
             radius="none"
