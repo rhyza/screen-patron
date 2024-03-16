@@ -127,7 +127,8 @@ export default function EventPage() {
           {renderInfoField(<MapPinIcon />, location || 'Location TBD')}
           {cost != undefined &&
             renderInfoField(<TicketIcon />, cost > 0 ? `$${cost} per person` : 'Free')}
-          {(capacity != undefined && capacity > 0) &&
+          {capacity != undefined &&
+            capacity > 0 &&
             renderInfoField(
               <UserGroupIcon />,
               <p>

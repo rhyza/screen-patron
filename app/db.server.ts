@@ -1,8 +1,10 @@
 import { PrismaClient } from '@prisma/client';
+import { createClient } from '@supabase/supabase-js';
 import { invariant, singleton } from './utils';
 
 // Hard-code a unique key, so client can be looked up when this module gets re-imported
 const prisma = singleton('prisma', getPrismaClient);
+const supabase = getSupabaseClient();
 const isLocal = true;
 
 function getPrismaClient() {
@@ -30,4 +32,11 @@ function getPrismaClient() {
   return client;
 }
 
-export { prisma };
+function getSupabaseClient() {
+  const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
+  invariant(typeof SUPABASE_URL === 'string', 'SUPABASE_URL env var not set');
+  invariant(typeof SUPABASE_ANON_KEY === 'string', 'SUPABASE_ANON_KEY env var not set');
+  return createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
+export { prisma, supabase };

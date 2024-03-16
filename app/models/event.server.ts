@@ -148,7 +148,7 @@ export async function updateEvent(
   });
 }
 
-function retypeEventData(data: {[propName: string]: any}) {
+function retypeEventData(data: { [propName: string]: any }) {
   if (typeof data.dateStart === 'string') {
     data.dateStart = data.dateStart.length ? new Date(data.dateStart) : undefined;
   }
