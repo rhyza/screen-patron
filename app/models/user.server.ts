@@ -225,6 +225,8 @@ export async function deleteUser(
 ): Promise<User> {
   removeHostAllEvents(id, deleteSoloHostedEvents);
 
+  const { data, error } = await supabase.auth.admin.deleteUser(id);
+
   return prisma.user.delete({
     where: { id },
   });
