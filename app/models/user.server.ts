@@ -1,19 +1,22 @@
 import type { Host, Rsvp, Status, User } from '@prisma/client';
-import { prisma } from '~/db.server';
+import { prisma, supabase } from '~/db.server';
 import { removeHostAllEvents } from './host.server';
 import type { EventInfo } from './event.server';
 
 export type { User } from '@prisma/client';
 
 /**
- * Creates a new User. A unique email is required.
+ * Creates a new user on the auth.users table. A unique email is required. A trigger on
+ * the database creates a new User on the profile.User table when a user on the auth.users
+ * table is verified.
  * @requires `email`
  * @returns The newly created User record
  */
-export async function createUser(email: User['email']): Promise<User> {
-  return prisma.user.create({
-    data: {
-      email,
+export async function createUser(email: User['email']) {
+  const { data, error } = await supabase.auth.signInWithOtp({
+    email: 'example@email.com',
+    options: {
+      emailRedirectTo: 'http://localhost:3000/events',
     },
   });
 }
