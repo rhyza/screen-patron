@@ -1,10 +1,8 @@
 -- Do not run this file directly.
 -- This is a place to save triggers and functions entered manually in Supabase's SQL Editor.
 
--- CREATE PUBLIC.USER WHEN AUTH.USER IS CONFIRMED - USE THIS
--- UPDATE PUBCIC.USER WHEN AUTH.USER'S EMAIL CHANGES
+-- CREATE PUBLIC.USER WHEN AUTH.USER IS CONFIRMED - use this
 -- inserts a row into public.user
--- updates the email of public.user row
 create function public.handle_new_user()
 returns trigger
 language plpgsql
@@ -15,10 +13,22 @@ begin
         insert into public.user (id, email)
         values (new.id::text, new.email);
     end if;
-    if new.email is not old.email then
+    return new;
+end;
+$$;
+
+-- UPDATE PUBCIC.USER WHEN AUTH.USER'S EMAIL CHANGES - not working
+-- updates the email of public.user row
+create function public.handle_email_change()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+    if new.email_confirmed_at is not null and new.email is not old.email then
         update public.user
         set email = new.email
-        where id::text = id
+        where id = new.id::text
     end if;
     return new;
 end;
@@ -51,3 +61,5 @@ create trigger on_auth_user_created
 -- TESTING QUERIES
 -- query to confirm email
 UPDATE auth.users SET email_confirmed_at = '2024-03-16 19:16:46.066819+00' WHERE id = '5e0dbeb9-a60b-4f69-9297-d6e319d31a39'
+
+UPDATE auth.users SET email = 'new-email@test.com' WHERE id = '5e0dbeb9-a60b-4f69-9297-d6e319d31a39'
