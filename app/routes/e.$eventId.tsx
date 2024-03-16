@@ -127,7 +127,7 @@ export default function EventPage() {
           {renderInfoField(<MapPinIcon />, location || 'Location TBD')}
           {cost != undefined &&
             renderInfoField(<TicketIcon />, cost > 0 ? `$${cost} per person` : 'Free')}
-          {capacity &&
+          {(capacity != undefined && capacity > 0) &&
             renderInfoField(
               <UserGroupIcon />,
               <p>
@@ -135,7 +135,7 @@ export default function EventPage() {
                 &nbsp;/ {capacity} spots left
               </p>,
             )}
-          <p>{description}</p>
+          {description && <p>{description}</p>}
           <div className="flex items-center gap-2">
             <span className="flex-none">{guestCount.GOING} Going</span>
             {guestCount.MAYBE > 0 && (

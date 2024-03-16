@@ -1,7 +1,7 @@
 import type { Event, User } from '@prisma/client';
 import type { Rsvp, RsvpInfo } from './rsvp.server';
 import { prisma } from '~/db.server';
-import { retypeNull } from '~/utils';
+import { retypeNull, stripFalseValues } from '~/utils';
 
 export type { Event, Status } from '@prisma/client';
 export type EventInfo = {
@@ -26,6 +26,9 @@ export async function createEvent(
   data?: Partial<Omit<Event, 'id' | 'createdAt'>>,
   name?: string,
 ): Promise<Event> {
+  if (data) {
+    data = retypeEventData(data);
+  }
   return prisma.event.create({
     data: {
       hosts: {
@@ -59,6 +62,8 @@ export async function getEvent(
     dateEnd: true,
     location: true,
     cost: true,
+    capacity: true,
+    description: true,
   };
 
   const filter: object = all
@@ -134,11 +139,35 @@ export function countGuests(guests: Rsvp[] | RsvpInfo[]) {
 export async function updateEvent(
   id: Event['id'],
   data: Partial<Omit<Event, 'id' | 'createdAt'>>,
-): Promise<Event> {
+): Promise<Event | null> {
+  data = retypeEventData(data);
+  console.log(data);
   return prisma.event.update({
     where: { id },
     data: { ...data },
   });
+}
+
+function retypeEventData(data: {[propName: string]: any}) {
+  if (typeof data.dateStart === 'string') {
+    data.dateStart = data.dateStart.length ? new Date(data.dateStart) : undefined;
+  }
+  if (typeof data?.dateEnd === 'string') {
+    data.dateStart = data.dateStart.length ? new Date(data.dateEnd) : undefined;
+  }
+  if (typeof data?.capacity === 'string') {
+    data.capacity = data.capacity.length ? Number(data.capacity) : undefined;
+  }
+  if (typeof data?.cost === 'string') {
+    data.cost = data.cost.length ? Number(data.cost) : undefined;
+  }
+  if (typeof data?.plusOneLimit === 'string') {
+    data.cost = data.cost.length ? Number(data.cost) : 0;
+  }
+  if (typeof data?.published === 'string') {
+    data.published = data.published === 'true';
+  }
+  return data;
 }
 
 /**

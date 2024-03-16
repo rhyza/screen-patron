@@ -3,7 +3,7 @@ import { redirect } from '@remix-run/node';
 
 import EventForm from '~/components/EventForm';
 import { createEvent } from '~/models/event.server';
-import { invariant } from '~/utils';
+import { invariant, stripFalseValues } from '~/utils';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = 'test'; // replace
