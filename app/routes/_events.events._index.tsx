@@ -15,7 +15,7 @@ export const loader = async () => {
   return json({ hosting, responded });
 };
 
-export default function MyEvents() {
+export default function EventsAttending() {
   const { hosting, responded } = useLoaderData<typeof loader>();
 
   const [tab, setTab] = useState('upcoming');

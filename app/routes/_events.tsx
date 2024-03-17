@@ -1,7 +1,7 @@
 import { NavLink, Outlet } from '@remix-run/react';
 import { cn } from '@nextui-org/react';
 
-export default function Events() {
+export default function EventPages() {
   const getClassName = ({ isActive }: { isActive: boolean }) => {
     return cn(
       'flex justify-center items-center rounded-full bg-default px-4 py-2 text-nowrap',

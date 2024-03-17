@@ -9,7 +9,7 @@ export const meta: MetaFunction = () => {
   return [{ title: 'Screen Patron' }, { name: 'description', content: 'DIY Film Events' }];
 };
 
-export default function Index() {
+export default function HomePage() {
   const [counter, setCounter] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {
