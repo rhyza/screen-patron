@@ -3,7 +3,12 @@ import { Button, Input, Modal, ModalBody, ModalContent, RadioGroup } from '@next
 
 import RadioIcon from './RadioIcon';
 
-export default function RSVPModal({ ...props }) {
+export default function RSVPModal({
+  ...props
+}: {
+  selected: string;
+  [propName: string]: any;
+}) {
   const { selected, ...modalProps } = props;
 
   return (

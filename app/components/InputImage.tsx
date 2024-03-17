@@ -19,7 +19,6 @@ export default function InputImage({
   iconFillColor = 'white',
   image = eventPlaceholderImage,
   imageClassName = 'size-80',
-  inputName = 'coverImage',
   ...cardProps
 }) {
   const [src, setSrc] = useState(image);
@@ -55,7 +54,11 @@ export default function InputImage({
           type="file"
         />
       </VisuallyHidden>
-      <img className={cn('object-cover', imageClassName)} src={src} />
+      <img
+        alt="Preview of uploaded file"
+        className={cn('object-cover', imageClassName)}
+        src={src}
+      />
       <CardFooter className="overflow-hidden absolute justify-end inset-x-0 bottom-0 z-10">
         <div aria-hidden="true" className={iconClassName}>
           <EditIcon fill={iconFillColor} />

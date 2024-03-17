@@ -15,7 +15,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export default function BrowseEvents() {
-  const { events, q } = useLoaderData<typeof loader>();
+  const { events } = useLoaderData<typeof loader>();
   const cities = [
     { id: 'nyc', name: 'New York, NY' },
     { id: 'la', name: 'Los Angeles, CA' },

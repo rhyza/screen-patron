@@ -64,6 +64,7 @@ export default function Index() {
       >
         {heroImages.map((src, i) => (
           <img
+            alt="People making films and attending film screenings"
             className={cn(
               'h-[20rem] sm:h-[30rem] md:h-[35rem]',
               'lg:h-[40rem] xl:h-[45rem] 2xl:h-[50rem]',

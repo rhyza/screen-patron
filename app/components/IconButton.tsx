@@ -7,6 +7,7 @@ export default function IconButton({
   size = 'md',
   ...buttonProps
 }: {
+  children: any;
   label?: string | JSX.Element;
   isSelected?: boolean;
   size?: string;

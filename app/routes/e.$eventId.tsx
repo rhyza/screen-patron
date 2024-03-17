@@ -59,7 +59,7 @@ export default function EventPage() {
   };
 
   const renderDateRange = (start: Date, end?: Date) => {
-    let startDate = getDateString({
+    const startDate = getDateString({
       date: start,
       omitSameYear: !(end && end.getFullYear() != start.getFullYear()),
     });
@@ -161,6 +161,7 @@ export default function EventPage() {
         </div>
         <div className="flex-auto max-w-80 sm:max-w-96">
           <img
+            alt={`Event poster for ${name}`}
             className="size-80 sm:size-96 object-cover"
             src={photo || eventPlaceholderImage}
           />

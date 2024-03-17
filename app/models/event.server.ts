@@ -1,7 +1,7 @@
 import type { Event, User } from '@prisma/client';
 import type { Rsvp, RsvpInfo } from './rsvp.server';
 import { prisma } from '~/db.server';
-import { retypeNull, stripFalseValues } from '~/utils';
+import { retypeNull } from '~/utils';
 
 export type { Event, Status } from '@prisma/client';
 export type EventInfo = {

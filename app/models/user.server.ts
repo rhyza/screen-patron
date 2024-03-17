@@ -14,7 +14,7 @@ export type { User } from '@prisma/client';
  */
 export async function createUser(email: User['email']) {
   const { data, error } = await supabase.auth.signInWithOtp({
-    email: 'example@email.com',
+    email,
     options: {
       emailRedirectTo: 'http://localhost:3000/events',
     },

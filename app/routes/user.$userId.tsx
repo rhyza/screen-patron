@@ -6,7 +6,7 @@ import { Button, Link } from '@nextui-org/react';
 import { userPlaceholderImage } from '~/assets';
 import { InstagramIcon, LinkIcon, TwitterIcon } from '~/components/Icons';
 import { getUser, User } from '~/models/user.server';
-import { getDateString, invariant } from '~/utils';
+import { invariant } from '~/utils';
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(params.userId, 'Missing userId param');
@@ -47,6 +47,7 @@ export default function UserPage() {
         <div className="flex-auto space-y-6 max-w-fit min-w-80">
           <div className="flex justify-center">
             <img
+              alt={name ? `${name}'s profile photo` : `Anonymous Patron's profile photo`}
               className="rounded-full object-cover size-64"
               src={photo || userPlaceholderImage}
             />
@@ -61,7 +62,7 @@ export default function UserPage() {
         </div>
         <div className="flex-auto max-w-96 text-center md:text-left">
           <div className="flex items-center md:h-64 w-fit mb-4 md:m-0">
-            <h1 className="text-6xl md:text-7xl font-medium">{name}</h1>
+            <h1 className="text-6xl md:text-7xl font-medium">{name || 'Anonymous Patron'}</h1>
           </div>
           <div className="grid gap-4">
             {bio && <p>{bio}</p>}

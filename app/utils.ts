@@ -142,7 +142,9 @@ function isNotEmptyArray(value: any) {
 function retypeNull(value: any, alt?: any) {
   if (typeof value === 'object' && value != null) {
     const keys = Object.keys(value);
-    keys.map((key) => (value[key] === null ? (value[key] = alt) : (value[key] = value[key])));
+    keys.forEach((key) => {
+      if (value[key] === null) value[key] = alt;
+    });
     return value;
   } else {
     return value === null ? alt : value;
@@ -163,12 +165,10 @@ const singleton = <Value>(name: string, valueFactory: () => Value): Value => {
  * @returns An object with no falsy values
  */
 function stripFalseValues(values: { [propName: string]: any }) {
-  let result: { [propName: string]: any } = {};
+  const result: { [propName: string]: any } = {};
   const keys = Object.keys(values);
-  keys.map((key) => {
-    if (values[key]) {
-      result[key] = values[key];
-    }
+  keys.forEach((key) => {
+    if (values[key]) result[key] = values[key];
   });
   return result;
 }
