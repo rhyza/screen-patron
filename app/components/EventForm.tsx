@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Form, useNavigate } from '@remix-run/react';
 import { Button, Input, Textarea } from '@nextui-org/react';
 
@@ -31,6 +32,41 @@ export default function EventForm({
   const start = dateStart ? getDateInputString(dateStart) : '';
   const end = dateEnd ? getDateInputString(dateEnd) : '';
 
+  const [errorMessage, setErrorMessage] = useState('');
+  const [submitDisabled, setSubmitDisabled] = useState(false);
+  const [showEndDateInput, setShowEndDateInput] = useState(end != '');
+
+  const [dateStartValue, setDateStartValue] = useState(start);
+  const handleDateStartInput = (value: string) => {
+    setDateStartValue(() => value);
+    validateDateInputs(value, dateEndValue);
+  };
+
+  const [dateEndValue, setDateEndValue] = useState(end);
+  const handleDateEndInput = (value: string) => {
+    setDateEndValue(() => value);
+    validateDateInputs(dateStartValue, value);
+  };
+
+  const validateDateInputs = (startValue: string, endValue: string) => {
+    if (!endValue) {
+      setSubmitDisabled(() => false);
+      setErrorMessage(() => '');
+    } else if (!startValue) {
+      setSubmitDisabled(() => true);
+      setErrorMessage(() => `You can't have an end date without a start date.`);
+    } else if (new Date(startValue) < new Date(Date.now())) {
+      setSubmitDisabled(() => true);
+      setErrorMessage(() => `You can't a start date in the past.`);
+    } else if (new Date(startValue) < new Date(endValue)) {
+      setSubmitDisabled(() => false);
+      setErrorMessage(() => '');
+    } else {
+      setSubmitDisabled(() => true);
+      setErrorMessage(() => 'The end date is before the start date.');
+    }
+  };
+
   return (
     <div className="w-full p-6">
       <Form className="flex flex-wrap-reverse justify-center gap-6" method="post">
@@ -44,14 +80,36 @@ export default function EventForm({
             type="text"
           />
           <Input
-            defaultValue={start}
             label="Start Date"
             min={today}
             name="dateStart"
+            onValueChange={handleDateStartInput}
             placeholder="TBD"
             radius="none"
             type="datetime-local"
+            value={dateStartValue}
           />
+          {showEndDateInput && (
+            <Input
+              errorMessage={errorMessage}
+              label="End Date"
+              min={today}
+              name="dateStart"
+              onValueChange={handleDateEndInput}
+              placeholder="TBD"
+              radius="none"
+              type="datetime-local"
+              value={dateEndValue}
+            />
+          )}
+          {dateStartValue && !showEndDateInput && (
+            <Button
+              className="btn-link"
+              onPress={() => setShowEndDateInput(() => !showEndDateInput)}
+            >
+              Add end time
+            </Button>
+          )}
           <Input
             defaultValue={location}
             placeholder="Location"
@@ -91,7 +149,12 @@ export default function EventForm({
         <div className="flex-auto justify-center space-y-6 max-w-80 sm:max-w-96">
           <InputImage image={photo} imageClassName="size-80 sm:size-96" />
           <div className="flex justify-center">
-            <Button className="w-32 bg-primary" radius="none" type="submit">
+            <Button
+              className="w-32 bg-primary"
+              isDisabled={submitDisabled}
+              radius="none"
+              type="submit"
+            >
               Save
             </Button>
             <Button className="w-32" onPress={() => navigate(-1)} radius="none">
