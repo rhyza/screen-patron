@@ -10,7 +10,7 @@ security definer set search_path = public
 as $$
 begin
     if new.confirmed_at is not null and old.confirmed_at is null then
-        insert into public.user (id, email)
+        insert into public.users (id, email)
         values (new.id::text, new.email);
     end if;
     return new;
@@ -26,7 +26,7 @@ security definer set search_path = public
 as $$
 begin
     if new.email_confirmed_at is not null and new.email is not old.email then
-        update public.user
+        update public.users
         set email = new.email
         where id = new.id::text
     end if;
@@ -39,15 +39,15 @@ create trigger on_email_verified
 after update on auth.users for each row execute procedure public.handle_new_user();
 
 
--- CREATE PUBLIC.USER WHEN AUTH.USER IS CREATED
--- inserts a row into public.user
+-- CREATE PUBLIC.USERS WHEN AUTH.USER IS CREATED
+-- inserts a row into public.users
 create function public.handle_new_user()
 returns trigger
 language plpgsql
 security definer set search_path = public
 as $$
 begin
-  insert into public.user (id, email)
+  insert into public.users (id, email)
   values (new.id::text, new.email);
   return new;
 end;

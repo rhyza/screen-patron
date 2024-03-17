@@ -22,14 +22,8 @@ const isUser = true;
 
 export default function UserPage() {
   const {
-    user: { name, photo, bio, instagram, twitter, website, createdAt },
+    user: { name, photo, bio, instagram, twitter, website },
   } = useLoaderData<typeof loader>();
-  const joinDate = getDateString({
-    date: new Date(createdAt),
-    includeWeekDay: false,
-    includeDate: false,
-    omitSameYear: false,
-  });
 
   const renderSocialChip = (label: string, url: string, icon: JSX.Element) => {
     return (
@@ -93,7 +87,6 @@ export default function UserPage() {
                   )}
               </div>
             )}
-            <p>Joined {joinDate}</p>
           </div>
         </div>
       </div>
