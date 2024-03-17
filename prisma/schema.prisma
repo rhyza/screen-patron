@@ -57,6 +57,8 @@ model Event {
 
   createdAt DateTime @default(now())
   published Boolean  @default(false)
+
+  @@map("events")
 }
 
 model Host {
@@ -67,6 +69,7 @@ model Host {
   name    String?
 
   @@id(name: "id", fields: [eventId, userId])
+  @@map("hosts")
 }
 
 model Rsvp {
@@ -81,6 +84,7 @@ model Rsvp {
   groupRsvpId String?
 
   @@id(name: "id", fields: [eventId, userId])
+  @@map("rsvps")
 }
 
 model GroupRsvp {
@@ -91,6 +95,8 @@ model GroupRsvp {
   rsvps     Rsvp[]
   names     String[]
   emails    String[]
+
+  @@map("group_rsvps")
 }
 
 enum Status {
