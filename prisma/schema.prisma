@@ -3,9 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("LOCAL_DATABASE_URL")
-  directUrl = env("LOCAL_DATABASE_URL")
+  provider = "postgresql"
+  url      = env("LOCAL_DATABASE_URL")
 }
 
 model User {
@@ -24,7 +23,7 @@ model User {
   twitter   String?
   website   String?
 
-  @@map("user")
+  @@map("users")
 }
 
 model Event {
