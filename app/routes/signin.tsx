@@ -1,19 +1,25 @@
 import { useState } from 'react';
 import type { ActionFunctionArgs } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
-import { Form } from '@remix-run/react';
+import { json } from '@remix-run/node';
+import { Form, useActionData } from '@remix-run/react';
 import { Button, Card, cn, Input } from '@nextui-org/react';
 
 import { createUser } from '~/models/user.server';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-  await createUser(data);
-  return redirect(`/signin`);
+  const values = Object.fromEntries(formData);
+  const { error } = await createUser(values);
+  if (error) {
+    return json({ success: false, error });
+  }
+  return json({ success: true, error });
 };
 
 export default function SignInPage() {
+  const actionData = useActionData<typeof action>();
+  const hasSent = actionData?.success || false;
+
   const [email, setEmail] = useState('');
   const [isValid, setIsValid] = useState(false);
   const validateEmail = (value: string) => {
@@ -37,32 +43,41 @@ export default function SignInPage() {
         radius="sm"
         shadow="sm"
       >
-        <Form className="flex flex-col justify-center gap-8" method="post">
-          <h1 className="text-xl md:text-3xl font-extrabold uppercase">Sign In or Sign Up</h1>
-          <Input
-            classNames={{
-              inputWrapper: [
-                'border-indigo-100 after:bg-indigo-500 ',
-                'hover:border-indigo-400 active:border-indigo-400 focus:border-indigo-400',
-              ],
-            }}
-            label="Enter your email"
-            name="email"
-            onValueChange={validateEmail}
-            size="lg"
-            type="email"
-            value={email}
-            variant="underlined"
-          />
-          <Button
-            className="w-32 bg-gradiant"
-            isDisabled={!isValid}
-            radius="none"
-            type="submit"
-          >
-            Next
-          </Button>
-        </Form>
+        {!hasSent && (
+          <Form className="flex flex-col justify-center gap-8" method="post">
+            <h1 className="text-xl md:text-3xl font-extrabold uppercase">
+              Sign In or Sign Up
+            </h1>
+            <Input
+              classNames={{
+                inputWrapper: [
+                  'border-indigo-100 after:bg-indigo-500 ',
+                  'hover:border-indigo-400 active:border-indigo-400 focus:border-indigo-400',
+                ],
+              }}
+              label="Enter your email"
+              name="email"
+              onValueChange={validateEmail}
+              size="lg"
+              type="email"
+              value={email}
+              variant="underlined"
+            />
+            <Button
+              className="w-32 bg-gradiant"
+              isDisabled={!isValid}
+              radius="none"
+              type="submit"
+            >
+              Next
+            </Button>
+          </Form>
+        )}
+        {hasSent && (
+          <div className="grid content-center justify-center my-8">
+            <p className="text-2xl text-center">Check your email for your signin link!</p>
+          </div>
+        )}
       </Card>
     </div>
   );

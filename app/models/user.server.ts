@@ -10,12 +10,12 @@ export type { User } from '@prisma/client';
  * Creates a new user on the auth.users table. A unique email is required. A trigger on
  * the database creates a new User on the profile.User table when a user on the auth.users
  * table is verified.
- * @requires `email` Either an email string or an object containing an email property.
+ * @param email An object containing an email property
  * @returns The newly created User record
  */
 export async function createUser({ email }: Partial<Pick<User, 'email'>>) {
   invariant(email && typeof email === 'string', 'No email provided');
-  const { data, error } = await supabase.auth.signInWithOtp({
+  return supabase.auth.signInWithOtp({
     email,
     options: {
       emailRedirectTo: 'http://localhost:3000/events',
