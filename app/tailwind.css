@@ -4,7 +4,7 @@
 
 @layer utilities {
   .bg-primary {
-    @apply bg-gradient-to-br from-purple-500 to-violet-500 text-white;
+    @apply bg-gradient-to-br from-indigo-500 to-violet-500 text-white;
   }
 
   .bg-gradiant {
@@ -12,10 +12,14 @@
   }
 
   .btn-link {
-    @apply cursor-pointer bg-transparent p-0 underline underline-offset-4 text-small uppercase text-foreground hover:text-indigo-600 decoration-indigo-600 decoration-2;
+    @apply cursor-pointer bg-transparent p-0 underline underline-offset-4 text-small uppercase text-foreground hover:text-indigo-400 decoration-indigo-600 decoration-2;
   }
 
   .text-primary {
     @apply font-medium text-indigo-500
+  }
+
+  .text-gradiant {
+    @apply bg-gradient-to-r from-pink-500 to-indigo-500 inline-block text-transparent bg-clip-text
   }
 }

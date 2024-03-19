@@ -19,6 +19,7 @@ import { FilmIcon } from './Icons';
 export default function NavBar() {
   const location = useLocation();
   const navigate = useNavigate();
+  const session = true; // testing use only
 
   return (
     <Navbar maxWidth="full">
@@ -29,12 +30,23 @@ export default function NavBar() {
 
       <NavbarContent as="div" justify="end">
         <NavbarItem>
+          <NavLink
+            className={cn('max-sm:hidden', location.pathname != '/signin' && 'mr-2')}
+            to="browse"
+          >
+            Browse Events
+          </NavLink>
+        </NavbarItem>
+        <NavbarItem
+          className={cn(
+            'max-sm:hidden',
+            (location.pathname === '/e/create' || location.pathname === '/signin') &&
+              'hidden',
+          )}
+        >
           <Button
             as={NavLink}
-            className={cn(
-              'bg-primary max-sm:hidden',
-              location.pathname === '/e/create' ? 'hidden' : '',
-            )}
+            className="bg-primary mr-2"
             radius="none"
             to="e/create"
             variant="flat"
@@ -42,13 +54,19 @@ export default function NavBar() {
             Create
           </Button>
         </NavbarItem>
-        <NavbarItem>
-          <NavLink className="max-sm:hidden mx-4" to="browse">
-            Browse Events
-          </NavLink>
+        <NavbarItem className={cn((session || location.pathname === '/signin') && 'hidden')}>
+          <Button
+            as={NavLink}
+            className="bg-foreground text-primary"
+            radius="none"
+            to="signin"
+            variant="flat"
+          >
+            Sign In
+          </Button>
         </NavbarItem>
         <Dropdown placement="bottom-end">
-          <DropdownTrigger>
+          <DropdownTrigger className={cn(!session && 'hidden')}>
             <Avatar
               isBordered
               as="button"

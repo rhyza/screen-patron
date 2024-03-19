@@ -18,11 +18,6 @@ export default function HomePage() {
     return () => clearInterval(interval);
   }, [counter]);
 
-  const heroLinkClassName = cn(
-    'bg-clip-text hover:text-transparent',
-    'hover:bg-gradient-to-r hover:from-pink-500 hover:to-violet-500',
-  );
-
   return (
     <div className="container overflow-clip overscroll-none py-10">
       <div
@@ -46,11 +41,11 @@ export default function HomePage() {
             'selection:bg-fuchsia-300 selection:text-fuchsia-900',
           )}
         >
-          <NavLink className={heroLinkClassName} to="browse">
+          <NavLink className="hover:text-gradiant" to="browse">
             discover
           </NavLink>
           <span> local film events or put on </span>
-          <NavLink className={heroLinkClassName} to="e/create">
+          <NavLink className="hover:text-gradiant" to="e/create">
             your own
           </NavLink>
         </h1>
