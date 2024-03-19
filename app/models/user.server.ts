@@ -8,12 +8,25 @@ export type { User } from '@prisma/client';
 
 /**
  * Creates a new user on the auth.users table. A unique email is required. A trigger on
- * the database creates a new User on the profile.User table when a user on the auth.users
+ * the database creates a new User on the public.users table when a user on the auth.users
  * table is verified.
  * @param email An object containing an email property
- * @returns The newly created User record
+ * @returns `{ data, error }` with `data` containing a User and Session object
  */
-export async function createUser({ email }: Partial<Pick<User, 'email'>>) {
+export async function signUp({ email, password }: Partial<Pick<User, 'email'>> & { password: string }) {
+  invariant(email && typeof email === 'string', 'No email provided');
+  return supabase.auth.signUp({
+    email,
+    password,
+  })
+}
+
+/**
+ * Sends a magic link to the email provided. Create a new User if User doesn't already exist.
+ * @param email An object containing an email property
+ * @returns `{ data, error }` with `data` not containing any usable information
+ */
+export async function signIn({ email }: Partial<Pick<User, 'email'>>) {
   invariant(email && typeof email === 'string', 'No email provided');
   return supabase.auth.signInWithOtp({
     email,
@@ -21,6 +34,36 @@ export async function createUser({ email }: Partial<Pick<User, 'email'>>) {
       emailRedirectTo: 'http://localhost:3000/events',
     },
   });
+}
+
+/**
+ * Sends a magic link to the email provided if User already exists. Otherwise sends an email
+ * verification link and creates a new user on the auth.users table. A unique email is
+ * required. A trigger on the database creates a new User on the public.users table when a
+ * user on the auth.users table is verified.
+ * @param email An object containing an email property
+ * @returns `{ data, error }` with `data` containing a User and Session object
+ */
+export async function signInOrSignUp({ email }: Partial<Pick<User, 'email'>>) {
+  invariant(email && typeof email === 'string', 'No email provided');
+  const { data, error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: 'http://localhost:3000/events',
+      shouldCreateUser: false,
+    },
+  });
+  if (error) {
+    return supabase.auth.signUp({
+      email,
+      password: '',
+    })
+  }
+  return { data, error };
+}
+
+export async function signOut() {
+  const { error } = await supabase.auth.signOut()
 }
 
 /**

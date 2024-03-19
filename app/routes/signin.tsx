@@ -4,12 +4,12 @@ import { json } from '@remix-run/node';
 import { Form, useActionData } from '@remix-run/react';
 import { Button, Card, cn, Input } from '@nextui-org/react';
 
-import { createUser } from '~/models/user.server';
+import { signIn } from '~/models/user.server';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const values = Object.fromEntries(formData);
-  const { error } = await createUser(values);
+  const { error } = await signIn(values);
   if (error) {
     return json({ success: false, error });
   }
@@ -75,7 +75,7 @@ export default function SignInPage() {
         )}
         {hasSent && (
           <div className="grid content-center justify-center my-8">
-            <p className="text-2xl text-center">Check your email for your signin link!</p>
+            <p className="text-2xl text-center">Check your email for your sign in link!</p>
           </div>
         )}
       </Card>
