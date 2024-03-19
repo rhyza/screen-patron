@@ -7,7 +7,7 @@
     @apply bg-gradient-to-br from-indigo-500 to-violet-500 text-white;
   }
 
-  .bg-gradiant {
+  .bg-gradient {
     @apply bg-gradient-to-br from-indigo-500 to-pink-500 text-white;
   }
 
@@ -19,7 +19,7 @@
     @apply font-medium text-indigo-500
   }
 
-  .text-gradiant {
+  .text-gradient {
     @apply bg-gradient-to-r from-pink-500 to-indigo-500 inline-block text-transparent bg-clip-text
   }
 }

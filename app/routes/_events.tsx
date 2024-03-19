@@ -5,7 +5,7 @@ export default function EventPages() {
   const getClassName = ({ isActive }: { isActive: boolean }) => {
     return cn(
       'flex justify-center items-center rounded-full bg-default px-4 py-2 text-nowrap',
-      isActive ? 'bg-gradiant' : '',
+      isActive ? 'bg-gradient' : '',
     );
   };
 

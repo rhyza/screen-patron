@@ -71,7 +71,7 @@ export default function SignInPage() {
               variant="underlined"
             />
             <Button
-              className="w-32 bg-gradiant"
+              className="w-32 bg-gradient"
               isDisabled={!isValid}
               radius="none"
               type="submit"

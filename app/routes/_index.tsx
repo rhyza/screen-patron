@@ -41,11 +41,11 @@ export default function HomePage() {
             'selection:bg-fuchsia-300 selection:text-fuchsia-900',
           )}
         >
-          <NavLink className="hover:text-gradiant" to="browse">
+          <NavLink className="hover:text-gradient" to="browse">
             discover
           </NavLink>
           <span> local film events or put on </span>
-          <NavLink className="hover:text-gradiant" to="e/create">
+          <NavLink className="hover:text-gradient" to="e/create">
             your own
           </NavLink>
         </h1>
