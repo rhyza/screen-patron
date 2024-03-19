@@ -65,8 +65,13 @@ export async function signInOrSignUp({ email }: Partial<Pick<User, 'email'>>) {
   return { data, error };
 }
 
+/**
+ * Signs out the currently signed-in user, removing all items from localstorage and then
+ * triggers a "SIGNED_OUT" event.
+ * @returns `{ error }` object
+ */
 export async function signOut() {
-  const { error } = await supabase.auth.signOut();
+  return supabase.auth.signOut();
 }
 
 /**

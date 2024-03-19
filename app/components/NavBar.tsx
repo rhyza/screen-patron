@@ -15,6 +15,7 @@ import {
 } from '@nextui-org/react';
 
 import { FilmIcon } from './Icons';
+import { signOut } from '~/models/user.server';
 
 export default function NavBar() {
   const location = useLocation();
