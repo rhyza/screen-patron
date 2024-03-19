@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { PressEvent } from '@react-types/shared';
+import type { MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Button } from '@nextui-org/react';
@@ -7,6 +8,14 @@ import { Button } from '@nextui-org/react';
 import EventCards from '~/components/EventCards';
 import { getEventsHosting, getEventsResponded } from '~/models/user.server';
 import { invariant } from '~/utils';
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: 'My Events | Screen Patron' },
+    { name: 'description', content: 'DIY Film Events' },
+  ];
+};
+
 export const loader = async () => {
   const userId = 'test';
   invariant(userId, "Missing signed in user's id");

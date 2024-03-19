@@ -20,7 +20,7 @@ import { signOut } from '~/models/user.server';
 export default function NavBar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const session = true; // testing use only
+  const session = false; // testing use only
 
   return (
     <Navbar maxWidth="full">

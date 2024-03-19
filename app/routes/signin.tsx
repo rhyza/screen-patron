@@ -1,10 +1,17 @@
 import { useState } from 'react';
-import type { ActionFunctionArgs } from '@remix-run/node';
+import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Form, useActionData } from '@remix-run/react';
 import { Button, Card, cn, Input } from '@nextui-org/react';
 
 import { signIn } from '~/models/user.server';
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: 'Sign In | Screen Patron' },
+    { name: 'description', content: 'DIY Film Events' },
+  ];
+};
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();

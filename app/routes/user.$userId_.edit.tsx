@@ -1,10 +1,17 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
 import UserForm from '~/components/UserForm';
 import { getUser, updateUser, User } from '~/models/user.server';
 import { invariant, retypeNull } from '~/utils';
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: 'Edit Profile | Screen Patron' },
+    { name: 'description', content: 'DIY Film Events' },
+  ];
+};
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
   invariant(params.userId, 'Missing userId param');

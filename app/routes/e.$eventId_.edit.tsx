@@ -1,10 +1,17 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
 import EventForm from '~/components/EventForm';
 import { Event, getEvent, updateEvent } from '~/models/event.server';
 import { invariant, retypeNull } from '~/utils';
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: 'Edit Event | Screen Patron' },
+    { name: 'description', content: 'DIY Film Events' },
+  ];
+};
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
   invariant(params.eventId, 'Missing eventId param');

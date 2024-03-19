@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs } from '@remix-run/node';
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { NavLink, useLoaderData } from '@remix-run/react';
 import { Button, Link } from '@nextui-org/react';
@@ -7,6 +7,10 @@ import { userPlaceholderImage } from '~/assets';
 import { InstagramIcon, LinkIcon, TwitterIcon } from '~/components/Icons';
 import { getUser, User } from '~/models/user.server';
 import { invariant } from '~/utils';
+
+export const meta: MetaFunction = () => {
+  return [{ title: 'Screen Patron' }, { name: 'description', content: 'DIY Film Events' }];
+};
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(params.userId, 'Missing userId param');

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PressEvent } from '@react-types/shared';
-import type { LoaderFunctionArgs } from '@remix-run/node';
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { NavLink, useLoaderData } from '@remix-run/react';
 import { Avatar, Button, Link, Tooltip, useDisclosure } from '@nextui-org/react';
@@ -13,6 +13,10 @@ import { Event, countGuests, getEvent } from '~/models/event.server';
 import { getHosts } from '~/models/host.server';
 import { getGuests } from '~/models/rsvp.server';
 import { getDateString, getTimeString, invariant, retypeNull } from '~/utils';
+
+export const meta: MetaFunction = () => {
+  return [{ title: 'Screen Patron' }, { name: 'description', content: 'DIY Film Events' }];
+};
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(params.eventId, 'Missing eventId param');

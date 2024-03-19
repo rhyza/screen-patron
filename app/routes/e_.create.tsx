@@ -1,9 +1,16 @@
-import type { ActionFunctionArgs } from '@remix-run/node';
+import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
 
 import EventForm from '~/components/EventForm';
 import { createEvent } from '~/models/event.server';
 import { invariant } from '~/utils';
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: 'Create a New Event | Screen Patron' },
+    { name: 'description', content: 'DIY Film Events' },
+  ];
+};
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = 'test'; // replace

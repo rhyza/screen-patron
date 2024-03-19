@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs } from '@remix-run/node';
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Autocomplete, AutocompleteItem, Button } from '@nextui-org/react';
@@ -6,6 +6,13 @@ import { Autocomplete, AutocompleteItem, Button } from '@nextui-org/react';
 import EventCards from '~/components/EventCards';
 import { getEvents } from '~/models/event.server';
 import { retypeNull } from '~/utils';
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: 'Browse Events | Screen Patron' },
+    { name: 'description', content: 'DIY Film Events' },
+  ];
+};
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
