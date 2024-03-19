@@ -13,12 +13,15 @@ export type { User } from '@prisma/client';
  * @param email An object containing an email property
  * @returns `{ data, error }` with `data` containing a User and Session object
  */
-export async function signUp({ email, password }: Partial<Pick<User, 'email'>> & { password: string }) {
+export async function signUp({
+  email,
+  password,
+}: Partial<Pick<User, 'email'>> & { password: string }) {
   invariant(email && typeof email === 'string', 'No email provided');
   return supabase.auth.signUp({
     email,
     password,
-  })
+  });
 }
 
 /**
@@ -57,13 +60,13 @@ export async function signInOrSignUp({ email }: Partial<Pick<User, 'email'>>) {
     return supabase.auth.signUp({
       email,
       password: '',
-    })
+    });
   }
   return { data, error };
 }
 
 export async function signOut() {
-  const { error } = await supabase.auth.signOut()
+  const { error } = await supabase.auth.signOut();
 }
 
 /**
