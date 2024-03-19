@@ -89,7 +89,7 @@ export default function NavBar() {
             <DropdownSection className="sm:hidden" showDivider>
               <DropdownItem
                 key="events"
-                onClick={() => navigate('browse')}
+                onPress={() => navigate('browse')}
                 textValue="Browse Events"
               >
                 Browse Events
@@ -98,21 +98,21 @@ export default function NavBar() {
             <DropdownSection showDivider>
               <DropdownItem
                 key="events"
-                onClick={() => navigate('events')}
+                onPress={() => navigate('events')}
                 textValue="My Events"
               >
                 My Events
               </DropdownItem>
               <DropdownItem
                 key="profile"
-                onClick={() => navigate('user/test')}
+                onPress={() => navigate('user/test')}
                 textValue="My Profile"
               >
                 My Profile
               </DropdownItem>
             </DropdownSection>
             <DropdownSection>
-              <DropdownItem key="logout" color="danger" textValue="Log Out">
+              <DropdownItem color="danger" key="logout" onPress={signOut} textValue="Log Out">
                 Log Out
               </DropdownItem>
             </DropdownSection>

@@ -66,7 +66,7 @@ export async function signInOrSignUp({ email }: Partial<Pick<User, 'email'>>) {
 }
 
 /**
- * Signs out the currently signed-in user, removing all items from localstorage and then
+ * Logs out the currently logged-in user, removing all items from localstorage and then
  * triggers a "SIGNED_OUT" event.
  * @returns `{ error }` object
  */
