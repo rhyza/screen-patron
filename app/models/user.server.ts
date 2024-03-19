@@ -1,4 +1,6 @@
 import type { Host, Rsvp, Status, User } from '@prisma/client';
+import { redirect } from '@remix-run/node';
+
 import { prisma, supabase } from '~/db.server';
 import { removeHostAllEvents } from './host.server';
 import type { EventInfo } from './event.server';
@@ -37,9 +39,21 @@ export async function signIn({ email }: Partial<Pick<User, 'email'>>) {
   return supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: 'http://localhost:3000/events',
+      emailRedirectTo: 'http://localhost:3000/auth.confirm',
     },
   });
+}
+
+/**
+ * Get the current session's user if any.
+ * @returns User object if someone is signed in else undefined.
+ */
+export async function getSessionUser() {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  return session?.user;
 }
 
 /**

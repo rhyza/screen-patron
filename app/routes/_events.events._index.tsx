@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { PressEvent } from '@react-types/shared';
-import type { MetaFunction } from '@remix-run/node';
-import { json } from '@remix-run/node';
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Button } from '@nextui-org/react';
 
 import EventCards from '~/components/EventCards';
+import { getSupabaseServerClient } from '~/db.server';
 import { getEventsHosting, getEventsResponded } from '~/models/user.server';
 import { invariant } from '~/utils';
 
@@ -16,11 +17,17 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const loader = async () => {
-  const userId = 'test';
-  invariant(userId, "Missing signed in user's id");
-  const hosting = await getEventsHosting(userId);
-  const responded = await getEventsResponded(userId);
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { supabase } = getSupabaseServerClient(request);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return redirect('/');
+  invariant(user.id, "Missing signed in user's id");
+
+  const hosting = await getEventsHosting(user.id);
+  const responded = await getEventsResponded(user.id);
   return json({ hosting, responded });
 };
 
