@@ -1,3 +1,4 @@
+import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { PrismaClient } from '@prisma/client';
 import { createClient } from '@supabase/supabase-js';
 import { createBrowserClient, createServerClient, parse, serialize } from '@supabase/ssr';
@@ -40,7 +41,14 @@ function getSupabaseClient() {
   return createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
-function getSupabaseServerClient(request: any) {
+function getSupabaseBrowserClient() {
+  const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
+  invariant(typeof SUPABASE_URL === 'string', 'SUPABASE_URL env var not set');
+  invariant(typeof SUPABASE_ANON_KEY === 'string', 'SUPABASE_ANON_KEY env var not set');
+  return createBrowserClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
+function getSupabaseServerClient({ request }: ActionFunctionArgs | LoaderFunctionArgs) {
   const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
   invariant(typeof SUPABASE_URL === 'string', 'SUPABASE_URL env var not set');
   invariant(typeof SUPABASE_ANON_KEY === 'string', 'SUPABASE_ANON_KEY env var not set');
@@ -63,11 +71,4 @@ function getSupabaseServerClient(request: any) {
   });
 }
 
-function getSupabaseBrowserClient() {
-  const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
-  invariant(typeof SUPABASE_URL === 'string', 'SUPABASE_URL env var not set');
-  invariant(typeof SUPABASE_ANON_KEY === 'string', 'SUPABASE_ANON_KEY env var not set');
-  return createBrowserClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-}
-
-export { prisma, supabase };
+export { prisma, supabase, getSupabaseBrowserClient, getSupabaseServerClient };
