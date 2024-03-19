@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { createClient } from '@supabase/supabase-js';
+import { createBrowserClient, createServerClient, parse, serialize } from '@supabase/ssr';
 import { invariant, singleton } from './utils';
 
 // Hard-code a unique key, so client can be looked up when this module gets re-imported
@@ -37,6 +38,36 @@ function getSupabaseClient() {
   invariant(typeof SUPABASE_URL === 'string', 'SUPABASE_URL env var not set');
   invariant(typeof SUPABASE_ANON_KEY === 'string', 'SUPABASE_ANON_KEY env var not set');
   return createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
+function getSupabaseServerClient(request: any) {
+  const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
+  invariant(typeof SUPABASE_URL === 'string', 'SUPABASE_URL env var not set');
+  invariant(typeof SUPABASE_ANON_KEY === 'string', 'SUPABASE_ANON_KEY env var not set');
+
+  const cookies = parse(request.headers.get('Cookie') ?? '');
+  const headers = new Headers();
+
+  return createServerClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!, {
+    cookies: {
+      get(key) {
+        return cookies[key];
+      },
+      set(key, value, options) {
+        headers.append('Set-Cookie', serialize(key, value, options));
+      },
+      remove(key, options) {
+        headers.append('Set-Cookie', serialize(key, '', options));
+      },
+    },
+  });
+}
+
+function getSupabaseBrowserClient() {
+  const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
+  invariant(typeof SUPABASE_URL === 'string', 'SUPABASE_URL env var not set');
+  invariant(typeof SUPABASE_ANON_KEY === 'string', 'SUPABASE_ANON_KEY env var not set');
+  return createBrowserClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
 export { prisma, supabase };
