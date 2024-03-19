@@ -25,8 +25,11 @@ export async function signUp({
 }
 
 /**
- * Sends a magic link to the email provided. Create a new User if User doesn't already exist.
- * @param email An object containing an email property
+ * Sends a magic link to the email provided. If User doesn't already exist, creates a new
+ * user on the auth.users table. A trigger on the database creates a new User on the
+ * public.users table when a user on the auth.users table is verified by having either their
+ * email or phone number confirmed.
+ * @param email An object containing an email property, a unique email is required
  * @returns `{ data, error }` with `data` not containing any usable information
  */
 export async function signIn({ email }: Partial<Pick<User, 'email'>>) {
@@ -37,32 +40,6 @@ export async function signIn({ email }: Partial<Pick<User, 'email'>>) {
       emailRedirectTo: 'http://localhost:3000/events',
     },
   });
-}
-
-/**
- * Sends a magic link to the email provided if User already exists. Otherwise sends an email
- * verification link and creates a new user on the auth.users table. A unique email is
- * required. A trigger on the database creates a new User on the public.users table when a
- * user on the auth.users table is verified.
- * @param email An object containing an email property
- * @returns `{ data, error }` with `data` containing a User and Session object
- */
-export async function signInOrSignUp({ email }: Partial<Pick<User, 'email'>>) {
-  invariant(email && typeof email === 'string', 'No email provided');
-  const { data, error } = await supabase.auth.signInWithOtp({
-    email,
-    options: {
-      emailRedirectTo: 'http://localhost:3000/events',
-      shouldCreateUser: false,
-    },
-  });
-  if (error) {
-    return supabase.auth.signUp({
-      email,
-      password: '',
-    });
-  }
-  return { data, error };
 }
 
 /**

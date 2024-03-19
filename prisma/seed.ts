@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function seed() {
-  const email = 'rachel@remix.run';
+  const email = 'test@test.com';
   // cleanup the existing database
   await prisma.user.delete({ where: { email } }).catch(() => {
     // no worries if it doesn't exist yet
@@ -13,22 +13,6 @@ async function seed() {
     data: {
       id: 'test',
       email,
-    },
-  });
-
-  await prisma.user.create({
-    data: {
-      id: 'test',
-      email: 'test@gmail.com',
-    },
-  });
-
-  await prisma.event.create({
-    data: {
-      name: 'My first event',
-      hosts: {
-        create: [{ userId: user.id }],
-      },
     },
   });
 

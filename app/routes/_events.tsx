@@ -15,7 +15,7 @@ export default function EventPages() {
         <div className="grid p-2 gap-4">
           <div className="flex gap-2 max-sm:w-80 max-sm:text-small max-sm:overflow-x-auto">
             <NavLink className={getClassName} end id="browse" to="/browse">
-              What&aposs On
+              What's On
             </NavLink>
             <NavLink className={getClassName} end id="events" to="/events">
               My Events

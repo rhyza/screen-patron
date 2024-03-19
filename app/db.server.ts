@@ -5,11 +5,11 @@ import { invariant, singleton } from './utils';
 // Hard-code a unique key, so client can be looked up when this module gets re-imported
 const prisma = singleton('prisma', getPrismaClient);
 const supabase = getSupabaseClient();
-const isLocal = true;
+const useLocal = false;
 
 function getPrismaClient() {
   const { DATABASE_URL, LOCAL_DATABASE_URL } = process.env;
-  const url = isLocal ? LOCAL_DATABASE_URL : DATABASE_URL;
+  const url = useLocal ? LOCAL_DATABASE_URL : DATABASE_URL;
   invariant(typeof url === 'string', 'DATABASE_URL env var not set');
 
   const databaseUrl = new URL(url);
