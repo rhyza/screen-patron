@@ -124,7 +124,12 @@ export default function NavBar() {
             <DropdownSection>
               <DropdownItem color="danger" key="logout" textValue="Log Out">
                 <Form action="/auth/signout" method="post">
-                  <Button type="submit">Sign Out</Button>
+                  <Button
+                    className="m-0 min-w-min w-min h-min bg-transparent p-0"
+                    type="submit"
+                  >
+                    Sign Out
+                  </Button>
                 </Form>
               </DropdownItem>
             </DropdownSection>
