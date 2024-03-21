@@ -97,40 +97,6 @@ export async function getEvents(query?: object): Promise<EventInfo[]> {
 }
 
 /**
- * @param eventId The Event to count the number of guests for
- * @returns The number of guests for each RSVP status
- */
-export async function getGuestCount(eventId: Event['id']) {
-  const guestList = await prisma.rsvp.findMany({
-    where: {
-      eventId,
-    },
-  });
-
-  return countGuests(guestList);
-}
-
-/**
- * @param guests The list of guests (RSVP records) to count
- * @returns The number of guests for each RSVP status
- */
-export function countGuests(guests: Rsvp[] | RsvpInfo[]) {
-  const guestCount = {
-    GOING: 0,
-    MAYBE: 0,
-    NOT_GOING: 0,
-    TOTAL_GUESTS: 0,
-    TOTAL_RESPONSES: 0,
-  };
-
-  guests?.map((rsvp) => (guestCount[rsvp.status] += retypeNull(rsvp.partySize, 1)));
-  guestCount.TOTAL_GUESTS = guestCount.GOING + guestCount.MAYBE;
-  guestCount.TOTAL_RESPONSES = guestCount.TOTAL_GUESTS + guestCount.NOT_GOING;
-
-  return guestCount;
-}
-
-/**
  * Updates any of an Event's info and settings.
  * @requires `id` (`eventId`), `data`
  * > `data: { propName: value, ... }`
