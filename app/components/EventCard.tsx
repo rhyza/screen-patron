@@ -11,7 +11,7 @@ export default function EventCard({
   ...cardProps
 }: {
   event: EventInfo;
-  imageClassName: string;
+  imageClassName?: string;
   [propName: string]: any;
 }) {
   const date = dateStart ? new Date(dateStart) : undefined;
@@ -35,7 +35,7 @@ export default function EventCard({
       {...cardProps}
     >
       <img
-        alt={`Event poster for ${name}`}
+        alt={`Event poster for ${name} event poster`}
         className={'object-cover rounded-md ' + imageClassName}
         src={retypeNull(photo, eventPlaceholderImage)}
       />

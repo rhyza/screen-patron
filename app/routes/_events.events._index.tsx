@@ -23,7 +23,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) return redirect('/');
+  if (!user) return redirect('/browse');
   invariant(user.id, "Missing signed in user's id");
 
   const hosting = await getEventsHosting(user.id);

@@ -16,7 +16,7 @@ export type OutletContext = Session & {
 
 /**
  * Get the current session if any.
- * @returns User object if someone is signed in else undefined.
+ * @returns Session object if someone is signed in else undefined.
  */
 export async function getSession(client?: SupabaseClient<any, 'public', any>) {
   const {
@@ -24,6 +24,18 @@ export async function getSession(client?: SupabaseClient<any, 'public', any>) {
   } = client ? await client.auth.getSession() : await supabase.auth.getSession();
 
   return session;
+}
+
+/**
+ * Get the current user if any.
+ * @returns User object if someone is signed in else undefined.
+ */
+export async function getUser(client?: SupabaseClient<any, 'public', any>) {
+  const {
+    data: { user },
+  } = client ? await client.auth.getUser() : await supabase.auth.getUser();
+
+  return user;
 }
 
 function getPrismaClient() {
