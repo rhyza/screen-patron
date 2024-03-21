@@ -89,6 +89,22 @@ export async function getHost(
 }
 
 /**
+ * @requires `eventId`, `userId`
+ * @returns If the given user is a Host a specific Event
+ */
+export async function isHost(
+  eventId: Host['eventId'],
+  userId: Host['userId'],
+): Promise<boolean> {
+  const data = await prisma.host.findUnique({
+    where: {
+      id: { eventId, userId },
+    },
+  });
+  return data != null;
+}
+
+/**
  * @requires `eventId`
  * @returns The list of Host records for an Event along with each User's profile name and
  * profile photo
