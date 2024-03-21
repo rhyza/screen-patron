@@ -1,5 +1,6 @@
 import type { Host, Rsvp, Status, User } from '@prisma/client';
 import { redirect } from '@remix-run/node';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 import { prisma, supabase } from '~/db.server';
 import { removeHostAllEvents } from './host.server';
@@ -34,12 +35,15 @@ export async function signUp({
  * @param email An object containing an email property, a unique email is required
  * @returns `{ data, error }` with `data` not containing any usable information
  */
-export async function signIn({ email }: Partial<Pick<User, 'email'>>) {
+export async function signIn(
+  client: SupabaseClient<any, 'public', any>,
+  { email }: Partial<Pick<User, 'email'>>,
+) {
   invariant(email && typeof email === 'string', 'No email provided');
-  return supabase.auth.signInWithOtp({
+  return client.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: 'http://localhost:3000/auth.confirm',
+      emailRedirectTo: 'http://localhost:3000/auth/confirm',
     },
   });
 }

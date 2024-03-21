@@ -4,6 +4,7 @@ import { json } from '@remix-run/node';
 import { Form, useActionData } from '@remix-run/react';
 import { Button, Card, cn, Input } from '@nextui-org/react';
 
+import { getSupabaseServerClient } from '~/db.server';
 import { signIn } from '~/models/user.server';
 
 export const meta: MetaFunction = () => {
@@ -16,7 +17,8 @@ export const meta: MetaFunction = () => {
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const values = Object.fromEntries(formData);
-  const { error } = await signIn(values);
+  const { supabase } = getSupabaseServerClient(request);
+  const { error } = await signIn(supabase, values);
   if (error) {
     return json({ success: false, error });
   }
