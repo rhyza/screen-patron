@@ -49,18 +49,6 @@ export async function signIn(
 }
 
 /**
- * Get the current session's user if any.
- * @returns User object if someone is signed in else undefined.
- */
-export async function getSessionUser() {
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  return session?.user;
-}
-
-/**
  * Logs out the currently logged-in user, removing all items from localstorage and then
  * triggers a "SIGNED_OUT" event.
  * @returns `{ error }` object

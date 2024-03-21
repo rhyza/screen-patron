@@ -1,13 +1,30 @@
+import type { User } from '@prisma/client';
 import { PrismaClient } from '@prisma/client';
-import type { SupabaseClientOptions } from '@supabase/supabase-js';
-import { createClient } from '@supabase/supabase-js';
+import type { Session } from '@remix-run/node';
+import type { SupabaseClient, SupabaseClientOptions } from '@supabase/supabase-js';
 import { createBrowserClient, createServerClient, parse, serialize } from '@supabase/ssr';
 import { invariant, singleton } from './utils';
 
 // Hard-code a unique key, so client can be looked up when this module gets re-imported
 const prisma = singleton('prisma', getPrismaClient);
-const supabase = getSupabaseClient();
+const supabase = singleton('supabase', getSupabaseBrowserClient);
 const useLocal = false;
+
+export type OutletContext = Session & {
+  user: User;
+};
+
+/**
+ * Get the current session if any.
+ * @returns User object if someone is signed in else undefined.
+ */
+export async function getSession(client?: SupabaseClient<any, 'public', any>) {
+  const {
+    data: { session },
+  } = client ? await client.auth.getSession() : await supabase.auth.getSession();
+
+  return session;
+}
 
 function getPrismaClient() {
   const { DATABASE_URL, LOCAL_DATABASE_URL } = process.env;
@@ -32,13 +49,6 @@ function getPrismaClient() {
   client.$connect();
 
   return client;
-}
-
-function getSupabaseClient() {
-  const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
-  invariant(typeof SUPABASE_URL === 'string', 'SUPABASE_URL env var not set');
-  invariant(typeof SUPABASE_ANON_KEY === 'string', 'SUPABASE_ANON_KEY env var not set');
-  return createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
 function getSupabaseBrowserClient() {
@@ -76,4 +86,4 @@ function getSupabaseServerClient(
   return { supabase, headers };
 }
 
-export { prisma, supabase, getSupabaseBrowserClient, getSupabaseServerClient };
+export { prisma, supabase, getSupabaseServerClient };
