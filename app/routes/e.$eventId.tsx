@@ -2,33 +2,42 @@ import { useState } from 'react';
 import { PressEvent } from '@react-types/shared';
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { NavLink, useLoaderData, useOutletContext } from '@remix-run/react';
+import { NavLink, useLoaderData } from '@remix-run/react';
 import { Avatar, Button, Link, Tooltip, useDisclosure } from '@nextui-org/react';
 
 import { eventPlaceholderImage } from '~/assets';
 import IconButton from '~/components/IconButton';
 import { MapPinIcon, StarIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
 import RSVPModal from '~/components/RSVPModal';
-import { OutletContext } from '~/db.server';
-import { Event, countGuests, getEvent } from '~/models/event.server';
-import { getHosts } from '~/models/host.server';
-import { getGuests } from '~/models/rsvp.server';
+import { getSession, getSupabaseServerClient } from '~/db.server';
+import type { Event } from '~/models/event.server';
+import { getEvent } from '~/models/event.server';
+import { getHosts, isHost } from '~/models/host.server';
+import type { GuestCount, RsvpInfo } from '~/models/rsvp.server';
+import { countGuests, getGuest, getGuests } from '~/models/rsvp.server';
 import { getDateString, getTimeString, invariant, retypeNull } from '~/utils';
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Screen Patron' }, { name: 'description', content: 'DIY Film Events' }];
 };
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.eventId, 'Missing eventId param');
   const event: Partial<Event> | null = await getEvent(params.eventId);
-  const hosts = await getHosts(params.eventId);
-  const guests = await getGuests(params.eventId);
-  const guestCount = countGuests(guests);
   if (!event) {
     throw new Response('Not Found', { status: 404 });
   }
-  return json({ event, hosts, guests, guestCount });
+
+  const hosts = await getHosts(params.eventId);
+  const guests = await getGuests(params.eventId);
+  const guestCount = countGuests(guests);
+
+  const { supabase } = getSupabaseServerClient(request);
+  const session = await getSession(supabase);
+  const isUser = session?.user?.id ? await isHost(params.eventId, session.user.id) : false;
+  const rsvp = session?.user?.id ? await getGuest(params.eventId, session.user.id) : null;
+
+  return json({ event, hosts, guests, guestCount, isUser, rsvp });
 };
 
 export default function EventPage() {
@@ -37,28 +46,11 @@ export default function EventPage() {
     hosts,
     guests,
     guestCount,
+    isUser,
+    rsvp,
   } = useLoaderData<typeof loader>();
-  const session = useOutletContext<OutletContext>();
-  let isUser = false;
-  let isGuest = false;
-  hosts.forEach((host) => {
-    if (host.userId === session?.user?.id) isUser = true;
-  });
-  guests.forEach((guest) => {
-    if (guest.userId === session?.user?.id) isGuest = true;
-  });
-
   const start = dateStart ? new Date(dateStart) : undefined;
   const end = dateEnd ? new Date(dateEnd) : undefined;
-  const host = Object.values(hosts)[0]; // change to allow multiple hosts
-
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [rsvp, setRsvp] = useState('');
-  const handleModalOpen = (event: PressEvent) => {
-    const { id } = event.target;
-    setRsvp(() => id);
-    onOpen();
-  };
 
   return (
     <div className="w-full p-6">
@@ -77,23 +69,14 @@ export default function EventPage() {
           ) : (
             <p className="text-2xl font-medium">Date & Time TBD</p>
           )}
-          {(isUser || isGuest) && (
-            <div className="flex gap-6 items-center">
-              <Link className="btn-link mb-2" onPress={() => alert('share options')}>
-                share
-              </Link>
-              <Link className="btn-link mb-2" isExternal href="https://calendar.google.com/">
-                add to calendar
-              </Link>
-            </div>
-          )}
+          {(isUser || rsvp) && <ShareLinks />}
           <InfoField
             icon={<StarIcon />}
             text={
               <div className="flex items-center gap-2">
-                Hosted by <Avatar showFallback src={retypeNull(host.user.photo)} />{' '}
-                <NavLink to={`/user/${host.userId}`}>
-                  {retypeNull(host.name, host.user.name) || 'Anonymous Filmmaker'}
+                Hosted by <Avatar showFallback src={retypeNull(hosts[0].user.photo)} />{' '}
+                <NavLink to={`/user/${hosts[0].userId}`}>
+                  {retypeNull(hosts[0].name, hosts[0].user.name) || 'Anonymous Filmmaker'}
                 </NavLink>
               </div>
             }
@@ -117,27 +100,7 @@ export default function EventPage() {
             />
           )}
           {description && <p>{description}</p>}
-          <div className="flex items-center gap-2">
-            <span className="flex-none">{guestCount.GOING} Going</span>
-            {guestCount.MAYBE > 0 && (
-              <span className="flex-none">{guestCount.MAYBE} Maybe</span>
-            )}
-          </div>
-          <div className="flex items-center gap-2">
-            {guests.map((guest, index) => {
-              return (
-                <Tooltip
-                  content={retypeNull(guest.name, guest.user.name) || 'Attendee'}
-                  key={index}
-                >
-                  <Avatar showFallback name="f" src={retypeNull(guest.user.photo)} />
-                </Tooltip>
-              );
-            })}
-            {guestCount.TOTAL_GUESTS > 6 && (
-              <Avatar name={`+${guestCount.TOTAL_GUESTS - 6}`} />
-            )}
-          </div>
+          <Guests guests={guests} guestCount={guestCount} />
         </div>
         <div className="flex-auto max-w-80 sm:max-w-96">
           <img
@@ -145,18 +108,7 @@ export default function EventPage() {
             className="size-80 sm:size-96 object-cover"
             src={photo || eventPlaceholderImage}
           />
-          <div className="flex justify-around m-6">
-            <IconButton id="going" label="Going" onPress={handleModalOpen}>
-              👍
-            </IconButton>
-            <IconButton id="maybe" label="Maybe" onPress={handleModalOpen}>
-              🤔
-            </IconButton>
-            <IconButton id="not going" label="Can't Go" onPress={handleModalOpen}>
-              😢
-            </IconButton>
-            <RSVPModal isOpen={isOpen} onOpenChange={onOpenChange} selected={rsvp} />
-          </div>
+          <RsvpForm response={rsvp?.status} />
         </div>
       </div>
     </div>
@@ -194,11 +146,73 @@ function DateRange({ start, end }: { start: Date; end?: Date }) {
   );
 }
 
+function Guests({ guests, guestCount }: { guests: RsvpInfo[]; guestCount: GuestCount }) {
+  return (
+    <>
+      <div className="flex items-center gap-2">
+        <span className="flex-none">{guestCount.GOING} Going</span>
+        {guestCount.MAYBE > 0 && <span className="flex-none">{guestCount.MAYBE} Maybe</span>}
+      </div>
+      <div className="flex items-center gap-2">
+        {guests.map((guest, index) => {
+          return (
+            <Tooltip
+              content={retypeNull(guest.name, guest.user.name) || 'Attendee'}
+              key={index}
+            >
+              <Avatar showFallback src={retypeNull(guest.user.photo)} />
+            </Tooltip>
+          );
+        })}
+        {guestCount.TOTAL_GUESTS > 6 && <Avatar name={`+${guestCount.TOTAL_GUESTS - 6}`} />}
+      </div>
+    </>
+  );
+}
+
 function InfoField({ icon, text }: { icon: JSX.Element; text: JSX.Element | string }) {
   return (
     <div className="flex items-center gap-2">
       <span className="flex-none">{icon}</span>
       <span className="flex-initial">{text}</span>
+    </div>
+  );
+}
+
+function RsvpForm({ response = '' }: { response: string | undefined }) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [rsvp, setRsvp] = useState(response);
+  const handleModalOpen = (event: PressEvent) => {
+    const { id } = event.target;
+    setRsvp(() => id);
+    onOpen();
+  };
+
+  return (
+    <div className="flex justify-around m-6">
+      <IconButton id="going" label="Going" onPress={handleModalOpen}>
+        👍
+      </IconButton>
+      <IconButton id="maybe" label="Maybe" onPress={handleModalOpen}>
+        🤔
+      </IconButton>
+      <IconButton id="not going" label="Can't Go" onPress={handleModalOpen}>
+        😢
+      </IconButton>
+      <RSVPModal isOpen={isOpen} onOpenChange={onOpenChange} selected={rsvp} />
+    </div>
+  );
+}
+
+function ShareLinks() {
+  return (
+    <div className="flex gap-6 items-center">
+      <Link className="btn-link mb-2" onPress={() => alert('share options')}>
+        share
+      </Link>
+      <Link className="btn-link mb-2" isExternal href="https://calendar.google.com/">
+        add to calendar
+      </Link>
     </div>
   );
 }
