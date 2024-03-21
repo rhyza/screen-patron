@@ -53,8 +53,8 @@ export async function signIn(
  * triggers a "SIGNED_OUT" event.
  * @returns `{ error }` object
  */
-export async function signOut() {
-  return supabase.auth.signOut();
+export async function signOut(client?: SupabaseClient<any, 'public', any>) {
+  return client ? client.auth.signOut() : supabase.auth.signOut();
 }
 
 /**

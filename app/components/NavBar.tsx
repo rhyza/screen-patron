@@ -1,5 +1,5 @@
-import { json } from '@remix-run/node';
-import { NavLink, useLoaderData, useLocation, useNavigate } from '@remix-run/react';
+import { LoaderFunctionArgs, json } from '@remix-run/node';
+import { Form, NavLink, useLoaderData, useLocation, useNavigate } from '@remix-run/react';
 import {
   Avatar,
   Button,
@@ -16,16 +16,16 @@ import {
 } from '@nextui-org/react';
 
 import { FilmIcon } from './Icons';
-import { getSession } from '~/db.server';
-import { signOut } from '~/models/user.server';
+import { getSession, getSupabaseServerClient } from '~/db.server';
 
-export const loader = async () => {
-  const session = await getSession();
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { supabase } = getSupabaseServerClient(request);
+  const session = await getSession(supabase);
   return json({ session });
 };
 
 export default function NavBar() {
-  const session = useLoaderData<typeof loader>();
+  const { session } = useLoaderData<typeof loader>();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -112,15 +112,17 @@ export default function NavBar() {
               </DropdownItem>
               <DropdownItem
                 key="profile"
-                onPress={() => navigate(`user/${session?.session?.user?.id}`)}
+                onPress={() => navigate(`user/${session?.user?.id}`)}
                 textValue="My Profile"
               >
                 My Profile
               </DropdownItem>
             </DropdownSection>
             <DropdownSection>
-              <DropdownItem color="danger" key="logout" onPress={signOut} textValue="Log Out">
-                Log Out
+              <DropdownItem color="danger" key="logout" textValue="Log Out">
+                <Form action="/auth/signout" method="post">
+                  <Button type="submit">Sign Out</Button>
+                </Form>
               </DropdownItem>
             </DropdownSection>
           </DropdownMenu>
