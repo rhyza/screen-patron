@@ -1,4 +1,5 @@
-import { NavLink, useLocation, useNavigate } from '@remix-run/react';
+import { json } from '@remix-run/node';
+import { NavLink, useLoaderData, useLocation, useNavigate } from '@remix-run/react';
 import {
   Avatar,
   Button,
@@ -15,12 +16,18 @@ import {
 } from '@nextui-org/react';
 
 import { FilmIcon } from './Icons';
+import { getSession } from '~/db.server';
 import { signOut } from '~/models/user.server';
 
+export const loader = async () => {
+  const session = await getSession();
+  return json({ session });
+};
+
 export default function NavBar() {
+  const session = useLoaderData<typeof loader>();
   const location = useLocation();
   const navigate = useNavigate();
-  const session = false; // testing use only
 
   return (
     <Navbar maxWidth="full">
@@ -105,7 +112,7 @@ export default function NavBar() {
               </DropdownItem>
               <DropdownItem
                 key="profile"
-                onPress={() => navigate('user/test')}
+                onPress={() => navigate(`user/${session?.session?.user?.id}`)}
                 textValue="My Profile"
               >
                 My Profile

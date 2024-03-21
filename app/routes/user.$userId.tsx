@@ -1,11 +1,13 @@
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { NavLink, useLoaderData } from '@remix-run/react';
+import { NavLink, useLoaderData, useOutletContext } from '@remix-run/react';
 import { Button, Link } from '@nextui-org/react';
 
 import { userPlaceholderImage } from '~/assets';
 import { InstagramIcon, LinkIcon, TwitterIcon } from '~/components/Icons';
-import { getUser, User } from '~/models/user.server';
+import type { OutletContext } from '~/db.server';
+import type { User } from '~/models/user.server';
+import { getUser } from '~/models/user.server';
 import { invariant } from '~/utils';
 
 export const meta: MetaFunction = () => {
@@ -18,22 +20,22 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   if (!user) {
     throw new Response('Not Found', { status: 404 });
   }
+
   return json({ user });
 };
 
-// Remove Before Prod
-const isUser = true;
-
 export default function UserPage() {
   const {
-    user: { name, photo, bio, instagram, twitter, website },
+    user: { id, name, photo, bio, instagram, twitter, website },
   } = useLoaderData<typeof loader>();
+  const session = useOutletContext<OutletContext>();
+  const isUser = session?.user?.id === id;
 
   const renderSocialChip = (label: string, url: string, icon: JSX.Element) => {
     return (
       <Button
         as={Link}
-        className="bg-gradiant"
+        className="bg-gradient"
         href={url}
         isExternal
         radius="full"

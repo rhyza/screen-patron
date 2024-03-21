@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { PressEvent } from '@react-types/shared';
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { NavLink, useLoaderData } from '@remix-run/react';
+import { NavLink, useLoaderData, useOutletContext } from '@remix-run/react';
 import { Avatar, Button, Link, Tooltip, useDisclosure } from '@nextui-org/react';
 
 import { eventPlaceholderImage } from '~/assets';
 import IconButton from '~/components/IconButton';
 import { MapPinIcon, StarIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
 import RSVPModal from '~/components/RSVPModal';
+import { OutletContext } from '~/db.server';
 import { Event, countGuests, getEvent } from '~/models/event.server';
 import { getHosts } from '~/models/host.server';
 import { getGuests } from '~/models/rsvp.server';
@@ -30,10 +31,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   return json({ event, hosts, guests, guestCount });
 };
 
-// Remove Before Prod
-const isUser = true;
-const isGuest = true;
-
 export default function EventPage() {
   const {
     event: { name, photo, dateStart, dateEnd, location, cost, capacity, description },
@@ -41,6 +38,16 @@ export default function EventPage() {
     guests,
     guestCount,
   } = useLoaderData<typeof loader>();
+  const session = useOutletContext<OutletContext>();
+  let isUser = false;
+  let isGuest = false;
+  hosts.forEach((host) => {
+    if (host.userId === session?.user?.id) isUser = true;
+  });
+  guests.forEach((guest) => {
+    if (guest.userId === session?.user?.id) isGuest = true;
+  });
+
   const start = dateStart ? new Date(dateStart) : undefined;
   const end = dateEnd ? new Date(dateEnd) : undefined;
   const host = Object.values(hosts)[0]; // change to allow multiple hosts

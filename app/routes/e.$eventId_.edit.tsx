@@ -3,7 +3,9 @@ import { json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
 import EventForm from '~/components/EventForm';
+import { getSession, getSupabaseServerClient } from '~/db.server';
 import { Event, getEvent, updateEvent } from '~/models/event.server';
+import { isHost } from '~/models/host.server';
 import { invariant, retypeNull } from '~/utils';
 
 export const meta: MetaFunction = () => {
@@ -21,12 +23,21 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   return redirect(`/e/${params.eventId}`);
 };
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.eventId, 'Missing eventId param');
   const event: Partial<Event> = await getEvent(params.eventId);
   if (!event) {
     throw new Response('Not Found', { status: 404 });
   }
+
+  const { supabase } = getSupabaseServerClient(request);
+  const session = await getSession(supabase);
+  invariant(session?.user?.id, 'User not signed in');
+  const host = await isHost(params.eventId, session.user.id);
+  if (!session || !host) {
+    throw redirect(`/e/${params.eventId}`, 302);
+  }
+
   return json({ event });
 };
 

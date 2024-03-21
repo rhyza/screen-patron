@@ -3,6 +3,7 @@ import { json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
 import UserForm from '~/components/UserForm';
+import { getSession, getSupabaseServerClient } from '~/db.server';
 import { getUser, updateUser, User } from '~/models/user.server';
 import { invariant, retypeNull } from '~/utils';
 
@@ -21,13 +22,20 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   return redirect(`/user/${params.userId}`);
 };
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.userId, 'Missing userId param');
   const user: User | null = await getUser(params.userId);
   if (!user) {
     throw new Response('Not Found', { status: 404 });
   }
-  return json({ user });
+
+  const { supabase } = getSupabaseServerClient(request);
+  const session = await getSession(supabase);
+  if (!session || session?.user?.id != params.userId) {
+    throw redirect(`/user/${params.userId}`, 302);
+  }
+
+  return json({ session, user });
 };
 
 export default function EditUser() {
