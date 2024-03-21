@@ -16,16 +16,19 @@ import {
 } from '@nextui-org/react';
 
 import { FilmIcon } from './Icons';
+import { userPlaceholderImage } from '~/assets';
 import { getSession, getSupabaseServerClient } from '~/db.server';
+import { getUser } from '~/models/user.server';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { supabase } = getSupabaseServerClient(request);
   const session = await getSession(supabase);
-  return json({ session });
+  const user = session?.user?.id ? await getUser(session?.user?.id) : null;
+  return json({ session, user });
 };
 
 export default function NavBar() {
-  const { session } = useLoaderData<typeof loader>();
+  const { session, user } = useLoaderData<typeof loader>();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -82,7 +85,7 @@ export default function NavBar() {
               color="secondary"
               name="Jason Hughes"
               size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              src={user?.photo || userPlaceholderImage}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
