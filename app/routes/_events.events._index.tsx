@@ -47,23 +47,40 @@ export default function EventsAttending() {
       setEvents([...hosting.past, ...responded.past]);
     }
   };
-  const renderTab = (id: string, children: string | JSX.Element) => {
-    const active = id === tab ? 'bg-foreground text-background' : '';
-    return (
-      <Button className={active} onPress={handlePress} id={id} radius="full">
-        {children}
-      </Button>
-    );
-  };
 
   return (
     <>
       <div className="flex gap-2 p-2">
-        {renderTab('upcoming', 'Upcoming')}
-        {renderTab('hosting', 'Hosting')}
-        {renderTab('attended', 'Attended')}
+        <EventTab id="upcoming" activeTab={tab} handlePress={handlePress}>
+          Upcoming
+        </EventTab>
+        <EventTab id="hosting" activeTab={tab} handlePress={handlePress}>
+          Hosting
+        </EventTab>
+        <EventTab id="attended" activeTab={tab} handlePress={handlePress}>
+          Attended
+        </EventTab>
       </div>
       <EventCards events={events} />
     </>
+  );
+}
+
+function EventTab({
+  id,
+  activeTab,
+  handlePress,
+  children,
+}: {
+  id: string;
+  activeTab: string;
+  handlePress: (e: PressEvent) => void;
+  children: string | JSX.Element;
+}) {
+  const active = id === activeTab ? 'bg-foreground text-background' : '';
+  return (
+    <Button className={active} onPress={handlePress} id={id} radius="full">
+      {children}
+    </Button>
   );
 }

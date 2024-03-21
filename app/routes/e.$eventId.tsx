@@ -60,46 +60,6 @@ export default function EventPage() {
     onOpen();
   };
 
-  const renderInfoField = (icon: JSX.Element, text: string | JSX.Element) => {
-    return (
-      <div className="flex items-center gap-2">
-        <span className="flex-none">{icon}</span>
-        <span className="flex-initial">{text}</span>
-      </div>
-    );
-  };
-
-  const renderDateRange = (start: Date, end?: Date) => {
-    const startDate = getDateString({
-      date: start,
-      omitSameYear: !(end && end.getFullYear() != start.getFullYear()),
-    });
-    let startTime = getTimeString({ date: start });
-
-    if (end) {
-      const endDate = getDateString({ date: end, omitSameYear: true });
-      const endTime = getTimeString({ date: end });
-
-      if (end.getDate() === start.getDate()) {
-        startTime += ` — ${endTime}`;
-      } else {
-        return (
-          <div>
-            <p className="text-2xl">{startDate + ' · ' + startTime + ' — '}</p>
-            <p className="text-2xl">{endDate + ' · ' + endTime}</p>
-          </div>
-        );
-      }
-    }
-
-    return (
-      <div>
-        <p className="text-3xl font-medium">{startDate}</p>
-        <p className="text-xl font-medium text-neutral-600">{startTime}</p>
-      </div>
-    );
-  };
-
   return (
     <div className="w-full p-6">
       <div className="flex flex-wrap-reverse gap-6 justify-center">
@@ -113,7 +73,7 @@ export default function EventPage() {
             )}
           </div>
           {start ? (
-            renderDateRange(start, end)
+            <DateRange start={start} end={end} />
           ) : (
             <p className="text-2xl font-medium">Date & Time TBD</p>
           )}
@@ -127,26 +87,35 @@ export default function EventPage() {
               </Link>
             </div>
           )}
-
-          {renderInfoField(
-            <StarIcon />,
-            <div className="flex items-center gap-2">
-              Hosted by <Avatar showFallback src={retypeNull(host.user.photo)} />{' '}
-              {retypeNull(host.name, host.user.name) || 'Anonymous Filmmaker'}
-            </div>,
+          <InfoField
+            icon={<StarIcon />}
+            text={
+              <div className="flex items-center gap-2">
+                Hosted by <Avatar showFallback src={retypeNull(host.user.photo)} />{' '}
+                <NavLink to={`/user/${host.userId}`}>
+                  {retypeNull(host.name, host.user.name) || 'Anonymous Filmmaker'}
+                </NavLink>
+              </div>
+            }
+          />
+          <InfoField icon={<MapPinIcon />} text={location || 'Location TBD'} />
+          {cost != undefined && (
+            <InfoField
+              icon={<TicketIcon />}
+              text={cost > 0 ? `$${cost} per person` : 'Free'}
+            />
           )}
-          {renderInfoField(<MapPinIcon />, location || 'Location TBD')}
-          {cost != undefined &&
-            renderInfoField(<TicketIcon />, cost > 0 ? `$${cost} per person` : 'Free')}
-          {capacity != undefined &&
-            capacity > 0 &&
-            renderInfoField(
-              <UserGroupIcon />,
-              <p>
-                <span className="text-primary">{capacity - guestCount.GOING}</span>
-                &nbsp;/ {capacity} spots left
-              </p>,
-            )}
+          {capacity != undefined && capacity > 0 && (
+            <InfoField
+              icon={<UserGroupIcon />}
+              text={
+                <p>
+                  <span className="text-primary">{capacity - guestCount.GOING}</span>
+                  &nbsp;/ {capacity} spots left
+                </p>
+              }
+            />
+          )}
           {description && <p>{description}</p>}
           <div className="flex items-center gap-2">
             <span className="flex-none">{guestCount.GOING} Going</span>
@@ -190,6 +159,46 @@ export default function EventPage() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function DateRange({ start, end }: { start: Date; end?: Date }) {
+  const startDate = getDateString({
+    date: start,
+    omitSameYear: !(end && end.getFullYear() != start.getFullYear()),
+  });
+  let startTime = getTimeString({ date: start });
+
+  if (end) {
+    const endDate = getDateString({ date: end, omitSameYear: true });
+    const endTime = getTimeString({ date: end });
+
+    if (end.getDate() === start.getDate()) {
+      startTime += ` — ${endTime}`;
+    } else {
+      return (
+        <div>
+          <p className="text-2xl">{startDate + ' · ' + startTime + ' — '}</p>
+          <p className="text-2xl">{endDate + ' · ' + endTime}</p>
+        </div>
+      );
+    }
+  }
+
+  return (
+    <div>
+      <p className="text-3xl font-medium">{startDate}</p>
+      <p className="text-xl font-medium text-neutral-600">{startTime}</p>
+    </div>
+  );
+}
+
+function InfoField({ icon, text }: { icon: JSX.Element; text: JSX.Element | string }) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="flex-none">{icon}</span>
+      <span className="flex-initial">{text}</span>
     </div>
   );
 }

@@ -31,22 +31,6 @@ export default function UserPage() {
   const session = useOutletContext<OutletContext>();
   const isUser = session?.user?.id === id;
 
-  const renderSocialChip = (label: string, url: string, icon: JSX.Element) => {
-    return (
-      <Button
-        as={Link}
-        className="bg-gradient"
-        href={url}
-        isExternal
-        radius="full"
-        size="sm"
-        startContent={icon}
-      >
-        {label}
-      </Button>
-    );
-  };
-
   return (
     <div className="w-full p-6">
       <div className="flex flex-wrap md:flex-nowrap gap-6 justify-center">
@@ -74,29 +58,48 @@ export default function UserPage() {
             {bio && <p>{bio}</p>}
             {(instagram || twitter || website) && (
               <div className="flex gap-2 justify-center md:justify-start">
-                {instagram &&
-                  renderSocialChip(
-                    `@${instagram}`,
-                    `https://www.instagram.com/${instagram}`,
-                    <InstagramIcon className="w-4 h-4" />,
-                  )}
-                {twitter &&
-                  renderSocialChip(
-                    `@${twitter}`,
-                    `https://www.twitter.com/${twitter}`,
-                    <TwitterIcon className="w-4 h-4" />,
-                  )}
-                {website &&
-                  renderSocialChip(
-                    'Website',
-                    `https://${website}`,
-                    <LinkIcon className="w-5 h-5" />,
-                  )}
+                {instagram && (
+                  <SocialChip
+                    label={`@${instagram}`}
+                    url={`https://www.instagram.com/${instagram}`}
+                    icon={<InstagramIcon className="w-4 h-4" />}
+                  />
+                )}
+                {twitter && (
+                  <SocialChip
+                    label={`@${twitter}`}
+                    url={`https://www.twitter.com/${twitter}`}
+                    icon={<TwitterIcon className="w-4 h-4" />}
+                  />
+                )}
+                {website && (
+                  <SocialChip
+                    label="Website"
+                    url={`https://${website}`}
+                    icon={<LinkIcon className="w-5 h-5" />}
+                  />
+                )}
               </div>
             )}
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+function SocialChip({ label, url, icon }: { label: string; url: string; icon: JSX.Element }) {
+  return (
+    <Button
+      as={Link}
+      className="bg-gradient"
+      href={url}
+      isExternal
+      radius="full"
+      size="sm"
+      startContent={icon}
+    >
+      {label}
+    </Button>
   );
 }
