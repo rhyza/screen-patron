@@ -9,7 +9,7 @@ export const meta: MetaFunction = () => {
   return [{ title: 'Screen Patron' }, { name: 'description', content: 'DIY Film Events' }];
 };
 
-export default function Index() {
+export default function HomePage() {
   const [counter, setCounter] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,11 +17,6 @@ export default function Index() {
     }, 1500);
     return () => clearInterval(interval);
   }, [counter]);
-
-  const heroLinkClassName = cn(
-    'bg-clip-text hover:text-transparent',
-    'hover:bg-gradient-to-r hover:from-pink-500 hover:to-violet-500',
-  );
 
   return (
     <div className="container overflow-clip overscroll-none py-10">
@@ -46,11 +41,11 @@ export default function Index() {
             'selection:bg-fuchsia-300 selection:text-fuchsia-900',
           )}
         >
-          <NavLink className={heroLinkClassName} to="browse">
+          <NavLink className="hover:text-gradient" to="browse">
             discover
           </NavLink>
           <span> local film events or put on </span>
-          <NavLink className={heroLinkClassName} to="e/create">
+          <NavLink className="hover:text-gradient" to="e/create">
             your own
           </NavLink>
         </h1>
@@ -64,6 +59,7 @@ export default function Index() {
       >
         {heroImages.map((src, i) => (
           <img
+            alt="People making films and attending film screenings"
             className={cn(
               'h-[20rem] sm:h-[30rem] md:h-[35rem]',
               'lg:h-[40rem] xl:h-[45rem] 2xl:h-[50rem]',

@@ -2,6 +2,7 @@ import { ChangeEvent, useRef, useState } from 'react';
 import { Card, CardFooter, cn, VisuallyHidden } from '@nextui-org/react';
 
 import { EditIcon } from './Icons';
+import { eventPlaceholderImage } from '~/assets';
 import { validateFile } from '~/utils';
 
 /**
@@ -13,12 +14,11 @@ import { validateFile } from '~/utils';
  * to the containing Card component
  */
 export default function InputImage({
-  fileLimit = 5,
+  fileLimit = 2,
   iconClassName = 'rounded-full p-3 bg-gray-600',
   iconFillColor = 'white',
-  image = 'https://images.unsplash.com/photo-1604079628040-94301bb21b91',
+  image = eventPlaceholderImage,
   imageClassName = 'size-80',
-  inputName = 'coverImage',
   ...cardProps
 }) {
   const [src, setSrc] = useState(image);
@@ -49,13 +49,16 @@ export default function InputImage({
         <input
           accept="image/*"
           id="avatarUpload"
-          //name={$inputName}
           onChange={handleImagePreview}
           ref={fileUploadRef}
           type="file"
         />
       </VisuallyHidden>
-      <img className={cn('object-cover', imageClassName)} src={src} />
+      <img
+        alt="Preview of uploaded file"
+        className={cn('object-cover', imageClassName)}
+        src={src}
+      />
       <CardFooter className="overflow-hidden absolute justify-end inset-x-0 bottom-0 z-10">
         <div aria-hidden="true" className={iconClassName}>
           <EditIcon fill={iconFillColor} />

@@ -1,14 +1,16 @@
+import { useState } from 'react';
 import { Form, useNavigate } from '@remix-run/react';
 import { Button, Input, Textarea } from '@nextui-org/react';
 
 import { MapPinIcon, TicketIcon, UserGroupIcon } from './Icons';
 import InputImage from './InputImage';
+import { getDateInputString } from '~/utils';
 
 type EventFormValues = {
   name?: string;
-  coverImage?: string;
-  dateStart?: string;
-  dateEnd?: string;
+  photo?: string;
+  dateStart?: Date;
+  dateEnd?: Date;
   location?: string;
   cost?: number;
   capacity?: number;
@@ -17,7 +19,7 @@ type EventFormValues = {
 
 export default function EventForm({
   name,
-  coverImage,
+  photo,
   dateStart,
   dateEnd,
   location,
@@ -26,7 +28,44 @@ export default function EventForm({
   description,
 }: EventFormValues) {
   const navigate = useNavigate();
-  const today = new Date(Date.now());
+  const today = getDateInputString(new Date(Date.now()));
+  const start = dateStart ? getDateInputString(dateStart) : '';
+  const end = dateEnd ? getDateInputString(dateEnd) : '';
+
+  const [errorMessage, setErrorMessage] = useState('');
+  const [submitDisabled, setSubmitDisabled] = useState(false);
+  const [showEndDateInput, setShowEndDateInput] = useState(end != '');
+
+  const [dateStartValue, setDateStartValue] = useState(start);
+  const handleDateStartInput = (value: string) => {
+    setDateStartValue(() => value);
+    validateDateInputs(value, dateEndValue);
+  };
+
+  const [dateEndValue, setDateEndValue] = useState(end);
+  const handleDateEndInput = (value: string) => {
+    setDateEndValue(() => value);
+    validateDateInputs(dateStartValue, value);
+  };
+
+  const validateDateInputs = (startValue: string, endValue: string) => {
+    if (!endValue) {
+      setSubmitDisabled(() => false);
+      setErrorMessage(() => '');
+    } else if (!startValue) {
+      setSubmitDisabled(() => true);
+      setErrorMessage(() => `You can't have an end date without a start date.`);
+    } else if (new Date(startValue) < new Date(Date.now())) {
+      setSubmitDisabled(() => true);
+      setErrorMessage(() => `You can't a start date in the past.`);
+    } else if (new Date(startValue) < new Date(endValue)) {
+      setSubmitDisabled(() => false);
+      setErrorMessage(() => '');
+    } else {
+      setSubmitDisabled(() => true);
+      setErrorMessage(() => 'The end date is before the start date.');
+    }
+  };
 
   return (
     <div className="w-full p-6">
@@ -41,14 +80,36 @@ export default function EventForm({
             type="text"
           />
           <Input
-            defaultValue={dateStart}
             label="Start Date"
-            min={today.toLocaleDateString('fr-CA') + 'T00:00'}
+            min={today}
             name="dateStart"
+            onValueChange={handleDateStartInput}
             placeholder="TBD"
             radius="none"
             type="datetime-local"
+            value={dateStartValue}
           />
+          {showEndDateInput && (
+            <Input
+              errorMessage={errorMessage}
+              label="End Date"
+              min={today}
+              name="dateStart"
+              onValueChange={handleDateEndInput}
+              placeholder="TBD"
+              radius="none"
+              type="datetime-local"
+              value={dateEndValue}
+            />
+          )}
+          {dateStartValue && !showEndDateInput && (
+            <Button
+              className="btn-link"
+              onPress={() => setShowEndDateInput(() => !showEndDateInput)}
+            >
+              Add end time
+            </Button>
+          )}
           <Input
             defaultValue={location}
             placeholder="Location"
@@ -86,9 +147,14 @@ export default function EventForm({
           />
         </div>
         <div className="flex-auto justify-center space-y-6 max-w-80 sm:max-w-96">
-          <InputImage image={coverImage} imageClassName="size-80 sm:size-96" />
+          <InputImage image={photo} imageClassName="size-80 sm:size-96" />
           <div className="flex justify-center">
-            <Button className="w-32 bg-primary" radius="none" type="submit">
+            <Button
+              className="w-32 bg-primary"
+              isDisabled={submitDisabled}
+              radius="none"
+              type="submit"
+            >
               Save
             </Button>
             <Button className="w-32" onPress={() => navigate(-1)} radius="none">

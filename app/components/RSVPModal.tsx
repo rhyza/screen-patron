@@ -3,7 +3,12 @@ import { Button, Input, Modal, ModalBody, ModalContent, RadioGroup } from '@next
 
 import RadioIcon from './RadioIcon';
 
-export default function RSVPModal({ ...props }) {
+export default function RSVPModal({
+  ...props
+}: {
+  selected: string;
+  [propName: string]: any;
+}) {
   const { selected, ...modalProps } = props;
 
   return (
@@ -19,13 +24,13 @@ export default function RSVPModal({ ...props }) {
                 name="rsvp"
                 orientation="horizontal"
               >
-                <RadioIcon description="Going" size="lg" value="going">
+                <RadioIcon description="Going" size="lg" value="GOING">
                   👍
                 </RadioIcon>
-                <RadioIcon description="Maybe" size="lg" value="maybe">
+                <RadioIcon description="Maybe" size="lg" value="MAYBE">
                   🤔
                 </RadioIcon>
-                <RadioIcon description="Not Going" size="lg" value="not going">
+                <RadioIcon description="Not Going" size="lg" value="NOT_GOING">
                   👎
                 </RadioIcon>
               </RadioGroup>

@@ -1,4 +1,5 @@
-import { NavLink, useLocation, useNavigate } from '@remix-run/react';
+import { LoaderFunctionArgs, json } from '@remix-run/node';
+import { Form, NavLink, useLoaderData, useLocation, useNavigate } from '@remix-run/react';
 import {
   Avatar,
   Button,
@@ -15,8 +16,19 @@ import {
 } from '@nextui-org/react';
 
 import { FilmIcon } from './Icons';
+import { userPlaceholderImage } from '~/assets';
+import { getSession, getSupabaseServerClient } from '~/db.server';
+import { getUser } from '~/models/user.server';
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { supabase } = getSupabaseServerClient(request);
+  const session = await getSession(supabase);
+  const user = session?.user?.id ? await getUser(session?.user?.id) : null;
+  return json({ session, user });
+};
 
 export default function NavBar() {
+  const { session, user } = useLoaderData<typeof loader>();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -29,12 +41,23 @@ export default function NavBar() {
 
       <NavbarContent as="div" justify="end">
         <NavbarItem>
+          <NavLink
+            className={cn('max-sm:hidden', location.pathname != '/signin' && 'mr-2')}
+            to="browse"
+          >
+            Browse Events
+          </NavLink>
+        </NavbarItem>
+        <NavbarItem
+          className={cn(
+            'max-sm:hidden',
+            (location.pathname === '/e/create' || location.pathname === '/signin') &&
+              'hidden',
+          )}
+        >
           <Button
             as={NavLink}
-            className={cn(
-              'bg-primary max-sm:hidden',
-              location.pathname === '/e/create' ? 'hidden' : '',
-            )}
+            className="bg-primary mr-2"
             radius="none"
             to="e/create"
             variant="flat"
@@ -42,13 +65,19 @@ export default function NavBar() {
             Create
           </Button>
         </NavbarItem>
-        <NavbarItem>
-          <NavLink className="max-sm:hidden mx-4" to="browse">
-            Browse Events
-          </NavLink>
+        <NavbarItem className={cn((session || location.pathname === '/signin') && 'hidden')}>
+          <Button
+            as={NavLink}
+            className="bg-foreground text-primary"
+            radius="none"
+            to="signin"
+            variant="flat"
+          >
+            Sign In
+          </Button>
         </NavbarItem>
         <Dropdown placement="bottom-end">
-          <DropdownTrigger>
+          <DropdownTrigger className={cn(!session && 'hidden')}>
             <Avatar
               isBordered
               as="button"
@@ -56,7 +85,7 @@ export default function NavBar() {
               color="secondary"
               name="Jason Hughes"
               size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              src={user?.photo || userPlaceholderImage}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -70,7 +99,7 @@ export default function NavBar() {
             <DropdownSection className="sm:hidden" showDivider>
               <DropdownItem
                 key="events"
-                onClick={() => navigate('browse')}
+                onPress={() => navigate('browse')}
                 textValue="Browse Events"
               >
                 Browse Events
@@ -79,22 +108,29 @@ export default function NavBar() {
             <DropdownSection showDivider>
               <DropdownItem
                 key="events"
-                onClick={() => navigate('events')}
+                onPress={() => navigate('events')}
                 textValue="My Events"
               >
                 My Events
               </DropdownItem>
               <DropdownItem
                 key="profile"
-                onClick={() => navigate('user/test')}
+                onPress={() => navigate(`user/${session?.user?.id}`)}
                 textValue="My Profile"
               >
                 My Profile
               </DropdownItem>
             </DropdownSection>
             <DropdownSection>
-              <DropdownItem key="logout" color="danger" textValue="Log Out">
-                Log Out
+              <DropdownItem color="danger" key="logout" textValue="Log Out">
+                <Form action="/auth/signout" method="post">
+                  <Button
+                    className="m-0 min-w-min w-min h-min bg-transparent p-0"
+                    type="submit"
+                  >
+                    Sign Out
+                  </Button>
+                </Form>
               </DropdownItem>
             </DropdownSection>
           </DropdownMenu>

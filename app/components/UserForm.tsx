@@ -6,7 +6,7 @@ import InputImage from './InputImage';
 
 type UserFormValues = {
   name?: string;
-  avatar?: string;
+  photo?: string;
   bio?: string;
   instagram?: string;
   twitter?: string;
@@ -15,38 +15,13 @@ type UserFormValues = {
 
 export default function UserForm({
   name,
-  avatar,
+  photo,
   bio,
   instagram,
   twitter,
   website,
 }: UserFormValues) {
   const navigate = useNavigate();
-
-  const renderSocialInput = (
-    defaultValue: string | undefined,
-    label: string,
-    name: string,
-    icon: JSX.Element,
-    startText: string,
-  ) => {
-    return (
-      <Input
-        defaultValue={defaultValue}
-        name={name}
-        placeholder={label}
-        radius="none"
-        size="sm"
-        startContent={
-          <div className="flex gap-2 items-center">
-            {icon}
-            <span className="ml-1 text-sm text-neutral-500">{startText}</span>
-          </div>
-        }
-        type="text"
-      />
-    );
-  };
 
   return (
     <div className="w-full p-6">
@@ -55,9 +30,9 @@ export default function UserForm({
           <div className="flex justify-center">
             <InputImage
               iconClassName="mb-1 mr-1 rounded-full p-3 bg-gray-600"
-              image={avatar}
+              image={photo}
               imageClassName="rounded-full size-[16rem]"
-              name="avatar"
+              name="photo"
             />
           </div>
           <div className="flex justify-center">
@@ -82,12 +57,61 @@ export default function UserForm({
           </div>
           <div className="grid gap-4">
             <Textarea defaultValue={bio} label="Bio" name="bio" radius="none" />
-            {renderSocialInput(instagram, 'Instagram', 'instagram', <InstagramIcon />, '@')}
-            {renderSocialInput(twitter, 'Twitter', 'twitter', <TwitterIcon />, '@')}
-            {renderSocialInput(website, 'Website', 'website', <LinkIcon />, 'https://')}
+            <SocialInput
+              defaultValue={instagram}
+              label="Instagram"
+              name="instagram"
+              icon={<InstagramIcon />}
+              startText="@"
+            />
+            <SocialInput
+              defaultValue={twitter}
+              label="Twitter"
+              name="twitter"
+              icon={<TwitterIcon />}
+              startText="@"
+            />
+            <SocialInput
+              defaultValue={website}
+              label="Website"
+              name="website"
+              icon={<LinkIcon />}
+              startText="https://"
+            />
           </div>
         </div>
       </Form>
     </div>
+  );
+}
+
+function SocialInput({
+  defaultValue,
+  label,
+  name,
+  icon,
+  startText,
+}: {
+  defaultValue: string | undefined;
+  label: string;
+  name: string;
+  icon: JSX.Element;
+  startText: string;
+}) {
+  return (
+    <Input
+      defaultValue={defaultValue}
+      name={name}
+      placeholder={label}
+      radius="none"
+      size="sm"
+      startContent={
+        <div className="flex gap-2 items-center">
+          {icon}
+          <span className="ml-1 text-sm text-neutral-500">{startText}</span>
+        </div>
+      }
+      type="text"
+    />
   );
 }

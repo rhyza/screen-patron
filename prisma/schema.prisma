@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id         String      @id
+  username   String?     @unique
+  email      String      @unique
+  hosting    Host[]
+  events     Rsvp[]
+  groupRsvps GroupRsvp[]
+
+  name      String?
+  photo     String?
+  city      String?
+  bio       String?
+  instagram String?
+  twitter   String?
+  website   String?
+
+  @@map("users")
+}
+
+model Event {
+  id     String  @id @default(cuid())
+  name   String?
+  hosts  Host[]
+  guests Rsvp[]
+
+  photo       String?
+  description String?
+  trailer     String?
+  dateStart   DateTime? @db.Timestamptz(3)
+  dateEnd     DateTime? @db.Timestamptz(3)
+  location    String?
+  city        String?
+  capacity    Int?
+  cost        Int?      @default(0)
+
+  plusOneLimit Int?
+  reminders    DateTime[] @db.Timestamptz(3)
+  survey       String[]
+
+  acceptRsvp       Boolean @default(true)
+  requestDonations Boolean @default(false)
+  requireApproval  Boolean @default(false)
+  requirePassword  Boolean @default(false)
+  requireSurvey    Boolean @default(false)
+  showGuestCount   Boolean @default(true)
+  showGuestList    Boolean @default(true)
+  showLocation     Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  published Boolean  @default(false)
+
+  @@map("events")
+}
+
+model Host {
+  event   Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId String
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+  name    String?
+
+  @@id(name: "id", fields: [eventId, userId])
+  @@map("hosts")
+}
+
+model Rsvp {
+  event       Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId     String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  status      Status
+  name        String?
+  partySize   Int        @default(1)
+  groupRsvp   GroupRsvp? @relation(fields: [groupRsvpId], references: [id])
+  groupRsvpId String?
+
+  @@id(name: "id", fields: [eventId, userId])
+  @@map("rsvps")
+}
+
+model GroupRsvp {
+  id        String   @id @default(cuid())
+  owner     User     @relation(fields: [ownerId], references: [id])
+  ownerId   String
+  partySize Int
+  rsvps     Rsvp[]
+  names     String[]
+  emails    String[]
+
+  @@map("group_rsvps")
+}
+
+enum Status {
+  GOING
+  MAYBE
+  NOT_GOING
+}

@@ -2,13 +2,16 @@ import { Button, cn } from '@nextui-org/react';
 
 export default function IconButton({
   children,
+  isHidden = false,
+  isSelected = false,
   label,
-  isSelected,
   size = 'md',
   ...buttonProps
 }: {
-  label?: string | JSX.Element;
+  children: any;
+  isHidden?: boolean;
   isSelected?: boolean;
+  label?: string | JSX.Element;
   size?: string;
   [propName: string]: any;
 }) {
@@ -19,7 +22,7 @@ export default function IconButton({
   };
 
   return (
-    <div className="flex flex-wrap justify-center w-24 sm:w-28">
+    <div className={cn(isHidden ? 'hidden' : 'flex flex-wrap justify-center w-24 sm:w-28')}>
       <Button
         className={cn(
           sizeMap[size],
