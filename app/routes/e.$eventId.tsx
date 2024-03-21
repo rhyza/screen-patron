@@ -188,17 +188,26 @@ function RsvpForm({ response = '' }: { response: string | undefined }) {
     onOpen();
   };
 
+  const options = [
+    { id: 'GOING', label: 'Going', icon: '👍' },
+    { id: 'MAYBE', label: 'Maybe', icon: '🤔' },
+    { id: 'NOT_GOING', label: `Can't Go`, icon: '😢' },
+  ];
+
   return (
     <div className="flex justify-around m-6">
-      <IconButton id="going" label="Going" onPress={handleModalOpen}>
-        👍
-      </IconButton>
-      <IconButton id="maybe" label="Maybe" onPress={handleModalOpen}>
-        🤔
-      </IconButton>
-      <IconButton id="not going" label="Can't Go" onPress={handleModalOpen}>
-        😢
-      </IconButton>
+      {options.map((option) => (
+        <IconButton
+          id={option.id}
+          key={option.id}
+          isHidden={response != '' && response != option.id}
+          isSelected={response != '' && response === option.id}
+          label={option.label}
+          onPress={handleModalOpen}
+        >
+          {option.icon}
+        </IconButton>
+      ))}
       <RSVPModal isOpen={isOpen} onOpenChange={onOpenChange} selected={rsvp} />
     </div>
   );
