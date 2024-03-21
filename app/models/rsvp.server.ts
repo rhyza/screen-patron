@@ -77,8 +77,8 @@ export async function addGuest(
 export async function getGuest(
   eventId: Rsvp['eventId'],
   userId: Rsvp['userId'],
-): Promise<RsvpInfo> {
-  return prisma.rsvp.findUniqueOrThrow({
+): Promise<RsvpInfo | null> {
+  return prisma.rsvp.findUnique({
     where: {
       id: { eventId, userId },
     },
