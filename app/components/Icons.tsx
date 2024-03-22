@@ -1,17 +1,15 @@
 type IconProps = {
   classNames?: string;
-  [x: string]: unknown;
-};
+} & React.ComponentPropsWithRef<'svg'>;
 
-export function ClockIcon(props: IconProps) {
-  const { classNames, ...attributes } = props;
+export function ClockIcon({ classNames, ...svgProps }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
       className={`w-6 h-6 ${classNames}`}
-      {...attributes}
+      {...svgProps}
     >
       <path
         fillRule="evenodd"
@@ -22,30 +20,28 @@ export function ClockIcon(props: IconProps) {
   );
 }
 
-export function EditIcon(props: IconProps) {
-  const { classNames, ...attributes } = props;
+export function EditIcon({ classNames, ...svgProps }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
       className={`w-6 h-6 ${classNames}`}
-      {...attributes}
+      {...svgProps}
     >
       <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
     </svg>
   );
 }
 
-export function FilmIcon(props: IconProps) {
-  const { classNames, ...attributes } = props;
+export function FilmIcon({ classNames, ...svgProps }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
       className={`w-6 h-6 ${classNames}`}
-      {...attributes}
+      {...svgProps}
     >
       <path
         fillRule="evenodd"
@@ -56,15 +52,14 @@ export function FilmIcon(props: IconProps) {
   );
 }
 
-export function InstagramIcon(props: IconProps) {
-  const { classNames, ...attributes } = props;
+export function InstagramIcon({ classNames, ...svgProps }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1000 1000"
       fill="currentColor"
       className={`w-6 h-6 ${classNames}`}
-      {...attributes}
+      {...svgProps}
     >
       <path
         d="M295.42,6c-53.2,2.51-89.53,11-121.29,23.48-32.87,12.81-60.73,30-88.45,57.82S40.89,143,28.17,175.92c-12.31,31.83-20.65,68.19-23,121.42S2.3,367.68,2.56,503.46,3.42,656.26,6,709.6c2.54,53.19,11,89.51,23.48,121.28,12.83,32.87,30,60.72,57.83,88.45S143,964.09,176,976.83c31.8,12.29,68.17,20.67,121.39,23s70.35,2.87,206.09,2.61,152.83-.86,206.16-3.39S799.1,988,830.88,975.58c32.87-12.86,60.74-30,88.45-57.84S964.1,862,976.81,829.06c12.32-31.8,20.69-68.17,23-121.35,2.33-53.37,2.88-70.41,2.62-206.17s-.87-152.78-3.4-206.1-11-89.53-23.47-121.32c-12.85-32.87-30-60.7-57.82-88.45S862,40.87,829.07,28.19c-31.82-12.31-68.17-20.7-121.39-23S637.33,2.3,501.54,2.56,348.75,3.4,295.42,6m5.84,903.88c-48.75-2.12-75.22-10.22-92.86-17-23.36-9-40-19.88-57.58-37.29s-28.38-34.11-37.5-57.42c-6.85-17.64-15.1-44.08-17.38-92.83-2.48-52.69-3-68.51-3.29-202s.22-149.29,2.53-202c2.08-48.71,10.23-75.21,17-92.84,9-23.39,19.84-40,37.29-57.57s34.1-28.39,57.43-37.51c17.62-6.88,44.06-15.06,92.79-17.38,52.73-2.5,68.53-3,202-3.29s149.31.21,202.06,2.53c48.71,2.12,75.22,10.19,92.83,17,23.37,9,40,19.81,57.57,37.29s28.4,34.07,37.52,57.45c6.89,17.57,15.07,44,17.37,92.76,2.51,52.73,3.08,68.54,3.32,202s-.23,149.31-2.54,202c-2.13,48.75-10.21,75.23-17,92.89-9,23.35-19.85,40-37.31,57.56s-34.09,28.38-57.43,37.5c-17.6,6.87-44.07,15.07-92.76,17.39-52.73,2.48-68.53,3-202.05,3.29s-149.27-.25-202-2.53m407.6-674.61a60,60,0,1,0,59.88-60.1,60,60,0,0,0-59.88,60.1M245.77,503c.28,141.8,115.44,256.49,257.21,256.22S759.52,643.8,759.25,502,643.79,245.48,502,245.76,245.5,361.22,245.77,503m90.06-.18a166.67,166.67,0,1,1,167,166.34,166.65,166.65,0,0,1-167-166.34"
@@ -74,15 +69,14 @@ export function InstagramIcon(props: IconProps) {
   );
 }
 
-export function LinkIcon(props: IconProps) {
-  const { classNames, ...attributes } = props;
+export function LinkIcon({ classNames, ...svgProps }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 16 16"
       fill="currentColor"
       className={`w-6 h-6 ${classNames}`}
-      {...attributes}
+      {...svgProps}
     >
       <path
         fillRule="evenodd"
@@ -98,15 +92,14 @@ export function LinkIcon(props: IconProps) {
   );
 }
 
-export function MapPinIcon(props: IconProps) {
-  const { classNames, ...attributes } = props;
+export function MapPinIcon({ classNames, ...svgProps }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
       className={`w-6 h-6 ${classNames}`}
-      {...attributes}
+      {...svgProps}
     >
       <path
         fillRule="evenodd"
@@ -117,15 +110,14 @@ export function MapPinIcon(props: IconProps) {
   );
 }
 
-export function StarIcon(props: IconProps) {
-  const { classNames, ...attributes } = props;
+export function StarIcon({ classNames, ...svgProps }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
       className={`w-6 h-6 ${classNames}`}
-      {...attributes}
+      {...svgProps}
     >
       <path
         fillRule="evenodd"
@@ -136,15 +128,14 @@ export function StarIcon(props: IconProps) {
   );
 }
 
-export function TicketIcon(props: IconProps) {
-  const { classNames, ...attributes } = props;
+export function TicketIcon({ classNames, ...svgProps }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
       className={`w-6 h-6 ${classNames}`}
-      {...attributes}
+      {...svgProps}
     >
       <path
         fillRule="evenodd"
@@ -155,30 +146,28 @@ export function TicketIcon(props: IconProps) {
   );
 }
 
-export function TwitterIcon(props: IconProps) {
-  const { classNames, ...attributes } = props;
+export function TwitterIcon({ classNames, ...svgProps }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 248 204"
       fill="currentColor"
       className={`w-6 h-6 ${classNames}`}
-      {...attributes}
+      {...svgProps}
     >
       <path d="M221.95 51.29c.15 2.17.15 4.34.15 6.53 0 66.73-50.8 143.69-143.69 143.69v-.04c-27.44.04-54.31-7.82-77.41-22.64 3.99.48 8 .72 12.02.73 22.74.02 44.83-7.61 62.72-21.66-21.61-.41-40.56-14.5-47.18-35.07 7.57 1.46 15.37 1.16 22.8-.87-23.56-4.76-40.51-25.46-40.51-49.5v-.64c7.02 3.91 14.88 6.08 22.92 6.32C11.58 63.31 4.74 33.79 18.14 10.71c25.64 31.55 63.47 50.73 104.08 52.76-4.07-17.54 1.49-35.92 14.61-48.25 20.34-19.12 52.33-18.14 71.45 2.19 11.31-2.23 22.15-6.38 32.07-12.26-3.77 11.69-11.66 21.62-22.2 27.93 10.01-1.18 19.79-3.86 29-7.95-6.78 10.16-15.32 19.01-25.2 26.16z" />
     </svg>
   );
 }
 
-export function UserGroupIcon(props: IconProps) {
-  const { classNames, ...attributes } = props;
+export function UserGroupIcon({ classNames, ...svgProps }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
       className={`w-6 h-6 ${classNames}`}
-      {...attributes}
+      {...svgProps}
     >
       <path
         fillRule="evenodd"
@@ -190,15 +179,14 @@ export function UserGroupIcon(props: IconProps) {
   );
 }
 
-export function VideoCameraIcon(props: IconProps) {
-  const { classNames, ...attributes } = props;
+export function VideoCameraIcon({ classNames, ...svgProps }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
       className={`w-6 h-6 ${classNames}`}
-      {...attributes}
+      {...svgProps}
     >
       <path d="M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z" />
     </svg>

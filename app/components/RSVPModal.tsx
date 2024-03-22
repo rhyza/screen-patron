@@ -15,8 +15,7 @@ export default function RSVPModal({
   ...modalProps
 }: {
   selected?: string;
-  [x: string]: any;
-}) {
+} & Partial<React.ComponentPropsWithRef<typeof Modal>>) {
   return (
     <Modal hideCloseButton {...modalProps}>
       <ModalContent className="dark">

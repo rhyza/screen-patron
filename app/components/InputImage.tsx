@@ -26,8 +26,7 @@ export default function InputImage({
   iconFillColor?: string;
   image?: string;
   imageClassName?: string;
-  [x: string]: any;
-}) {
+} & React.ComponentPropsWithRef<typeof Card>) {
   const [src, setSrc] = useState(image);
   const handleImagePreview = (event: ChangeEvent<HTMLInputElement>) => {
     if (validateFile(event, fileLimit)) {

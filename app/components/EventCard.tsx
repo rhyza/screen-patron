@@ -21,8 +21,7 @@ export default function EventCard({
 }: {
   event: EventInfo;
   imageClassName?: string;
-  [x: string]: any;
-}) {
+} & React.ComponentPropsWithRef<typeof Card>) {
   const date = dateStart ? new Date(dateStart) : undefined;
   const dateString = date ? getDateString({ date: date }) : 'Date TBD';
   const timeString = date ? getTimeString({ date: date }) : 'Time TBD';

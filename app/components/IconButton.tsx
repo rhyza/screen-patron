@@ -20,13 +20,12 @@ export default function IconButton({
   size = 'md',
   ...buttonProps
 }: {
-  children: any;
+  children: React.ReactNode;
   isHidden?: boolean;
   isSelected?: boolean;
   label?: string | JSX.Element;
   size?: string;
-  [x: string]: any;
-}) {
+} & React.ComponentPropsWithRef<typeof Button>) {
   const sizeMap: { [key: string]: string } = {
     sm: 'text-2xl sm:text-3xl w-16 h-16 p-4',
     md: 'text-3xl sm:text-4xl w-20 h-20 p-4',
