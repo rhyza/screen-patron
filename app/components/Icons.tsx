@@ -3,7 +3,7 @@ type IconProps = {
   [propName: string]: any;
 };
 
-function ClockIcon(props: IconProps) {
+export function ClockIcon(props: IconProps) {
   const { classNames, ...attributes } = props;
   return (
     <svg
@@ -22,7 +22,7 @@ function ClockIcon(props: IconProps) {
   );
 }
 
-function EditIcon(props: IconProps) {
+export function EditIcon(props: IconProps) {
   const { classNames, ...attributes } = props;
   return (
     <svg
@@ -37,7 +37,7 @@ function EditIcon(props: IconProps) {
   );
 }
 
-function FilmIcon(props: IconProps) {
+export function FilmIcon(props: IconProps) {
   const { classNames, ...attributes } = props;
   return (
     <svg
@@ -56,7 +56,7 @@ function FilmIcon(props: IconProps) {
   );
 }
 
-function InstagramIcon(props: IconProps) {
+export function InstagramIcon(props: IconProps) {
   const { classNames, ...attributes } = props;
   return (
     <svg
@@ -74,7 +74,7 @@ function InstagramIcon(props: IconProps) {
   );
 }
 
-function LinkIcon(props: IconProps) {
+export function LinkIcon(props: IconProps) {
   const { classNames, ...attributes } = props;
   return (
     <svg
@@ -98,7 +98,7 @@ function LinkIcon(props: IconProps) {
   );
 }
 
-function MapPinIcon(props: IconProps) {
+export function MapPinIcon(props: IconProps) {
   const { classNames, ...attributes } = props;
   return (
     <svg
@@ -117,7 +117,7 @@ function MapPinIcon(props: IconProps) {
   );
 }
 
-function StarIcon(props: IconProps) {
+export function StarIcon(props: IconProps) {
   const { classNames, ...attributes } = props;
   return (
     <svg
@@ -136,7 +136,7 @@ function StarIcon(props: IconProps) {
   );
 }
 
-function TicketIcon(props: IconProps) {
+export function TicketIcon(props: IconProps) {
   const { classNames, ...attributes } = props;
   return (
     <svg
@@ -155,7 +155,7 @@ function TicketIcon(props: IconProps) {
   );
 }
 
-function TwitterIcon(props: IconProps) {
+export function TwitterIcon(props: IconProps) {
   const { classNames, ...attributes } = props;
   return (
     <svg
@@ -170,7 +170,7 @@ function TwitterIcon(props: IconProps) {
   );
 }
 
-function UserGroupIcon(props: IconProps) {
+export function UserGroupIcon(props: IconProps) {
   const { classNames, ...attributes } = props;
   return (
     <svg
@@ -190,7 +190,7 @@ function UserGroupIcon(props: IconProps) {
   );
 }
 
-function VideoCameraIcon(props: IconProps) {
+export function VideoCameraIcon(props: IconProps) {
   const { classNames, ...attributes } = props;
   return (
     <svg
@@ -204,17 +204,3 @@ function VideoCameraIcon(props: IconProps) {
     </svg>
   );
 }
-
-export {
-  ClockIcon,
-  EditIcon,
-  FilmIcon,
-  InstagramIcon,
-  LinkIcon,
-  MapPinIcon,
-  StarIcon,
-  TicketIcon,
-  TwitterIcon,
-  UserGroupIcon,
-  VideoCameraIcon,
-};

@@ -19,7 +19,7 @@ type DateOptions = {
  * @param date The date as a Date object or an ISO string
  * @returns Date string in the format 'YYYY-MM-DDT00:00'
  */
-function getDateInputString(date: Date | string | null): string {
+export function getDateInputString(date: Date | string | null): string {
   if (date === null) {
     return '';
   } else if (typeof date === 'string') {
@@ -41,7 +41,7 @@ function getDateInputString(date: Date | string | null): string {
  * > `getDateString({ date: date, [optionName]: [boolean], ... })`
  * @returns A formatted date string
  */
-function getDateString({
+export function getDateString({
   date,
   includeWeekDay = true,
   includeDate = true,
@@ -77,7 +77,7 @@ function getDateString({
  * > `getTimeString({ date: date, [timeZone]: [string], [includeTimeZone]: [boolean] })`
  * @returns A formatted time string
  */
-function getTimeString({ date, timeZone, includeTimeZone }: DateOptions) {
+export function getTimeString({ date, timeZone, includeTimeZone }: DateOptions) {
   if (!date) return '';
 
   const options = {
@@ -98,7 +98,10 @@ function getTimeString({ date, timeZone, includeTimeZone }: DateOptions) {
  * effort to compute
  */
 // Borrowed from alexreardon's tiny-invariant.
-function invariant(condition: any, message?: string | (() => string)): asserts condition {
+export function invariant(
+  condition: any,
+  message?: string | (() => string),
+): asserts condition {
   if (condition) {
     return;
   }
@@ -124,7 +127,7 @@ function invariant(condition: any, message?: string | (() => string)): asserts c
  * Evaluates to `false` if a given value is both an Array and is empty,
  * otherwise returns `true`.
  */
-function isNotEmptyArray(value: any) {
+export function isNotEmptyArray(value: any) {
   if (!Array.isArray(value)) {
     return true;
   } else if (value.length > 0) {
@@ -139,7 +142,7 @@ function isNotEmptyArray(value: any) {
  * `undefined`. If `value` is an object, then any property that's `null` gets set to `alt`
  * if given or `undefined`.
  */
-function retypeNull(value: any, alt?: any) {
+export function retypeNull(value: any, alt?: any) {
   if (typeof value === 'object' && value != null) {
     const keys = Object.keys(value);
     keys.forEach((key) => {
@@ -152,7 +155,7 @@ function retypeNull(value: any, alt?: any) {
 }
 
 // Borrowed from https://github.com/remix-run/blues-stack/blob/main/app/singleton.server.ts
-const singleton = <Value>(name: string, valueFactory: () => Value): Value => {
+export const singleton = <Value>(name: string, valueFactory: () => Value): Value => {
   const g = global as unknown as { __singletons: Record<string, unknown> };
   g.__singletons ??= {};
   g.__singletons[name] ??= valueFactory();
@@ -164,7 +167,7 @@ const singleton = <Value>(name: string, valueFactory: () => Value): Value => {
  * @param values The object to strip
  * @returns An object with no falsy values
  */
-function stripFalseValues(values: { [propName: string]: any }) {
+export function stripFalseValues(values: { [propName: string]: any }) {
   const result: { [propName: string]: any } = {};
   const keys = Object.keys(values);
   keys.forEach((key) => {
@@ -178,7 +181,7 @@ function stripFalseValues(values: { [propName: string]: any }) {
  * @param event The file input event
  * @param fileLimit The file size limit in MB
  */
-function validateFile(event: React.ChangeEvent<HTMLInputElement>, fileLimit: number) {
+export function validateFile(event: React.ChangeEvent<HTMLInputElement>, fileLimit: number) {
   const files = event.target.files || [];
   if (files.length === 0 || files[0].size > fileLimit * 1000000) {
     event.target.value = '';
@@ -186,15 +189,3 @@ function validateFile(event: React.ChangeEvent<HTMLInputElement>, fileLimit: num
   }
   return true;
 }
-
-export {
-  getDateInputString,
-  getDateString,
-  getTimeString,
-  invariant,
-  isNotEmptyArray,
-  retypeNull,
-  singleton,
-  stripFalseValues,
-  validateFile,
-};

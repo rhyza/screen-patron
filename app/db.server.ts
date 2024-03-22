@@ -6,8 +6,8 @@ import { createBrowserClient, createServerClient, parse, serialize } from '@supa
 import { invariant, singleton } from './utils';
 
 // Hard-code a unique key, so client can be looked up when this module gets re-imported
-const prisma = singleton('prisma', getPrismaClient);
-const supabase = singleton('supabase', getSupabaseBrowserClient);
+export const prisma = singleton('prisma', getPrismaClient);
+export const supabase = singleton('supabase', getSupabaseBrowserClient);
 const useLocal = process.env.NODE_ENV === 'development';
 
 export type OutletContext = Session & {
@@ -70,7 +70,7 @@ function getSupabaseBrowserClient() {
   return createBrowserClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
-function getSupabaseServerClient(
+export function getSupabaseServerClient(
   request: Request,
   options?: SupabaseClientOptions<'public'>,
 ) {
@@ -97,5 +97,3 @@ function getSupabaseServerClient(
 
   return { supabase, headers };
 }
-
-export { prisma, supabase, getSupabaseServerClient };
