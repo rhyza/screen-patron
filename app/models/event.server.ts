@@ -1,7 +1,5 @@
 import type { Event, User } from '@prisma/client';
-import type { Rsvp, RsvpInfo } from './rsvp.server';
 import { prisma } from '~/db.server';
-import { retypeNull } from '~/utils';
 
 export type { Event, Status } from '@prisma/client';
 export type EventInfo = {
@@ -114,7 +112,7 @@ export async function updateEvent(
   });
 }
 
-function retypeEventData(data: { [propName: string]: any }) {
+function retypeEventData(data: { [x: string]: any }) {
   if (typeof data.dateStart === 'string') {
     data.dateStart = data.dateStart.length ? new Date(data.dateStart) : undefined;
   }

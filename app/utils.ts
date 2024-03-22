@@ -167,8 +167,8 @@ export const singleton = <Value>(name: string, valueFactory: () => Value): Value
  * @param values The object to strip
  * @returns An object with no falsy values
  */
-export function stripFalseValues(values: { [propName: string]: any }) {
-  const result: { [propName: string]: any } = {};
+export function stripFalseValues(values: { [x: string]: any }) {
+  const result: { [x: string]: any } = {};
   const keys = Object.keys(values);
   keys.forEach((key) => {
     if (values[key]) result[key] = values[key];

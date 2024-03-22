@@ -18,6 +18,7 @@ export type OutletContext = Session & {
  * Get the current session if any.
  * @returns Session object if someone is signed in else undefined.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getSession(client?: SupabaseClient<any, 'public', any>) {
   const {
     data: { session },
@@ -30,6 +31,7 @@ export async function getSession(client?: SupabaseClient<any, 'public', any>) {
  * Get the current user if any.
  * @returns User object if someone is signed in else undefined.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getUser(client?: SupabaseClient<any, 'public', any>) {
   const {
     data: { user },

@@ -9,7 +9,7 @@ import { useRadio, VisuallyHidden, cn } from '@nextui-org/react';
 export default function RadioIcon(props: any) {
   const { Component, children, isSelected, description, getBaseProps, getInputProps } =
     useRadio(props);
-  const { size } = props;
+  const size: string = props.size || 'md';
 
   const sizeMap: { [key: string]: string } = {
     sm: 'text-2xl sm:text-3xl size-16 p-4',
@@ -27,7 +27,7 @@ export default function RadioIcon(props: any) {
           'cursor-pointer border-0 border-default rounded-full mb-2',
           'data-[selected=true]:border-secondary data-[selected=true]:border-4',
           'data-[selected=true]:p-3 data-[selected=true]:bg-indigo-200',
-          sizeMap[size || 'md'],
+          sizeMap[size],
         )}
       >
         <VisuallyHidden>
@@ -36,7 +36,7 @@ export default function RadioIcon(props: any) {
         <div
           className={cn(
             'flex items-center justify-center m-0 rounded-full gap-4',
-            sizeMap[size || 'md'],
+            sizeMap[size],
           )}
         >
           {children}

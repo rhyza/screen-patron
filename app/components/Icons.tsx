@@ -1,6 +1,6 @@
 type IconProps = {
   classNames?: string;
-  [propName: string]: any;
+  [x: string]: any;
 };
 
 export function ClockIcon(props: IconProps) {

@@ -21,7 +21,7 @@ export default function EventCard({
 }: {
   event: EventInfo;
   imageClassName?: string;
-  [propName: string]: any;
+  [x: string]: any;
 }) {
   const date = dateStart ? new Date(dateStart) : undefined;
   const dateString = date ? getDateString({ date: date }) : 'Date TBD';

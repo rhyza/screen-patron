@@ -38,6 +38,7 @@ export default function SignInPage() {
     setEmail(() => value);
     if (value.length < 7) {
       setIsValid(() => false);
+      // eslint-disable-next-line no-useless-escape
     } else if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
       setIsValid(() => true);
     } else {

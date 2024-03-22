@@ -1,5 +1,4 @@
 import type { Host, Rsvp, Status, User } from '@prisma/client';
-import { redirect } from '@remix-run/node';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 import { prisma, supabase } from '~/db.server';
@@ -17,11 +16,12 @@ export type { User } from '@prisma/client';
  * @returns `{ data, error }` with `data` containing a User and Session object
  */
 export async function signUp(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   client: SupabaseClient<any, 'public', any>,
   { email, password }: Partial<Pick<User, 'email'>> & { password: string },
 ) {
   invariant(email && typeof email === 'string', 'No email provided');
-  return supabase.auth.signUp({
+  return client.auth.signUp({
     email,
     password,
   });
@@ -36,6 +36,7 @@ export async function signUp(
  * @returns `{ data, error }` with `data` not containing any usable information
  */
 export async function signIn(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   client: SupabaseClient<any, 'public', any>,
   { email }: Partial<Pick<User, 'email'>>,
 ) {
@@ -53,6 +54,7 @@ export async function signIn(
  * triggers a "SIGNED_OUT" event.
  * @returns `{ error }` object
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function signOut(client?: SupabaseClient<any, 'public', any>) {
   return client ? client.auth.signOut() : supabase.auth.signOut();
 }

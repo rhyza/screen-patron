@@ -11,13 +11,12 @@ import RadioIcon from './RadioIcon';
  * reference the NextUI Modal docs for available options
  */
 export default function RSVPModal({
-  ...props
+  selected,
+  ...modalProps
 }: {
   selected: string;
-  [propName: string]: any;
+  [x: string]: any;
 }) {
-  const { selected, ...modalProps } = props;
-
   return (
     <Modal hideCloseButton {...modalProps}>
       <ModalContent className="dark">

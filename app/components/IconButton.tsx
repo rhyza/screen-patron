@@ -25,7 +25,7 @@ export default function IconButton({
   isSelected?: boolean;
   label?: string | JSX.Element;
   size?: string;
-  [propName: string]: any;
+  [x: string]: any;
 }) {
   const sizeMap: { [key: string]: string } = {
     sm: 'text-2xl sm:text-3xl w-16 h-16 p-4',
