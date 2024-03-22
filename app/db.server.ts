@@ -8,7 +8,7 @@ import { invariant, singleton } from './utils';
 // Hard-code a unique key, so client can be looked up when this module gets re-imported
 const prisma = singleton('prisma', getPrismaClient);
 const supabase = singleton('supabase', getSupabaseBrowserClient);
-const useLocal = false;
+const useLocal = process.env.NODE_ENV === 'development';
 
 export type OutletContext = Session & {
   user: User;
