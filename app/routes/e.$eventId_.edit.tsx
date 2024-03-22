@@ -41,6 +41,9 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   return json({ event });
 };
 
+/**
+ * `/e/$eventId/edit` — Page for editing an existing Event.
+ */
 export default function EditEvent() {
   const { event } = useLoaderData<typeof loader>();
 

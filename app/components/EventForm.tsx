@@ -17,6 +17,11 @@ type EventFormValues = {
   description?: string;
 };
 
+/**
+ * Form for modifying an Event's name, description, poster, start date, end date,
+ * location, cost, and venue capacity.
+ * @param EventFormValues Any Event info to pre-populate the field data with
+ */
 export default function EventForm({
   name,
   photo,

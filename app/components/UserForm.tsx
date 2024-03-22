@@ -13,6 +13,11 @@ type UserFormValues = {
   website?: string;
 };
 
+/**
+ * Form for modifying a User's name, bio, profile photo, instagram handle, twitter handle,
+ * and website link.
+ * @param UserFormValues Any User info to pre-populate the field data with
+ */
 export default function UserForm({
   name,
   photo,

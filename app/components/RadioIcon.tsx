@@ -1,5 +1,11 @@
 import { useRadio, VisuallyHidden, cn } from '@nextui-org/react';
 
+/**
+ * Custom radio input buttons with an icon displayed in the center. This component modifies
+ * a basic html input element.
+ * @param size (optional) The size of the button, options are `sm`, `md`, or `lg`,
+ * default value is `md`
+ */
 export default function RadioIcon(props: any) {
   const { Component, children, isSelected, description, getBaseProps, getInputProps } =
     useRadio(props);

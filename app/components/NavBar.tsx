@@ -27,6 +27,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ session, user });
 };
 
+/**
+ * Navigation Bar for the entire app
+ */
 export default function NavBar() {
   const { session, user } = useLoaderData<typeof loader>();
   const location = useLocation();

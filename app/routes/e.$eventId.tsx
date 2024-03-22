@@ -40,6 +40,9 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   return json({ event, hosts, guests, guestCount, isUser, rsvp });
 };
 
+/**
+ * `/e/$eventId` — Page displaying an Event's details and where Users can RSVP.
+ */
 export default function EventPage() {
   const {
     event: { name, photo, dateStart, dateEnd, location, cost, capacity, description },

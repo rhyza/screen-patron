@@ -24,6 +24,9 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   return json({ user });
 };
 
+/**
+ * `/user/$userId` — Page displaying a User's profile.
+ */
 export default function UserPage() {
   const {
     user: { id, name, photo, bio, instagram, twitter, website },

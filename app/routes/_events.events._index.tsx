@@ -31,6 +31,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ hosting, responded });
 };
 
+/**
+ * `/events` — Page listing events the User is either hosting, is attending, or has attended.
+ * Attending status is determined by a "GOING" or "MAYBE" response.
+ */
 export default function EventsAttending() {
   const { hosting, responded } = useLoaderData<typeof loader>();
 

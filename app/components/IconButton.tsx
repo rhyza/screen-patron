@@ -1,5 +1,17 @@
 import { Button, cn } from '@nextui-org/react';
 
+/**
+ * Circular icon only Button component.
+ * @param isHidden (optional) Sets button to hidden, default value is `false`
+ * @param isSelected (optional) Adds additional styling to indicate its selected status,
+ * default value is `false`
+ * @param label (optional) The label to render below the button
+ * @param size (optional) The size of the button, options are `sm`, `md`, or `lg`,
+ * default value is `md`
+ * @param buttonProps (optional) Any additional props are applied to the Button component,
+ * reference the NextUI Button docs for available options
+ * @returns
+ */
 export default function IconButton({
   children,
   isHidden = false,

@@ -38,6 +38,9 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   return json({ session, user });
 };
 
+/**
+ * `/user/$userId/edit` — Page for editing an existing User's profile.
+ */
 export default function EditUser() {
   const { user } = useLoaderData<typeof loader>();
 

@@ -5,6 +5,15 @@ import { eventPlaceholderImage } from '~/assets';
 import { EventInfo } from '~/models/event.server';
 import { getDateString, getTimeString, retypeNull } from '~/utils';
 
+/**
+ * Pressable Card component featuring an event's poster and information.
+ * Sends user to the event page on press.
+ * @param event Event object containing `id`, `name`, `dateStart`, and `cost` info
+ * @param imageClassName (optional) Use Tailwind classes to modify the look of the Card,
+ * default value is `size-80`
+ * @param cardProps (optional) Any additional props are applied to the component's container,
+ * reference the NextUI Card docs for available options
+ */
 export default function EventCard({
   event: { id, name, photo, dateStart, cost },
   imageClassName = 'size-80',

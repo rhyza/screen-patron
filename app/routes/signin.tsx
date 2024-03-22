@@ -25,6 +25,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   return json({ success: true, error });
 };
 
+/**
+ * `/signin` — Page for Users to sign in. Sends an email to complete the process.
+ */
 export default function SignInPage() {
   const actionData = useActionData<typeof action>();
   const hasSent = actionData?.success || false;

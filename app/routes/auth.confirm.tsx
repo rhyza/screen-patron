@@ -4,6 +4,10 @@ import type { EmailOtpType } from '@supabase/supabase-js';
 
 import { getSupabaseServerClient } from '~/db.server';
 
+/**
+ * API endpoint users are directed to after clicking a Magic Link, confirming their log in.
+ * No page is rendered.
+ */
 export async function loader({ request }: LoaderFunctionArgs) {
   const { searchParams } = new URL(request.url);
   const token_hash = searchParams.get('token_hash');

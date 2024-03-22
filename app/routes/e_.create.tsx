@@ -23,6 +23,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   return redirect(`/e/${event.id}`);
 };
 
+/**
+ * `e/create` — Page for creating a new Event.
+ */
 export default function CreateEvent() {
   return <EventForm />;
 }

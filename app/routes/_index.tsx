@@ -9,6 +9,9 @@ export const meta: MetaFunction = () => {
   return [{ title: 'Screen Patron' }, { name: 'description', content: 'DIY Film Events' }];
 };
 
+/**
+ * `/` — Landing Page
+ */
 export default function HomePage() {
   const [counter, setCounter] = useState(0);
   useEffect(() => {

@@ -21,6 +21,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ events, q });
 };
 
+/**
+ * `/browse` — Page for exploring local public events.
+ */
 export default function BrowseEvents() {
   const { events } = useLoaderData<typeof loader>();
   const cities = [

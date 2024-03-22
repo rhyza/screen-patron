@@ -1,6 +1,10 @@
 import EventCard from './EventCard';
 import type { EventInfo } from '~/models/event.server';
 
+/**
+ * Three column grid of EventCard components.
+ * @param events The list of events to render into cards
+ */
 export default function EventCards({ events = [] }: { events: EventInfo[] }) {
   return (
     <div>

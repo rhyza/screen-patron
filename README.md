@@ -3,6 +3,7 @@
 A place where you can find, share, and support local DIY film screenings. Still in development (pre-alpha).
 
 ## Quick Start
+
 ```sh
 git clone https://github.com/rhyza/screen-patron.git
 cd screen-patron

@@ -10,6 +10,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ session });
 };
 
+/**
+ * The common Navigation header for both the `/browse` and `/events` pages.
+ */
 export default function EventPages() {
   const { session } = useLoaderData<typeof loader>();
   const getClassName = ({ isActive }: { isActive: boolean }) => {

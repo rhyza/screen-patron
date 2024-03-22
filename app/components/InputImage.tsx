@@ -7,11 +7,11 @@ import { validateFile } from '~/utils';
 
 /**
  * File input component that shows a preview of the uploaded image.
- * @param fileLimit file size limit in MB
- * @param image img src link
- * @param imageClassName img tag className string for use with tailwind
- * @param cardProps InputImage accepts any number of additional props to apply
- * to the containing Card component
+ * @param fileLimit (optional) File size limit in MB, default value is 2 MB
+ * @param image (optional) img tag src link
+ * @param imageClassName (optional) img tag className string for use with tailwind
+ * @param cardProps (optional) Any additional props are applied to the component's container,
+ * reference the NextUI Card docs for available options
  */
 export default function InputImage({
   fileLimit = 2,

@@ -3,6 +3,13 @@ import { Button, Input, Modal, ModalBody, ModalContent, RadioGroup } from '@next
 
 import RadioIcon from './RadioIcon';
 
+/**
+ * Modal containing an RSVP form
+ * @param selected The selected RSVP response, the options are "GOING", "MAYBE",
+ * or "NOT_GOING"
+ * @param modalProps (optional) Any additional props are applied to the component's container,
+ * reference the NextUI Modal docs for available options
+ */
 export default function RSVPModal({
   ...props
 }: {
@@ -30,8 +37,8 @@ export default function RSVPModal({
                 <RadioIcon description="Maybe" size="lg" value="MAYBE">
                   🤔
                 </RadioIcon>
-                <RadioIcon description="Not Going" size="lg" value="NOT_GOING">
-                  👎
+                <RadioIcon description="Can't Go" size="lg" value="NOT_GOING">
+                  😢
                 </RadioIcon>
               </RadioGroup>
               <Input label="Your Name" name="name" radius="none" size="lg" type="text" />
