@@ -20,6 +20,13 @@ export default function InputImage({
   image = eventPlaceholderImage,
   imageClassName = 'size-80',
   ...cardProps
+}: {
+  fileLimit?: number;
+  iconClassName?: string;
+  iconFillColor?: string;
+  image?: string;
+  imageClassName?: string;
+  [x: string]: any;
 }) {
   const [src, setSrc] = useState(image);
   const handleImagePreview = (event: ChangeEvent<HTMLInputElement>) => {

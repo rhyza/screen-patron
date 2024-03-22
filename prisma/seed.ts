@@ -9,7 +9,7 @@ async function seed() {
     // no worries if it doesn't exist yet
   });
 
-  const user = await prisma.user.create({
+  await prisma.user.create({
     data: {
       id: 'test',
       email,

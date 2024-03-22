@@ -99,7 +99,7 @@ export function getTimeString({ date, timeZone, includeTimeZone }: DateOptions) 
  */
 // Borrowed from alexreardon's tiny-invariant.
 export function invariant(
-  condition: any,
+  condition: any, // eslint-disable-line @typescript-eslint/no-explicit-any
   message?: string | (() => string),
 ): asserts condition {
   if (condition) {

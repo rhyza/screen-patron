@@ -14,7 +14,7 @@ export default function RSVPModal({
   selected,
   ...modalProps
 }: {
-  selected: string;
+  selected?: string;
   [x: string]: any;
 }) {
   return (
