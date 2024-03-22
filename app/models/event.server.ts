@@ -112,6 +112,7 @@ export async function updateEvent(
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function retypeEventData(data: { [x: string]: any }) {
   if (typeof data.dateStart === 'string') {
     data.dateStart = data.dateStart.length ? new Date(data.dateStart) : undefined;

@@ -1,7 +1,7 @@
 import type { User } from '@prisma/client';
 import { PrismaClient } from '@prisma/client';
 import type { Session } from '@remix-run/node';
-import type { SupabaseClient, SupabaseClientOptions } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { createBrowserClient, createServerClient, parse, serialize } from '@supabase/ssr';
 import { invariant, singleton } from './utils';
 
@@ -72,10 +72,7 @@ function getSupabaseBrowserClient() {
   return createBrowserClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
-export function getSupabaseServerClient(
-  request: Request,
-  options?: SupabaseClientOptions<'public'>,
-) {
+export function getSupabaseServerClient(request: Request) {
   const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
   invariant(typeof SUPABASE_URL === 'string', 'SUPABASE_URL env var not set');
   invariant(typeof SUPABASE_ANON_KEY === 'string', 'SUPABASE_ANON_KEY env var not set');

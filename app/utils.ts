@@ -127,7 +127,7 @@ export function invariant(
  * Evaluates to `false` if a given value is both an Array and is empty,
  * otherwise returns `true`.
  */
-export function isNotEmptyArray(value: any) {
+export function isNotEmptyArray(value: unknown) {
   if (!Array.isArray(value)) {
     return true;
   } else if (value.length > 0) {
@@ -142,6 +142,7 @@ export function isNotEmptyArray(value: any) {
  * `undefined`. If `value` is an object, then any property that's `null` gets set to `alt`
  * if given or `undefined`.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function retypeNull(value: any, alt?: any) {
   if (typeof value === 'object' && value != null) {
     const keys = Object.keys(value);
@@ -167,8 +168,8 @@ export const singleton = <Value>(name: string, valueFactory: () => Value): Value
  * @param values The object to strip
  * @returns An object with no falsy values
  */
-export function stripFalseValues(values: { [x: string]: any }) {
-  const result: { [x: string]: any } = {};
+export function stripFalseValues(values: { [x: string]: unknown }) {
+  const result: { [x: string]: unknown } = {};
   const keys = Object.keys(values);
   keys.forEach((key) => {
     if (values[key]) result[key] = values[key];
