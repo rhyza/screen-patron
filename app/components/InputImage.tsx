@@ -1,8 +1,8 @@
 import { ChangeEvent, useRef, useState } from 'react';
-import { Card, CardFooter, cn, VisuallyHidden } from '@nextui-org/react';
+import { Card, CardBody, CardFooter, cn, VisuallyHidden } from '@nextui-org/react';
 
 import { EditIcon } from './Icons';
-import { eventPlaceholderImage } from '~/assets';
+import { uploadPlaceholderImage } from '~/assets';
 import { validateFile } from '~/utils';
 
 /**
@@ -14,24 +14,32 @@ import { validateFile } from '~/utils';
  * reference the NextUI Card docs for available options
  */
 export default function InputImage({
+  errorMessage = '',
   fileLimit = 2,
   iconClassName = 'rounded-full p-3 bg-gray-600',
   iconFillColor = 'white',
-  image = eventPlaceholderImage,
+  image = uploadPlaceholderImage,
   imageClassName = 'size-80',
+  name = 'photo',
   ...cardProps
 }: {
+  errorMessage?: string;
   fileLimit?: number;
   iconClassName?: string;
   iconFillColor?: string;
   image?: string;
+  name?: string;
   imageClassName?: string;
 } & React.ComponentPropsWithRef<typeof Card>) {
+  const [error, setError] = useState('');
   const [src, setSrc] = useState(image);
   const handleImagePreview = (event: ChangeEvent<HTMLInputElement>) => {
     if (validateFile(event, fileLimit)) {
       const files = event.target.files || [];
-      setSrc(URL.createObjectURL(files[0]));
+      setSrc(() => URL.createObjectURL(files[0]));
+      setError('');
+    } else {
+      setError(`The file size limit is ${fileLimit} MB.`);
     }
   };
 
@@ -50,26 +58,36 @@ export default function InputImage({
   };
 
   return (
-    <Card {...cardProps} isPressable onPress={handleImageUpload}>
-      <VisuallyHidden>
-        <input
-          accept="image/*"
-          id="avatarUpload"
-          onChange={handleImagePreview}
-          ref={fileUploadRef}
-          type="file"
+    <>
+      <Card {...cardProps} isPressable onPress={handleImageUpload}>
+        <VisuallyHidden>
+          <input
+            accept="image/*"
+            id="avatarUpload"
+            name={name}
+            onChange={handleImagePreview}
+            ref={fileUploadRef}
+            type="file"
+          />
+        </VisuallyHidden>
+        <img
+          alt="Preview of uploaded file"
+          className={cn('object-cover', imageClassName)}
+          src={src}
         />
-      </VisuallyHidden>
-      <img
-        alt="Preview of uploaded file"
-        className={cn('object-cover', imageClassName)}
-        src={src}
-      />
-      <CardFooter className="overflow-hidden absolute justify-end inset-x-0 bottom-0 z-10">
-        <div aria-hidden="true" className={iconClassName}>
-          <EditIcon fill={iconFillColor} />
-        </div>
-      </CardFooter>
-    </Card>
+        {(error || errorMessage) && (
+          <CardBody className="overflow-hidden absolute justify-center content-center inset-0 z-10">
+            <div className="overflow-hidden z-10 rounded-large bg-red-800/65 shadow-small py-1 px-4 text-center drop-shadow-sm">
+              {error || errorMessage}
+            </div>
+          </CardBody>
+        )}
+        <CardFooter className="overflow-hidden absolute inset-x-0 bottom-0 z-10 justify-end">
+          <div aria-hidden="true" className={iconClassName}>
+            <EditIcon fill={iconFillColor} />
+          </div>
+        </CardFooter>
+      </Card>
+    </>
   );
 }
