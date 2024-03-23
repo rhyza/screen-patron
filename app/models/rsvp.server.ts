@@ -1,5 +1,6 @@
 import type { Event, Rsvp, Status, User } from '@prisma/client';
 import { prisma } from '~/db.server';
+import { isHost } from './host.server';
 import { retypeNull } from '~/utils';
 
 export type { Host, Rsvp } from '@prisma/client';
@@ -27,14 +28,20 @@ export type GuestCount = {
  * @requires `eventId`, `userId`
  * @param status The User's RSVP response (GOING, MAYBE, NOT_GOING)
  * @param name (optional) The display name for Guest
- * @returns [ the RSVP record created, the updated Event record, the updated User record ]
+ * @returns `{ data, error }` with data containing
+ * [ the RSVP record created, the updated Event record, the updated User record ]
  */
 export async function addGuest(
   eventId: Rsvp['eventId'],
   userId: Rsvp['userId'],
   status: Status,
   name?: Rsvp['name'],
-): Promise<[Rsvp, Event, User]> {
+): Promise<{ data: [Rsvp, Event, User] | null; error: string | null }> {
+  // Check if user is a host
+  if (await isHost(eventId, userId)) {
+    return { data: null, error: 'A host cannot RSVP as a guest.' };
+  }
+
   // Create new RSVP record
   const createGuest = prisma.rsvp.create({
     data: { eventId, userId, status, name },
@@ -67,7 +74,10 @@ export async function addGuest(
     },
   });
 
-  return prisma.$transaction([createGuest, connectEvent, connectUser]);
+  return {
+    data: await prisma.$transaction([createGuest, connectEvent, connectUser]),
+    error: null,
+  };
 }
 
 /**

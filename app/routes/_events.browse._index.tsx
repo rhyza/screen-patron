@@ -37,6 +37,7 @@ export default function BrowseEvents() {
       <div className="flex gap-2 p-2">
         <Autocomplete
           allowsCustomValue
+          aria-label="Select City"
           classNames={{
             base: 'max-w-44',
           }}

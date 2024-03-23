@@ -111,7 +111,7 @@ export default function EventPage() {
             className="size-80 sm:size-96 object-cover"
             src={photo || eventPlaceholderImage}
           />
-          <RsvpForm response={rsvp?.status} />
+          {!isUser && <RsvpForm response={rsvp?.status} />}
         </div>
       </div>
     </div>
