@@ -14,32 +14,6 @@ export type OutletContext = Session & {
   user: User;
 };
 
-/**
- * Get the current session if any.
- * @returns Session object if someone is signed in else undefined.
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function getSession(client?: SupabaseClient<any, 'public', any>) {
-  const {
-    data: { session },
-  } = client ? await client.auth.getSession() : await supabase.auth.getSession();
-
-  return session;
-}
-
-/**
- * Get the current user if any.
- * @returns User object if someone is signed in else undefined.
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function getUser(client?: SupabaseClient<any, 'public', any>) {
-  const {
-    data: { user },
-  } = client ? await client.auth.getUser() : await supabase.auth.getUser();
-
-  return user;
-}
-
 function getPrismaClient() {
   const { DATABASE_URL, LOCAL_DATABASE_URL } = process.env;
   const url = useLocal ? LOCAL_DATABASE_URL : DATABASE_URL;
@@ -95,4 +69,51 @@ export function getSupabaseServerClient(request: Request) {
   });
 
   return { supabase, headers };
+}
+
+/**
+ * Get the current session if any.
+ * @returns Session object if someone is signed in else undefined.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getSession(client?: SupabaseClient<any, 'public', any>) {
+  const {
+    data: { session },
+  } = client ? await client.auth.getSession() : await supabase.auth.getSession();
+
+  return session;
+}
+
+/**
+ * Get the current user if any.
+ * @returns User object if someone is signed in else undefined.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getUser(client?: SupabaseClient<any, 'public', any>) {
+  const {
+    data: { user },
+  } = client ? await client.auth.getUser() : await supabase.auth.getUser();
+
+  return user;
+}
+
+/**
+ * Upload an image file to Supabase Storage.
+ * @param client The Supabase Server Client
+ * @param imageFile The file to upload
+ * @param bucket The Supabase Storage Bucket to upload the image to
+ * @param path The folder and file to name to save the file as
+ * @returns A { `data`, `error` } object with data containing `path` with the Storage file
+ * path of the uploaded image
+ */
+export async function uploadImage(
+  client: SupabaseClient<any, 'public', any>,
+  imageFile: any,
+  bucket: string,
+  path: string,
+) {
+  return client.storage.from(bucket).upload(path, imageFile, {
+    cacheControl: '3600',
+    upsert: true,
+  });
 }
