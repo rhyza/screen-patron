@@ -10,6 +10,7 @@ cd screen-patron
 npm install
 npm run dev
 ```
+
 Learn more about setting up your environment in the [wiki](https://github.com/rhyza/screen-patron/wiki/Local-Development).
 
 ## Documentation

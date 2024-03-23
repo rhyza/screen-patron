@@ -4,6 +4,7 @@ import { Button, Input, Textarea } from '@nextui-org/react';
 
 import { MapPinIcon, TicketIcon, UserGroupIcon } from './Icons';
 import InputImage from './InputImage';
+import { eventPlaceholderImage } from '~/assets';
 import { getDateInputString } from '~/utils';
 
 type EventFormValues = {
@@ -74,7 +75,11 @@ export default function EventForm({
 
   return (
     <div className="w-full p-6">
-      <Form className="flex flex-wrap-reverse justify-center gap-6" method="post">
+      <Form
+        className="flex flex-wrap-reverse justify-center gap-6"
+        encType="multipart/form-data"
+        method="post"
+      >
         <div className="flex-auto space-y-2 min-w-[300px] max-w-xl">
           <Input
             defaultValue={name}
@@ -152,7 +157,12 @@ export default function EventForm({
           />
         </div>
         <div className="flex-auto justify-center space-y-6 max-w-80 sm:max-w-96">
-          <InputImage image={photo} imageClassName="size-80 sm:size-96" />
+          <InputImage
+            fileLimit={5}
+            image={photo || eventPlaceholderImage}
+            imageClassName="size-80 sm:size-96"
+            name="photo"
+          />
           <div className="flex justify-center">
             <Button
               className="w-32 bg-primary"

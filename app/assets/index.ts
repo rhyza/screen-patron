@@ -26,6 +26,8 @@ export const userPlaceholderImage =
   'https://images.unsplash.com/photo-1604076913837-52ab5629fba9';
 export const eventPlaceholderImage =
   'https://images.unsplash.com/photo-1604079628040-94301bb21b91';
+export const uploadPlaceholderImage =
+  'https://placehold.co/500?text=Upload+Photo&font=roboto';
 
 export const loremIpsum =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';

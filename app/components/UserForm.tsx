@@ -3,6 +3,7 @@ import { Button, Input, Textarea } from '@nextui-org/react';
 
 import { InstagramIcon, LinkIcon, TwitterIcon } from './Icons';
 import InputImage from './InputImage';
+import { userPlaceholderImage } from '~/assets';
 
 type UserFormValues = {
   name?: string;
@@ -30,12 +31,17 @@ export default function UserForm({
 
   return (
     <div className="w-full p-6">
-      <Form className="flex flex-wrap md:flex-nowrap gap-6 justify-center" method="post">
+      <Form
+        className="flex flex-wrap md:flex-nowrap gap-6 justify-center"
+        encType="multipart/form-data"
+        method="post"
+      >
         <div className="flex-auto space-y-6 max-w-fit min-w-80">
           <div className="flex justify-center">
             <InputImage
+              fileLimit={2}
               iconClassName="mb-1 mr-1 rounded-full p-3 bg-gray-600"
-              image={photo}
+              image={photo || userPlaceholderImage}
               imageClassName="rounded-full size-[16rem]"
               name="photo"
             />

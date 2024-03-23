@@ -107,6 +107,7 @@ export async function getUser(client?: SupabaseClient<any, 'public', any>) {
  * path of the uploaded image
  */
 export async function uploadImage(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   client: SupabaseClient<any, 'public', any>,
   imageFile: any,
   bucket: string,

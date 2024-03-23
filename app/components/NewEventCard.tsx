@@ -26,7 +26,9 @@ export default function NewEventCard(cardProps: React.ComponentPropsWithRef<type
       {...cardProps}
     >
       <CardHeader className="absolute z-10 w-80 top-1 flex-col items-start">
-        <p className="text-lg text-white/60 font-bold uppercase drop-shadow-sm">No Screenings</p>
+        <p className="text-lg text-white/60 font-bold uppercase drop-shadow-sm">
+          No Screenings
+        </p>
       </CardHeader>
       <img
         alt={`Event poster`}

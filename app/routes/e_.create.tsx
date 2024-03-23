@@ -19,6 +19,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   invariant(session?.user?.id, "Missing signed in user's id");
   const formData = await request.formData();
   const values = Object.fromEntries(formData);
+
   const event = await createEvent(session?.user?.id, { ...values });
   return redirect(`/e/${event.id}`);
 };
