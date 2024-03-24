@@ -3,7 +3,8 @@ import { json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
 import EventForm from '~/components/EventForm';
-import { getSession, getSupabaseServerClient } from '~/db.server';
+import { eventsStoragePath } from '~/assets';
+import { getSession, getSupabaseServerClient, uploadImage } from '~/db.server';
 import { Event, getEvent, updateEvent } from '~/models/event.server';
 import { isHost } from '~/models/host.server';
 import { invariant, retypeNull } from '~/utils';
@@ -17,8 +18,32 @@ export const meta: MetaFunction = () => {
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
   invariant(params.eventId, 'Missing eventId param');
+
   const formData = await request.formData();
-  const updates = Object.fromEntries(formData);
+  let { photo, prevPhoto, ...updates } = Object.fromEntries(formData);
+
+  // Check if a new photo was uploaded
+  if (typeof photo === 'object' && photo.size != 0) {
+    // Try to upload new photo
+    const { supabase } = getSupabaseServerClient(request);
+    const { path, error } = await uploadImage(
+      supabase,
+      'events',
+      `${params.eventId}_${Date.now()}`,
+      photo,
+    );
+
+    if (!error) {
+      // If no errors, update the photo URL
+      updates = { ...updates, photo: path };
+
+      // And delete the old photo if one exists
+      if (prevPhoto && typeof prevPhoto === 'string') {
+        supabase.storage.from('events').remove([prevPhoto.slice(eventsStoragePath.length)]);
+      }
+    }
+  }
+
   await updateEvent(params.eventId, updates);
   return redirect(`/e/${params.eventId}`);
 };

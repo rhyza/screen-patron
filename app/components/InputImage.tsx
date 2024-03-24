@@ -18,7 +18,7 @@ export default function InputImage({
   fileLimit = 2,
   iconClassName = 'rounded-full p-3 bg-gray-600',
   iconFillColor = 'white',
-  image = uploadPlaceholderImage,
+  image,
   imageClassName = 'size-80',
   name = 'photo',
   ...cardProps
@@ -32,7 +32,7 @@ export default function InputImage({
   imageClassName?: string;
 } & React.ComponentPropsWithRef<typeof Card>) {
   const [error, setError] = useState('');
-  const [src, setSrc] = useState(image);
+  const [src, setSrc] = useState(image || uploadPlaceholderImage);
   const handleImagePreview = (event: ChangeEvent<HTMLInputElement>) => {
     if (validateFile(event, fileLimit)) {
       const files = event.target.files || [];
@@ -70,6 +70,7 @@ export default function InputImage({
             type="file"
           />
         </VisuallyHidden>
+        <input className="hidden" name="prevPhoto" type="text" value={image}></input>
         <img
           alt="Preview of uploaded file"
           className={cn('object-cover', imageClassName)}

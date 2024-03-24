@@ -103,18 +103,24 @@ export async function getUser(client?: SupabaseClient<any, 'public', any>) {
  * @param imageFile The file to upload
  * @param bucket The Supabase Storage Bucket to upload the image to
  * @param path The folder and file to name to save the file as
- * @returns A { `data`, `error` } object with data containing `path` with the Storage file
- * path of the uploaded image
+ * @returns An object { `path`, `error` } with path being a URL string to the uploaded image
  */
 export async function uploadImage(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   client: SupabaseClient<any, 'public', any>,
-  imageFile: any,
   bucket: string,
   path: string,
+  imageFile: File,
 ) {
-  return client.storage.from(bucket).upload(path, imageFile, {
+  const { data, error } = await client.storage.from(bucket).upload(path, imageFile, {
     cacheControl: '3600',
     upsert: true,
   });
+
+  if (error) {
+    return { path: null, error };
+  } else {
+    const result = await client.storage.from(bucket).getPublicUrl(data.path);
+    return { path: result?.data?.publicUrl, error: null };
+  }
 }
