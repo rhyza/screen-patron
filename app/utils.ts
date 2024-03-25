@@ -1,3 +1,5 @@
+import { parse } from '@supabase/ssr';
+
 const isProduction: boolean = process.env.NODE_ENV === 'production';
 
 type DateOptions = {
@@ -134,6 +136,18 @@ export function isNotEmptyArray(value: unknown) {
     return true;
   } else {
     return false;
+  }
+}
+
+/**
+ * @returns The session cookie in JSON form
+ */
+export function parseCookie(request: Request) {
+  const cookies = parse(request.headers.get('Cookie') ?? '');
+  try {
+    return JSON.parse(Object.values(cookies)[0]);
+  } catch {
+    return null;
   }
 }
 
