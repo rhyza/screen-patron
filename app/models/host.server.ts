@@ -72,8 +72,8 @@ export async function addHost(
 export async function getHost(
   eventId: Host['eventId'],
   userId: Host['userId'],
-): Promise<HostInfo> {
-  return prisma.host.findUniqueOrThrow({
+): Promise<HostInfo | null> {
+  return prisma.host.findUnique({
     where: {
       id: { eventId, userId },
     },

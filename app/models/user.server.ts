@@ -71,7 +71,7 @@ export async function getUser(
   id: User['id'],
   includeEvents = false,
   selection?: { [key: string]: boolean },
-): Promise<User> {
+): Promise<User | null> {
   const filter: object = selection
     ? {
         select: {
@@ -87,7 +87,7 @@ export async function getUser(
         },
       };
 
-  return prisma.user.findUniqueOrThrow({
+  return prisma.user.findUnique({
     where: { id },
     ...filter,
   });
@@ -102,8 +102,8 @@ export async function getUser(
 export async function getUserByEmail(
   email: User['email'],
   includeEvents = false,
-): Promise<User> {
-  return prisma.user.findUniqueOrThrow({
+): Promise<User | null> {
+  return prisma.user.findUnique({
     where: { email },
     include: {
       hosting: includeEvents,
@@ -119,8 +119,8 @@ export async function getUserByEmail(
  */
 export async function getEvents(
   id: User['id'],
-): Promise<{ hosting: Host[]; events: Rsvp[] }> {
-  return prisma.user.findUniqueOrThrow({
+): Promise<{ hosting: Host[]; events: Rsvp[] } | null> {
+  return prisma.user.findUnique({
     where: { id },
     select: { hosting: true, events: true },
   });

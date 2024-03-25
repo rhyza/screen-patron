@@ -16,7 +16,11 @@ export const meta: MetaFunction = () => {
 export const action = async ({ request }: ActionFunctionArgs) => {
   const { supabase } = getSupabaseServerClient(request);
   const session = await getSession(supabase);
-  invariant(session?.user?.id, "Missing signed in user's id");
+  if (!session || !session?.user?.id) {
+    // User not signed in
+    throw redirect(`/signin`, 302);
+  }
+
   const formData = await request.formData();
   const values = Object.fromEntries(formData);
 

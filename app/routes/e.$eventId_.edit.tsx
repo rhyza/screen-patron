@@ -50,16 +50,21 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.eventId, 'Missing eventId param');
-  const event: Partial<Event> = await getEvent(params.eventId);
+  const event: Partial<Event> | null = await getEvent(params.eventId);
   if (!event) {
     throw new Response('Not Found', { status: 404 });
   }
 
   const { supabase } = getSupabaseServerClient(request);
   const session = await getSession(supabase);
-  invariant(session?.user?.id, 'User not signed in');
+  if (!session || !session?.user?.id) {
+    // User not signed in
+    throw redirect(`/e/${params.eventId}`, 302);
+  }
+
   const host = await isHost(params.eventId, session.user.id);
-  if (!session || !host) {
+  if (!host) {
+    // User is not a host of this event
     throw redirect(`/e/${params.eventId}`, 302);
   }
 

@@ -51,7 +51,7 @@ export async function getEvent(
   id: Event['id'],
   all = false,
   includeRelations = false,
-): Promise<Partial<Event>> {
+): Promise<Partial<Event> | null> {
   const selection = {
     id: true,
     name: true,
@@ -68,7 +68,7 @@ export async function getEvent(
     ? { include: { hosts: includeRelations, guests: includeRelations } }
     : { select: { ...selection } };
 
-  return prisma.event.findUniqueOrThrow({
+  return prisma.event.findUnique({
     where: { id },
     ...filter,
   });
