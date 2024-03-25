@@ -3,8 +3,8 @@ import { json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
 import EventForm from '~/components/EventForm';
-import { eventsStoragePath } from '~/assets';
-import { getSession, getSupabaseServerClient, uploadImage } from '~/db.server';
+import { eventPlaceholderImage, eventsStoragePath } from '~/assets';
+import { getSession, getSupabaseServerClient, uploadImage, deleteImage } from '~/db.server';
 import { Event, getEvent, updateEvent } from '~/models/event.server';
 import { isHost } from '~/models/host.server';
 import { invariant, retypeNull } from '~/utils';
@@ -18,14 +18,25 @@ export const meta: MetaFunction = () => {
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
   invariant(params.eventId, 'Missing eventId param');
+  const { supabase } = getSupabaseServerClient(request);
+  const session = await getSession(supabase);
+  if (!session || !session?.user?.id) {
+    // User not signed in
+    throw redirect(`/e/${params.eventId}`, 302);
+  }
+
+  const host = await isHost(params.eventId, session.user.id);
+  if (!host) {
+    // User is not a host of this event
+    throw redirect(`/e/${params.eventId}`, 302);
+  }
 
   const formData = await request.formData();
   let { photo, prevPhoto, ...updates } = Object.fromEntries(formData);
 
-  // Check if a new photo was uploaded
+  // Check if user added new photo
   if (typeof photo === 'object' && photo.size != 0) {
-    // Try to upload new photo
-    const { supabase } = getSupabaseServerClient(request);
+    // Try to upload new photo to storage
     const { path, error } = await uploadImage(
       supabase,
       'events',
@@ -38,9 +49,12 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
       updates = { ...updates, photo: path };
 
       // And delete the old photo if one exists
-      if (prevPhoto && typeof prevPhoto === 'string') {
-        supabase.storage.from('events').remove([prevPhoto.slice(eventsStoragePath.length)]);
+      if (prevPhoto && typeof prevPhoto === 'string' && prevPhoto != eventPlaceholderImage) {
+        const prevPhotoPath = prevPhoto.slice(eventsStoragePath.length);
+        deleteImage(supabase, 'events', prevPhotoPath);
       }
+    } else {
+      console.log(error);
     }
   }
 

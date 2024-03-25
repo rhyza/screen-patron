@@ -14,5 +14,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
   if (!error) {
     return redirect('/browse', { headers });
+  } else {
+    console.log(error);
   }
 }

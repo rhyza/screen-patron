@@ -22,6 +22,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
     if (!error) {
       return redirect('/events', { headers });
+    } else {
+      console.log(error);
     }
   }
   return new Response('Authentication failed', {
