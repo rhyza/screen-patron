@@ -70,7 +70,7 @@ export default function InputImage({
             type="file"
           />
         </VisuallyHidden>
-        <input className="hidden" name="prevPhoto" type="text" value={image}></input>
+        <input className="hidden" name="prevPhoto" readOnly type="text" value={image}></input>
         <img
           alt="Preview of uploaded file"
           className={cn('object-cover', imageClassName)}

@@ -125,3 +125,19 @@ export async function uploadImage(
     return { path: result?.data?.publicUrl, error: null };
   }
 }
+
+/**
+ * Delete an image file from Supabase Storage.
+ * @param client The Supabase Server Client
+ * @param bucket The Supabase Storage Bucket to upload the image to
+ * @param path The folder and file to name to save the file as
+ * @returns An object { `data`, `error` } with data being type `FileObject[] | null`
+ */
+export async function deleteImage(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  client: SupabaseClient<any, 'public', any>,
+  bucket: string,
+  path: string,
+) {
+  return client.storage.from(bucket).remove([path]);
+}
