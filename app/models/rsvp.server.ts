@@ -25,7 +25,8 @@ export type GuestCount = {
 
 /**
  * Adds a User to an Event's guest list. Must include the RSVP response.
- * @requires `eventId`, `userId`
+ * @param eventId
+ * @param userId
  * @param status The User's RSVP response (GOING, MAYBE, NOT_GOING)
  * @param name (optional) The display name for Guest
  * @returns `{ data, error }` with data containing
@@ -81,7 +82,9 @@ export async function addGuest(
 }
 
 /**
- * @requires `eventId`, `userId`
+ * Retrieves a User's RSVP info for an Event.
+ * @param eventId
+ * @param userId
  * @returns The RSVP record for an Event guest along with User's profile name and photo.
  */
 export async function getGuest(
@@ -104,8 +107,9 @@ export async function getGuest(
 }
 
 /**
- * @requires `eventId`
- * @returns The guest list for an Event with the Users' profile name, profile photo, and
+ * Retrieves basic information of all guests for an Event.
+ * @param eventId
+ * @returns An array of guests for an Event with each Users' profile name, profile photo, and
  * RSVP record.
  */
 export async function getGuests(eventId: Rsvp['eventId']): Promise<RsvpInfo[]> {
@@ -125,6 +129,7 @@ export async function getGuests(eventId: Rsvp['eventId']): Promise<RsvpInfo[]> {
 }
 
 /**
+ * Counts the number of each RSVP response for an Event
  * @param eventId The Event to count the number of guests for
  * @returns The number of guests for each RSVP status
  */
@@ -139,8 +144,10 @@ export async function getGuestCount(eventId: Event['id']) {
 }
 
 /**
+ * Counts the number of each RSVP response in a list of RSVPs.
  * @param guests The list of guests (RSVP records) to count
- * @returns The number of guests for each RSVP status
+ * @returns The number of guests for each RSVP status (going, maybe, not going) and sums up
+ * the total number of responses and the total number of going and maybe responses
  */
 export function countGuests(guests: Rsvp[] | RsvpInfo[]) {
   const guestCount = {
@@ -160,8 +167,9 @@ export function countGuests(guests: Rsvp[] | RsvpInfo[]) {
 
 /**
  * Updates any of a User's RSVP info for an Event.
- * @requires `eventId`, `userId`, `data`
- * > `data: { propName: value, ... }`
+ * @param eventId
+ * @param userId
+ * @param data An object containing the updated RSVP data: `{ propName: value, ... }`
  * @returns The updated RSVP record
  */
 export async function updateGuest(
@@ -179,8 +187,8 @@ export async function updateGuest(
 
 /**
  * Batch updates RSVP info for all guests of an Event.
- * @requires `eventId`, `userId`, `data`
- * > `data: { propName: value, ... }`
+ * @param eventId
+ * @param data An object containing the updated Host data: `{ propName: value, ... }`
  * @param filter (optional) Specifies conditions for which RSVP records to modify
  * @returns The updated RSVP record
  */
@@ -200,7 +208,8 @@ export async function updateGuests(
 
 /**
  * Removes a User from an Event's guest list.
- * @requires `eventId`, `userId`
+ * @param eventId
+ * @param userId
  * @returns The deleted RSVP record
  */
 export async function removeGuest(
@@ -215,9 +224,8 @@ export async function removeGuest(
 }
 
 /**
- * Batch remove all Users from an Event's guest list.
- * @requires `eventId`, `userId`, `data`
- * > `data: { propName: value, ... }`
+ * Batch removes all Users from an Event's guest list.
+ * @param eventId
  * @param filter (optional) Specifies conditions for which guests' RSVP records to delete
  * @returns The list of deleted RSVP records
  */

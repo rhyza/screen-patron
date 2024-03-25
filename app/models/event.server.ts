@@ -38,14 +38,15 @@ export async function createEvent(
 }
 
 /**
- * @requires `id` (`eventId`)
+ * Retrieves info about an Event.
+ * @param `id` Event ID (`eventId`)
  * @param all (optional) Specifies whether to return the entire Event record (all fields)
  * or just the fields containing basic info, defaults to `false`
  * @param includeRelations (optional) Specifies whether returned Event record should include
  * the list of Hosts and Guests the Event has -- only electable if `all` is `true`,
  * defaults to `false`
- * @returns Either `{ id, name, photo, dateStart, dateEnd, location, cost }`
- * or the full Event record
+ * @returns Either the event's basic info `{ id, name, photo, dateStart, dateEnd, location,
+ * cost }` or the full Event record
  */
 export async function getEvent(
   id: Event['id'],
@@ -75,8 +76,9 @@ export async function getEvent(
 }
 
 /**
+ * Retrieves basic information for events that match a query.
  * @param query (optional) The query to filter Events by
- * @returns List of all Event records with the fields:
+ * @returns An array of all Event records containing the basic information fields:
  * `{ id, name, photo, dateStart, city, location, cost }`
  */
 export async function getEvents(query?: object): Promise<EventInfo[]> {
@@ -96,8 +98,8 @@ export async function getEvents(query?: object): Promise<EventInfo[]> {
 
 /**
  * Updates any of an Event's info and settings.
- * @requires `id` (`eventId`), `data`
- * > `data: { propName: value, ... }`
+ * @param id (`eventId`) The Event to update
+ * @param data An object containing the updated Event data: `{ propName: value, ... }`
  * @returns The updated Event record
  */
 export async function updateEvent(
@@ -112,6 +114,12 @@ export async function updateEvent(
   });
 }
 
+/**
+ * Changes the type of each property of an object to match the types required by the Event
+ * database.
+ * @param data Object containing Event data of potentially incorrect type
+ * @returns Object containing type safe event data
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function retypeEventData(data: { [x: string]: any }) {
   if (typeof data.dateStart === 'string') {
@@ -137,7 +145,7 @@ function retypeEventData(data: { [x: string]: any }) {
 
 /**
  * Deletes an Events and cascade deletes all related Hosts and RSVPs.
- * @requires `id` (`eventId`)
+ * @param `id` (`eventId`)
  * @returns The deleted Event
  */
 export async function deleteEvent(id: Event['id']): Promise<Event> {

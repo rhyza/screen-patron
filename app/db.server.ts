@@ -15,6 +15,8 @@ export type OutletContext = {
   user: User;
 };
 
+/* ---------------------------------- DATABASE CLIENTS ---------------------------------- */
+
 function getPrismaClient() {
   const { DATABASE_URL, LOCAL_DATABASE_URL } = process.env;
   const url = useLocal ? LOCAL_DATABASE_URL : DATABASE_URL;
@@ -72,6 +74,8 @@ export function getSupabaseServerClient(request: Request) {
   return { supabase, headers };
 }
 
+/* ------------------------------------ SESSION INFO ------------------------------------ */
+
 /**
  * Get the current session if any.
  * @returns Session object if someone is signed in else undefined.
@@ -97,6 +101,8 @@ export async function getUser(client?: SupabaseClient<any, 'public', any>) {
 
   return user;
 }
+
+/* ----------------------------------- STORAGE ACCESS ----------------------------------- */
 
 /**
  * Upload an image file to Supabase Storage.

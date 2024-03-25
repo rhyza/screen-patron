@@ -1,6 +1,14 @@
+/**
+ * Each function in this file returns a self-described SVG icon.
+ * @param classNames Any additional Tailwind classes to apply to the svg without affecting
+ * the icon's default size (`w-6 h-6`). User can fully override this by simply passing in a
+ * `className` property.
+ * @param svgProps Any properties that an svg element would accept.
+ */
+
 type IconProps = {
   classNames?: string;
-} & React.ComponentPropsWithRef<'svg'>;
+} & React.ComponentProps<'svg'>;
 
 export function ClockIcon({ classNames, ...svgProps }: IconProps) {
   return (

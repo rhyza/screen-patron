@@ -33,18 +33,19 @@ export async function signUp(
  * public.users table when a user on the auth.users table is verified by having either their
  * email or phone number confirmed.
  * @param email An object containing an email property, a unique email is required
- * @returns `{ data, error }` with `data` not containing any usable information
+ * @returns An object `{ data, error }` with `data` not containing any usable information
  */
 export async function signIn(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   client: SupabaseClient<any, 'public', any>,
   { email }: Partial<Pick<User, 'email'>>,
+  emailRedirect?: string,
 ) {
   invariant(email && typeof email === 'string', 'No email provided');
   return client.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: 'http://localhost:3000/auth/confirm',
+      emailRedirectTo: emailRedirect || 'http://localhost:3000/auth/confirm',
     },
   });
 }
@@ -52,7 +53,7 @@ export async function signIn(
 /**
  * Logs out the currently logged-in user, removing all items from localstorage and then
  * triggers a "SIGNED_OUT" event.
- * @returns `{ error }` object
+ * @returns An `{ error }` object
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function signOut(client?: SupabaseClient<any, 'public', any>) {
@@ -60,12 +61,13 @@ export async function signOut(client?: SupabaseClient<any, 'public', any>) {
 }
 
 /**
- * @requires `id` (`userId`)
+ * Retrieves info about a User by user's ID.
+ * @param id (`userId`)
  * @param includeEvents (optional) Specifies whether returned User record should include
  * the list of Events the User is Hosting or has RSVP'd, defaults to `false`
  * @param selection (optional) The specific User fields to return, defaults to full
  * User record without Events unless specified otherwise by `includeEvents`
- * @returns The User record
+ * @returns A User record
  */
 export async function getUser(
   id: User['id'],
@@ -94,10 +96,11 @@ export async function getUser(
 }
 
 /**
- * @requires `email`
+ * Retrieves info about a User by user's email.
+ * @param email
  * @param includeEvents (optional) Specifies whether returned User record should include
  * the list of Events the User is Hosting or has RSVP'd, defaults to `false`
- * @returns The User record
+ * @returns A User record
  */
 export async function getUserByEmail(
   email: User['email'],
@@ -113,8 +116,9 @@ export async function getUserByEmail(
 }
 
 /**
- * @requires `id` (`userId`)
- * @returns The User's list of Host and RSVP records.
+ * Retrieves all events a User is hosting or has responded to.
+ * @param id (`userId`)
+ * @returns An object containing the arrays for a User's Host and RSVP records:
  * > `{ hosting[], events[] }`
  */
 export async function getEvents(
@@ -127,8 +131,9 @@ export async function getEvents(
 }
 
 /**
- * @requires `id` (`userId`)
- * @returns The User's list of Event records for Events the User is hosting with the fields:
+ * Retrieves all Events that are being hosted or have been hosted by a User
+ * @param id (`userId`)
+ * @returns An array of Event records for events the User is hosting with the fields:
  * `{ id, name, photo, dateStart, city, location, cost }`
  */
 export async function getEventsHosting(
@@ -170,8 +175,9 @@ export async function getEventsHosting(
 }
 
 /**
- * @requires `id` (`userId`)
- * @returns The User's list of Event records for Events the User has answered GOING or MAYBE
+ * Retrieves all Events a User has RSVP'd to.
+ * @param id (`userId`)
+ * @returns An array of Event records that the User has answered GOING or MAYBE
  * plus their RSVP response and grouped by date: `{ past, future }`
  */
 export async function getEventsResponded(id: User['id']) {
@@ -199,6 +205,7 @@ export async function getEventsResponded(id: User['id']) {
     },
   });
 
+  // Group events by whether they have or have not already happened
   const past: Array<EventInfo & { status: Status }> = [];
   const future: Array<EventInfo & { status: Status }> = [];
   const today = new Date(Date.now());
@@ -226,8 +233,8 @@ export async function getEventsResponded(id: User['id']) {
 
 /**
  * Updates a User's email or any profile info.
- * @requires `id` (`userId`), `data`
- * > `data: { propName: value, ... }`
+ * @param id (`userId`)
+ * @param data An object containing the updated User data: `{ propName: value, ... }`
  * @param includeEvents (optional) Specifies whether returned User record should include
  * the list of Events the User is Hosting or has RSVP'd, defaults to `false`
  * @returns The updated User record
@@ -252,7 +259,7 @@ export async function updateUser(
  * all Events for which there are other Hosts and those Event records will remain.
  * > If the Host is the only Host for an Event and `deleteSoloHostedEvent` is `false`,
  * then an error is thrown, otherwise those Events are deleted as well.
- * @requires `id` (`userId`)
+ * @param id (`userId`)
  * @param deleteSoloHostedEvents (optional) Specifies whether to delete any Event records
  * the User is the sole host for, defaults to `false`
  * @returns The deleted User record
