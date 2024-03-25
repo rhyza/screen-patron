@@ -1,11 +1,12 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useOutletContext } from '@remix-run/react';
 
 import UserForm from '~/components/UserForm';
 import { profilesStoragePath, userPlaceholderImage } from '~/assets';
+import type { OutletContext } from '~/db.server';
 import { getSession, getSupabaseServerClient, uploadImage, deleteImage } from '~/db.server';
-import { getUser, updateUser, User } from '~/models/user.server';
+import { updateUser } from '~/models/user.server';
 import { invariant, retypeNull } from '~/utils';
 
 export const meta: MetaFunction = () => {
@@ -57,25 +58,27 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.userId, 'Missing userId param');
-  const user: User | null = await getUser(params.userId);
-  if (!user) {
-    throw new Response('Not Found', { status: 404 });
-  }
 
+  /**
+   * Only the signed in user can access this page, so there's no need to check if a user with
+   * params.userId exists first. If a user directs themselves to this page using a
+   * non-existing userId, e.g. `/badId/edit`, then they are redirected to `/badId`,
+   * which triggers user.$userId.tsx's 404 error. This saves us an `await getUser()` call.
+   */
   const { supabase } = getSupabaseServerClient(request);
   const session = await getSession(supabase);
   if (!session || session?.user?.id != params.userId) {
     throw redirect(`/user/${params.userId}`, 302);
   }
 
-  return json({ session, user });
+  return json({ session });
 };
 
 /**
  * `/user/$userId/edit` — Page for editing an existing User's profile.
  */
 export default function EditUser() {
-  const { user } = useLoaderData<typeof loader>();
+  const { user } = useOutletContext<OutletContext>();
 
   return <UserForm {...retypeNull(user)} />;
 }

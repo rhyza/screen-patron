@@ -28,14 +28,16 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     throw new Response('Not Found', { status: 404 });
   }
 
-  const hosts = await getHosts(params.eventId);
-  const guests = await getGuests(params.eventId);
-  const guestCount = countGuests(guests);
-
   const { supabase } = getSupabaseServerClient(request);
   const session = await getSession(supabase);
-  const isUser = session?.user?.id ? await isHost(params.eventId, session.user.id) : false;
-  const rsvp = session?.user?.id ? await getGuest(params.eventId, session.user.id) : null;
+
+  const [hosts, guests, isUser, rsvp] = await Promise.all([
+    getHosts(params.eventId),
+    getGuests(params.eventId),
+    session?.user?.id ? isHost(params.eventId, session.user.id) : false,
+    session?.user?.id ? getGuest(params.eventId, session.user.id) : null,
+  ]);
+  const guestCount = countGuests(guests);
 
   return json({ event, hosts, guests, guestCount, isUser, rsvp });
 };

@@ -21,8 +21,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   if (!userId) return redirect('/browse');
   invariant(userId, "Missing signed in user's id");
 
-  const hosting = await getEventsHosting(userId);
-  const responded = await getEventsResponded(userId);
+  const [hosting, responded] = await Promise.all([
+    getEventsHosting(userId),
+    getEventsResponded(userId),
+  ]);
   return json({ hosting, responded });
 };
 

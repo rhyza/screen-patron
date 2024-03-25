@@ -4,7 +4,6 @@ import { redirect } from '@remix-run/node';
 import EventForm from '~/components/EventForm';
 import { getSession, getSupabaseServerClient } from '~/db.server';
 import { createEvent } from '~/models/event.server';
-import { invariant } from '~/utils';
 
 export const meta: MetaFunction = () => {
   return [
