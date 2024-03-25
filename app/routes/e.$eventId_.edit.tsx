@@ -36,7 +36,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
   // Check if user added new photo
   if (typeof photo === 'object' && photo.size != 0) {
-    // Try to upload new photo to storage
+    // Try to upload new photo to storage, wait for returned public url
     const { path, error } = await uploadImage(
       supabase,
       'events',

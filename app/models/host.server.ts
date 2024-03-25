@@ -16,9 +16,11 @@ export type HostInfo = {
 
 /**
  * Adds a User as a Host to an Event.
- * @requires `eventId`, `userId`
+ * @param eventId
+ * @param userId
  * @param name (optional) The display name for Host
- * @returns [ the Host record created, the updated Event record, the updated User record ]
+ * @returns The Host record created, the updated Event record, and the updated User record
+ * in array form: `[ Host, Event, User ]`.
  */
 export async function addHost(
   eventId: Host['eventId'],
@@ -34,7 +36,7 @@ export async function addHost(
     },
   });
 
-  // Connect Host record to its Event and User
+  // Connect Host record to its associated Event and User
   const connectEvent = prisma.event.update({
     where: {
       id: eventId,
@@ -65,9 +67,10 @@ export async function addHost(
 }
 
 /**
- * @requires `eventId`, `userId`
- * @returns The Host record for a specific Event and User along with the User's profile name
- * and profile photo
+ * Retrieves info about a Host for an Event.
+ * @param eventId
+ * @param userId
+ * @returns The Host record along with the User's profile name and profile photo
  */
 export async function getHost(
   eventId: Host['eventId'],
@@ -89,8 +92,10 @@ export async function getHost(
 }
 
 /**
- * @requires `eventId`, `userId`
- * @returns If the given user is a Host a specific Event
+ * Checks to see if a User is a Host for an Event
+ * @param eventId
+ * @param userId
+ * @returns A boolean answer to "Is this user a host for this event?"
  */
 export async function isHost(
   eventId: Host['eventId'],
@@ -105,8 +110,9 @@ export async function isHost(
 }
 
 /**
- * @requires `eventId`
- * @returns The list of Host records for an Event along with each User's profile name and
+ * Retrieves information about all Hosts for an Event.
+ * @param eventId
+ * @returns An array of Host records for an Event along with each User's profile name and
  * profile photo
  */
 export async function getHosts(eventId: Host['eventId']): Promise<HostInfo[]> {
@@ -127,8 +133,9 @@ export async function getHosts(eventId: Host['eventId']): Promise<HostInfo[]> {
 
 /**
  * Updates any of a Host's info.
- * @requires `eventId`, `userId`, `data`
- * > `data: { propName: value, ... }`
+ * @param eventId The event being hosted
+ * @param userId The user hosting
+ * @param data An object containing the updated Host data: `{ propName: value, ... }`
  * @returns The updated Host record
  */
 export async function updateHost(
@@ -152,7 +159,8 @@ export async function updateHost(
 /**
  * Removes a User from an Event's guest list, and instead adds them as a host.
  * The associated RSVP record is deleted and the newly created Host record is returned.
- * @requires `eventId`, `userId`
+ * @param eventId
+ * @param userId
  * @returns The newly created Host record
  */
 export async function promoteToHost(
@@ -184,7 +192,8 @@ export async function promoteToHost(
  * with an RSVP response.
  * The associated Host record is deleted and the newly created RSVP record is returned.
  * > If the User is the only Host for the Event then an error is thrown.
- * @requires `eventId`, `userId`
+ * @param eventId
+ * @param userId
  * @param status (optional) The User's RSVP response, defaults to `Status.GOING`
  * @returns The newly created RSVP record
  */
@@ -210,7 +219,8 @@ export async function demoteToGuest(
  * Removes a Host from an Event.
  * > If the Host is the only Host for the Event and `deleteSoloHostedEvent` is `false`,
  * then an error is thrown.
- * @requires `eventId`, `userId`
+ * @param eventId
+ * @param userId
  * @param deleteSoloHostedEvent (optional) Specifies whether to delete the Event record if
  * the User is the sole host, defaults to `false`
  * @returns The Event record that was updated or deleted
@@ -232,7 +242,7 @@ export async function removeHost(
     'This user is not a host for this event.',
   );
 
-  // User is the only host for this event.
+  // Check if User is the only host for this event.
   if (hosts.length === 1 && deleteSoloHostedEvent) {
     return deleteEvent(eventId);
   }
@@ -241,7 +251,7 @@ export async function removeHost(
     'This host is the only host for this event. You must add another host before you can remove the selected host.',
   );
 
-  // User is not the only host for this event.
+  // User is not the only host for this event, safely remove host.
   return prisma.event.update({
     where: {
       id: eventId,
@@ -264,7 +274,7 @@ export async function removeHost(
  * Removes a User as a Host from all Events the User is a Host for.
  * > If the Host is the only Host for an Event and `deleteSoloHostedEvent` is `false`,
  * then an error is thrown, otherwise those Events are deleted.
- * @requires `userId`
+ * @param userId ID of User to remove as host
  * @param deleteSoloHostedEvent (optional) Specifies whether to delete any Event records
  * the User is the sole host for, defaults to `false`
  * @returns nothing
@@ -307,10 +317,10 @@ export async function removeHostAllEvents(
   });
 
   if (deleteSoloHostedEvent) {
-    // Delete solo hosted Events if allowed
+    // Delete solo hosted Events if allowed then delete all of User's remaining Host records
     return prisma.$transaction([deleteEvents, deleteHosts]);
   } else {
-    // Delete all of User's remaining Host records
+    // Delete all of User's Host records
     return deleteHosts;
   }
 }

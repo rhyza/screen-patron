@@ -19,7 +19,6 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   invariant(params.userId, 'Missing userId param');
   const { supabase } = getSupabaseServerClient(request);
   const session = await getSession(supabase);
-  console.log('=== ONE ===');
   if (!session || session?.user?.id != params.userId) {
     // User not signed in
     throw redirect(`/user/${params.userId}`, 302);
@@ -30,7 +29,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
   // Check if user added new photo
   if (typeof photo === 'object' && photo.size != 0) {
-    // Try to upload new photo to storage
+    // Try to upload new photo to storage, wait for returned public url
     const { path, error } = await uploadImage(
       supabase,
       'profiles',
