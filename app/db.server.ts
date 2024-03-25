@@ -10,7 +10,8 @@ export const prisma = singleton('prisma', getPrismaClient);
 export const supabase = singleton('supabase', getSupabaseBrowserClient);
 const useLocal = process.env.NODE_ENV === 'development';
 
-export type OutletContext = Session & {
+export type OutletContext = {
+  session: Session;
   user: User;
 };
 

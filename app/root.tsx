@@ -14,6 +14,7 @@ import { NextUIProvider } from '@nextui-org/react';
 
 import NavBar from '~/components/NavBar';
 import { getSession, getSupabaseServerClient } from './db.server';
+import { getUser } from './models/user.server';
 import stylesheet from '~/tailwind.css';
 
 export const links: LinksFunction = () => [
@@ -24,12 +25,13 @@ export const links: LinksFunction = () => [
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { supabase, headers } = getSupabaseServerClient(request);
   const session = await getSession(supabase);
+  const user = session?.user?.id ? await getUser(session?.user?.id) : null;
 
-  return json({ session }, { headers });
+  return json({ session, user }, { headers });
 };
 
 export default function App() {
-  const { session } = useLoaderData<typeof loader>();
+  const { session, user } = useLoaderData<typeof loader>();
 
   return (
     <html lang="en" className="dark text-foreground bg-background">
@@ -41,8 +43,8 @@ export default function App() {
       </head>
       <body>
         <NextUIProvider>
-          <NavBar />
-          <Outlet context={session} />
+          <NavBar sessionUser={user} />
+          <Outlet context={{ session, user }} />
           <ScrollRestoration />
           <Scripts />
           <LiveReload />

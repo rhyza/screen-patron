@@ -1,20 +1,14 @@
-import { LoaderFunctionArgs, json } from '@remix-run/node';
-import { NavLink, Outlet, useLoaderData } from '@remix-run/react';
+import { NavLink, Outlet, useOutletContext } from '@remix-run/react';
 import { cn } from '@nextui-org/react';
 
-import { getSession, getSupabaseServerClient } from '~/db.server';
-
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const { supabase } = getSupabaseServerClient(request);
-  const session = await getSession(supabase);
-  return json({ session });
-};
+import type { OutletContext } from '~/db.server';
 
 /**
  * The common Navigation header for both the `/browse` and `/events` pages.
  */
 export default function EventPages() {
-  const { session } = useLoaderData<typeof loader>();
+  const { session, user } = useOutletContext<OutletContext>();
+
   const getClassName = ({ isActive }: { isActive: boolean }) => {
     return cn(
       'flex justify-center items-center rounded-full bg-default px-4 py-2 text-nowrap',
@@ -37,7 +31,7 @@ export default function EventPages() {
             )}
           </div>
         </div>
-        <Outlet />
+        <Outlet context={{ session, user }} />
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
-import { LoaderFunctionArgs, json } from '@remix-run/node';
-import { Form, NavLink, useLoaderData, useLocation, useNavigate } from '@remix-run/react';
+import { Form, NavLink, useLocation, useNavigate } from '@remix-run/react';
 import {
   Avatar,
   Button,
@@ -17,21 +16,12 @@ import {
 
 import { FilmIcon } from './Icons';
 import { userPlaceholderImage } from '~/assets';
-import { getSession, getSupabaseServerClient } from '~/db.server';
-import { getUser } from '~/models/user.server';
-
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const { supabase } = getSupabaseServerClient(request);
-  const session = await getSession(supabase);
-  const user = session?.user?.id ? await getUser(session?.user?.id) : null;
-  return json({ session, user });
-};
+import type { User } from '~/models/user.server';
 
 /**
  * Navigation Bar for the entire app
  */
-export default function NavBar() {
-  const { session, user } = useLoaderData<typeof loader>();
+export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -68,7 +58,9 @@ export default function NavBar() {
             Create
           </Button>
         </NavbarItem>
-        <NavbarItem className={cn((session || location.pathname === '/signin') && 'hidden')}>
+        <NavbarItem
+          className={cn((sessionUser || location.pathname === '/signin') && 'hidden')}
+        >
           <Button
             as={NavLink}
             className="bg-foreground text-primary"
@@ -80,7 +72,7 @@ export default function NavBar() {
           </Button>
         </NavbarItem>
         <Dropdown placement="bottom-end">
-          <DropdownTrigger className={cn(!session && 'hidden')}>
+          <DropdownTrigger className={cn(!sessionUser && 'hidden')}>
             <Avatar
               isBordered
               as="button"
@@ -88,7 +80,7 @@ export default function NavBar() {
               color="secondary"
               name="Jason Hughes"
               size="sm"
-              src={user?.photo || userPlaceholderImage}
+              src={sessionUser?.photo || userPlaceholderImage}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -118,7 +110,7 @@ export default function NavBar() {
               </DropdownItem>
               <DropdownItem
                 key="profile"
-                onPress={() => navigate(`user/${session?.user?.id}`)}
+                onPress={() => navigate(`user/${sessionUser?.id}`)}
                 textValue="My Profile"
               >
                 My Profile
