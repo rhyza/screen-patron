@@ -7,7 +7,7 @@ import { Button } from '@nextui-org/react';
 
 import EventCards from '~/components/EventCards';
 import { getEventsHosting, getEventsResponded } from '~/models/user.server';
-import { invariant, parseCookie } from '~/utils';
+import { invariant, parseAuthCookie } from '~/utils';
 
 export const meta: MetaFunction = () => {
   return [
@@ -17,7 +17,7 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const userId = parseCookie(request)?.user?.id;
+  const userId = parseAuthCookie(request)?.user?.id;
   if (!userId) return redirect('/browse');
   invariant(userId, "Missing signed in user's id");
 

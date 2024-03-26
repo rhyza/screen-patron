@@ -142,10 +142,10 @@ export function isNotEmptyArray(value: unknown) {
 /**
  * @returns The session cookie in JSON form
  */
-export function parseCookie(request: Request) {
+export function parseAuthCookie(request: Request) {
   const cookies = parse(request.headers.get('Cookie') ?? '');
   try {
-    return JSON.parse(Object.values(cookies)[0]);
+    return JSON.parse(cookies["sb-nxqeybdopyqtnmgtrmvf-auth-token"]);
   } catch {
     return null;
   }
