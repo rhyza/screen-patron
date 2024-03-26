@@ -1,5 +1,6 @@
-import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 
 import EventForm from '~/components/EventForm';
 import { getSession, getSupabaseServerClient, uploadImage } from '~/db.server';
@@ -12,11 +13,20 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { supabase } = getSupabaseServerClient(request);
+  const session = await getSession(supabase);
+
+  return { isSignedIn: session != null };
+};
+
 /**
  * `e/create` — Page for creating a new Event.
  */
 export default function CreateEvent() {
-  return <EventForm />;
+  const { isSignedIn } = useLoaderData<typeof loader>();
+
+  return <EventForm isDisabled={!isSignedIn} />;
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {

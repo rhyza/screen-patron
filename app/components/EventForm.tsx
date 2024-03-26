@@ -7,6 +7,10 @@ import InputImage from './InputImage';
 import { eventPlaceholderImage } from '~/assets';
 import { getDateInputString } from '~/utils';
 
+type EventFormProps = {
+  isDisabled?: boolean;
+} & EventFormValues;
+
 type EventFormValues = {
   name?: string;
   photo?: string;
@@ -22,6 +26,7 @@ type EventFormValues = {
  * Form for modifying an Event's name, description, poster, start date, end date,
  * location, cost, and venue capacity.
  * @param EventFormValues Any Event info to pre-populate the field data with
+ * @param isDisabled Boolean to disable submit button
  */
 export default function EventForm({
   name,
@@ -32,14 +37,17 @@ export default function EventForm({
   cost,
   capacity,
   description,
-}: EventFormValues) {
+  isDisabled = false,
+}: EventFormProps) {
   const navigate = useNavigate();
   const today = getDateInputString(new Date(Date.now()));
   const start = dateStart ? getDateInputString(dateStart) : '';
   const end = dateEnd ? getDateInputString(dateEnd) : '';
 
+  console.log(isDisabled);
+
   const [errorMessage, setErrorMessage] = useState('');
-  const [submitDisabled, setSubmitDisabled] = useState(false);
+  const [submitDisabled, setSubmitDisabled] = useState(isDisabled);
   const [showEndDateInput, setShowEndDateInput] = useState(end != '');
 
   const [dateStartValue, setDateStartValue] = useState(start);
