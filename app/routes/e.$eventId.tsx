@@ -10,7 +10,6 @@ import IconButton from '~/components/IconButton';
 import { MapPinIcon, StarIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
 import RSVPModal from '~/components/RSVPModal';
 import { getSession, getSupabaseServerClient } from '~/db.server';
-import type { Event } from '~/models/event.server';
 import { getEvent } from '~/models/event.server';
 import { getHosts, isHost } from '~/models/host.server';
 import type { GuestCount, RsvpInfo } from '~/models/rsvp.server';
@@ -24,10 +23,10 @@ export const meta: MetaFunction = () => {
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.eventId, 'Missing eventId param');
   const { supabase } = getSupabaseServerClient(request);
-  const [ event, session ] = await Promise.all([
+  const [event, session] = await Promise.all([
     getEvent(params.eventId),
     getSession(supabase),
-  ])
+  ]);
 
   // Check if event exists
   if (!event) {

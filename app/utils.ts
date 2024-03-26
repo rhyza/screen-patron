@@ -145,7 +145,7 @@ export function isNotEmptyArray(value: unknown) {
 export function parseAuthCookie(request: Request) {
   const cookies = parse(request.headers.get('Cookie') ?? '');
   try {
-    return JSON.parse(cookies["sb-nxqeybdopyqtnmgtrmvf-auth-token"]);
+    return JSON.parse(cookies['sb-nxqeybdopyqtnmgtrmvf-auth-token']);
   } catch {
     return null;
   }

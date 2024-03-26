@@ -5,7 +5,7 @@ import { useLoaderData } from '@remix-run/react';
 import EventForm from '~/components/EventForm';
 import { eventPlaceholderImage, eventsStoragePath } from '~/assets';
 import { getSession, getSupabaseServerClient, uploadImage, deleteImage } from '~/db.server';
-import { Event, getEvent, updateEvent } from '~/models/event.server';
+import { getEvent, updateEvent } from '~/models/event.server';
 import { isHost } from '~/models/host.server';
 import { invariant, retypeNull } from '~/utils';
 
@@ -19,10 +19,10 @@ export const meta: MetaFunction = () => {
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.eventId, 'Missing eventId param');
   const { supabase } = getSupabaseServerClient(request);
-  const [ event, session ] = await Promise.all([
+  const [event, session] = await Promise.all([
     getEvent(params.eventId),
     getSession(supabase),
-  ])
+  ]);
 
   // Check if event exists
   if (!event) {
