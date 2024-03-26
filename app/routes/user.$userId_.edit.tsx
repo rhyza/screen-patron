@@ -16,17 +16,47 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const action = async ({ params, request }: ActionFunctionArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.userId, 'Missing userId param');
+
+  /**
+   * Check if $userId is the same as the signed-in user.
+   * Only the signed in user can access this page, so there's no need to check if a user with
+   * params.userId exists first. If a user directs themselves to this page using a
+   * non-existing userId, e.g. `/badId/edit`, then they are redirected to `/badId`,
+   * which triggers user.$userId.tsx's 404 error. This saves us an `await getUser()` call.
+   */
   const { supabase } = getSupabaseServerClient(request);
   const session = await getSession(supabase);
   if (!session || session?.user?.id != params.userId) {
-    // User not signed in
     throw redirect(`/user/${params.userId}`, 302);
   }
 
-  const formData = await request.formData();
-  let { photo, prevPhoto, ...updates } = Object.fromEntries(formData);
+  return json({ session });
+};
+
+/**
+ * `/user/$userId/edit` — Page for editing an existing User's profile.
+ */
+export default function EditUser() {
+  const { user } = useOutletContext<OutletContext>();
+
+  return <UserForm {...retypeNull(user)} />;
+}
+
+export const action = async ({ params, request }: ActionFunctionArgs) => {
+  invariant(params.userId, 'Missing userId param');
+  const formData = request.formData();
+
+  // Check if user is signed in
+  const { supabase } = getSupabaseServerClient(request);
+  const session = await getSession(supabase);
+  if (!session || session?.user?.id != params.userId) {
+    throw redirect(`/user/${params.userId}`, 302);
+  }
+
+  // eslint-disable-next-line prefer-const
+  let { photo, prevPhoto, ...updates } = Object.fromEntries(await formData);
 
   // Check if user added new photo
   if (typeof photo === 'object' && photo.size != 0) {
@@ -55,30 +85,3 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   await updateUser(params.userId, updates);
   return redirect(`/user/${params.userId}`);
 };
-
-export const loader = async ({ params, request }: LoaderFunctionArgs) => {
-  invariant(params.userId, 'Missing userId param');
-
-  /**
-   * Only the signed in user can access this page, so there's no need to check if a user with
-   * params.userId exists first. If a user directs themselves to this page using a
-   * non-existing userId, e.g. `/badId/edit`, then they are redirected to `/badId`,
-   * which triggers user.$userId.tsx's 404 error. This saves us an `await getUser()` call.
-   */
-  const { supabase } = getSupabaseServerClient(request);
-  const session = await getSession(supabase);
-  if (!session || session?.user?.id != params.userId) {
-    throw redirect(`/user/${params.userId}`, 302);
-  }
-
-  return json({ session });
-};
-
-/**
- * `/user/$userId/edit` — Page for editing an existing User's profile.
- */
-export default function EditUser() {
-  const { user } = useOutletContext<OutletContext>();
-
-  return <UserForm {...retypeNull(user)} />;
-}

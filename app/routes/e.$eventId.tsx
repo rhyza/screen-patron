@@ -23,13 +23,16 @@ export const meta: MetaFunction = () => {
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.eventId, 'Missing eventId param');
-  const event: Partial<Event> | null = await getEvent(params.eventId);
+  const { supabase } = getSupabaseServerClient(request);
+  const [ event, session ] = await Promise.all([
+    getEvent(params.eventId),
+    getSession(supabase),
+  ])
+
+  // Check if event exists
   if (!event) {
     throw new Response('Not Found', { status: 404 });
   }
-
-  const { supabase } = getSupabaseServerClient(request);
-  const session = await getSession(supabase);
 
   const [hosts, guests, isUser, rsvp] = await Promise.all([
     getHosts(params.eventId),

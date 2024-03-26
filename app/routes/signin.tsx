@@ -14,17 +14,6 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const formData = await request.formData();
-  const values = Object.fromEntries(formData);
-  const { supabase } = getSupabaseServerClient(request);
-  const { error } = await signIn(supabase, values);
-  if (error) {
-    return json({ success: false, error });
-  }
-  return json({ success: true, error });
-};
-
 /**
  * `/signin` — Page for Users to sign in. Sends an email to complete the process.
  */
@@ -95,3 +84,15 @@ export default function SignInPage() {
     </div>
   );
 }
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const formData = request.formData();
+  const { supabase } = getSupabaseServerClient(request);
+
+  const values = Object.fromEntries(await formData);
+  const { error } = await signIn(supabase, values);
+  if (error) {
+    return json({ success: false, error });
+  }
+  return json({ success: true, error });
+};
