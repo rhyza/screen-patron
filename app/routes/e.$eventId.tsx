@@ -49,7 +49,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
  */
 export default function EventPage() {
   const {
-    event: { name, photo, dateStart, dateEnd, location, cost, capacity, description },
+    event: { id, name, photo, dateStart, dateEnd, location, cost, capacity, description },
     hosts,
     guests,
     guestCount,
@@ -76,7 +76,7 @@ export default function EventPage() {
           ) : (
             <p className="text-2xl font-medium">Date & Time TBD</p>
           )}
-          {(isUser || rsvp) && <ShareLinks />}
+          <ShareLinks eventId={id || ''} />
           <InfoField
             icon={<StarIcon />}
             text={
@@ -220,15 +220,33 @@ function RsvpForm({ response = '' }: { response: string | undefined }) {
   );
 }
 
-function ShareLinks() {
+function ShareLinks({ eventId }: { eventId: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleShare = async () => {
+    try {
+      await navigator.share({
+        title: 'Screen Patron',
+        text: 'Check out this event!',
+        url: `http://localhost:3000/e/${eventId}`,
+      });
+    } catch (err) {
+      navigator.clipboard.writeText(`http://localhost:3000/e/${eventId}`);
+      setIsOpen(() => true);
+    }
+  };
+
   return (
     <div className="flex gap-6 items-center">
-      <Link className="btn-link mb-2" onPress={() => alert('share options')}>
-        share
-      </Link>
-      <Link className="btn-link mb-2" isExternal href="https://calendar.google.com/">
-        add to calendar
-      </Link>
+      <Tooltip
+        closeDelay={1000}
+        content={'Link copied!'}
+        isOpen={isOpen}
+        onOpenChange={() => setIsOpen(false)}
+      >
+        <Link className="btn-link mb-2" onPress={handleShare}>
+          share event
+        </Link>
+      </Tooltip>
     </div>
   );
 }
