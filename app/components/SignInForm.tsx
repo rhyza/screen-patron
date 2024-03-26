@@ -2,7 +2,14 @@ import { useState } from 'react';
 import { Form } from '@remix-run/react';
 import { Button, Input } from '@nextui-org/react';
 
-export default function SignInForm() {
+/**
+ * Form for signing in, only takes in a User's email.
+ * @param formProps (optional) Any props supplied are applied to the Form component,
+ * reference Remix Form docs for guidance
+ */
+export default function SignInForm({
+  ...formProps
+}: React.ComponentPropsWithRef<typeof Form>) {
   const [email, setEmail] = useState('');
   const [isValid, setIsValid] = useState(false);
   const validateEmail = (value: string) => {
@@ -18,7 +25,7 @@ export default function SignInForm() {
   };
 
   return (
-    <Form className="flex flex-col justify-center gap-8" method="post">
+    <Form className="flex flex-col justify-center gap-8" method="post" {...formProps}>
       <h1 className="text-xl md:text-3xl font-extrabold uppercase">Sign In or Sign Up</h1>
       <Input
         classNames={{
