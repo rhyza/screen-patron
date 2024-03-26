@@ -12,6 +12,18 @@ export type EventInfo = {
   cost: number | null;
 };
 
+export type JsonifiedEvent = {
+  id?: string;
+  name?: string | null;
+  photo?: string | null;
+  dateStart?: string | null;
+  dateEnd?: string | null;
+  location?: string | null;
+  cost?: number | null;
+  capacity?: number | null;
+  description?: string | null;
+};
+
 /**
  * Creates a new event. Must include User to set as Host.
  * @param userId The User to add as a Host of the Event
