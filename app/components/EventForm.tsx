@@ -44,8 +44,6 @@ export default function EventForm({
   const start = dateStart ? getDateInputString(dateStart) : '';
   const end = dateEnd ? getDateInputString(dateEnd) : '';
 
-  console.log(isDisabled);
-
   const [errorMessage, setErrorMessage] = useState('');
   const [submitDisabled, setSubmitDisabled] = useState(isDisabled);
   const [showEndDateInput, setShowEndDateInput] = useState(end != '');

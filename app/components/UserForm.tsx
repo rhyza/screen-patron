@@ -1,9 +1,14 @@
+import { useState } from 'react';
 import { Form, useNavigate } from '@remix-run/react';
 import { Button, Input, Textarea } from '@nextui-org/react';
 
 import { InstagramIcon, LinkIcon, TwitterIcon } from './Icons';
 import InputImage from './InputImage';
 import { userPlaceholderImage } from '~/assets';
+
+type UserFormProps = {
+  isDisabled?: boolean;
+} & UserFormValues;
 
 type UserFormValues = {
   name?: string;
@@ -26,8 +31,10 @@ export default function UserForm({
   instagram,
   twitter,
   website,
-}: UserFormValues) {
+  isDisabled = false,
+}: UserFormProps) {
   const navigate = useNavigate();
+  const [submitDisabled, setSubmitDisabled] = useState(isDisabled);
 
   return (
     <div className="w-full p-6">
@@ -47,7 +54,12 @@ export default function UserForm({
             />
           </div>
           <div className="flex justify-center">
-            <Button className="w-32 bg-primary" radius="none" type="submit">
+            <Button
+              className="w-32 bg-primary"
+              isDisabled={submitDisabled}
+              radius="none"
+              type="submit"
+            >
               Save
             </Button>
             <Button className="w-32" onPress={() => navigate(-1)} radius="none">
