@@ -44,7 +44,7 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
         <NavbarItem
           className={cn(
             'max-sm:hidden',
-            (location.pathname === '/e/create' || location.pathname === '/signin') &&
+            (location.pathname === '/create' || location.pathname === '/signin') &&
               'hidden',
           )}
         >
@@ -52,7 +52,7 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
             as={NavLink}
             className="bg-primary mr-2"
             radius="none"
-            to="e/create"
+            to="create"
             variant="flat"
           >
             Create
@@ -86,7 +86,7 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownSection className="sm:hidden" showDivider>
               <DropdownItem key="create" textValue="Create">
-                <Button as={NavLink} fullWidth radius="none" to="e/create" variant="flat">
+                <Button as={NavLink} fullWidth radius="none" to="create" variant="flat">
                   Create
                 </Button>
               </DropdownItem>

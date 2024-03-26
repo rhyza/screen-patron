@@ -48,7 +48,7 @@ export default function HomePage() {
             discover
           </NavLink>
           <span> local film events or put on </span>
-          <NavLink className="hover:text-gradient" to="e/create">
+          <NavLink className="hover:text-gradient" to="create">
             your own
           </NavLink>
         </h1>

@@ -21,7 +21,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 /**
- * `e/create` — Page for creating a new Event.
+ * `create` — Page for creating a new Event.
  */
 export default function CreateEvent() {
   const { isSignedIn } = useLoaderData<typeof loader>();

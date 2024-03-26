@@ -12,7 +12,7 @@ import { eventPlaceholderImage } from '~/assets';
 export default function NewEventCard(cardProps: React.ComponentPropsWithRef<typeof Card>) {
   const navigate = useNavigate();
   const handlePress = () => {
-    navigate('/e/create');
+    navigate('/create');
   };
 
   return (
