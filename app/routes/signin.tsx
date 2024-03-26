@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { Form, useActionData } from '@remix-run/react';
-import { Button, Card, cn, Input } from '@nextui-org/react';
+import { useActionData } from '@remix-run/react';
+import { Card, cn } from '@nextui-org/react';
 
+import SignInForm from '~/components/SignInForm';
 import { getSupabaseServerClient } from '~/db.server';
 import { signIn } from '~/models/user.server';
 
@@ -21,20 +21,6 @@ export default function SignInPage() {
   const actionData = useActionData<typeof action>();
   const hasSent = actionData?.success || false;
 
-  const [email, setEmail] = useState('');
-  const [isValid, setIsValid] = useState(false);
-  const validateEmail = (value: string) => {
-    setEmail(() => value);
-    if (value.length < 7) {
-      setIsValid(() => false);
-      // eslint-disable-next-line no-useless-escape
-    } else if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-      setIsValid(() => true);
-    } else {
-      setIsValid(() => false);
-    }
-  };
-
   return (
     <div className="grid place-content-center h-[75vh]">
       <Card
@@ -45,36 +31,7 @@ export default function SignInPage() {
         radius="sm"
         shadow="sm"
       >
-        {!hasSent && (
-          <Form className="flex flex-col justify-center gap-8" method="post">
-            <h1 className="text-xl md:text-3xl font-extrabold uppercase">
-              Sign In or Sign Up
-            </h1>
-            <Input
-              classNames={{
-                inputWrapper: [
-                  'border-indigo-100 after:bg-indigo-500 ',
-                  'hover:border-indigo-400 active:border-indigo-400 focus:border-indigo-400',
-                ],
-              }}
-              label="Enter your email"
-              name="email"
-              onValueChange={validateEmail}
-              size="lg"
-              type="email"
-              value={email}
-              variant="underlined"
-            />
-            <Button
-              className="w-32 bg-gradient"
-              isDisabled={!isValid}
-              radius="none"
-              type="submit"
-            >
-              Next
-            </Button>
-          </Form>
-        )}
+        {!hasSent && <SignInForm />}
         {hasSent && (
           <div className="grid content-center justify-center my-8">
             <p className="text-2xl text-center">Check your email for your sign in link!</p>
