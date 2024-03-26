@@ -41,7 +41,11 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 export default function EditUser() {
   const { user } = useOutletContext<OutletContext>();
 
-  return <UserForm {...retypeNull(user)} />;
+  return (
+    <div className="w-full p-6">
+      <UserForm {...retypeNull(user)} />
+    </div>
+  );
 }
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {

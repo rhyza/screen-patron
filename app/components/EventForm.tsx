@@ -80,110 +80,108 @@ export default function EventForm({
   };
 
   return (
-    <div className="w-full p-6">
-      <Form
-        className="flex flex-wrap-reverse justify-center gap-6"
-        encType="multipart/form-data"
-        method="post"
-      >
-        <div className="flex-auto space-y-2 min-w-[300px] max-w-xl">
+    <Form
+      className="flex flex-wrap-reverse justify-center gap-6"
+      encType="multipart/form-data"
+      method="post"
+    >
+      <div className="flex-auto space-y-2 min-w-[300px] max-w-xl">
+        <Input
+          defaultValue={name}
+          label="Event Name"
+          name="name"
+          radius="none"
+          size="lg"
+          type="text"
+        />
+        <Input
+          label="Start Date"
+          min={today}
+          name="dateStart"
+          onValueChange={handleDateStartInput}
+          placeholder="TBD"
+          radius="none"
+          type="datetime-local"
+          value={dateStartValue}
+        />
+        {showEndDateInput && (
           <Input
-            defaultValue={name}
-            label="Event Name"
-            name="name"
-            radius="none"
-            size="lg"
-            type="text"
-          />
-          <Input
-            label="Start Date"
+            errorMessage={errorMessage}
+            label="End Date"
             min={today}
             name="dateStart"
-            onValueChange={handleDateStartInput}
+            onValueChange={handleDateEndInput}
             placeholder="TBD"
             radius="none"
             type="datetime-local"
-            value={dateStartValue}
+            value={dateEndValue}
           />
-          {showEndDateInput && (
-            <Input
-              errorMessage={errorMessage}
-              label="End Date"
-              min={today}
-              name="dateStart"
-              onValueChange={handleDateEndInput}
-              placeholder="TBD"
-              radius="none"
-              type="datetime-local"
-              value={dateEndValue}
-            />
-          )}
-          {dateStartValue && !showEndDateInput && (
-            <Button
-              className="btn-link"
-              onPress={() => setShowEndDateInput(() => !showEndDateInput)}
-            >
-              Add end time
-            </Button>
-          )}
-          <Input
-            defaultValue={location}
-            placeholder="Location"
-            name="location"
+        )}
+        {dateStartValue && !showEndDateInput && (
+          <Button
+            className="btn-link"
+            onPress={() => setShowEndDateInput(() => !showEndDateInput)}
+          >
+            Add end time
+          </Button>
+        )}
+        <Input
+          defaultValue={location}
+          placeholder="Location"
+          name="location"
+          radius="none"
+          startContent={<MapPinIcon />}
+          type="text"
+        />
+        <Input
+          defaultValue={`${capacity}`}
+          name="capacity"
+          placeholder="Max Capacity"
+          radius="none"
+          startContent={<UserGroupIcon />}
+          type="number"
+        />
+        <Input
+          defaultValue={`${cost}`}
+          name="cost"
+          placeholder="Cost per person"
+          radius="none"
+          startContent={
+            <>
+              <TicketIcon />
+              <span className="ml-1">$</span>
+            </>
+          }
+          type="number"
+        />
+        <Textarea
+          defaultValue={description}
+          name="description"
+          label="Description"
+          radius="none"
+        />
+      </div>
+      <div className="flex-auto justify-center space-y-6 max-w-80 sm:max-w-96">
+        <InputImage
+          fileLimit={5}
+          image={photo || eventPlaceholderImage}
+          imageClassName="size-80 sm:size-96"
+          name="photo"
+        />
+        <div className="flex justify-center">
+          <Button
+            className="w-32 bg-primary"
+            isDisabled={submitDisabled}
             radius="none"
-            startContent={<MapPinIcon />}
-            type="text"
-          />
-          <Input
-            defaultValue={`${capacity}`}
-            name="capacity"
-            placeholder="Max Capacity"
-            radius="none"
-            startContent={<UserGroupIcon />}
-            type="number"
-          />
-          <Input
-            defaultValue={`${cost}`}
-            name="cost"
-            placeholder="Cost per person"
-            radius="none"
-            startContent={
-              <>
-                <TicketIcon />
-                <span className="ml-1">$</span>
-              </>
-            }
-            type="number"
-          />
-          <Textarea
-            defaultValue={description}
-            name="description"
-            label="Description"
-            radius="none"
-          />
+            type="submit"
+          >
+            Save
+          </Button>
+          <Button className="w-32" onPress={() => navigate(-1)} radius="none">
+            Cancel
+          </Button>
         </div>
-        <div className="flex-auto justify-center space-y-6 max-w-80 sm:max-w-96">
-          <InputImage
-            fileLimit={5}
-            image={photo || eventPlaceholderImage}
-            imageClassName="size-80 sm:size-96"
-            name="photo"
-          />
-          <div className="flex justify-center">
-            <Button
-              className="w-32 bg-primary"
-              isDisabled={submitDisabled}
-              radius="none"
-              type="submit"
-            >
-              Save
-            </Button>
-            <Button className="w-32" onPress={() => navigate(-1)} radius="none">
-              Cancel
-            </Button>
-          </div>
-        </div>
-      </Form>
-    </div>
+      </div>
+    </Form>
   );
 }
