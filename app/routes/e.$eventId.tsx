@@ -44,7 +44,7 @@ export default function EventPage() {
   const { event, hosts, guests, guestCount, isUser, rsvp } = useLoaderData<typeof loader>();
 
   return (
-    <div className="w-full p-6">
+    <div className="page-container">
       <EventProfile
         event={event}
         hosts={hosts}

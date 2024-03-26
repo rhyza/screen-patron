@@ -17,7 +17,7 @@ export default function EventPages() {
   };
 
   return (
-    <div className="w-full p-6 flex justify-center">
+    <div className="page-container flex justify-center">
       <div className="max-w-[70rem]">
         <div className="grid p-2 gap-4">
           <div className="flex gap-2 max-sm:w-80 max-sm:text-small max-sm:overflow-x-auto">

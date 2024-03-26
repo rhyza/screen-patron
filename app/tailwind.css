@@ -15,6 +15,10 @@
     @apply cursor-pointer bg-transparent p-0 underline underline-offset-4 text-small uppercase text-foreground hover:text-indigo-400 decoration-indigo-600 decoration-2;
   }
 
+  .page-container {
+    @apply w-full p-6;
+  }
+
   .text-primary {
     @apply font-medium text-indigo-500
   }

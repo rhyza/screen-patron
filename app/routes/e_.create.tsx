@@ -26,7 +26,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export default function CreateEvent() {
   const { isSignedIn } = useLoaderData<typeof loader>();
 
-  return <EventForm isDisabled={!isSignedIn} />;
+  return (
+    <div className="page-container">
+      <EventForm isDisabled={!isSignedIn} />
+    </div>
+  );
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {

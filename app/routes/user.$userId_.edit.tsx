@@ -42,7 +42,7 @@ export default function EditUser() {
   const { user } = useOutletContext<OutletContext>();
 
   return (
-    <div className="w-full p-6">
+    <div className="page-container">
       <UserForm {...retypeNull(user)} />
     </div>
   );

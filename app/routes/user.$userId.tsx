@@ -32,7 +32,7 @@ export default function UserPage() {
   const session = useOutletContext<OutletContext>();
 
   return (
-    <div className="w-full p-6">
+    <div className="page-container">
       <UserProfile
         name={name}
         photo={photo}

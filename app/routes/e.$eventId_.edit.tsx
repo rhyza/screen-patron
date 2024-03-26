@@ -50,7 +50,7 @@ export default function EditEvent() {
   const { event } = useLoaderData<typeof loader>();
 
   return (
-    <div className="w-full p-6">
+    <div className="page-container">
       <EventForm {...retypeNull(event)} />
     </div>
   );
