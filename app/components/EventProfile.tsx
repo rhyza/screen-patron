@@ -28,7 +28,10 @@ type EventProfileProps = {
 };
 
 /**
- * `/e/$eventId` — Page displaying an Event's details and where Users can RSVP.
+ * Layout for displaying an Event's name, description, poster, start date, end date,
+ * location, cost, and venue capacity.
+ * @param event JSONified Event object, e.g. dateStart is stored as a Date on the db but
+ * gets transformed as a string when retrieved by a GET request.
  */
 export default function EventProfile({
   event: { id, name, photo, dateStart, dateEnd, location, cost, capacity, description },

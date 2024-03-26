@@ -19,7 +19,7 @@ type UserProfileValues = {
 
 /**
  * Displays a User's name, bio, profile photo, instagram handle, twitter handle,
-and website link.
+ * and website link.
  * @param UserProfileValues Any User info to show
  * @param isUser Determines whether a user is viewing their own profile
  */
