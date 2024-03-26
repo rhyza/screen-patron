@@ -26,7 +26,7 @@ type EventFormValues = {
  * Form for modifying an Event's name, description, poster, start date, end date,
  * location, cost, and venue capacity.
  * @param EventFormValues Any Event info to pre-populate the field data with
- * @param isDisabled Boolean to disable submit button
+ * @param isDisabled Sets submit button to disabled
  */
 export default function EventForm({
   name,

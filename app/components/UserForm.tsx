@@ -23,6 +23,7 @@ type UserFormValues = {
  * Form for modifying a User's name, bio, profile photo, instagram handle, twitter handle,
  * and website link.
  * @param UserFormValues Any User info to pre-populate the field data with
+ * @param isDisabled Sets submit button to disabled
  */
 export default function UserForm({
   name,
