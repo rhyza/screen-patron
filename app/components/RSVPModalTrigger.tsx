@@ -3,7 +3,7 @@ import { PressEvent } from '@react-types/shared';
 import { useDisclosure } from '@nextui-org/react';
 
 import IconButton from './IconButton';
-import RSVPModal from './RSVPModal';
+import RSVPForm from './RSVPForm';
 
 export default function RSVPModalTrigger({
   response = '',
@@ -38,7 +38,7 @@ export default function RSVPModalTrigger({
           {option.icon}
         </IconButton>
       ))}
-      <RSVPModal isOpen={isOpen} onOpenChange={onOpenChange} selected={rsvp} />
+      <RSVPForm isOpen={isOpen} onOpenChange={onOpenChange} selected={rsvp} />
     </div>
   );
 }

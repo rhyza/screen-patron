@@ -10,7 +10,7 @@ import RadioIcon from './RadioIcon';
  * @param modalProps (optional) Any additional props are applied to the component's container,
  * reference the NextUI Modal docs for available options
  */
-export default function RSVPModal({
+export default function RSVPForm({
   selected,
   ...modalProps
 }: {
