@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { PressEvent } from '@react-types/shared';
 import { NavLink } from '@remix-run/react';
 import { Avatar, Button, Tooltip, useDisclosure } from '@nextui-org/react';
 
 import { eventPlaceholderImage } from '~/assets';
-import IconButton from '~/components/IconButton';
 import { MapPinIcon, StarIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
-import RSVPModal from '~/components/RSVPModal';
+import RSVPModalTrigger from './RSVPModalTrigger';
 import type { JsonifiedEvent } from '~/models/event.server';
 import type { HostInfo } from '~/models/host.server';
 import type { GuestCount, RsvpInfo } from '~/models/rsvp.server';
@@ -96,7 +94,7 @@ export default function EventProfile({
           className="size-80 sm:size-96 object-cover"
           src={photo || eventPlaceholderImage}
         />
-        {!isUser && <RsvpForm response={rsvp?.status} />}
+        {!isUser && <RSVPModalTrigger response={rsvp?.status} />}
       </div>
     </div>
   );
@@ -162,40 +160,6 @@ function InfoField({ icon, text }: { icon: JSX.Element; text: JSX.Element | stri
     <div className="flex items-center gap-2">
       <span className="flex-none">{icon}</span>
       <span className="flex-initial">{text}</span>
-    </div>
-  );
-}
-
-function RsvpForm({ response = '' }: { response: string | undefined }) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [rsvp, setRsvp] = useState(response);
-  const handleModalOpen = (event: PressEvent) => {
-    const { id } = event.target;
-    setRsvp(() => id);
-    onOpen();
-  };
-
-  const options = [
-    { id: 'GOING', label: 'Going', icon: '👍' },
-    { id: 'MAYBE', label: 'Maybe', icon: '🤔' },
-    { id: 'NOT_GOING', label: `Can't Go`, icon: '😢' },
-  ];
-
-  return (
-    <div className="flex justify-around m-6">
-      {options.map((option) => (
-        <IconButton
-          id={option.id}
-          key={option.id}
-          isHidden={response != '' && response != option.id}
-          isSelected={response != '' && response === option.id}
-          label={option.label}
-          onPress={handleModalOpen}
-        >
-          {option.icon}
-        </IconButton>
-      ))}
-      <RSVPModal isOpen={isOpen} onOpenChange={onOpenChange} selected={rsvp} />
     </div>
   );
 }
