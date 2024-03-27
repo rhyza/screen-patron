@@ -4,10 +4,13 @@ type IconProps = {
 
 /**
  * Each function in this file returns a self-described SVG icon.
+ * The `<Svg>` component is a wrapper for the properties shared amongst all Icons. The only
+ * differences between each Icon implementation are its `<path>` and rarely its `viewBox`.
  * @param classNames Any additional Tailwind classes to apply to the svg without affecting
- * the icon's default size (`w-6 h-6`). User can fully override this by simply passing in a
+ * the icon's default size (`"w-6 h-6"`). User can fully override this by simply passing in a
  * `className` property.
  * @param svgProps Any properties that an svg element would accept.
+ * Default viewBox is `"0 0 24 24"`.
  */
 function Svg({ children, classNames, ...svgProps }: IconProps) {
   return (
