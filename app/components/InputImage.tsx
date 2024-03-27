@@ -16,7 +16,7 @@ import { validateFile } from '~/utils';
 export default function InputImage({
   errorMessage = '',
   fileLimit = 2,
-  iconClassName = 'rounded-full p-3 bg-gray-600',
+  iconClassName = 'rounded-full p-3 bg-default',
   iconFillColor = 'white',
   image,
   imageClassName = 'size-80',

@@ -59,7 +59,7 @@ export default function UserForm({
         <div className="flex justify-center">
           <InputImage
             fileLimit={2}
-            iconClassName="mb-1 mr-1 rounded-full p-3 bg-gray-600"
+            iconClassName="mb-1 mr-1 rounded-full p-3 bg-default"
             image={photo || userPlaceholderImage}
             imageClassName="rounded-full size-[16rem]"
             name="photo"
@@ -87,7 +87,7 @@ export default function UserForm({
                 'text-3xl group-data-[filled-within=true]:scale-[.475]',
                 'group-data-[filled-within=true]:-translate-y-[calc(38%_+_theme(fontSize.small)/2_-_8px)]',
               ],
-              inputWrapper: 'h-20 bg-subtle',
+              inputWrapper: 'h-20 bg-subtle data-[hover=true]:bg-subtle-hover',
               input: 'text-3xl',
             }}
             defaultValue={name}
@@ -100,7 +100,7 @@ export default function UserForm({
         </div>
         <div className="grid gap-4">
           <Textarea
-            classNames={{ inputWrapper: 'bg-subtle' }}
+            classNames={{ inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' }}
             defaultValue={bio}
             label="Bio"
             name="bio"
@@ -152,7 +152,7 @@ function SocialInput({
 }) {
   return (
     <Input
-      classNames={{ inputWrapper: 'bg-subtle' }}
+      classNames={{ inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' }}
       defaultValue={defaultValue}
       name={name}
       onValueChange={onValueChange}

@@ -28,6 +28,10 @@
   }
 
   .bg-subtle {
-    @apply bg-default-50 data-[hover=true]:bg-default-100
+    @apply bg-default-50 hover:bg-subtle-hover
+  }
+
+  .bg-subtle-hover {
+    @apply bg-default-100
   }
 }
