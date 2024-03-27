@@ -12,6 +12,7 @@ import type { RsvpInfo } from '~/models/rsvp.server';
  * reference the NextUI Modal docs for available options
  */
 export default function RSVPModal({
+  content = 'rsvpform',
   rsvp,
   ...modalProps
 }: {
@@ -32,7 +33,7 @@ export default function RSVPModal({
         <ModalContent className="dark">
           {(onClose) => (
             <ModalBody className="p-6">
-              <RSVPForm onClose={onClose} selected={status} />
+              {content === 'rsvpform' && <RSVPForm onClose={onClose} selected={status} />}
             </ModalBody>
           )}
         </ModalContent>

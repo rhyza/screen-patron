@@ -39,7 +39,8 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
  * `/e/$eventId` — Page displaying an Event's details and where Users can RSVP.
  */
 export default function EventPage() {
-  const { event, hosts, guests, guestCount, isHosting, rsvp } = useLoaderData<typeof loader>();
+  const { event, hosts, guests, guestCount, isHosting, rsvp } =
+    useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
   const hasSent = actionData?.success || false;
 
