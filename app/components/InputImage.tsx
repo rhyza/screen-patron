@@ -9,27 +9,27 @@ import { validateFile } from '~/utils';
  * File input component that shows a preview of the uploaded image.
  * @param fileLimit (optional) File size limit in MB, default value is 2 MB
  * @param image (optional) img tag src link
- * @param imageClassName (optional) img tag className string for use with tailwind
+ * @param imageClassName (optional) Any Tailwind classes to apply to the img tag
  * @param cardProps (optional) Any additional props are applied to the component's container,
  * reference the NextUI Card docs for available options
  */
 export default function InputImage({
-  errorMessage = '',
+  classNames,
+  errorMessage,
   fileLimit = 2,
-  iconClassName = 'rounded-full p-3 bg-default',
-  iconFillColor = 'white',
   image,
-  imageClassName = 'size-80',
   name = 'photo',
   ...cardProps
 }: {
+  classNames?: {
+    iconContainer?: string;
+    iconSvgFill?: string;
+    image?: string;
+  };
   errorMessage?: string;
   fileLimit?: number;
-  iconClassName?: string;
-  iconFillColor?: string;
   image?: string;
   name?: string;
-  imageClassName?: string;
 } & React.ComponentPropsWithRef<typeof Card>) {
   const [error, setError] = useState('');
   const [src, setSrc] = useState(image || uploadPlaceholderImage);
@@ -73,7 +73,7 @@ export default function InputImage({
         <input className="hidden" name="prevPhoto" readOnly type="text" value={image}></input>
         <img
           alt="Preview of uploaded file"
-          className={cn('object-cover', imageClassName)}
+          className={cn('object-cover size-80', classNames?.image)}
           src={src}
         />
         {(error || errorMessage) && (
@@ -84,8 +84,11 @@ export default function InputImage({
           </CardBody>
         )}
         <CardFooter className="overflow-hidden absolute inset-x-0 bottom-0 z-10 justify-end">
-          <div aria-hidden="true" className={iconClassName}>
-            <EditIcon fill={iconFillColor} />
+          <div
+            aria-hidden="true"
+            className={cn('rounded-full p-3 bg-default', classNames?.iconContainer)}
+          >
+            <EditIcon fill={classNames?.iconSvgFill || 'white'} />
           </div>
         </CardFooter>
       </Card>

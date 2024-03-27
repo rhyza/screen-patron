@@ -9,12 +9,12 @@ const ButtonTabContext = createContext({
 });
 
 /**
- * Renders a row buttons that switches which button maintains an active state when pressed.
- * Intended to be used as a tab switcher.
+ * Tab switcher composed of a row buttons. The buttons change the state controlled by the
+ * given callback function. Each button will display an active state when pressed and will
+ * maintain that state until a different button is pressed.
  * @param className Any Tailwind classes to apply to the container
- * @param defaultTab The `id` of the tab to be active on first render.
+ * @param defaultTab The `id` of the tab to be active on first render
  * @param setTabContent Function that sets what happens when each button is pressed
- * @returns
  */
 export function ButtonTabs({
   children,
@@ -40,6 +40,11 @@ export function ButtonTabs({
   );
 }
 
+/**
+ * Button for use with ButtonTabs. Inherits an active state from ButtonTabs.
+ * @param id Tab identifier string
+ * @param className Any Tailwind classes to apply to the Button
+ */
 export function ButtonTab({
   id,
   children,

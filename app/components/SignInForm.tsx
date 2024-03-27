@@ -7,9 +7,7 @@ import { Button, Input } from '@nextui-org/react';
  * @param formProps (optional) Any props supplied are applied to the Form component,
  * reference Remix Form docs for guidance
  */
-export default function SignInForm({
-  ...formProps
-}: React.ComponentPropsWithRef<typeof Form>) {
+export default function SignInForm(formProps: React.ComponentPropsWithRef<typeof Form>) {
   const [email, setEmail] = useState('');
   const [isValid, setIsValid] = useState(false);
   const validateEmail = (value: string) => {

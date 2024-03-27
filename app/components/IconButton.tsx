@@ -10,7 +10,6 @@ import { Button, cn } from '@nextui-org/react';
  * default value is `md`
  * @param buttonProps (optional) Any additional props are applied to the Button component,
  * reference the NextUI Button docs for available options
- * @returns
  */
 export default function IconButton({
   children,
@@ -20,13 +19,11 @@ export default function IconButton({
   size = 'md',
   ...buttonProps
 }: {
-  children: React.ReactNode;
   isHidden?: boolean;
   isSelected?: boolean;
   label?: string | JSX.Element;
-  size?: string;
 } & React.ComponentPropsWithRef<typeof Button>) {
-  const sizeMap: { [key: string]: string } = {
+  const sizeMap = {
     sm: 'text-2xl sm:text-3xl w-16 h-16 p-4',
     md: 'text-3xl sm:text-4xl w-20 h-20 p-4',
     lg: 'text-4xl sm:text-5xl w-24 h-24 p-4',

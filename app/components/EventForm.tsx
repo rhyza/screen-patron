@@ -177,9 +177,9 @@ export default function EventForm({
       </div>
       <div className="flex-auto justify-center space-y-6 max-w-80 sm:max-w-96">
         <InputImage
+          classNames={{ image: 'size-80 sm:size-96' }}
           fileLimit={5}
           image={photo || eventPlaceholderImage}
-          imageClassName="size-80 sm:size-96"
           name="photo"
         />
         <div className="flex justify-center">

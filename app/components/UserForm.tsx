@@ -58,10 +58,12 @@ export default function UserForm({
       <div className="flex-auto space-y-6 max-w-fit min-w-80">
         <div className="flex justify-center">
           <InputImage
+            classNames={{
+              iconContainer: 'mb-1 mr-1',
+              image: 'rounded-full size-[16rem]',
+            }}
             fileLimit={2}
-            iconClassName="mb-1 mr-1 rounded-full p-3 bg-default"
             image={photo || userPlaceholderImage}
-            imageClassName="rounded-full size-[16rem]"
             name="photo"
           />
         </div>

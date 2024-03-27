@@ -19,7 +19,8 @@ import { userPlaceholderImage } from '~/assets';
 import type { User } from '~/models/user.server';
 
 /**
- * Navigation Bar for the entire app
+ * Navigation Bar for the entire app.
+ * @param sessionUser The currently signed in User
  */
 export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
   const location = useLocation();

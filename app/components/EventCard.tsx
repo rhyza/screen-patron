@@ -1,5 +1,5 @@
 import { useNavigate } from '@remix-run/react';
-import { Card, CardFooter } from '@nextui-org/react';
+import { Card, CardFooter, cn } from '@nextui-org/react';
 
 import { eventPlaceholderImage } from '~/assets';
 import { EventInfo } from '~/models/event.server';
@@ -44,7 +44,7 @@ export default function EventCard({
     >
       <img
         alt={`Event poster for ${name} event poster`}
-        className={'object-cover rounded-md ' + imageClassName}
+        className={cn('object-cover rounded-md', imageClassName)}
         src={retypeNull(photo, eventPlaceholderImage)}
       />
       <CardFooter className="flex flex-col items-start">

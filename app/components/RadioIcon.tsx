@@ -10,7 +10,7 @@ import { useRadio, VisuallyHidden, cn } from '@nextui-org/react';
 export default function RadioIcon({ size = 'md', ...props }: { size: string } & RadioProps) {
   const { Component, children, description, getBaseProps, getInputProps } = useRadio(props);
 
-  const sizeMap: { [key: string]: string } = {
+  const sizeMap = {
     sm: 'text-2xl sm:text-3xl size-16 p-4',
     md: 'text-3xl sm:text-4xl size-20 p-4',
     lg: 'text-4xl sm:text-5xl size-28 p-4',

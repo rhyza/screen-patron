@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { PressEvent } from '@react-types/shared';
 import { NavLink } from '@remix-run/react';
-import { Avatar, Button, Link, Tooltip, useDisclosure } from '@nextui-org/react';
+import { Avatar, Button, Tooltip, useDisclosure } from '@nextui-org/react';
 
 import { eventPlaceholderImage } from '~/assets';
 import IconButton from '~/components/IconButton';
@@ -223,9 +223,9 @@ function ShareLinks({ eventId }: { eventId: string }) {
         isOpen={isOpen}
         onOpenChange={() => setIsOpen(false)}
       >
-        <Link className="btn-link mb-2" onPress={handleShare}>
+        <Button className="btn-link" onPress={handleShare}>
           share event
-        </Link>
+        </Button>
       </Tooltip>
     </div>
   );
