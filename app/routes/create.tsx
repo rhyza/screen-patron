@@ -35,8 +35,9 @@ export default function CreateEvent() {
     <div className="page-container">
       <Modal
         backdrop="opaque"
-        hideCloseButton={true}
-        isOpen={!isSignedIn}
+        defaultOpen={!isSignedIn && !hasSent}
+        hideCloseButton={!hasSent}
+        isDismissable={hasSent}
         placement="center"
         size="md"
         classNames={{ backdrop: 'bg-gradient mix-blend-multiply' }}
