@@ -48,6 +48,7 @@ export default function EventsAttending() {
   return (
     <>
       <ButtonTabs
+        classNames={{ container: 'p-2' }}
         defaultTab="upcoming"
         setTabContent={setContent}
         tabs={[

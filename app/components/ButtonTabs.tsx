@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { PressEvent } from '@react-types/shared';
-import { Button } from '@nextui-org/react';
+import { Button, cn } from '@nextui-org/react';
 
 /**
  * Renders a row buttons that switches which button maintains an active state when pressed.
@@ -11,10 +11,18 @@ import { Button } from '@nextui-org/react';
  * @returns
  */
 export default function ButtonTabs({
+  classNames = {
+    container: '',
+    button: '',
+  },
   defaultTab = '',
   setTabContent,
   tabs,
 }: {
+  classNames?: {
+    container?: string;
+    button?: string;
+  };
   defaultTab?: string;
   setTabContent: (id: string) => void;
   tabs: {
@@ -30,9 +38,15 @@ export default function ButtonTabs({
   };
 
   return (
-    <div className="flex gap-2 p-2">
+    <div className={cn('flex gap-2', classNames?.container)}>
       {tabs.map((tab) => (
-        <ButtonTab activeTab={activeTab} handlePress={handlePress} id={tab.id} key={tab.id}>
+        <ButtonTab
+          activeTab={activeTab}
+          classNames={classNames?.button}
+          handlePress={handlePress}
+          id={tab.id}
+          key={tab.id}
+        >
           {tab.label}
         </ButtonTab>
       ))}
@@ -45,15 +59,17 @@ function ButtonTab({
   activeTab,
   handlePress,
   children,
+  classNames,
 }: {
   id: string;
   activeTab: string;
   handlePress: (e: PressEvent) => void;
   children: string | JSX.Element;
+  classNames?: string;
 }) {
   const active = id === activeTab ? 'bg-foreground text-background' : '';
   return (
-    <Button className={active} onPress={handlePress} id={id} radius="full">
+    <Button className={cn(active, classNames)} onPress={handlePress} id={id} radius="full">
       {children}
     </Button>
   );
