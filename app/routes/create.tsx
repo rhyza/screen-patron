@@ -1,9 +1,12 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { json, redirect } from '@remix-run/node';
+import { useActionData, useLoaderData } from '@remix-run/react';
+import { Modal, ModalContent } from '@nextui-org/react';
 
 import EventForm from '~/components/EventForm';
+import SignInForm from '~/components/SignInForm';
 import { getSupabaseServerClient, getUserId, uploadImage } from '~/db.server';
+import { signIn } from '~/models/user.server';
 import { createEvent, updateEvent } from '~/models/event.server';
 
 export const meta: MetaFunction = () => {
@@ -25,9 +28,28 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
  */
 export default function CreateEvent() {
   const { isSignedIn } = useLoaderData<typeof loader>();
+  const actionData = useActionData<typeof action>();
+  const hasSent = actionData?.success || false;
 
   return (
     <div className="page-container">
+      <Modal
+        backdrop="opaque"
+        hideCloseButton={true}
+        isOpen={!isSignedIn}
+        placement="center"
+        size="md"
+        classNames={{ backdrop: 'bg-gradient mix-blend-multiply' }}
+      >
+        <ModalContent className="p-10">
+          {!hasSent && <SignInForm />}
+          {hasSent && (
+            <div className="grid content-center justify-center my-8">
+              <p className="text-2xl text-center">Check your email for your sign in link!</p>
+            </div>
+          )}
+        </ModalContent>
+      </Modal>
       <EventForm isDisabled={!isSignedIn} />
     </div>
   );
@@ -40,11 +62,17 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { supabase } = getSupabaseServerClient(request);
   const userId = await getUserId(supabase);
   if (!userId) {
-    throw redirect(`/signin`, 302);
+    const values = Object.fromEntries(await formData);
+    const { error } = await signIn(supabase, values);
+    if (error) {
+      return json({ success: false, error });
+    }
+    return json({ success: true, error });
   }
 
-  // eslint-disable-next-line prefer-const, @typescript-eslint/no-unused-vars
-  let { photo, prevPhoto, ...updates } = Object.fromEntries(await formData);
+  // If signed in, continue with new event submission
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { photo, prevPhoto, ...updates } = Object.fromEntries(await formData);
   const event = await createEvent(userId, { ...updates });
 
   // Need eventId before photo can be uploaded, check if user added a photo
