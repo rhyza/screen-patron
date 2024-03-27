@@ -1,5 +1,5 @@
 import { Form } from '@remix-run/react';
-import { Button, Input, Modal, ModalBody, ModalContent, RadioGroup } from '@nextui-org/react';
+import { Button, Input, RadioGroup } from '@nextui-org/react';
 
 import RadioIcon from './RadioIcon';
 
@@ -11,47 +11,40 @@ import RadioIcon from './RadioIcon';
  * reference the NextUI Modal docs for available options
  */
 export default function RSVPForm({
+  onClose,
   selected,
-  ...modalProps
 }: {
+  onClose: () => void;
   selected?: string;
-} & Partial<React.ComponentPropsWithRef<typeof Modal>>) {
+}) {
   return (
-    <Modal hideCloseButton {...modalProps}>
-      <ModalContent className="dark">
-        {(onClose) => (
-          <ModalBody className="p-6">
-            <Form className="flex flex-wrap justify-center gap-6" method="post">
-              <RadioGroup
-                className="p-6"
-                defaultValue={selected}
-                isRequired
-                name="status"
-                orientation="horizontal"
-              >
-                <RadioIcon description="Going" size="lg" value="GOING">
-                  👍
-                </RadioIcon>
-                <RadioIcon description="Maybe" size="lg" value="MAYBE">
-                  🤔
-                </RadioIcon>
-                <RadioIcon description="Can't Go" size="lg" value="NOT_GOING">
-                  😢
-                </RadioIcon>
-              </RadioGroup>
-              <Input label="Your Name" name="name" radius="none" size="lg" type="text" />
-              <div className="flex justify-center">
-                <Button className="w-32 bg-primary" radius="none" type="submit">
-                  Save
-                </Button>
-                <Button className="w-32" onPress={onClose} radius="none">
-                  Cancel
-                </Button>
-              </div>
-            </Form>
-          </ModalBody>
-        )}
-      </ModalContent>
-    </Modal>
+    <Form className="flex flex-wrap justify-center gap-6" method="post">
+      <RadioGroup
+        className="p-6"
+        defaultValue={selected}
+        isRequired
+        name="status"
+        orientation="horizontal"
+      >
+        <RadioIcon description="Going" size="lg" value="GOING">
+          👍
+        </RadioIcon>
+        <RadioIcon description="Maybe" size="lg" value="MAYBE">
+          🤔
+        </RadioIcon>
+        <RadioIcon description="Can't Go" size="lg" value="NOT_GOING">
+          😢
+        </RadioIcon>
+      </RadioGroup>
+      <Input label="Your Name" name="name" radius="none" size="lg" type="text" />
+      <div className="flex justify-center">
+        <Button className="w-32 bg-primary" radius="none" type="submit">
+          Save
+        </Button>
+        <Button className="w-32" onPress={onClose} radius="none">
+          Cancel
+        </Button>
+      </div>
+    </Form>
   );
 }

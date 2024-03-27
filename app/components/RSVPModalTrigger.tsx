@@ -1,23 +1,14 @@
-import { useState } from 'react';
 import { PressEvent } from '@react-types/shared';
-import { useDisclosure } from '@nextui-org/react';
 
 import IconButton from './IconButton';
-import RSVPForm from './RSVPForm';
 
 export default function RSVPModalTrigger({
+  onTrigger,
   response = '',
 }: {
+  onTrigger: (e: PressEvent) => void;
   response: string | undefined;
 }) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [rsvp, setRsvp] = useState(response);
-  const handleModalOpen = (event: PressEvent) => {
-    const { id } = event.target;
-    setRsvp(() => id);
-    onOpen();
-  };
-
   const options = [
     { id: 'GOING', label: 'Going', icon: '👍' },
     { id: 'MAYBE', label: 'Maybe', icon: '🤔' },
@@ -33,12 +24,11 @@ export default function RSVPModalTrigger({
           isHidden={response != '' && response != option.id}
           isSelected={response != '' && response === option.id}
           label={option.label}
-          onPress={handleModalOpen}
+          onPress={onTrigger}
         >
           {option.icon}
         </IconButton>
       ))}
-      <RSVPForm isOpen={isOpen} onOpenChange={onOpenChange} selected={rsvp} />
     </div>
   );
 }

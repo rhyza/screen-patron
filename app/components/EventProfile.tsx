@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { NavLink } from '@remix-run/react';
 import { Avatar, Button, Tooltip } from '@nextui-org/react';
 
+import { MapPinIcon, StarIcon, TicketIcon, UserGroupIcon } from './Icons';
+import RSVPModal from './RSVPModal';
 import { eventPlaceholderImage } from '~/assets';
-import { MapPinIcon, StarIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
-import RSVPModalTrigger from './RSVPModalTrigger';
 import type { JsonifiedEvent } from '~/models/event.server';
 import type { HostInfo } from '~/models/host.server';
 import type { GuestCount, RsvpInfo } from '~/models/rsvp.server';
@@ -21,7 +21,7 @@ type EventProfileProps = {
     TOTAL_GUESTS: number;
     TOTAL_RESPONSES: number;
   };
-  isUser: boolean;
+  isHosting: boolean;
   rsvp: RsvpInfo | null;
 };
 
@@ -36,7 +36,7 @@ export default function EventProfile({
   hosts,
   guests,
   guestCount,
-  isUser,
+  isHosting,
   rsvp,
 }: EventProfileProps) {
   const start = dateStart ? new Date(dateStart) : undefined;
@@ -47,7 +47,7 @@ export default function EventProfile({
       <div className="flex-auto space-y-4 min-w-[300px] max-w-xl ">
         <div className="flex items-center gap-6">
           <h1 className="text-5xl font-medium">{name}</h1>
-          {isUser && (
+          {isHosting && (
             <Button as={NavLink} to="./edit" radius="none">
               Edit
             </Button>
@@ -94,7 +94,7 @@ export default function EventProfile({
           className="size-80 sm:size-96 object-cover"
           src={photo || eventPlaceholderImage}
         />
-        {!isUser && <RSVPModalTrigger response={rsvp?.status} />}
+        {!isHosting && <RSVPModal rsvp={rsvp} />}
       </div>
     </div>
   );

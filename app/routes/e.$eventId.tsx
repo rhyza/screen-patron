@@ -6,7 +6,7 @@ import EventProfile from '~/components/EventProfile';
 import { getSupabaseServerClient, getUserId } from '~/db.server';
 import { getEvent } from '~/models/event.server';
 import { getHosts, isHost } from '~/models/host.server';
-import { addGuest, countGuests, getGuest, getGuests } from '~/models/rsvp.server';
+import { addGuest, countGuests, getGuest, getGuests, Status } from '~/models/rsvp.server';
 import { signIn } from '~/models/user.server';
 import { invariant } from '~/utils';
 
@@ -24,7 +24,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     throw new Response('Not Found', { status: 404 });
   }
 
-  const [hosts, guests, isUser, rsvp] = await Promise.all([
+  const [hosts, guests, isHosting, rsvp] = await Promise.all([
     getHosts(params.eventId),
     getGuests(params.eventId),
     userId ? isHost(params.eventId, userId) : false,
@@ -32,14 +32,14 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   ]);
   const guestCount = countGuests(guests);
 
-  return json({ event, hosts, guests, guestCount, isUser, rsvp });
+  return json({ event, hosts, guests, guestCount, isHosting, rsvp });
 };
 
 /**
  * `/e/$eventId` — Page displaying an Event's details and where Users can RSVP.
  */
 export default function EventPage() {
-  const { event, hosts, guests, guestCount, isUser, rsvp } = useLoaderData<typeof loader>();
+  const { event, hosts, guests, guestCount, isHosting, rsvp } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
   const hasSent = actionData?.success || false;
 
@@ -50,7 +50,7 @@ export default function EventPage() {
         hosts={hosts}
         guests={guests}
         guestCount={guestCount}
-        isUser={isUser}
+        isHosting={isHosting}
         rsvp={rsvp}
       />
     </div>
