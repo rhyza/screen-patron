@@ -102,6 +102,19 @@ export async function getUser(client?: SupabaseClient<any, 'public', any>) {
   return user;
 }
 
+/**
+ * Get the current session's user's id.
+ * @returns If there's an ongoing session, the user id as a string, otherwise undefined
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getUserId(client?: SupabaseClient<any, 'public', any>) {
+  const {
+    data: { session },
+  } = client ? await client.auth.getSession() : await supabase.auth.getSession();
+
+  return session?.user?.id;
+}
+
 /* ----------------------------------- STORAGE ACCESS ----------------------------------- */
 
 /**
