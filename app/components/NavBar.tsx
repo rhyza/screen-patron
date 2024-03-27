@@ -44,8 +44,7 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
         <NavbarItem
           className={cn(
             'max-sm:hidden',
-            (location.pathname === '/create' || location.pathname === '/signin') &&
-              'hidden',
+            (location.pathname === '/create' || location.pathname === '/signin') && 'hidden',
           )}
         >
           <Button

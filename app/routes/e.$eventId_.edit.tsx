@@ -4,7 +4,7 @@ import { useLoaderData } from '@remix-run/react';
 
 import EventForm from '~/components/EventForm';
 import { eventPlaceholderImage, eventsStoragePath } from '~/assets';
-import { getSession, getSupabaseServerClient, uploadImage, deleteImage } from '~/db.server';
+import { getSupabaseServerClient, getUserId, uploadImage, deleteImage } from '~/db.server';
 import { getEvent, updateEvent } from '~/models/event.server';
 import { isHost } from '~/models/host.server';
 import { invariant, retypeNull } from '~/utils';
@@ -19,10 +19,7 @@ export const meta: MetaFunction = () => {
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.eventId, 'Missing eventId param');
   const { supabase } = getSupabaseServerClient(request);
-  const [event, session] = await Promise.all([
-    getEvent(params.eventId),
-    getSession(supabase),
-  ]);
+  const [event, userId] = await Promise.all([getEvent(params.eventId), getUserId(supabase)]);
 
   // Check if event exists
   if (!event) {
@@ -30,12 +27,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   }
 
   // Check if user is signed in
-  if (!session || !session?.user?.id) {
+  if (!userId) {
     throw redirect(`/e/${params.eventId}`, 302);
   }
 
   // Check if user is a host of this event
-  const host = await isHost(params.eventId, session.user.id);
+  const host = await isHost(params.eventId, userId);
   if (!host) {
     throw redirect(`/e/${params.eventId}`, 302);
   }
@@ -62,13 +59,13 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
   // Check if user is signed in
   const { supabase } = getSupabaseServerClient(request);
-  const session = await getSession(supabase);
-  if (!session || !session?.user?.id) {
+  const userId = await getUserId(supabase);
+  if (!userId) {
     throw redirect(`/e/${params.eventId}`, 302);
   }
 
   // Check if user is a host of this event
-  const host = await isHost(params.eventId, session.user.id);
+  const host = await isHost(params.eventId, userId);
   if (!host) {
     throw redirect(`/e/${params.eventId}`, 302);
   }

@@ -1,11 +1,11 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
-import { json, redirect } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
 import { useOutletContext } from '@remix-run/react';
 
 import UserForm from '~/components/UserForm';
 import { profilesStoragePath, userPlaceholderImage } from '~/assets';
 import type { OutletContext } from '~/db.server';
-import { getSession, getSupabaseServerClient, uploadImage, deleteImage } from '~/db.server';
+import { getSupabaseServerClient, getUserId, uploadImage, deleteImage } from '~/db.server';
 import { updateUser } from '~/models/user.server';
 import { invariant, retypeNull } from '~/utils';
 
@@ -27,12 +27,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
    * which triggers user.$userId.tsx's 404 error. This saves us an `await getUser()` call.
    */
   const { supabase } = getSupabaseServerClient(request);
-  const session = await getSession(supabase);
-  if (!session || session?.user?.id != params.userId) {
+  const userId = await getUserId(supabase);
+  if (userId != params.userId) {
     throw redirect(`/user/${params.userId}`, 302);
   }
 
-  return json({ session });
+  return null;
 };
 
 /**
@@ -54,8 +54,8 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
   // Check if user is signed in
   const { supabase } = getSupabaseServerClient(request);
-  const session = await getSession(supabase);
-  if (!session || session?.user?.id != params.userId) {
+  const userId = await getUserId(supabase);
+  if (userId != params.userId) {
     throw redirect(`/user/${params.userId}`, 302);
   }
 

@@ -6,8 +6,8 @@ import { useLoaderData } from '@remix-run/react';
 import { Button } from '@nextui-org/react';
 
 import EventCards from '~/components/EventCards';
+import { getSupabaseServerClient, getUserId } from '~/db.server';
 import { getEventsHosting, getEventsResponded } from '~/models/user.server';
-import { invariant, parseAuthCookie } from '~/utils';
 
 export const meta: MetaFunction = () => {
   return [
@@ -17,9 +17,9 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const userId = parseAuthCookie(request)?.user?.id;
+  const { supabase } = getSupabaseServerClient(request);
+  const userId = await getUserId(supabase);
   if (!userId) return redirect('/browse');
-  invariant(userId, "Missing signed in user's id");
 
   const [hosting, responded] = await Promise.all([
     getEventsHosting(userId),

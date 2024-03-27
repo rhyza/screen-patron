@@ -3,7 +3,7 @@ import { redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
 import EventForm from '~/components/EventForm';
-import { getSession, getSupabaseServerClient, uploadImage } from '~/db.server';
+import { getSupabaseServerClient, getUserId, uploadImage } from '~/db.server';
 import { createEvent, updateEvent } from '~/models/event.server';
 
 export const meta: MetaFunction = () => {
@@ -15,7 +15,7 @@ export const meta: MetaFunction = () => {
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { supabase } = getSupabaseServerClient(request);
-  const session = await getSession(supabase);
+  const session = await getUserId(supabase);
 
   return { isSignedIn: session != null };
 };
@@ -38,14 +38,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   // Check if user is signed in
   const { supabase } = getSupabaseServerClient(request);
-  const session = await getSession(supabase);
-  if (!session || !session?.user?.id) {
+  const userId = await getUserId(supabase);
+  if (!userId) {
     throw redirect(`/signin`, 302);
   }
 
   // eslint-disable-next-line prefer-const, @typescript-eslint/no-unused-vars
   let { photo, prevPhoto, ...updates } = Object.fromEntries(await formData);
-  const event = await createEvent(session?.user?.id, { ...updates });
+  const event = await createEvent(userId, { ...updates });
 
   // Need eventId before photo can be uploaded, check if user added a photo
   if (typeof photo === 'object' && photo.size != 0) {

@@ -3,7 +3,7 @@ import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
 import EventProfile from '~/components/EventProfile';
-import { getSession, getSupabaseServerClient } from '~/db.server';
+import { getSupabaseServerClient, getUserId } from '~/db.server';
 import { getEvent } from '~/models/event.server';
 import { getHosts, isHost } from '~/models/host.server';
 import { countGuests, getGuest, getGuests } from '~/models/rsvp.server';
@@ -16,10 +16,7 @@ export const meta: MetaFunction = () => {
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.eventId, 'Missing eventId param');
   const { supabase } = getSupabaseServerClient(request);
-  const [event, session] = await Promise.all([
-    getEvent(params.eventId),
-    getSession(supabase),
-  ]);
+  const [event, userId] = await Promise.all([getEvent(params.eventId), getUserId(supabase)]);
 
   // Check if event exists
   if (!event) {
@@ -29,8 +26,8 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const [hosts, guests, isUser, rsvp] = await Promise.all([
     getHosts(params.eventId),
     getGuests(params.eventId),
-    session?.user?.id ? isHost(params.eventId, session.user.id) : false,
-    session?.user?.id ? getGuest(params.eventId, session.user.id) : null,
+    userId ? isHost(params.eventId, userId) : false,
+    userId ? getGuest(params.eventId, userId) : null,
   ]);
   const guestCount = countGuests(guests);
 
