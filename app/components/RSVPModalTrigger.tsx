@@ -5,7 +5,11 @@ import { useDisclosure } from '@nextui-org/react';
 import IconButton from './IconButton';
 import RSVPModal from './RSVPModal';
 
-export default function RSVPModalTrigger({ response = '' }: { response: string | undefined }) {
+export default function RSVPModalTrigger({
+  response = '',
+}: {
+  response: string | undefined;
+}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [rsvp, setRsvp] = useState(response);
   const handleModalOpen = (event: PressEvent) => {

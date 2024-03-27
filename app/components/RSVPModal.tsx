@@ -21,12 +21,12 @@ export default function RSVPModal({
       <ModalContent className="dark">
         {(onClose) => (
           <ModalBody className="p-6">
-            <Form className="flex flex-wrap justify-center gap-6">
+            <Form className="flex flex-wrap justify-center gap-6" method="post">
               <RadioGroup
                 className="p-6"
                 defaultValue={selected}
                 isRequired
-                name="rsvp"
+                name="status"
                 orientation="horizontal"
               >
                 <RadioIcon description="Going" size="lg" value="GOING">

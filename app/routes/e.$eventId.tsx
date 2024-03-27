@@ -1,12 +1,13 @@
-import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useActionData, useLoaderData } from '@remix-run/react';
 
 import EventProfile from '~/components/EventProfile';
 import { getSupabaseServerClient, getUserId } from '~/db.server';
 import { getEvent } from '~/models/event.server';
 import { getHosts, isHost } from '~/models/host.server';
-import { countGuests, getGuest, getGuests } from '~/models/rsvp.server';
+import { addGuest, countGuests, getGuest, getGuests } from '~/models/rsvp.server';
+import { signIn } from '~/models/user.server';
 import { invariant } from '~/utils';
 
 export const meta: MetaFunction = () => {
@@ -39,6 +40,8 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
  */
 export default function EventPage() {
   const { event, hosts, guests, guestCount, isUser, rsvp } = useLoaderData<typeof loader>();
+  const actionData = useActionData<typeof action>();
+  const hasSent = actionData?.success || false;
 
   return (
     <div className="page-container">
@@ -53,3 +56,27 @@ export default function EventPage() {
     </div>
   );
 }
+
+export const action = async ({ params, request }: ActionFunctionArgs) => {
+  invariant(params.eventId, 'Missing eventId param');
+  const formData = request.formData();
+
+  // Check if user is signed in
+  const { supabase } = getSupabaseServerClient(request);
+  const userId = await getUserId(supabase);
+  if (!userId) {
+    const values = Object.fromEntries(await formData);
+    const { error } = await signIn(supabase, values);
+    if (error) {
+      return json({ success: false, error });
+    }
+    return json({ success: true, error });
+  }
+
+  const updates = Object.fromEntries(await formData);
+  const { error } = await addGuest({ eventId: params.eventId, userId, ...updates });
+  if (error) {
+    return json({ success: false, error });
+  }
+  return json({ success: true, error });
+};

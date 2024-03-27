@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from '@remix-run/react';
-import { Avatar, Button, Tooltip, useDisclosure } from '@nextui-org/react';
+import { Avatar, Button, Tooltip } from '@nextui-org/react';
 
 import { eventPlaceholderImage } from '~/assets';
 import { MapPinIcon, StarIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
