@@ -26,4 +26,8 @@
   .text-gradient {
     @apply bg-gradient-to-r from-pink-500 to-indigo-500 inline-block text-transparent bg-clip-text
   }
+
+  .bg-subtle {
+    @apply bg-default-50 data-[hover=true]:bg-default-100
+  }
 }

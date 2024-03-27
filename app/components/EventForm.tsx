@@ -87,6 +87,14 @@ export default function EventForm({
     >
       <div className="flex-auto space-y-2 min-w-[300px] max-w-xl">
         <Input
+          classNames={{
+            label: [
+              'text-3xl group-data-[filled-within=true]:scale-[.475]',
+              'group-data-[filled-within=true]:-translate-y-[calc(38%_+_theme(fontSize.small)/2_-_8px)]',
+            ],
+            inputWrapper: 'h-20 bg-subtle',
+            input: 'text-3xl',
+          }}
           defaultValue={name}
           label="Event Name"
           name="name"
@@ -95,6 +103,7 @@ export default function EventForm({
           type="text"
         />
         <Input
+          classNames={{ inputWrapper: 'bg-subtle' }}
           label="Start Date"
           min={today}
           name="dateStart"
@@ -106,6 +115,7 @@ export default function EventForm({
         />
         {showEndDateInput && (
           <Input
+            classNames={{ inputWrapper: 'bg-subtle' }}
             errorMessage={errorMessage}
             label="End Date"
             min={today}
@@ -126,6 +136,7 @@ export default function EventForm({
           </Button>
         )}
         <Input
+          classNames={{ inputWrapper: 'bg-subtle' }}
           defaultValue={location}
           placeholder="Location"
           name="location"
@@ -134,6 +145,7 @@ export default function EventForm({
           type="text"
         />
         <Input
+          classNames={{ inputWrapper: 'bg-subtle' }}
           defaultValue={`${capacity}`}
           name="capacity"
           placeholder="Max Capacity"
@@ -142,6 +154,7 @@ export default function EventForm({
           type="number"
         />
         <Input
+          classNames={{ inputWrapper: 'bg-subtle' }}
           defaultValue={`${cost}`}
           name="cost"
           placeholder="Cost per person"
@@ -155,6 +168,7 @@ export default function EventForm({
           type="number"
         />
         <Textarea
+          classNames={{ inputWrapper: 'bg-subtle' }}
           defaultValue={description}
           name="description"
           label="Description"

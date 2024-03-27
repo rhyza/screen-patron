@@ -82,6 +82,14 @@ export default function UserForm({
       <div className="flex-auto max-w-96 text-center md:text-left">
         <div className="flex items-center md:h-[16rem] w-full mb-4 md:m-0">
           <Input
+            classNames={{
+              label: [
+                'text-3xl group-data-[filled-within=true]:scale-[.475]',
+                'group-data-[filled-within=true]:-translate-y-[calc(38%_+_theme(fontSize.small)/2_-_8px)]',
+              ],
+              inputWrapper: 'h-20 bg-subtle',
+              input: 'text-3xl',
+            }}
             defaultValue={name}
             label="Name"
             name="name"
@@ -91,7 +99,13 @@ export default function UserForm({
           />
         </div>
         <div className="grid gap-4">
-          <Textarea defaultValue={bio} label="Bio" name="bio" radius="none" />
+          <Textarea
+            classNames={{ inputWrapper: 'bg-subtle' }}
+            defaultValue={bio}
+            label="Bio"
+            name="bio"
+            radius="none"
+          />
           <SocialInput
             defaultValue={instagram}
             label="Instagram"
@@ -138,6 +152,7 @@ function SocialInput({
 }) {
   return (
     <Input
+      classNames={{ inputWrapper: 'bg-subtle' }}
       defaultValue={defaultValue}
       name={name}
       onValueChange={onValueChange}
