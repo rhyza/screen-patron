@@ -2,6 +2,14 @@ import { useState } from 'react';
 import type { PressEvent } from '@react-types/shared';
 import { Button } from '@nextui-org/react';
 
+/**
+ * Renders a row buttons that switches which button maintains an active state when pressed.
+ * Intended to be used as a tab switcher.
+ * @param setTabContent Function that sets what happens when each button is pressed
+ * @param tabs An array of objects naming the id and label of each button, label can either
+ * be a string or a JSX element
+ * @returns
+ */
 export default function ButtonTabs({
   setTabContent,
   tabs,
