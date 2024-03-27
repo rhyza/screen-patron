@@ -3,7 +3,7 @@ import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
-import ButtonTabs from '~/components/ButtonTabs';
+import { ButtonTab, ButtonTabs } from '~/components/ButtonTabs';
 import EventCards from '~/components/EventCards';
 import { getSupabaseServerClient, getUserId } from '~/db.server';
 import { getEventsHosting, getEventsResponded } from '~/models/user.server';
@@ -47,16 +47,11 @@ export default function EventsAttending() {
 
   return (
     <>
-      <ButtonTabs
-        classNames={{ container: 'p-2' }}
-        defaultTab="upcoming"
-        setTabContent={setContent}
-        tabs={[
-          { id: 'upcoming', label: 'Upcoming' },
-          { id: 'hosting', label: 'Hosting' },
-          { id: 'attended', label: 'Attended' },
-        ]}
-      />
+      <ButtonTabs defaultTab={'upcoming'} className="p-2" setTabContent={setContent}>
+        <ButtonTab id="upcoming">Upcoming</ButtonTab>
+        <ButtonTab id="hosting">Hosting</ButtonTab>
+        <ButtonTab id="attended">Attended</ButtonTab>
+      </ButtonTabs>
       <EventCards events={events} />
     </>
   );
