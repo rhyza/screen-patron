@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { PressEvent } from '@react-types/shared';
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { Button } from '@nextui-org/react';
 
+import ButtonTabs from '~/components/ButtonTabs';
 import EventCards from '~/components/EventCards';
 import { getSupabaseServerClient, getUserId } from '~/db.server';
 import { getEventsHosting, getEventsResponded } from '~/models/user.server';
@@ -35,11 +34,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export default function EventsAttending() {
   const { hosting, responded } = useLoaderData<typeof loader>();
 
-  const [tab, setTab] = useState('upcoming');
   const [events, setEvents] = useState([...hosting.future, ...responded.future]);
-  const handlePress = (event: PressEvent) => {
-    const { id } = event.target;
-    setTab(() => id);
+  const setContent = (id: string) => {
     if (id === 'upcoming') {
       setEvents([...hosting.future, ...responded.future]);
     } else if (id === 'hosting') {
@@ -51,37 +47,15 @@ export default function EventsAttending() {
 
   return (
     <>
-      <div className="flex gap-2 p-2">
-        <EventTab id="upcoming" activeTab={tab} handlePress={handlePress}>
-          Upcoming
-        </EventTab>
-        <EventTab id="hosting" activeTab={tab} handlePress={handlePress}>
-          Hosting
-        </EventTab>
-        <EventTab id="attended" activeTab={tab} handlePress={handlePress}>
-          Attended
-        </EventTab>
-      </div>
+      <ButtonTabs
+        setTabContent={setContent}
+        tabs={[
+          { id: 'upcoming', label: 'Upcoming' },
+          { id: 'hosting', label: 'Hosting' },
+          { id: 'attended', label: 'Attended' },
+        ]}
+      />
       <EventCards events={events} />
     </>
-  );
-}
-
-function EventTab({
-  id,
-  activeTab,
-  handlePress,
-  children,
-}: {
-  id: string;
-  activeTab: string;
-  handlePress: (e: PressEvent) => void;
-  children: string | JSX.Element;
-}) {
-  const active = id === activeTab ? 'bg-foreground text-background' : '';
-  return (
-    <Button className={active} onPress={handlePress} id={id} radius="full">
-      {children}
-    </Button>
   );
 }
