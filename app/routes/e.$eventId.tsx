@@ -42,7 +42,14 @@ export default function EventPage() {
   const { event, hosts, guests, guestCount, isHosting, rsvp } =
     useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
-  const hasSent = actionData?.success || false;
+  const hasRSVPUpdated = actionData?.success || false;
+  const getModalContent = () => {
+    if (hasRSVPUpdated) {
+      return 'confirmation';
+    } else {
+      return 'rsvpform';
+    }
+  };
 
   return (
     <div className="page-container">
@@ -52,6 +59,7 @@ export default function EventPage() {
         guests={guests}
         guestCount={guestCount}
         isHosting={isHosting}
+        modalContent={getModalContent()}
         rsvp={rsvp}
       />
     </div>

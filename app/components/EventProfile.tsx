@@ -22,6 +22,7 @@ type EventProfileProps = {
     TOTAL_RESPONSES: number;
   };
   isHosting: boolean;
+  modalContent?: string;
   rsvp: RsvpInfo | null;
 };
 
@@ -30,6 +31,10 @@ type EventProfileProps = {
  * location, cost, and venue capacity.
  * @param event JSONified Event object, e.g. dateStart is stored as a Date on the db but
  * gets transformed as a string when retrieved by a GET request.
+ * @param modalContent String representing what content to feed the event page's modal
+ * (RSVPModal).
+ * * `rsvpform` - Show the RSVP form
+ * * `confirmation` - Show the RSVP has updated message
  */
 export default function EventProfile({
   event: { id, name, photo, dateStart, dateEnd, location, cost, capacity, description },
@@ -37,6 +42,7 @@ export default function EventProfile({
   guests,
   guestCount,
   isHosting,
+  modalContent = 'rsvpform',
   rsvp,
 }: EventProfileProps) {
   const start = dateStart ? new Date(dateStart) : undefined;
@@ -94,7 +100,7 @@ export default function EventProfile({
           className="size-80 sm:size-96 object-cover"
           src={photo || eventPlaceholderImage}
         />
-        {!isHosting && <RSVPModal rsvp={rsvp} />}
+        {!isHosting && <RSVPModal rsvp={rsvp} content={modalContent} />}
       </div>
     </div>
   );

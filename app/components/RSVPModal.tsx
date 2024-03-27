@@ -34,6 +34,11 @@ export default function RSVPModal({
           {(onClose) => (
             <ModalBody className="p-6">
               {content === 'rsvpform' && <RSVPForm onClose={onClose} selected={status} />}
+              {content === 'confirmation' && (
+                <div className="grid content-center justify-center my-8">
+                  <p className="text-2xl text-center">Your RSVP has been updated!</p>
+                </div>
+              )}
             </ModalBody>
           )}
         </ModalContent>
