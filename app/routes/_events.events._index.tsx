@@ -48,6 +48,7 @@ export default function EventsAttending() {
   return (
     <>
       <ButtonTabs
+        defaultTab="upcoming"
         setTabContent={setContent}
         tabs={[
           { id: 'upcoming', label: 'Upcoming' },

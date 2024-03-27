@@ -11,16 +11,18 @@ import { Button } from '@nextui-org/react';
  * @returns
  */
 export default function ButtonTabs({
+  defaultTab = '',
   setTabContent,
   tabs,
 }: {
+  defaultTab?: string;
   setTabContent: (id: string) => void;
   tabs: {
     id: string;
     label: string | JSX.Element;
   }[];
 }) {
-  const [activeTab, setActiveTab] = useState('upcoming');
+  const [activeTab, setActiveTab] = useState(defaultTab);
   const handlePress = (event: PressEvent) => {
     const { id } = event.target;
     setActiveTab(() => id);
