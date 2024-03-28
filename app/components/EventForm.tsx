@@ -37,11 +37,11 @@ export default function EventForm({
   ...eventFormValues
 }: EventFormProps) {
   const navigate = useNavigate();
-  const [tab, setTab] = useState(defaultTab);
+  const [currentTab, setCurrentTab] = useState(defaultTab);
   const [submitDisabled, setSubmitDisabled] = useState(isDisabled);
 
   const setTabContent = (id: string) => {
-    setTab(() => id);
+    setCurrentTab(() => id);
     return id;
   };
 
@@ -56,10 +56,10 @@ export default function EventForm({
           <ButtonTab id="info">Event Info</ButtonTab>
           <ButtonTab id="settings">Settings</ButtonTab>
         </ButtonTabs>
-        {tab === 'info' && (
+        {currentTab === 'info' && (
           <EventInfoForm setSubmitDisabled={setSubmitDisabled} {...eventFormValues} />
         )}
-        {tab === 'settings' && <EventSettings />}
+        {currentTab === 'settings' && <EventSettings />}
       </div>
       <div className="flex-auto justify-center space-y-6 max-w-80 sm:max-w-96">
         <InputImage
