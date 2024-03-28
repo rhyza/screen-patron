@@ -3,7 +3,7 @@ import { json } from '@remix-run/node';
 import { useActionData } from '@remix-run/react';
 import { Card, cn } from '@nextui-org/react';
 
-import SignInForm from '~/components/SignInForm';
+import SignInFlow from '~/components/SignInFlow';
 import { getSupabaseServerClient } from '~/db.server';
 import { signIn } from '~/models/user.server';
 
@@ -31,12 +31,7 @@ export default function SignInPage() {
         radius="sm"
         shadow="sm"
       >
-        {!hasSent && <SignInForm />}
-        {hasSent && (
-          <div className="grid content-center justify-center my-8">
-            <p className="text-2xl text-center">Check your email for your sign in link!</p>
-          </div>
-        )}
+        <SignInFlow hasEmailSent={hasSent} />
       </Card>
     </div>
   );

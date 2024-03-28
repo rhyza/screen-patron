@@ -4,7 +4,7 @@ import { useActionData, useLoaderData } from '@remix-run/react';
 import { Modal, ModalContent } from '@nextui-org/react';
 
 import EventForm from '~/components/EventForm';
-import SignInForm from '~/components/SignInForm';
+import SignInFlow from '~/components/SignInFlow';
 import { getSupabaseServerClient, getUserId, uploadImage } from '~/db.server';
 import { signIn } from '~/models/user.server';
 import { createEvent, updateEvent } from '~/models/event.server';
@@ -43,12 +43,7 @@ export default function CreateEvent() {
         classNames={{ backdrop: 'bg-gradient mix-blend-multiply' }}
       >
         <ModalContent className="p-10">
-          {!hasSent && <SignInForm />}
-          {hasSent && (
-            <div className="grid content-center justify-center my-8">
-              <p className="text-2xl text-center">Check your email for your sign in link!</p>
-            </div>
-          )}
+          <SignInFlow hasEmailSent={hasSent} />
         </ModalContent>
       </Modal>
       <EventForm isDisabled={!isSignedIn} />
