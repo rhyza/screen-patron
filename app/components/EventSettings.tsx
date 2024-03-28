@@ -9,9 +9,18 @@ import {
   useDisclosure,
 } from '@nextui-org/react';
 
-export default function EventSettings({ eventId, name }: { eventId: string; name?: string }) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+export default function EventSettings({
+  eventId,
+  name,
+}: {
+  eventId?: string;
+  name?: string;
+}) {
+  return <>{eventId && <DeleteEventFlow eventId={eventId} name={name} />}</>;
+}
 
+function DeleteEventFlow({ eventId, name }: { eventId: string; name?: string }) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <div className="px-1 py-8">
       <Button color="danger" onPress={onOpen} radius="none">
