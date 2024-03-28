@@ -45,9 +45,9 @@ export default function EventPage() {
   const hasRSVPUpdated = actionData?.success || false;
   const getModalContent = () => {
     if (hasRSVPUpdated) {
-      return 'confirmation';
+      return 'rsvpConfirmed';
     } else {
-      return 'rsvpform';
+      return 'rsvpForm';
     }
   };
 

@@ -5,6 +5,7 @@ import { Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react
 import RSVPForm from './RSVPForm';
 import RSVPModalTrigger from './RSVPModalTrigger';
 import type { RsvpInfo } from '~/models/rsvp.server';
+import SignInFlow from './SignInFlow';
 
 /**
  * Modal containing for use in the RSVP flow.
@@ -12,7 +13,7 @@ import type { RsvpInfo } from '~/models/rsvp.server';
  * reference the NextUI Modal docs for available options
  */
 export default function RSVPModal({
-  content = 'rsvpform',
+  content = 'rsvpForm',
   rsvp,
   ...modalProps
 }: {
@@ -33,11 +34,14 @@ export default function RSVPModal({
         <ModalContent className="dark">
           {(onClose) => (
             <ModalBody className="p-6">
-              {content === 'rsvpform' && <RSVPForm onClose={onClose} selected={status} />}
-              {content === 'confirmation' && (
+              {content === 'rsvpForm' && <RSVPForm onClose={onClose} selected={status} />}
+              {content === 'rsvpConfirmed' && (
                 <div className="grid content-center justify-center my-8">
                   <p className="text-2xl text-center">Your RSVP has been updated!</p>
                 </div>
+              )}
+              {(content === 'signIn' || content === 'signInConfirmed') && (
+                <SignInFlow hasEmailSent={content === 'signInConfirmed'} />
               )}
             </ModalBody>
           )}

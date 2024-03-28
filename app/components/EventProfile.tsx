@@ -33,8 +33,10 @@ type EventProfileProps = {
  * gets transformed as a string when retrieved by a GET request.
  * @param modalContent String representing what content to feed the event page's modal
  * (RSVPModal).
- * * `rsvpform` - Show the RSVP form
- * * `confirmation` - Show the RSVP has updated message
+ * * `rsvpForm` - Show the RSVP form
+ * * `rsvpConfirmed` - Show the RSVP has updated message
+ * * `signIn` - Show sign in form
+ * * `signInConfirmed` - Show check your email message
  */
 export default function EventProfile({
   event: { id, name, photo, dateStart, dateEnd, location, cost, capacity, description },
@@ -42,7 +44,7 @@ export default function EventProfile({
   guests,
   guestCount,
   isHosting,
-  modalContent = 'rsvpform',
+  modalContent = 'rsvpForm',
   rsvp,
 }: EventProfileProps) {
   const start = dateStart ? new Date(dateStart) : undefined;
