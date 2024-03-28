@@ -6,7 +6,7 @@ import type { EventFormValues } from '~/models/event.server';
 import { getDateInputString } from '~/utils';
 
 type EventFormProps = {
-  setSubmitDisabled: Function;
+  setSubmitDisabled: (x: boolean | (() => boolean)) => void;
 } & EventFormValues;
 
 export default function EventInfoForm({

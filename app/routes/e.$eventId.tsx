@@ -6,7 +6,7 @@ import EventProfile from '~/components/EventProfile';
 import { getSupabaseServerClient, getUserId } from '~/db.server';
 import { getEvent } from '~/models/event.server';
 import { getHosts, isHost } from '~/models/host.server';
-import { addGuest, countGuests, getGuest, getGuests, Status } from '~/models/rsvp.server';
+import { addGuest, countGuests, getGuest, getGuests } from '~/models/rsvp.server';
 import { signIn } from '~/models/user.server';
 import { invariant } from '~/utils';
 
