@@ -32,20 +32,24 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   ]);
   const guestCount = countGuests(guests);
 
-  return json({ event, hosts, guests, guestCount, isHosting, rsvp });
+  return json({ event, hosts, guests, guestCount, isHosting, rsvp, userId });
 };
 
 /**
  * `/e/$eventId` — Page displaying an Event's details and where Users can RSVP.
  */
 export default function EventPage() {
-  const { event, hosts, guests, guestCount, isHosting, rsvp } =
+  const { event, hosts, guests, guestCount, isHosting, rsvp, userId } =
     useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
-  const hasRSVPUpdated = actionData?.success || false;
+  const hasSent = actionData?.success || false;
   const getModalContent = () => {
-    if (hasRSVPUpdated) {
-      return 'rsvpConfirmed';
+    if (!userId && !hasSent) {
+      return 'signIn';
+    } else if (!userId && hasSent) {
+      return 'signInConfirmed'; // has email sent?
+    } else if (hasSent) {
+      return 'rsvpConfirmed'; // has rsvp sent?
     } else {
       return 'rsvpForm';
     }
