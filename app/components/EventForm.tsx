@@ -61,7 +61,9 @@ export default function EventForm({
         {currentTab === 'info' && (
           <EventInfoForm setSubmitDisabled={setSubmitDisabled} {...eventFormValues} />
         )}
-        {currentTab === 'settings' && <EventSettings eventId={id} />}
+        {currentTab === 'settings' && (
+          <EventSettings eventId={id} name={eventFormValues.name} />
+        )}
       </div>
       <div className="flex-auto justify-center space-y-6 max-w-80 sm:max-w-96">
         <InputImage
