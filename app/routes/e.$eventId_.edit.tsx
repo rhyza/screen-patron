@@ -88,7 +88,12 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
       updates = { ...updates, photo: path };
 
       // And delete the old photo if one exists
-      if (prevPhoto && typeof prevPhoto === 'string' && prevPhoto != eventPlaceholderImage) {
+      if (
+        prevPhoto &&
+        typeof prevPhoto === 'string' &&
+        prevPhoto.startsWith(eventsStoragePath) &&
+        prevPhoto != eventPlaceholderImage
+      ) {
         const prevPhotoPath = prevPhoto.slice(eventsStoragePath.length);
         deleteImage(supabase, 'events', prevPhotoPath);
       }
