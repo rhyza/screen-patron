@@ -2,6 +2,7 @@ import type { Event, User } from '@prisma/client';
 import { prisma } from '~/db.server';
 
 export type { Event, Status } from '@prisma/client';
+
 export type EventInfo = {
   id: string;
   name: string | null;
@@ -10,6 +11,17 @@ export type EventInfo = {
   city: string | null;
   location: string | null;
   cost: number | null;
+};
+
+export type EventFormValues = {
+  name?: string;
+  photo?: string;
+  dateStart?: Date;
+  dateEnd?: Date;
+  location?: string;
+  cost?: number;
+  capacity?: number;
+  description?: string;
 };
 
 export type JsonifiedEvent = {
