@@ -9,6 +9,7 @@ import InputImage from './InputImage';
 import { eventPlaceholderImage } from '~/assets';
 
 type EventFormProps = {
+  id: string;
   defaultTab?: string;
   isDisabled?: boolean;
 } & EventFormValues;
@@ -31,6 +32,7 @@ type EventFormValues = {
  * @param isDisabled Sets submit button to disabled
  */
 export default function EventForm({
+  id,
   defaultTab = 'info',
   photo,
   isDisabled = false,
@@ -59,7 +61,7 @@ export default function EventForm({
         {currentTab === 'info' && (
           <EventInfoForm setSubmitDisabled={setSubmitDisabled} {...eventFormValues} />
         )}
-        {currentTab === 'settings' && <EventSettings />}
+        {currentTab === 'settings' && <EventSettings eventId={id} />}
       </div>
       <div className="flex-auto justify-center space-y-6 max-w-80 sm:max-w-96">
         <InputImage

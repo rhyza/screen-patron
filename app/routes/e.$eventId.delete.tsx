@@ -8,8 +8,8 @@ import { isHost } from '~/models/host.server';
 import { invariant } from '~/utils';
 
 /**
- * API endpoint users are directed to after pressing "Sign Out".
- * No page is rendered.
+ * API endpoint users are directed to after deleting an event.
+ * No page is rendered. Users are redirected back to 'My Events' page afterwards.
  */
 export async function action({ params, request }: ActionFunctionArgs) {
   invariant(params.eventId, 'Missing eventId param');
@@ -38,17 +38,17 @@ export async function action({ params, request }: ActionFunctionArgs) {
     const path = photo.slice(eventsStoragePath.length);
     Promise.all([deleteImage(supabase, 'events', path), deleteEvent(params.eventId)])
       .then(() => {
-        return redirect('/browse', { headers });
+        return redirect('/events', { headers });
       })
       .catch((error) => console.log(error));
   } else {
     // Or just delete the event
     deleteEvent(params.eventId)
       .then(() => {
-        return redirect('/browse', { headers });
+        return redirect('/events', { headers });
       })
       .catch((error) => console.log(error));
   }
 
-  return redirect('/browse', { headers });
+  return redirect('/events', { headers });
 }

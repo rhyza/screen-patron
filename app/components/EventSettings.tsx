@@ -1,11 +1,14 @@
+import { Form } from '@remix-run/react';
 import { Button } from '@nextui-org/react';
 
-export default function EventSettings() {
+export default function EventSettings({ eventId }: { eventId: string }) {
   return (
     <div className="px-1 py-8">
-      <Button color="danger" radius="none">
-        Cancel Event
-      </Button>
+      <Form action={`/e/${eventId}/delete`} method="post">
+        <Button color="danger" radius="none" type="submit">
+          Cancel Event
+        </Button>
+      </Form>
     </div>
   );
 }
