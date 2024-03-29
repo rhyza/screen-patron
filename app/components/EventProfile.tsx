@@ -11,6 +11,7 @@ import type { GuestCount, RsvpInfo } from '~/models/rsvp.server';
 import { getDateString, getTimeString, retypeNull } from '~/utils';
 
 type EventProfileProps = {
+  actionData: number;
   event: JsonifiedEvent;
   hosts: HostInfo[];
   guests: RsvpInfo[];
@@ -22,7 +23,6 @@ type EventProfileProps = {
     TOTAL_RESPONSES: number;
   };
   isHosting: boolean;
-  modalContent?: string;
   rsvp: RsvpInfo | null;
 };
 
@@ -39,12 +39,12 @@ type EventProfileProps = {
  * * `signInConfirmed` - Show check your email message
  */
 export default function EventProfile({
+  actionData,
   event: { id, name, photo, dateStart, dateEnd, location, cost, capacity, description },
   hosts,
   guests,
   guestCount,
   isHosting,
-  modalContent = 'rsvpForm',
   rsvp,
 }: EventProfileProps) {
   const start = dateStart ? new Date(dateStart) : undefined;
@@ -102,7 +102,7 @@ export default function EventProfile({
           className="size-80 sm:size-96 object-cover"
           src={photo || eventPlaceholderImage}
         />
-        {!isHosting && <RSVPModal rsvp={rsvp} content={modalContent} />}
+        {!isHosting && <RSVPModal actionData={actionData} rsvp={rsvp} />}
       </div>
     </div>
   );

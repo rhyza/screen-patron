@@ -32,38 +32,26 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   ]);
   const guestCount = countGuests(guests);
 
-  return json({ event, hosts, guests, guestCount, isHosting, rsvp, userId });
+  return json({ event, hosts, guests, guestCount, isHosting, rsvp });
 };
 
 /**
  * `/e/$eventId` — Page displaying an Event's details and where Users can RSVP.
  */
 export default function EventPage() {
-  const { event, hosts, guests, guestCount, isHosting, rsvp, userId } =
+  const { event, hosts, guests, guestCount, isHosting, rsvp } =
     useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
-  const hasSent = actionData?.success || false;
-  const getModalContent = () => {
-    if (!userId && !hasSent) {
-      return 'signIn';
-    } else if (!userId && hasSent) {
-      return 'signInConfirmed'; // has email sent?
-    } else if (hasSent) {
-      return 'rsvpConfirmed'; // has rsvp sent?
-    } else {
-      return 'rsvpForm';
-    }
-  };
 
   return (
     <div className="page-container">
       <EventProfile
+        actionData={actionData?.success || 0}
         event={event}
         hosts={hosts}
         guests={guests}
         guestCount={guestCount}
         isHosting={isHosting}
-        modalContent={getModalContent()}
         rsvp={rsvp}
       />
     </div>
@@ -81,15 +69,15 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     const values = Object.fromEntries(await formData);
     const { error } = await signIn(supabase, values);
     if (error) {
-      return json({ success: false, error });
+      return json({ success: 0, error });
     }
-    return json({ success: true, error });
+    return json({ success: Date.now(), error });
   }
 
   const updates = Object.fromEntries(await formData);
   const { error } = await addGuest({ eventId: params.eventId, userId, ...updates });
   if (error) {
-    return json({ success: false, error });
+    return json({ success: 0, error });
   }
-  return json({ success: true, error });
+  return json({ success: Date.now(), error });
 };
