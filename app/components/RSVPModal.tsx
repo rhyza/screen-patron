@@ -5,7 +5,7 @@ import { Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react
 
 import RSVPForm from './RSVPForm';
 import RSVPModalTrigger from './RSVPModalTrigger';
-import SignInFlow from './SignInFlow';
+import SignInFlow from '~/layouts/SignInFlow';
 import type { OutletContext } from '~/db.server';
 import type { RsvpInfo } from '~/models/rsvp.server';
 

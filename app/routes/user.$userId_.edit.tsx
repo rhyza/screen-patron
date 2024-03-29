@@ -2,8 +2,9 @@ import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remi
 import { redirect } from '@remix-run/node';
 import { useOutletContext } from '@remix-run/react';
 
-import UserForm from '~/components/UserForm';
 import { profilesStoragePath, userPlaceholderImage } from '~/assets';
+import UserForm from '~/layouts/UserForm';
+
 import type { OutletContext } from '~/db.server';
 import { getSupabaseServerClient, getUserId, uploadImage, deleteImage } from '~/db.server';
 import { updateUser } from '~/models/user.server';

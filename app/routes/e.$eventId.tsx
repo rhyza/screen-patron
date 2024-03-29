@@ -2,7 +2,8 @@ import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remi
 import { json } from '@remix-run/node';
 import { useActionData, useLoaderData } from '@remix-run/react';
 
-import EventProfile from '~/components/EventProfile';
+import EventProfile from '~/layouts/EventProfile';
+
 import { getSupabaseServerClient, getUserId } from '~/db.server';
 import { getEvent } from '~/models/event.server';
 import { getHosts, isHost } from '~/models/host.server';

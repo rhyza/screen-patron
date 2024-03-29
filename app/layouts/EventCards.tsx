@@ -1,5 +1,6 @@
-import EventCard from './EventCard';
-import NewEventCard from './NewEventCard';
+import EventCard from '~/components/EventCard';
+import NewEventCard from '~/components/NewEventCard';
+
 import type { EventInfo } from '~/models/event.server';
 
 /**

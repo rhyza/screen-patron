@@ -1,13 +1,38 @@
 import { useState } from 'react';
 import { Form } from '@remix-run/react';
-import { Button, Input } from '@nextui-org/react';
+import { Button, cn, Input } from '@nextui-org/react';
+
+/**
+ * Sign in flow that shows a sign in form that only takes in a User's email, then changes to
+ * a success message upon submission. Made for use within Cards, Modals, or other containers.
+ * @param classnames (optional) Any Tailwind classes to apply to the success message div
+ * @param hasEmailSent The condition to show the success message
+ */
+export default function SignInFlow({
+  classNames,
+  hasEmailSent = false,
+}: {
+  classNames?: string;
+  hasEmailSent: boolean;
+}) {
+  return (
+    <>
+      {!hasEmailSent && <SignInForm />}
+      {hasEmailSent && (
+        <div className={cn('grid content-center justify-center my-8', classNames)}>
+          <p className="text-2xl text-center">Check your email for your sign in link!</p>
+        </div>
+      )}
+    </>
+  );
+}
 
 /**
  * Form for signing in, only takes in a User's email.
  * @param formProps (optional) Any props supplied are applied to the Form component,
  * reference Remix Form docs for guidance
  */
-export default function SignInForm(formProps: React.ComponentPropsWithRef<typeof Form>) {
+export function SignInForm(formProps: React.ComponentPropsWithRef<typeof Form>) {
   const [email, setEmail] = useState('');
   const [isValid, setIsValid] = useState(false);
   const validateEmail = (value: string) => {

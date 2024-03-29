@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Form, useNavigate } from '@remix-run/react';
 import { Button, Input, Textarea } from '@nextui-org/react';
 
-import { InstagramIcon, LinkIcon, TwitterIcon } from './Icons';
-import InputImage from './InputImage';
 import { userPlaceholderImage } from '~/assets';
+import { InstagramIcon, LinkIcon, TwitterIcon } from '~/components/Icons';
+import InputImage from '~/components/InputImage';
 
 type UserFormProps = {
   isDisabled?: boolean;

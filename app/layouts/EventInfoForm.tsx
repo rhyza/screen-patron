@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Button, Input, Textarea } from '@nextui-org/react';
 
-import { MapPinIcon, TicketIcon, UserGroupIcon } from './Icons';
+import { MapPinIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
+
 import type { EventFormValues } from '~/models/event.server';
 import { getDateInputString } from '~/utils';
 

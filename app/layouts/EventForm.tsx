@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { Form, useNavigate } from '@remix-run/react';
 import { Button } from '@nextui-org/react';
 
-import { ButtonTab, ButtonTabs } from './ButtonTabs';
-import EventInfoForm from './EventInfoForm';
-import EventSettings from './EventSettings';
-import InputImage from './InputImage';
 import { eventPlaceholderImage } from '~/assets';
+import { ButtonTab, ButtonTabs } from '~/components/ButtonTabs';
+import InputImage from '~/components/InputImage';
+import EventInfoForm from '~/layouts/EventInfoForm';
+import EventSettings from '~/layouts/EventSettings';
 
 type EventFormProps = {
   id?: string;

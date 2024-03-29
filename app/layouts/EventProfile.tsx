@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { NavLink } from '@remix-run/react';
 import { Avatar, Button, Tooltip } from '@nextui-org/react';
 
-import { MapPinIcon, StarIcon, TicketIcon, UserGroupIcon } from './Icons';
-import RSVPModal from './RSVPModal';
 import { eventPlaceholderImage } from '~/assets';
+import { MapPinIcon, StarIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
+import RSVPModal from '~/components/RSVPModal';
+
 import type { JsonifiedEvent } from '~/models/event.server';
 import type { HostInfo } from '~/models/host.server';
 import type { GuestCount, RsvpInfo } from '~/models/rsvp.server';

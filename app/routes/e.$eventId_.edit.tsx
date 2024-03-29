@@ -2,8 +2,9 @@ import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remi
 import { json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
-import EventForm from '~/components/EventForm';
 import { eventPlaceholderImage, eventsStoragePath } from '~/assets';
+import EventForm from '~/layouts/EventForm';
+
 import { getSupabaseServerClient, getUserId, uploadImage, deleteImage } from '~/db.server';
 import { getEvent, updateEvent } from '~/models/event.server';
 import { isHost } from '~/models/host.server';
