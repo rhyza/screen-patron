@@ -2,7 +2,7 @@ import { useNavigate } from '@remix-run/react';
 import { Card, CardFooter, cn } from '@nextui-org/react';
 
 import { eventPlaceholderImage } from '~/assets';
-import { EventInfo } from '~/models/event.server';
+import { EventCardInfo } from '~/models/event.server';
 import { getDateString, getTimeString, retypeNull } from '~/utils';
 
 /**
@@ -19,7 +19,7 @@ export default function EventCard({
   imageClassName = 'size-80',
   ...cardProps
 }: {
-  event: EventInfo;
+  event: EventCardInfo;
   imageClassName?: string;
 } & React.ComponentPropsWithRef<typeof Card>) {
   const date = dateStart ? new Date(dateStart) : undefined;

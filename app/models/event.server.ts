@@ -3,7 +3,7 @@ import { prisma } from '~/db.server';
 
 export type { Event, Status } from '@prisma/client';
 
-export type EventInfo = {
+export type EventCardInfo = {
   id: string;
   name: string | null;
   photo: string | null;
@@ -105,7 +105,7 @@ export async function getEvent(
  * @returns An array of all Event records containing the basic information fields:
  * `{ id, name, photo, dateStart, city, location, cost }`
  */
-export async function getEvents(query?: object): Promise<EventInfo[]> {
+export async function getEvents(query?: object): Promise<EventCardInfo[]> {
   return prisma.event.findMany({
     where: { ...query },
     select: {

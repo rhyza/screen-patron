@@ -3,7 +3,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 
 import { prisma, supabase } from '~/db.server';
 import { removeHostAllEvents } from './host.server';
-import type { EventInfo } from './event.server';
+import type { EventCardInfo } from './event.server';
 import { invariant } from '~/utils';
 
 export type { User } from '@prisma/client';
@@ -138,7 +138,7 @@ export async function getEvents(
  */
 export async function getEventsHosting(
   id: User['id'],
-): Promise<{ past: EventInfo[]; future: EventInfo[] }> {
+): Promise<{ past: EventCardInfo[]; future: EventCardInfo[] }> {
   const events = await prisma.event.findMany({
     where: {
       hosts: {
@@ -158,8 +158,8 @@ export async function getEventsHosting(
     },
   });
 
-  const past: EventInfo[] = [];
-  const future: EventInfo[] = [];
+  const past: EventCardInfo[] = [];
+  const future: EventCardInfo[] = [];
   const today = new Date(Date.now());
   today.setHours(0, 0, 0);
 
@@ -206,14 +206,14 @@ export async function getEventsResponded(id: User['id']) {
   });
 
   // Group events by whether they have or have not already happened
-  const past: Array<EventInfo & { status: Status }> = [];
-  const future: Array<EventInfo & { status: Status }> = [];
+  const past: Array<EventCardInfo & { status: Status }> = [];
+  const future: Array<EventCardInfo & { status: Status }> = [];
   const today = new Date(Date.now());
   today.setHours(0, 0, 0);
 
   events.map((event) => {
     const { guests, ...rest } = event;
-    const flattenedEvent: EventInfo & { status: Status } = {
+    const flattenedEvent: EventCardInfo & { status: Status } = {
       status: guests[0].status,
       ...rest,
     };
