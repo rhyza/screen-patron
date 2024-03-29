@@ -5,6 +5,7 @@ import { invariant, retypeNull } from '~/utils';
 
 export { Status } from '@prisma/client';
 export type { Host, Rsvp } from '@prisma/client';
+
 export type RsvpInfo = {
   eventId: string;
   userId: string;
@@ -16,6 +17,7 @@ export type RsvpInfo = {
     photo: string | null;
   };
 };
+
 export type GuestCount = {
   GOING: number;
   MAYBE: number;

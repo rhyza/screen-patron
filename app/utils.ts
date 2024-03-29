@@ -165,7 +165,7 @@ export function parseAuthCookie(request: Request) {
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function retypeAsDate(value: any) {
-  let date = new Date(value);
+  const date = new Date(value);
   return isValidDate(date) ? date : null;
 }
 
@@ -174,7 +174,7 @@ export function retypeAsDate(value: any) {
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function retypeAsNum(value: any) {
-  let num = Number(value);
+  const num = Number(value);
   return !isNaN(num) ? num : null;
 }
 

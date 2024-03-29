@@ -1,5 +1,6 @@
 import type { Event, User } from '@prisma/client';
 import { prisma } from '~/db.server';
+import { retypeAsDate, retypeAsNum, retypeFalsyAsNull } from '~/utils';
 
 export type { Event, Status } from '@prisma/client';
 
@@ -146,25 +147,26 @@ export async function updateEvent(
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function retypeEventData(data: { [x: string]: any }) {
+  const retypedData = retypeFalsyAsNull(data);
   if (typeof data.dateStart === 'string') {
-    data.dateStart = data.dateStart.length ? new Date(data.dateStart) : undefined;
+    retypedData.dateStart = retypeAsDate(data.dateStart);
   }
   if (typeof data?.dateEnd === 'string') {
-    data.dateStart = data.dateStart.length ? new Date(data.dateEnd) : undefined;
+    retypedData.dateStart = retypeAsDate(data.dateEnd);
   }
   if (typeof data?.capacity === 'string') {
-    data.capacity = data.capacity.length ? Number(data.capacity) : undefined;
+    retypedData.capacity = retypeAsNum(data.capacity);
   }
   if (typeof data?.cost === 'string') {
-    data.cost = data.cost.length ? Number(data.cost) : undefined;
+    retypedData.cost = retypeAsNum(data.cost);
   }
   if (typeof data?.plusOneLimit === 'string') {
-    data.cost = data.cost.length ? Number(data.cost) : 0;
+    retypedData.plusOneLimit = retypeAsNum(data.plusOneLimit);
   }
   if (typeof data?.published === 'string') {
-    data.published = data.published === 'true';
+    retypedData.published = data.published === 'true';
   }
-  return data;
+  return retypedData;
 }
 
 /**

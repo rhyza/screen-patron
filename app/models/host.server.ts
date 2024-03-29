@@ -4,6 +4,7 @@ import { deleteEvent } from './event.server';
 import { invariant, isNotEmptyArray } from '~/utils';
 
 export type { Host } from '@prisma/client';
+
 export type HostInfo = {
   eventId: string;
   userId: string;
