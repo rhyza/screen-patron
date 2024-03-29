@@ -140,6 +140,14 @@ export function isNotEmptyArray(value: unknown) {
 }
 
 /**
+ * Returns `true` if give value is a valid Date object.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isValidDate(value: any) {
+  return value instanceof Date && !isNaN(value.getTime());
+}
+
+/**
  * @returns The session cookie in JSON form
  */
 export function parseAuthCookie(request: Request) {
@@ -149,6 +157,25 @@ export function parseAuthCookie(request: Request) {
   } catch {
     return null;
   }
+}
+
+/**
+ * Returns `value` type as a Date. If date isn't valid, then returns null instead of
+ * "Invalid Date".
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function retypeAsDate(value: any) {
+  let date = new Date(value);
+  return isValidDate(date) ? date : null;
+}
+
+/**
+ * Returns `value` type as a number. If number isn't valid, then returns null instead of NaN.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function retypeAsNum(value: any) {
+  let num = Number(value);
+  return !isNaN(num) ? num : null;
 }
 
 /**
@@ -166,6 +193,24 @@ export function retypeNull(value: any, alt?: any) {
     return value;
   } else {
     return value === null ? alt : value;
+  }
+}
+
+/**
+ * Returns `value` unchanged if not falsy or explcitly `null`. If `value` is falsy but not
+ * `null`, returns `alt` if given or `null`. If `value` is an object, then any property
+ * that's falsy but not explcitly `null` gets set to `alt` if given or `null`.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function retypeFalsyAsNull(value: any, alt: any = null) {
+  if (typeof value === 'object' && value != null) {
+    const keys = Object.keys(value);
+    keys.forEach((key) => {
+      if (!value[key]) value[key] = alt;
+    });
+    return value;
+  } else {
+    return value ? value : alt;
   }
 }
 
