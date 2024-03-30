@@ -24,8 +24,8 @@ export default function EventCard({
   imageClassName?: string;
 } & React.ComponentPropsWithRef<typeof Card>) {
   const date = dateStart ? new Date(dateStart) : undefined;
-  const dateString = date ? getDateString({ date: date }) : 'Date TBD';
-  const timeString = date ? getTimeString({ date: date }) : 'Time TBD';
+  const dateString = date ? getDateString({ date }) : 'Date TBD';
+  const timeString = date ? getTimeString({ date }) : 'Time TBD';
   const costString = cost ? `$${cost}` : 'Free';
 
   const navigate = useNavigate();

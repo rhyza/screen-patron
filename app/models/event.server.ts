@@ -138,26 +138,6 @@ export async function updateEvent(
 }
 
 /**
- * Changes the type of each property of an object to match the types required by the Event
- * database.
- * @param data Object containing Event data of potentially incorrect type
- * @returns Object containing type safe event data
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function retypeEventInput(input: { [x: string]: unknown }) {
-  const data = retypeFalsyAsNull(input);
-
-  data.dateStart = data?.dateStart && retypeAsDate(data.dateStart);
-  data.dateEnd = data?.dateEnd && retypeAsDate(data.dateEnd);
-  data.capacity = retypeAsNum(data.capacity);
-  data.cost = data?.cost && retypeAsNum(data.cost);
-  data.plusOneLimit = data?.plusOneLimit && retypeAsNum(data.plusOneLimit);
-  data.published = data?.published && data.published === 'true';
-
-  return data;
-}
-
-/**
  * Deletes an Events and cascade deletes all related Hosts and RSVPs.
  * @param `id` (`eventId`)
  * @returns The deleted Event
@@ -170,4 +150,25 @@ export async function deleteEvent(id: Event['id']): Promise<Event> {
       guests: true,
     },
   });
+}
+
+/* ---------------------------------- HELPER FUNCTIONS ---------------------------------- */
+
+/**
+ * Changes the type of each property of an object to match the types required by the Event
+ * database.
+ * @param data Object containing Event data of potentially incorrect type
+ * @returns Object containing type safe event data
+ */
+function retypeEventInput(input: { [x: string]: unknown }) {
+  const data = retypeFalsyAsNull(input);
+
+  data.dateStart = data?.dateStart && retypeAsDate(data.dateStart);
+  data.dateEnd = data?.dateEnd && retypeAsDate(data.dateEnd);
+  data.capacity = retypeAsNum(data.capacity);
+  data.cost = data?.cost && retypeAsNum(data.cost);
+  data.plusOneLimit = data?.plusOneLimit && retypeAsNum(data.plusOneLimit);
+  data.published = data?.published && data.published === 'true';
+
+  return data;
 }

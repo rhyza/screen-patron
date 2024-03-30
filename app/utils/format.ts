@@ -1,6 +1,7 @@
 type DateOptions = {
   date: Date | null;
   timeZone?: string;
+  timeZoneName?: string;
   includeTimeZone?: boolean;
   includeWeekDay?: boolean;
   includeDate?: boolean;
@@ -55,6 +56,7 @@ export function getDateString({
   fullWeekDay = false,
   fullMonth = false,
   fullYear = true,
+  timeZone,
 }: DateOptions) {
   if (!date) return '';
 
@@ -66,9 +68,10 @@ export function getDateString({
     month: fullMonth ? 'long' : 'short',
     day: includeDate ? 'numeric' : undefined,
     year: includeYear ? (fullYear ? 'numeric' : '2-digit') : undefined,
+    timeZone,
   } as const;
 
-  return date.toLocaleDateString('en-US', options);
+  return new Intl.DateTimeFormat('en-US', options).format(date);
 }
 
 /**
@@ -88,9 +91,9 @@ export function getTimeString({ date, timeZone, includeTimeZone }: DateOptions) 
   const options = {
     hour: 'numeric',
     minute: '2-digit',
-    timeZone: timeZone || undefined,
+    timeZone,
     timeZoneName: includeTimeZone ? 'short' : undefined,
   } as const;
 
-  return date.toLocaleTimeString('en-US', options);
+  return new Intl.DateTimeFormat('en-US', options).format(date);
 }
