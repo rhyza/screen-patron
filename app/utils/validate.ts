@@ -92,24 +92,6 @@ export function retypeAsNum(value: unknown) {
 }
 
 /**
- * Returns `value` unchanged if not `null`. If `value` is `null`, returns `alt` if given or
- * `undefined`. If `value` is an object, then any property that's `null` gets set to `alt`
- * if given or `undefined`.
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function retypeNull(value: any, alt?: any) {
-  if (typeof value === 'object' && value != null) {
-    const keys = Object.keys(value);
-    keys.forEach((key) => {
-      if (value[key] === null) value[key] = alt;
-    });
-    return value;
-  } else {
-    return value === null ? alt : value;
-  }
-}
-
-/**
  * Returns `value` unchanged if not falsy or explcitly `null`. If `value` is falsy but not
  * `null`, returns `alt` if given or `null`. If `value` is an object, then any property
  * that's falsy but not explcitly `null` gets set to `alt` if given or `null`.
@@ -124,6 +106,24 @@ export function retypeFalsyAsNull(value: any, alt: any = null) {
     return value;
   } else {
     return value ? value : alt;
+  }
+}
+
+/**
+ * Returns `value` unchanged if not `null`. If `value` is `null`, returns `alt` if given or
+ * `undefined`. If `value` is an object, then any property that's `null` gets set to `alt`
+ * if given or `undefined`.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function retypeNull(value: any, alt?: any) {
+  if (typeof value === 'object' && value != null) {
+    const keys = Object.keys(value);
+    keys.forEach((key) => {
+      if (value[key] === null) value[key] = alt;
+    });
+    return value;
+  } else {
+    return value === null ? alt : value;
   }
 }
 
