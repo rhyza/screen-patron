@@ -18,15 +18,21 @@ type DateOptions = {
  * @param date The date as a Date object or an ISO string
  * @returns Date string in the format 'YYYY-MM-DDT00:00'
  */
-export function getDateInputString(date: Date | string | null): string {
-  if (date === null) {
-    return '';
-  } else if (typeof date === 'string') {
-    return date.substring(0, 16);
-  } else {
-    const isoString = date.toISOString();
-    return isoString.substring(0, 16);
-  }
+export function getDateInputString(value: Date | string | null, tz?: string) {
+  if (value === null) return '';
+
+  const date = new Date(value);
+  const dateString = new Intl.DateTimeFormat('en-CA', {
+    timeZone: tz,
+  }).format(date);
+  const timeString = new Intl.DateTimeFormat('en-CA', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false,
+    timeZone: tz,
+  }).format(date);
+
+  return dateString + 'T' + timeString;
 }
 
 /**
