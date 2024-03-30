@@ -50,7 +50,7 @@ export async function createEvent(
   name?: string,
 ): Promise<Event> {
   if (data) {
-    data = retypeEventData(data);
+    data = retypeEventInput(data);
   }
   return prisma.event.create({
     data: {
@@ -133,7 +133,7 @@ export async function updateEvent(
 ): Promise<Event | null> {
   return prisma.event.update({
     where: { id },
-    data: { ...retypeEventData(data) },
+    data: { ...retypeEventInput(data) },
   });
 }
 
@@ -144,27 +144,17 @@ export async function updateEvent(
  * @returns Object containing type safe event data
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function retypeEventData(data: { [x: string]: any }) {
-  const retypedData = retypeFalsyAsNull(data);
-  if (typeof data.dateStart === 'string') {
-    retypedData.dateStart = retypeAsDate(data.dateStart);
-  }
-  if (typeof data?.dateEnd === 'string') {
-    retypedData.dateEnd = retypeAsDate(data.dateEnd);
-  }
-  if (typeof data?.capacity === 'string') {
-    retypedData.capacity = retypeAsNum(data.capacity);
-  }
-  if (typeof data?.cost === 'string') {
-    retypedData.cost = retypeAsNum(data.cost);
-  }
-  if (typeof data?.plusOneLimit === 'string') {
-    retypedData.plusOneLimit = retypeAsNum(data.plusOneLimit);
-  }
-  if (typeof data?.published === 'string') {
-    retypedData.published = data.published === 'true';
-  }
-  return retypedData;
+function retypeEventInput(input: { [x: string]: unknown }) {
+  const data = retypeFalsyAsNull(input);
+
+  data.dateStart = data?.dateStart && retypeAsDate(data.dateStart);
+  data.dateEnd = data?.dateEnd && retypeAsDate(data.dateEnd);
+  data.capacity = retypeAsNum(data.capacity);
+  data.cost = data?.cost && retypeAsNum(data.cost);
+  data.plusOneLimit = data?.plusOneLimit && retypeAsNum(data.plusOneLimit);
+  data.published = data?.published && data.published === 'true';
+
+  return data;
 }
 
 /**
