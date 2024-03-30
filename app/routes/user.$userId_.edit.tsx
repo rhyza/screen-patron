@@ -8,7 +8,7 @@ import UserForm from '~/layouts/UserForm';
 import type { OutletContext } from '~/db.server';
 import { getSupabaseServerClient, getUserId, uploadImage, deleteImage } from '~/db.server';
 import { updateUser } from '~/models/user.server';
-import { invariant, retypeNull } from '~/utils';
+import { invariant, retypeNull } from '~/utils/validate';
 
 export const meta: MetaFunction = () => {
   return [

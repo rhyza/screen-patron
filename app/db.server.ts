@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import type { Session } from '@remix-run/node';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { createBrowserClient, createServerClient, parse, serialize } from '@supabase/ssr';
-import { invariant, singleton } from './utils';
+import { invariant, singleton } from './utils/validate';
 
 // Hard-code a unique key, so client can be looked up when this module gets re-imported
 export const prisma = singleton('prisma', getPrismaClient);

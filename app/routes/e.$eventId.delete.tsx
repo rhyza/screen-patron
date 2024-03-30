@@ -5,7 +5,7 @@ import { eventPlaceholderImage, eventsStoragePath } from '~/assets';
 import { deleteImage, getSupabaseServerClient, getUserId } from '~/db.server';
 import { deleteEvent, getEvent } from '~/models/event.server';
 import { isHost } from '~/models/host.server';
-import { invariant } from '~/utils';
+import { invariant } from '~/utils/validate';
 
 /**
  * API endpoint users are directed to after deleting an event.

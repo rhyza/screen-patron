@@ -9,7 +9,7 @@ import { getEvent } from '~/models/event.server';
 import { getHosts, isHost } from '~/models/host.server';
 import { addGuest, countGuests, getGuest, getGuests } from '~/models/rsvp.server';
 import { signIn } from '~/models/user.server';
-import { invariant } from '~/utils';
+import { invariant } from '~/utils/validate';
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Screen Patron' }, { name: 'description', content: 'DIY Film Events' }];

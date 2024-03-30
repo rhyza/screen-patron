@@ -4,7 +4,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { prisma, supabase } from '~/db.server';
 import { removeHostAllEvents } from './host.server';
 import type { EventCardInfo } from './event.server';
-import { invariant } from '~/utils';
+import { invariant } from '~/utils/validate';
 
 export type { User } from '@prisma/client';
 

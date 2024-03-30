@@ -7,7 +7,7 @@ import UserProfile from '~/layouts/UserProfile';
 import type { OutletContext } from '~/db.server';
 import type { User } from '~/models/user.server';
 import { getUser } from '~/models/user.server';
-import { invariant } from '~/utils';
+import { invariant } from '~/utils/validate';
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Screen Patron' }, { name: 'description', content: 'DIY Film Events' }];

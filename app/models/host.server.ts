@@ -1,7 +1,7 @@
 import { Event, Host, Rsvp, Status, User } from '@prisma/client';
 import { prisma } from '~/db.server';
 import { deleteEvent } from './event.server';
-import { invariant, isNotEmptyArray } from '~/utils';
+import { invariant, isNotEmptyArray } from '~/utils/validate';
 
 export type { Host } from '@prisma/client';
 

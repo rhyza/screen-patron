@@ -6,7 +6,7 @@ import { Autocomplete, AutocompleteItem, Button } from '@nextui-org/react';
 import EventCards from '~/layouts/EventCards';
 
 import { getEvents } from '~/models/event.server';
-import { retypeNull } from '~/utils';
+import { retypeNull } from '~/utils/validate';
 
 export const meta: MetaFunction = () => {
   return [

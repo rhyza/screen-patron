@@ -2,8 +2,9 @@ import { useNavigate } from '@remix-run/react';
 import { Card, CardFooter, cn } from '@nextui-org/react';
 
 import { eventPlaceholderImage } from '~/assets';
-import { EventCardInfo } from '~/models/event.server';
-import { getDateString, getTimeString, retypeNull } from '~/utils';
+import type { EventCardInfo } from '~/models/event.server';
+import { getDateString, getTimeString } from '~/utils/format';
+import { retypeNull } from '~/utils/validate';
 
 /**
  * Pressable Card component featuring an event's poster and information.

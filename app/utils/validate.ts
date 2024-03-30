@@ -2,96 +2,6 @@ import { parse } from '@supabase/ssr';
 
 const isProduction: boolean = process.env.NODE_ENV === 'production';
 
-type DateOptions = {
-  date: Date | null;
-  timeZone?: string;
-  includeTimeZone?: boolean;
-  includeWeekDay?: boolean;
-  includeDate?: boolean;
-  includeYear?: boolean;
-  omitSameYear?: boolean;
-  fullWeekDay?: boolean;
-  fullMonth?: boolean;
-  fullYear?: boolean;
-};
-
-/**
- * Takes a date representation and returns a string in the format 'YYYY-MM-DDT00:00'
- * or if a null value is passed, an empty string.
- * @param date The date as a Date object or an ISO string
- * @returns Date string in the format 'YYYY-MM-DDT00:00'
- */
-export function getDateInputString(date: Date | string | null): string {
-  if (date === null) {
-    return '';
-  } else if (typeof date === 'string') {
-    return date.substring(0, 16);
-  } else {
-    const isoString = date.toISOString();
-    return isoString.substring(0, 16);
-  }
-}
-
-/**
- * Takes a Date object, `date` (**required**), and formats it into a String based off of
- * additional specifications (**optional**).
- *
- * Default string format
- * > Mon, Jan 1, 2024
- *
- * Call format
- * > `getDateString({ date: date, [optionName]: [boolean], ... })`
- * @returns A formatted date string
- */
-export function getDateString({
-  date,
-  includeWeekDay = true,
-  includeDate = true,
-  includeYear = true,
-  omitSameYear = false,
-  fullWeekDay = false,
-  fullMonth = false,
-  fullYear = true,
-}: DateOptions) {
-  if (!date) return '';
-
-  const today = new Date(Date.now());
-  includeYear = includeYear && !(omitSameYear && date.getFullYear() === today.getFullYear());
-
-  const options = {
-    weekday: includeWeekDay ? (fullWeekDay ? 'long' : 'short') : undefined,
-    month: fullMonth ? 'long' : 'short',
-    day: includeDate ? 'numeric' : undefined,
-    year: includeYear ? (fullYear ? 'numeric' : '2-digit') : undefined,
-  } as const;
-
-  return date.toLocaleDateString('en-US', options);
-}
-
-/**
- * Takes a Date object, `date` (**required**), and formats it into a String based off of
- * additional specifications (**optional**).
- *
- * Default string format
- * > Mon, Jan 1, 2024
- *
- * Call format
- * > `getTimeString({ date: date, [timeZone]: [string], [includeTimeZone]: [boolean] })`
- * @returns A formatted time string
- */
-export function getTimeString({ date, timeZone, includeTimeZone }: DateOptions) {
-  if (!date) return '';
-
-  const options = {
-    hour: 'numeric',
-    minute: '2-digit',
-    timeZone: timeZone || undefined,
-    timeZoneName: includeTimeZone ? 'short' : undefined,
-  } as const;
-
-  return date.toLocaleTimeString('en-US', options);
-}
-
 /**
  * Throws an error if the condition fails.
  * @param condition The condition to evaluate as either truthy or falsy
@@ -142,8 +52,7 @@ export function isNotEmptyArray(value: unknown) {
 /**
  * Returns `true` if give value is a valid Date object.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isValidDate(value: any) {
+export function isValidDate(value: unknown) {
   return value instanceof Date && !isNaN(value.getTime());
 }
 
@@ -165,15 +74,19 @@ export function parseAuthCookie(request: Request) {
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function retypeAsDate(value: any) {
-  const date = new Date(value);
-  return isValidDate(date) ? date : null;
+  try {
+    const date = new Date(value);
+    return isValidDate(date) ? date : null;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 }
 
 /**
  * Returns `value` type as a number. If number isn't valid, then returns null instead of NaN.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function retypeAsNum(value: any) {
+export function retypeAsNum(value: unknown) {
   const num = Number(value);
   return !isNaN(num) ? num : null;
 }

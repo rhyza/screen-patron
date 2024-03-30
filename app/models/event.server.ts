@@ -1,6 +1,6 @@
 import type { Event, User } from '@prisma/client';
 import { prisma } from '~/db.server';
-import { retypeAsDate, retypeAsNum, retypeFalsyAsNull } from '~/utils';
+import { retypeAsDate, retypeAsNum, retypeFalsyAsNull } from '~/utils/validate';
 
 export type { Event, Status } from '@prisma/client';
 
@@ -131,11 +131,9 @@ export async function updateEvent(
   id: Event['id'],
   data: Partial<Omit<Event, 'id' | 'createdAt'>>,
 ): Promise<Event | null> {
-  data = retypeEventData(data);
-  console.log(data);
   return prisma.event.update({
     where: { id },
-    data: { ...data },
+    data: { ...retypeEventData(data) },
   });
 }
 
@@ -152,7 +150,7 @@ function retypeEventData(data: { [x: string]: any }) {
     retypedData.dateStart = retypeAsDate(data.dateStart);
   }
   if (typeof data?.dateEnd === 'string') {
-    retypedData.dateStart = retypeAsDate(data.dateEnd);
+    retypedData.dateEnd = retypeAsDate(data.dateEnd);
   }
   if (typeof data?.capacity === 'string') {
     retypedData.capacity = retypeAsNum(data.capacity);

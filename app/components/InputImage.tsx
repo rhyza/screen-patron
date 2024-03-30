@@ -3,7 +3,7 @@ import { Card, CardBody, CardFooter, cn, VisuallyHidden } from '@nextui-org/reac
 
 import { EditIcon } from './Icons';
 import { uploadPlaceholderImage } from '~/assets';
-import { validateFile } from '~/utils';
+import { validateFile } from '~/utils/validate';
 
 /**
  * File input component that shows a preview of the uploaded image.

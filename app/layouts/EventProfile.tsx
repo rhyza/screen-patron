@@ -9,7 +9,8 @@ import RSVPModal from '~/components/RSVPModal';
 import type { JsonifiedEvent } from '~/models/event.server';
 import type { HostInfo } from '~/models/host.server';
 import type { GuestCount, RsvpInfo } from '~/models/rsvp.server';
-import { getDateString, getTimeString, retypeNull } from '~/utils';
+import { getDateString, getTimeString } from '~/utils/format';
+import { retypeNull } from '~/utils/validate';
 
 type EventProfileProps = {
   actionData: number;

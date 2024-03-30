@@ -4,7 +4,7 @@ import { Button, Input, Textarea } from '@nextui-org/react';
 import { MapPinIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
 
 import type { EventFormValues } from '~/models/event.server';
-import { getDateInputString } from '~/utils';
+import { getDateInputString } from '~/utils/format';
 
 type EventFormProps = {
   setSubmitDisabled: (x: boolean | (() => boolean)) => void;
@@ -93,7 +93,7 @@ export default function EventInfoForm({
           errorMessage={errorMessage}
           label="End Date"
           min={today}
-          name="dateStart"
+          name="dateEnd"
           onValueChange={handleDateEndInput}
           placeholder="TBD"
           radius="none"
