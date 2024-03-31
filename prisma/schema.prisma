@@ -38,6 +38,7 @@ model Event {
   trailer     String?
   dateStart   DateTime? @db.Timestamptz(3)
   dateEnd     DateTime? @db.Timestamptz(3)
+  timeZone    String?
   location    String?
   city        String?
   capacity    Int?

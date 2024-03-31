@@ -58,6 +58,13 @@ export default function EventInfoForm({
     }
   };
 
+  const getLocalTimeZone = () => {
+    const format = new Intl.DateTimeFormat();
+    const options = format.resolvedOptions();
+    return options.timeZone; // "America/New_York"
+  };
+  const [timeZone] = useState(getLocalTimeZone());
+
   return (
     <>
       <Input
@@ -109,6 +116,7 @@ export default function EventInfoForm({
           Add end time
         </Button>
       )}
+      <input className="hidden" name="timeZone" readOnly type="text" value={timeZone}></input>
       <Input
         classNames={{ inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' }}
         defaultValue={location}
