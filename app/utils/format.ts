@@ -13,7 +13,22 @@ type DateOptions = {
 };
 
 /**
- * Takes a date representation and returns a string in the format 'YYYY-MM-DDT00:00'
+ * Calculates the GMT timezone offset based eother on the given timezone or the current
+ * timezone of the user and appends it to the given date string.
+ * @param date A date as a string representation
+ * @param timeZone The timezone to calculate the offset of
+ * @returns Date string in the format `"${date}±HH:MM"`
+ */
+export function addTimeZone(date: string, timeZone?: string) {
+  const gmt = new Intl.DateTimeFormat('en-GB', {
+    timeZoneName: 'longOffset',
+    timeZone,
+  }).format();
+  return date + gmt.slice(-6);
+}
+
+/**
+ * Takes a date representation and returns a string in the format 'YYYY-MM-DDTHH:MM'
  * or if a null value is passed, an empty string.
  * @param date The date as a Date object, a date string, or a number representing the date
  * in miliseconds
@@ -25,16 +40,17 @@ export function getDateInputString(value: Date | string | number | null, timeZon
 
   const date = new Date(value);
   const dateString = new Intl.DateTimeFormat('en-CA', {
-    timeZone,
-  }).format(date);
-  const timeString = new Intl.DateTimeFormat('en-CA', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
     hour12: false,
     timeZone,
   }).format(date);
+  const dateParts = dateString.split(', ');
 
-  return dateString + 'T' + timeString;
+  return dateParts[0] + 'T' + dateParts[1];
 }
 
 /**

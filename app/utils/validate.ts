@@ -69,21 +69,6 @@ export function parseAuthCookie(request: Request) {
 }
 
 /**
- * Returns `value` type as a Date. If date isn't valid, then returns null instead of
- * "Invalid Date".
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function retypeAsDate(value: any) {
-  try {
-    const date = new Date(value);
-    return isValidDate(date) ? date : null;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-}
-
-/**
  * Returns `value` type as a number. If number isn't valid, then returns null instead of NaN.
  */
 export function retypeAsNum(value: unknown) {
@@ -92,9 +77,11 @@ export function retypeAsNum(value: unknown) {
 }
 
 /**
- * Returns `value` unchanged if not falsy or explcitly `null`. If `value` is falsy but not
- * `null`, returns `alt` if given or `null`. If `value` is an object, then any property
- * that's falsy but not explcitly `null` gets set to `alt` if given or `null`.
+ * Returns `value` unchanged if not falsy. If `value` is falsy, returns `alt` if given or
+ * explicitly `null`. If `value` is an object, then any property that's falsy gets set to
+ * `alt` if given or explicitly `null`.
+ * @param value The variable to retype
+ * @param alt The value to change the variable to if falsy, defaults to `null`
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function retypeFalsyAsNull(value: any, alt: any = null) {
@@ -113,6 +100,8 @@ export function retypeFalsyAsNull(value: any, alt: any = null) {
  * Returns `value` unchanged if not `null`. If `value` is `null`, returns `alt` if given or
  * `undefined`. If `value` is an object, then any property that's `null` gets set to `alt`
  * if given or `undefined`.
+ * @param value The variable to retype
+ * @param alt The value to change the variable to if falsy, defaults to `undefined`
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function retypeNull(value: any, alt?: any) {
@@ -134,20 +123,6 @@ export const singleton = <Value>(name: string, valueFactory: () => Value): Value
   g.__singletons[name] ??= valueFactory();
   return g.__singletons[name] as Value;
 };
-
-/**
- * Takes an object and if any property is falsy, remove that property altogether.
- * @param values The object to strip
- * @returns An object with no falsy values
- */
-export function stripFalseValues(values: { [x: string]: unknown }) {
-  const result: { [x: string]: unknown } = {};
-  const keys = Object.keys(values);
-  keys.forEach((key) => {
-    if (values[key]) result[key] = values[key];
-  });
-  return result;
-}
 
 /**
  * Checks if file exists and is less than a certain file size.

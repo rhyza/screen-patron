@@ -1,6 +1,7 @@
 import type { Event, User } from '@prisma/client';
 import { prisma } from '~/db.server';
-import { retypeAsDate, retypeAsNum, retypeFalsyAsNull } from '~/utils/validate';
+import { addTimeZone } from '~/utils/format';
+import { isValidDate, retypeAsNum, retypeFalsyAsNull } from '~/utils/validate';
 
 export type { Event, Status } from '@prisma/client';
 
@@ -155,6 +156,20 @@ export async function deleteEvent(id: Event['id']): Promise<Event> {
 /* ---------------------------------- HELPER FUNCTIONS ---------------------------------- */
 
 /**
+ * Returns `value` type as a Date. If date isn't valid, then returns null instead of
+ * "Invalid Date".
+ */
+export function retypeAsDate(value: string, timeZone?: string) {
+  try {
+    const date = new Date(addTimeZone(value, timeZone));
+    return isValidDate(date) ? date : null;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+/**
  * Changes the type of each property of an object to match the types required by the Event
  * database.
  * @param data Object containing Event data of potentially incorrect type
@@ -162,9 +177,10 @@ export async function deleteEvent(id: Event['id']): Promise<Event> {
  */
 function retypeEventInput(input: { [x: string]: unknown }) {
   const data = retypeFalsyAsNull(input);
+  const timeZone = data?.timeZone || undefined;
 
-  data.dateStart = data?.dateStart && retypeAsDate(data.dateStart);
-  data.dateEnd = data?.dateEnd && retypeAsDate(data.dateEnd);
+  data.dateStart = data?.dateStart && retypeAsDate(data.dateStart, timeZone);
+  data.dateEnd = data?.dateEnd && retypeAsDate(data.dateEnd, timeZone);
   data.capacity = retypeAsNum(data.capacity);
   data.cost = data?.cost && retypeAsNum(data.cost);
   data.plusOneLimit = data?.plusOneLimit && retypeAsNum(data.plusOneLimit);
