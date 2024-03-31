@@ -20,7 +20,7 @@ export default function EventInfoForm({
   description,
   setSubmitDisabled,
 }: EventFormProps) {
-  const today = getDateInputString(new Date(Date.now()));
+  const today = getDateInputString(Date.now());
   const start = dateStart ? getDateInputString(dateStart) : '';
   const end = dateEnd ? getDateInputString(dateEnd) : '';
 
@@ -46,10 +46,10 @@ export default function EventInfoForm({
     } else if (!startValue) {
       setSubmitDisabled(() => true);
       setErrorMessage(() => `You can't have an end date without a start date.`);
-    } else if (new Date(startValue) < new Date(Date.now())) {
+    } else if (startValue < today) {
       setSubmitDisabled(() => true);
       setErrorMessage(() => `You can't a start date in the past.`);
-    } else if (new Date(startValue) < new Date(endValue)) {
+    } else if (startValue < endValue) {
       setSubmitDisabled(() => false);
       setErrorMessage(() => '');
     } else {

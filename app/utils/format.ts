@@ -14,23 +14,24 @@ type DateOptions = {
 
 /**
  * Takes a date representation and returns a string in the format 'YYYY-MM-DDT00:00'
- * or if a null value is passed, an empty string. If a string is passed, then it is assume
- * it is in ISO format and just needs the time zone removed.
- * @param date The date as a Date object or an ISO string
+ * or if a null value is passed, an empty string.
+ * @param date The date as a Date object, a date string, or a number representing the date
+ * in miliseconds
+ * @param timeZone The timezone to convert the date into
  * @returns Date string in the format 'YYYY-MM-DDT00:00'
  */
-export function getDateInputString(value: Date | string | null, tz?: string) {
+export function getDateInputString(value: Date | string | number | null, timeZone?: string) {
   if (value === null) return '';
 
   const date = new Date(value);
   const dateString = new Intl.DateTimeFormat('en-CA', {
-    timeZone: tz,
+    timeZone,
   }).format(date);
   const timeString = new Intl.DateTimeFormat('en-CA', {
     hour: 'numeric',
     minute: 'numeric',
     hour12: false,
-    timeZone: tz,
+    timeZone,
   }).format(date);
 
   return dateString + 'T' + timeString;
