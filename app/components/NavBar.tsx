@@ -25,12 +25,12 @@ import type { User } from '~/models/user.server';
 export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const isLandingPage = location.pathname === '/';
+  const isHomeOrBrowse = location.pathname === '/' || location.pathname === '/browse';
 
   return (
     <Navbar
-      className={cn(!isLandingPage && 'bg-transparent')}
-      isBlurred={isLandingPage}
+      className={cn((!isHomeOrBrowse) && 'bg-transparent')}
+      isBlurred={isHomeOrBrowse}
       maxWidth="full"
     >
       <NavbarBrand as={NavLink} onClick={() => navigate('/')}>
