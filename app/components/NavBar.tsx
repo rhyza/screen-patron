@@ -46,6 +46,12 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
           >
             Browse Events
           </NavLink>
+          <NavLink
+            className={cn('sm:hidden', location.pathname != '/signin' && 'mr-2')}
+            to="browse"
+          >
+            Browse
+          </NavLink>
         </NavbarItem>
         <NavbarItem
           className={cn(
