@@ -26,10 +26,10 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
   const location = useLocation();
   const navigate = useNavigate();
   const currentPath = location.pathname;
-  const blur = currentPath === '/' || currentPath === '/browse' || currentPath === '/events';
+  const onEventPage = currentPath.startsWith('/e/');
 
   return (
-    <Navbar className={cn(!blur && 'bg-transparent')} isBlurred={blur} maxWidth="full">
+    <Navbar className={cn(onEventPage && 'bg-transparent')} isBlurred={!onEventPage} maxWidth="full">
       <NavbarBrand as={NavLink} onClick={() => navigate('/')}>
         <FilmIcon classNames="max-sm:hidden mr-2" />
         <p className="font-bold text-inherit uppercase">Screen Patron</p>
