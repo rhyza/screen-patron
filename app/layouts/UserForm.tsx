@@ -66,6 +66,7 @@ export default function UserForm({
             }}
             fileLimit={2}
             image={photo || userPlaceholderImage}
+            isPending={isSubmitting}
             name="photo"
           />
         </div>

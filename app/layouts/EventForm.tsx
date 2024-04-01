@@ -80,6 +80,7 @@ export default function EventForm({
           classNames={{ image: 'size-80 sm:size-96' }}
           fileLimit={5}
           image={photo || eventPlaceholderImage}
+          isPending={isSubmitting}
           name="photo"
         />
         <div className="flex justify-center">
