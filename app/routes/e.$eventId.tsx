@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useActionData, useLoaderData } from '@remix-run/react';
+import { useLoaderData } from '@remix-run/react';
 
 import EventProfile from '~/layouts/EventProfile';
 
@@ -42,12 +42,10 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 export default function EventPage() {
   const { event, hosts, guests, guestCount, isHosting, rsvp } =
     useLoaderData<typeof loader>();
-  const actionData = useActionData<typeof action>();
 
   return (
     <div className="page-container">
       <EventProfile
-        actionData={actionData?.success || 0}
         event={event}
         hosts={hosts}
         guests={guests}

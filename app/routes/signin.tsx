@@ -1,6 +1,5 @@
 import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useActionData } from '@remix-run/react';
 import { Card, cn } from '@nextui-org/react';
 
 import SignInFlow from '~/layouts/SignInFlow';
@@ -19,9 +18,6 @@ export const meta: MetaFunction = () => {
  * `/signin` — Page for Users to sign in. Sends an email to complete the process.
  */
 export default function SignInPage() {
-  const actionData = useActionData<typeof action>();
-  const hasSent = actionData?.success || false;
-
   return (
     <div className="grid place-content-center h-[75vh]">
       <Card
@@ -32,7 +28,7 @@ export default function SignInPage() {
         radius="sm"
         shadow="sm"
       >
-        <SignInFlow hasEmailSent={hasSent} />
+        <SignInFlow />
       </Card>
     </div>
   );

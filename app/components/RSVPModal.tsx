@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { PressEvent } from '@react-types/shared';
-import { useOutletContext } from '@remix-run/react';
+import { useFetcher, useOutletContext } from '@remix-run/react';
 import { Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react';
 
 import RSVPForm from './RSVPForm';
@@ -11,20 +11,21 @@ import type { RsvpInfo } from '~/models/rsvp.server';
 
 /**
  * Modal containing for use in the RSVP flow.
- * @param actionData The success value returned upon action completion
  * @param rsvp The RSVPInfo object
  * @param modalProps (optional) Any additional props are applied to the component's container,
  * reference the NextUI Modal docs for available options
  */
 export default function RSVPModal({
-  actionData,
   rsvp,
   ...modalProps
 }: {
-  actionData: number;
   rsvp: RsvpInfo | null;
 } & Partial<React.ComponentPropsWithRef<typeof Modal>>) {
   const { session } = useOutletContext<OutletContext>();
+
+  const fetcher = useFetcher<{ success: string | null; error: string | null }>();
+  const fetcherData = fetcher.data?.success;
+
   const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
   const [content, setContent] = useState('');
 
@@ -39,11 +40,11 @@ export default function RSVPModal({
   // Show confirmation messages on each successful submission
   useEffect(() => {
     if (session) {
-      setContent(actionData ? 'rsvpConfirmed' : 'rsvpForm');
+      setContent(fetcherData ? 'rsvpConfirmed' : 'rsvpForm');
     } else {
-      setContent(actionData ? 'signInConfirmed' : 'signIn');
+      setContent(fetcherData ? 'signInConfirmed' : 'signIn');
     }
-  }, [actionData]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [fetcherData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Close confirmation messages after 2 seconds
   useEffect(() => {
@@ -76,14 +77,16 @@ export default function RSVPModal({
         <ModalContent className="dark">
           {(onClose) => (
             <ModalBody className="p-6">
-              {content === 'rsvpForm' && <RSVPForm onClose={onClose} selected={status} />}
+              {content === 'rsvpForm' && (
+                <RSVPForm onClose={onClose} fetcher={fetcher} selected={status} />
+              )}
               {content === 'rsvpConfirmed' && (
                 <div className="grid content-center justify-center my-8">
                   <p className="text-2xl text-center">Your RSVP has been updated!</p>
                 </div>
               )}
               {(content === 'signIn' || content === 'signInConfirmed') && (
-                <SignInFlow hasEmailSent={content === 'signInConfirmed'} />
+                <SignInFlow fetcher={fetcher} />
               )}
             </ModalBody>
           )}

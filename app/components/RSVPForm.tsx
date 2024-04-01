@@ -1,27 +1,33 @@
-import { Form } from '@remix-run/react';
+import type { FetcherWithComponents } from '@remix-run/react';
 import { Button, Input, RadioGroup } from '@nextui-org/react';
 
+import { PendingIcon } from './Icons';
 import RadioIcon from './RadioIcon';
 
 /**
  * Modal containing an RSVP form
+ * @param fetcher An instantiation of useFetcher()
+ * @param onClose A callback function to close a modal
  * @param selected The selected RSVP response, the options are "GOING", "MAYBE",
  * or "NOT_GOING"
- * @param modalProps (optional) Any additional props are applied to the component's container,
- * reference the NextUI Modal docs for available options
  */
 export default function RSVPForm({
+  fetcher,
   onClose,
   selected,
 }: {
+  fetcher: FetcherWithComponents<unknown>;
   onClose: () => void;
   selected?: string;
 }) {
+  const isSubmitting = fetcher.state === 'submitting';
+
   return (
-    <Form className="flex flex-wrap justify-center gap-6" method="post">
+    <fetcher.Form className="flex flex-wrap justify-center gap-6" method="post">
       <RadioGroup
         className="p-6"
         defaultValue={selected}
+        isDisabled={isSubmitting}
         isRequired
         name="status"
         orientation="horizontal"
@@ -36,15 +42,28 @@ export default function RSVPForm({
           😢
         </RadioIcon>
       </RadioGroup>
-      <Input label="Your Name" name="name" radius="none" size="lg" type="text" />
+      <Input
+        label="Your Name"
+        isDisabled={isSubmitting}
+        name="name"
+        radius="none"
+        size="lg"
+        type="text"
+      />
       <div className="flex justify-center">
-        <Button className="w-32 bg-primary" radius="none" type="submit">
+        <Button
+          className="w-32 bg-primary"
+          isDisabled={isSubmitting}
+          radius="none"
+          startContent={isSubmitting && <PendingIcon />}
+          type="submit"
+        >
           Save
         </Button>
-        <Button className="w-32" onPress={onClose} radius="none">
+        <Button className="w-32" isDisabled={isSubmitting} onPress={onClose} radius="none">
           Cancel
         </Button>
       </div>
-    </Form>
+    </fetcher.Form>
   );
 }

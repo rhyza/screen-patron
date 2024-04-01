@@ -18,7 +18,6 @@ import { getDateString, getTimeString, getLocalTimeZone } from '~/utils/format';
 import { retypeNull } from '~/utils/validate';
 
 type EventProfileProps = {
-  actionData: number;
   event: JsonifiedEvent;
   hosts: HostInfo[];
   guests: RsvpInfo[];
@@ -38,15 +37,13 @@ type EventProfileProps = {
  * location, cost, and venue capacity.
  * @param event JSONified Event object, e.g. dateStart is stored as a Date on the db but
  * gets transformed as a string when retrieved by a GET request.
- * @param modalContent String representing what content to feed the event page's modal
- * (RSVPModal).
- * * `rsvpForm` - Show the RSVP form
- * * `rsvpConfirmed` - Show the RSVP has updated message
- * * `signIn` - Show sign in form
- * * `signInConfirmed` - Show check your email message
+ * @param hosts An array of hosts for the event
+ * @param guests An array of RSVPs for the event
+ * @param guestCount A tally of the different RSVP responses
+ * @param isHosting Booleann for is the current user hosting this event?
+ * @param rsvp The current user's RSVP info
  */
 export default function EventProfile({
-  actionData,
   event: {
     id,
     name,
@@ -121,7 +118,7 @@ export default function EventProfile({
           radius="none"
           src={photo || eventPlaceholderImage}
         />
-        {!isHosting && <RSVPModal actionData={actionData} rsvp={rsvp} />}
+        {!isHosting && <RSVPModal rsvp={rsvp} />}
       </div>
     </div>
   );
