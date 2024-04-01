@@ -4,8 +4,9 @@ import {
   CardBody,
   CardFooter,
   CircularProgress,
-  cn,
+  Image,
   VisuallyHidden,
+  cn,
 } from '@nextui-org/react';
 
 import { EditIcon } from './Icons';
@@ -80,13 +81,14 @@ export default function InputImage({
           />
         </VisuallyHidden>
         <input className="hidden" name="prevPhoto" readOnly type="text" value={image}></input>
-        <img
+        <Image
           alt="Preview of uploaded file"
           className={cn(
             'object-cover size-80',
             isPending && 'brightness-50',
             classNames?.image,
           )}
+          radius="none"
           src={src}
         />
         {(error || errorMessage) && (

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from '@remix-run/react';
-import { Avatar, Button, Tooltip } from '@nextui-org/react';
+import { Avatar, Button, Image, Tooltip } from '@nextui-org/react';
 
 import { eventPlaceholderImage } from '~/assets';
 import {
@@ -115,9 +115,10 @@ export default function EventProfile({
         <Guests guests={guests} guestCount={guestCount} />
       </div>
       <div className="flex-auto max-w-80 sm:max-w-96">
-        <img
+        <Image
           alt={`Event poster for ${name}`}
           className="size-80 sm:size-96 object-cover"
+          radius="none"
           src={photo || eventPlaceholderImage}
         />
         {!isHosting && <RSVPModal actionData={actionData} rsvp={rsvp} />}
