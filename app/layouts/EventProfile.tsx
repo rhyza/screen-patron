@@ -3,7 +3,12 @@ import { NavLink } from '@remix-run/react';
 import { Avatar, Button, Tooltip } from '@nextui-org/react';
 
 import { eventPlaceholderImage } from '~/assets';
-import { MapPinIcon, StarIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
+import {
+  MapPinIcon,
+  TicketIcon,
+  UserGroupIcon,
+  VideoCameraOutlineIcon,
+} from '~/components/Icons';
 import RSVPModal from '~/components/RSVPModal';
 
 import type { JsonifiedEvent } from '~/models/event.server';
@@ -81,10 +86,10 @@ export default function EventProfile({
         )}
         <ShareLinks eventId={id || ''} />
         <InfoField
-          icon={<StarIcon />}
+          icon={<VideoCameraOutlineIcon />}
           text={
             <div className="flex items-center gap-2">
-              Hosted by <Avatar showFallback src={retypeNull(hosts[0].user.photo)} />{' '}
+              Presented by <Avatar showFallback src={retypeNull(hosts[0].user.photo)} />{' '}
               <NavLink to={`/user/${hosts[0].userId}`}>
                 {retypeNull(hosts[0].name, hosts[0].user.name) || 'Anonymous Filmmaker'}
               </NavLink>

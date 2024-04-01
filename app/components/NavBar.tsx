@@ -86,7 +86,14 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownSection className="sm:hidden" showDivider>
               <DropdownItem key="create" textValue="Create">
-                <Button as={NavLink} fullWidth radius="none" to="create" variant="flat">
+                <Button
+                  as={NavLink}
+                  className="bg-primary"
+                  fullWidth
+                  radius="none"
+                  to="create"
+                  variant="flat"
+                >
                   Create
                 </Button>
               </DropdownItem>
