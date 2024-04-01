@@ -104,6 +104,7 @@ export default function UserForm({
               input: 'text-3xl',
             }}
             defaultValue={name}
+            isDisabled={isSubmitting}
             label="Name"
             name="name"
             radius="none"
@@ -115,12 +116,14 @@ export default function UserForm({
           <Textarea
             classNames={{ inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' }}
             defaultValue={bio}
+            isDisabled={isSubmitting}
             label="Bio"
             name="bio"
             radius="none"
           />
           <SocialInput
             defaultValue={instagram}
+            isDisabled={isSubmitting}
             label="Instagram"
             name="instagram"
             onValueChange={validateSocialInput}
@@ -129,6 +132,7 @@ export default function UserForm({
           />
           <SocialInput
             defaultValue={twitter}
+            isDisabled={isSubmitting}
             label="Twitter"
             name="twitter"
             onValueChange={validateSocialInput}
@@ -137,6 +141,7 @@ export default function UserForm({
           />
           <SocialInput
             defaultValue={website}
+            isDisabled={isSubmitting}
             label="Website"
             name="website"
             icon={<LinkIcon />}
@@ -150,23 +155,26 @@ export default function UserForm({
 
 function SocialInput({
   defaultValue,
+  icon,
+  isDisabled = false,
   label,
   name,
   onValueChange,
-  icon,
   startText,
 }: {
   defaultValue: string | undefined;
+  icon: JSX.Element;
+  isDisabled?: boolean;
   label: string;
   name: string;
   onValueChange?: (value: string) => void;
-  icon: JSX.Element;
   startText: string;
 }) {
   return (
     <Input
       classNames={{ inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' }}
       defaultValue={defaultValue}
+      isDisabled={isDisabled}
       name={name}
       onValueChange={onValueChange}
       placeholder={label}

@@ -16,6 +16,7 @@ import DeleteEventModal from '~/components/DeleteEventModal';
 import { EllipsisVerticalIcon, PendingIcon } from '~/components/Icons';
 import InputImage from '~/components/InputImage';
 import EventInfoForm from '~/layouts/EventInfoForm';
+import type { EventFormValues } from '~/models/event.server';
 
 type EventFormProps = {
   id?: string;
@@ -23,17 +24,6 @@ type EventFormProps = {
   isDisabled?: boolean;
   isSubmitting?: boolean;
 } & EventFormValues;
-
-type EventFormValues = {
-  name?: string;
-  photo?: string;
-  dateStart?: Date;
-  dateEnd?: Date;
-  location?: string;
-  cost?: number;
-  capacity?: number;
-  description?: string;
-};
 
 /**
  * Form for modifying an Event's name, description, poster, start date, end date,
