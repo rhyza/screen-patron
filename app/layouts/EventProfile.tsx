@@ -9,7 +9,7 @@ import RSVPModal from '~/components/RSVPModal';
 import type { JsonifiedEvent } from '~/models/event.server';
 import type { HostInfo } from '~/models/host.server';
 import type { GuestCount, RsvpInfo } from '~/models/rsvp.server';
-import { getDateString, getTimeString } from '~/utils/format';
+import { getDateString, getTimeString, getLocalTimeZone } from '~/utils/format';
 import { retypeNull } from '~/utils/validate';
 
 type EventProfileProps = {
@@ -42,7 +42,18 @@ type EventProfileProps = {
  */
 export default function EventProfile({
   actionData,
-  event: { id, name, photo, dateStart, dateEnd, location, cost, capacity, description },
+  event: {
+    id,
+    name,
+    photo,
+    dateStart,
+    dateEnd,
+    timeZone,
+    location,
+    cost,
+    capacity,
+    description,
+  },
   hosts,
   guests,
   guestCount,
@@ -64,7 +75,7 @@ export default function EventProfile({
           )}
         </div>
         {start ? (
-          <DateRange start={start} end={end} />
+          <DateRange start={start} end={end} timeZone={timeZone || undefined} />
         ) : (
           <p className="text-2xl font-medium">Date & Time TBD</p>
         )}
@@ -110,16 +121,30 @@ export default function EventProfile({
   );
 }
 
-function DateRange({ start, end }: { start: Date; end?: Date | null }) {
+function DateRange({
+  start,
+  end,
+  timeZone,
+}: {
+  start: Date;
+  end?: Date | null;
+  timeZone?: string;
+}) {
+  const includeTimeZone = timeZone ? timeZone != getLocalTimeZone() : false;
+  const omitSameYear = end ? end.getFullYear() === start.getFullYear() : true;
+
   const startDate = getDateString({
     date: start,
-    omitSameYear: !(end && end.getFullYear() != start.getFullYear()),
+    omitSameYear,
   });
-  let startTime = getTimeString({ date: start });
+
+  let startTime = end
+    ? getTimeString({ date: start, timeZone })
+    : getTimeString({ date: start, timeZone, includeTimeZone });
 
   if (end) {
-    const endDate = getDateString({ date: end, omitSameYear: true });
-    const endTime = getTimeString({ date: end });
+    const endDate = getDateString({ date: end, omitSameYear: true, timeZone });
+    const endTime = getTimeString({ date: end, timeZone, includeTimeZone });
 
     if (end.getDate() === start.getDate()) {
       startTime += ` — ${endTime}`;
