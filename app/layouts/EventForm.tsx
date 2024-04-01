@@ -122,17 +122,11 @@ function EventSettingsDropdown({
     <>
       <Dropdown backdrop="opaque">
         <DropdownTrigger>
-          <Button
-            aria-label="settings"
-            isDisabled={isDisabled}
-            isIconOnly
-            radius="full"
-            variant="light"
-          >
+          <Button isDisabled={isDisabled} isIconOnly radius="full" variant="light">
             <EllipsisVerticalIcon />
           </Button>
         </DropdownTrigger>
-        <DropdownMenu>
+        <DropdownMenu aria-label="Settings Menu">
           <DropdownSection className="hidden" title="Actions" showDivider>
             <DropdownItem description="Make your event public" key="publish">
               Publish Event

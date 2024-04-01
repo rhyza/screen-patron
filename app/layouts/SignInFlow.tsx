@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useFetcher } from '@remix-run/react';
+
 import type { FetcherWithComponents } from '@remix-run/react';
 import { Form } from '@remix-run/react';
 import { Button, Input, cn } from '@nextui-org/react';
@@ -12,10 +12,10 @@ import { Button, Input, cn } from '@nextui-org/react';
  */
 export default function SignInFlow({
   classNames,
-  fetcher = useFetcher(),
+  fetcher,
 }: {
   classNames?: string;
-  fetcher?: FetcherWithComponents<{ success: string | boolean | null; error: string | null }>;
+  fetcher: FetcherWithComponents<{ success: string | boolean | null; error: string | null }>;
 }) {
   const success = fetcher.data?.success || null;
   const hasEmailSent = success === true || success != null;
