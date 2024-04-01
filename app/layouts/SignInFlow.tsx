@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Form } from '@remix-run/react';
-import { Button, cn, Input } from '@nextui-org/react';
+import { Button, Input, cn } from '@nextui-org/react';
 
 /**
  * Sign in flow that shows a sign in form that only takes in a User's email, then changes to

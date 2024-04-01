@@ -1,5 +1,5 @@
 import type { RadioProps } from '@nextui-org/react';
-import { useRadio, VisuallyHidden, cn } from '@nextui-org/react';
+import { VisuallyHidden, cn, useRadio } from '@nextui-org/react';
 
 /**
  * Custom radio input buttons with an icon displayed in the center. This component modifies

@@ -2,7 +2,6 @@ import { Form, NavLink, useLocation, useNavigate } from '@remix-run/react';
 import {
   Avatar,
   Button,
-  cn,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -12,6 +11,7 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
+  cn,
 } from '@nextui-org/react';
 
 import { FilmIcon } from './Icons';
