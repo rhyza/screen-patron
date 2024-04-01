@@ -25,14 +25,11 @@ import type { User } from '~/models/user.server';
 export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const isHomeOrBrowse = location.pathname === '/' || location.pathname === '/browse';
+  const currentPath = location.pathname;
+  const blur = currentPath === '/' || currentPath === '/browse' || currentPath === '/events';
 
   return (
-    <Navbar
-      className={cn((!isHomeOrBrowse) && 'bg-transparent')}
-      isBlurred={isHomeOrBrowse}
-      maxWidth="full"
-    >
+    <Navbar className={cn(!blur && 'bg-transparent')} isBlurred={blur} maxWidth="full">
       <NavbarBrand as={NavLink} onClick={() => navigate('/')}>
         <FilmIcon classNames="max-sm:hidden mr-2" />
         <p className="font-bold text-inherit uppercase">Screen Patron</p>
@@ -41,13 +38,13 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
       <NavbarContent as="div" justify="end">
         <NavbarItem>
           <NavLink
-            className={cn('max-sm:hidden', location.pathname != '/signin' && 'mr-2')}
+            className={cn('max-sm:hidden', currentPath != '/signin' && 'mr-2')}
             to="browse"
           >
             Browse Events
           </NavLink>
           <NavLink
-            className={cn('sm:hidden', location.pathname != '/signin' && 'mr-2')}
+            className={cn('sm:hidden', currentPath != '/signin' && 'mr-2')}
             to="browse"
           >
             Browse
@@ -56,7 +53,7 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
         <NavbarItem
           className={cn(
             'max-sm:hidden',
-            (location.pathname === '/create' || location.pathname === '/signin') && 'hidden',
+            (currentPath === '/create' || currentPath === '/signin') && 'hidden',
           )}
         >
           <Button
@@ -69,9 +66,7 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
             Create
           </Button>
         </NavbarItem>
-        <NavbarItem
-          className={cn((sessionUser || location.pathname === '/signin') && 'hidden')}
-        >
+        <NavbarItem className={cn((sessionUser || currentPath === '/signin') && 'hidden')}>
           <Button
             as={NavLink}
             className="bg-foreground text-primary"
