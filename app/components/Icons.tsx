@@ -207,7 +207,7 @@ export function VideoCameraIcon(props: IconProps) {
 
 export function VideoCameraOutlineIcon(props: IconProps) {
   return (
-    <Svg {...props} fill="none" stroke="currentColor" stroke-width="1.5">
+    <Svg {...props} fill="none" stroke="currentColor" strokeWidth="1.5">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"

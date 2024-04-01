@@ -8,7 +8,8 @@ import { VisuallyHidden, cn, useRadio } from '@nextui-org/react';
  * default value is `md`
  */
 export default function RadioIcon({ size = 'md', ...props }: { size: string } & RadioProps) {
-  const { Component, children, description, getBaseProps, getInputProps } = useRadio(props);
+  const { Component, children, description, isDisabled, getBaseProps, getInputProps } =
+    useRadio(props);
 
   const sizeMap = {
     sm: 'text-2xl sm:text-3xl size-16 p-4',
@@ -27,6 +28,7 @@ export default function RadioIcon({ size = 'md', ...props }: { size: string } & 
           'data-[selected=true]:border-secondary data-[selected=true]:border-4',
           'data-[selected=true]:p-3 data-[selected=true]:bg-indigo-200',
           sizeMap[size],
+          isDisabled && 'opacity-50',
         )}
       >
         <VisuallyHidden>
@@ -41,7 +43,9 @@ export default function RadioIcon({ size = 'md', ...props }: { size: string } & 
           {children}
         </div>
       </Component>
-      <div className="flex justify-center">{description}</div>
+      <div className={cn('flex justify-center', isDisabled && 'opacity-50')}>
+        {description}
+      </div>
     </div>
   );
 }
