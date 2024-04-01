@@ -1,6 +1,6 @@
 type DateOptions = {
   date: Date | null;
-  timeZone?: string;
+  timeZone?: string | null;
   timeZoneName?: string;
   includeTimeZone?: boolean;
   includeWeekDay?: boolean;
@@ -76,6 +76,7 @@ export function getDateString({
   timeZone,
 }: DateOptions) {
   if (!date) return '';
+  if (timeZone === null) timeZone = undefined;
 
   const today = new Date(Date.now());
   includeYear = includeYear && !(omitSameYear && date.getFullYear() === today.getFullYear());
@@ -104,6 +105,7 @@ export function getDateString({
  */
 export function getTimeString({ date, timeZone, includeTimeZone }: DateOptions) {
   if (!date) return '';
+  if (timeZone === null) timeZone = undefined;
 
   const options = {
     hour: 'numeric',

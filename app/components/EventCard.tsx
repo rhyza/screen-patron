@@ -3,7 +3,7 @@ import { Card, CardFooter, cn } from '@nextui-org/react';
 
 import { eventPlaceholderImage } from '~/assets';
 import type { EventCardInfo } from '~/models/event.server';
-import { getDateString, getTimeString } from '~/utils/format';
+import { getDateString, getLocalTimeZone, getTimeString } from '~/utils/format';
 import { retypeNull } from '~/utils/validate';
 
 /**
@@ -16,7 +16,7 @@ import { retypeNull } from '~/utils/validate';
  * reference the NextUI Card docs for available options
  */
 export default function EventCard({
-  event: { id, name, photo, dateStart, cost },
+  event: { id, name, photo, dateStart, timeZone, cost },
   imageClassName = 'size-80',
   ...cardProps
 }: {
@@ -24,8 +24,10 @@ export default function EventCard({
   imageClassName?: string;
 } & React.ComponentPropsWithRef<typeof Card>) {
   const date = dateStart ? new Date(dateStart) : undefined;
-  const dateString = date ? getDateString({ date }) : 'Date TBD';
-  const timeString = date ? getTimeString({ date }) : 'Time TBD';
+  const includeTimeZone = timeZone ? timeZone != getLocalTimeZone() : false;
+
+  const dateString = date ? getDateString({ date, timeZone }) : 'Date TBD';
+  const timeString = date ? getTimeString({ date, timeZone, includeTimeZone }) : 'Time TBD';
   const costString = cost ? `$${cost}` : 'Free';
 
   const navigate = useNavigate();

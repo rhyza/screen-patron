@@ -75,7 +75,7 @@ export default function EventProfile({
           )}
         </div>
         {start ? (
-          <DateRange start={start} end={end} timeZone={timeZone || undefined} />
+          <DateRange start={start} end={end} timeZone={timeZone} />
         ) : (
           <p className="text-2xl font-medium">Date & Time TBD</p>
         )}
@@ -128,7 +128,7 @@ function DateRange({
 }: {
   start: Date;
   end?: Date | null;
-  timeZone?: string;
+  timeZone?: string | null;
 }) {
   const includeTimeZone = timeZone ? timeZone != getLocalTimeZone() : false;
   const omitSameYear = end ? end.getFullYear() === start.getFullYear() : true;
