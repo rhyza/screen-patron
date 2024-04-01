@@ -1,12 +1,21 @@
 import { useState } from 'react';
 import { Form, useNavigate } from '@remix-run/react';
-import { Button } from '@nextui-org/react';
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownSection,
+  DropdownTrigger,
+  useDisclosure,
+} from '@nextui-org/react';
 
 import { eventPlaceholderImage } from '~/assets';
 import { ButtonTab, ButtonTabs } from '~/components/ButtonTabs';
+import DeleteEventModal from '~/components/DeleteEventModal';
+import { EllipsisVerticalIcon } from '~/components/Icons';
 import InputImage from '~/components/InputImage';
 import EventInfoForm from '~/layouts/EventInfoForm';
-import EventSettings from '~/layouts/EventSettings';
 
 type EventFormProps = {
   id?: string;
@@ -57,14 +66,11 @@ export default function EventForm({
         {id && (
           <ButtonTabs className="pb-2" defaultTab="info" setTabContent={setTabContent}>
             <ButtonTab id="info">Event Info</ButtonTab>
-            {id && <ButtonTab id="settings">Settings</ButtonTab>}
+            <EventSettingsDropdown eventId={id} name={eventFormValues?.name || undefined} />
           </ButtonTabs>
         )}
         {currentTab === 'info' && (
           <EventInfoForm setSubmitDisabled={setSubmitDisabled} {...eventFormValues} />
-        )}
-        {currentTab === 'settings' && (
-          <EventSettings eventId={id} name={eventFormValues.name} />
         )}
       </div>
       <div className="flex-auto justify-center space-y-6 max-w-80 sm:max-w-96">
@@ -89,5 +95,45 @@ export default function EventForm({
         </div>
       </div>
     </Form>
+  );
+}
+
+function EventSettingsDropdown({ eventId, name }: { eventId: string; name?: string }) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  return (
+    <>
+      <Dropdown backdrop="opaque">
+        <DropdownTrigger>
+          <Button aria-label="settings" isIconOnly radius="full" variant="light">
+            <EllipsisVerticalIcon />
+          </Button>
+        </DropdownTrigger>
+        <DropdownMenu>
+          <DropdownSection className="hidden" title="Actions" showDivider>
+            <DropdownItem description="Make your event public" key="publish">
+              Publish Event
+            </DropdownItem>
+          </DropdownSection>
+          <DropdownSection title="Danger zone">
+            <DropdownItem
+              className="text-danger"
+              color="danger"
+              description="Permanently delete this event"
+              key="delete"
+              onPress={onOpen}
+            >
+              Cancel Event
+            </DropdownItem>
+          </DropdownSection>
+        </DropdownMenu>
+      </Dropdown>
+      <DeleteEventModal
+        eventId={eventId}
+        name={name}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      />
+    </>
   );
 }
