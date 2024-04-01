@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
-import { useOutletContext } from '@remix-run/react';
+import { useNavigation, useOutletContext } from '@remix-run/react';
 
 import { profilesStoragePath, userPlaceholderImage } from '~/assets';
 import UserForm from '~/layouts/UserForm';
@@ -41,10 +41,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
  */
 export default function EditUser() {
   const { user } = useOutletContext<OutletContext>();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.formAction === `/user/${user.id}/edit`;
 
   return (
     <div className="page-container">
-      <UserForm {...retypeNull(user)} />
+      <UserForm {...retypeNull(user)} isSubmitting={isSubmitting} />
     </div>
   );
 }

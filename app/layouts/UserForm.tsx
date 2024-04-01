@@ -3,11 +3,12 @@ import { Form, useNavigate } from '@remix-run/react';
 import { Button, Input, Textarea } from '@nextui-org/react';
 
 import { userPlaceholderImage } from '~/assets';
-import { InstagramIcon, LinkIcon, TwitterIcon } from '~/components/Icons';
+import { InstagramIcon, LinkIcon, PendingIcon, TwitterIcon } from '~/components/Icons';
 import InputImage from '~/components/InputImage';
 
 type UserFormProps = {
   isDisabled?: boolean;
+  isSubmitting?: boolean;
 } & UserFormValues;
 
 type UserFormValues = {
@@ -33,6 +34,7 @@ export default function UserForm({
   twitter,
   website,
   isDisabled = false,
+  isSubmitting = false,
 }: UserFormProps) {
   const navigate = useNavigate();
   const [submitDisabled, setSubmitDisabled] = useState(isDisabled);
@@ -70,18 +72,27 @@ export default function UserForm({
         <div className="flex justify-center">
           <Button
             className="w-32 bg-primary"
-            isDisabled={submitDisabled}
+            isDisabled={submitDisabled || isSubmitting}
             radius="none"
+            startContent={isSubmitting && <PendingIcon />}
             type="submit"
           >
             Save
           </Button>
-          <Button className="w-32" onPress={() => navigate(-1)} radius="none">
+          <Button
+            className="w-32"
+            isDisabled={isSubmitting}
+            onPress={() => navigate(-1)}
+            radius="none"
+          >
             Cancel
           </Button>
         </div>
       </div>
-      <div className="flex-auto max-w-96 text-center md:text-left">
+      <fieldset
+        className="flex-auto max-w-96 text-center md:text-left"
+        disabled={isSubmitting}
+      >
         <div className="flex items-center md:h-[16rem] w-full mb-4 md:m-0">
           <Input
             classNames={{
@@ -132,7 +143,7 @@ export default function UserForm({
             startText="https://"
           />
         </div>
-      </div>
+      </fieldset>
     </Form>
   );
 }
