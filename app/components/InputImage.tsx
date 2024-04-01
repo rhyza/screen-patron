@@ -106,11 +106,11 @@ export default function InputImage({
             aria-hidden="true"
             className={cn(
               'rounded-full p-3 bg-default',
-              isPending && 'bg-default-100/80',
+              isPending && 'bg-default-100',
               classNames?.iconContainer,
             )}
           >
-            <EditIcon fill={classNames?.iconSvgFill || 'white'} />
+            <EditIcon fill={isPending ? 'gray' : classNames?.iconSvgFill || 'white'} />
           </div>
         </CardFooter>
       </Card>
