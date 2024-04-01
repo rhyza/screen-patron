@@ -10,6 +10,7 @@ export type EventCardInfo = {
   name: string | null;
   photo: string | null;
   dateStart: Date | string | null;
+  timeZone?: string | null;
   city: string | null;
   location: string | null;
   cost: number | null;
@@ -20,6 +21,7 @@ export type EventFormValues = {
   photo?: string;
   dateStart?: Date;
   dateEnd?: Date;
+  timeZone?: string;
   location?: string;
   cost?: number;
   capacity?: number;
@@ -32,6 +34,7 @@ export type JsonifiedEvent = {
   photo?: string | null;
   dateStart?: string | null;
   dateEnd?: string | null;
+  timeZone?: string | null;
   location?: string | null;
   cost?: number | null;
   capacity?: number | null;
@@ -47,18 +50,15 @@ export type JsonifiedEvent = {
  */
 export async function createEvent(
   userId: User['id'],
-  data?: Partial<Omit<Event, 'id' | 'createdAt'>>,
+  data: Partial<Omit<Event, 'id' | 'createdAt'>>,
   name?: string,
 ): Promise<Event> {
-  if (data) {
-    data = retypeEventInput(data);
-  }
   return prisma.event.create({
     data: {
       hosts: {
         create: [{ userId, name }],
       },
-      ...data,
+      ...retypeEventInput(data),
     },
   });
 }
@@ -85,6 +85,7 @@ export async function getEvent(
     photo: true,
     dateStart: true,
     dateEnd: true,
+    timeZone: true,
     location: true,
     cost: true,
     capacity: true,
@@ -115,6 +116,7 @@ export async function getEvents(query?: object): Promise<EventCardInfo[]> {
       name: true,
       photo: true,
       dateStart: true,
+      timeZone: true,
       city: true,
       location: true,
       cost: true,
@@ -177,10 +179,10 @@ export function retypeAsDate(value: string, timeZone?: string) {
  */
 function retypeEventInput(input: { [x: string]: unknown }) {
   const data = retypeFalsyAsNull(input);
-  const timeZone = data?.timeZone || undefined;
 
-  data.dateStart = data?.dateStart && retypeAsDate(data.dateStart, timeZone);
-  data.dateEnd = data?.dateEnd && retypeAsDate(data.dateEnd, timeZone);
+  data.timeZone = data?.timeZone.replaceAll(' ', '_') || undefined;
+  data.dateStart = data?.dateStart && retypeAsDate(data.dateStart, data.timeZone);
+  data.dateEnd = data?.dateEnd && retypeAsDate(data.dateEnd, data.timeZone);
   data.capacity = retypeAsNum(data.capacity);
   data.cost = data?.cost && retypeAsNum(data.cost);
   data.plusOneLimit = data?.plusOneLimit && retypeAsNum(data.plusOneLimit);

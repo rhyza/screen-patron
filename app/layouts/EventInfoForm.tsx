@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Button, Input, Textarea } from '@nextui-org/react';
+import { Autocomplete, AutocompleteItem, Button, Input, Textarea } from '@nextui-org/react';
 
 import { MapPinIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
 
 import type { EventFormValues } from '~/models/event.server';
-import { getDateInputString } from '~/utils/format';
+import { getDateInputString, getLocalTimeZone, getTimeZones } from '~/utils/format';
 
 type EventFormProps = {
   setSubmitDisabled: (x: boolean | (() => boolean)) => void;
@@ -14,15 +14,16 @@ export default function EventInfoForm({
   name,
   dateStart,
   dateEnd,
+  timeZone,
   location,
   cost,
   capacity,
   description,
   setSubmitDisabled,
 }: EventFormProps) {
-  const today = getDateInputString(Date.now());
-  const start = dateStart ? getDateInputString(dateStart) : '';
-  const end = dateEnd ? getDateInputString(dateEnd) : '';
+  const today = getDateInputString(Date.now(), timeZone);
+  const start = dateStart ? getDateInputString(dateStart, timeZone) : '';
+  const end = dateEnd ? getDateInputString(dateEnd, timeZone) : '';
 
   const [errorMessage, setErrorMessage] = useState('');
   const [showEndDateInput, setShowEndDateInput] = useState(end != '');
@@ -57,13 +58,6 @@ export default function EventInfoForm({
       setErrorMessage(() => 'The end date is before the start date.');
     }
   };
-
-  const getLocalTimeZone = () => {
-    const format = new Intl.DateTimeFormat();
-    const options = format.resolvedOptions();
-    return options.timeZone; // "America/New_York"
-  };
-  const [timeZone] = useState(getLocalTimeZone());
 
   return (
     <>
@@ -116,7 +110,21 @@ export default function EventInfoForm({
           Add end time
         </Button>
       )}
-      <input className="hidden" name="timeZone" readOnly type="text" value={timeZone}></input>
+      <Autocomplete
+        defaultSelectedKey={timeZone || getLocalTimeZone()}
+        inputProps={{
+          classNames: { inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' },
+        }}
+        label="Time Zone"
+        name="timeZone"
+        radius="none"
+      >
+        {getTimeZones().map((tz) => (
+          <AutocompleteItem key={tz} value={tz}>
+            {tz.replaceAll('_', ' ')}
+          </AutocompleteItem>
+        ))}
+      </Autocomplete>
       <Input
         classNames={{ inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' }}
         defaultValue={location}

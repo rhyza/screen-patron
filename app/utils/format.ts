@@ -114,3 +114,20 @@ export function getTimeString({ date, timeZone, includeTimeZone }: DateOptions) 
 
   return new Intl.DateTimeFormat('en-US', options).format(date);
 }
+
+/**
+ * @returns The user's system's default time zone, e.g. "America/New_York"
+ */
+export function getLocalTimeZone() {
+  const intl = new Intl.DateTimeFormat();
+  const options = intl.resolvedOptions();
+
+  return options.timeZone;
+}
+
+/**
+ * @returns An array of time zones, e.g. ["America/New_York", ... ]
+ */
+export function getTimeZones() {
+  return Intl.supportedValuesOf('timeZone');
+}
