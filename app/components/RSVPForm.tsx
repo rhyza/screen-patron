@@ -16,7 +16,7 @@ export default function RSVPForm({
   onClose,
   selected,
 }: {
-  fetcher: FetcherWithComponents<unknown>;
+  fetcher: FetcherWithComponents<{ success: string | null; error: string | null }>;
   onClose: () => void;
   selected?: string;
 }) {

@@ -20,6 +20,7 @@ export const meta: MetaFunction = () => {
  */
 export default function SignInPage() {
   const fetcher = useFetcher<{ success: string | boolean | null; error: string | null }>();
+
   return (
     <div className="grid place-content-center h-[75vh]">
       <Card

@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
-import { useActionData, useLoaderData, useNavigation } from '@remix-run/react';
+import { useActionData, useFetcher, useLoaderData, useNavigation } from '@remix-run/react';
 import { Modal, ModalContent } from '@nextui-org/react';
 
 import EventForm from '~/layouts/EventForm';
@@ -29,8 +29,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
  */
 export default function CreateEvent() {
   const { isSignedIn } = useLoaderData<typeof loader>();
-  const actionData = useActionData<typeof action>();
-  const hasSent = actionData?.success || false;
+  const fetcher = useFetcher<{ success: boolean; error: string | null }>();
+  const hasSent = fetcher.data?.success || false;
 
   const navigation = useNavigation();
   const isSubmitting = navigation.formAction === '/create';
@@ -47,7 +47,7 @@ export default function CreateEvent() {
         classNames={{ backdrop: 'bg-gradient mix-blend-multiply' }}
       >
         <ModalContent className="p-10">
-          <SignInFlow hasEmailSent={hasSent} />
+          <SignInFlow fetcher={fetcher} />
         </ModalContent>
       </Modal>
       <EventForm isDisabled={!isSignedIn} isSubmitting={isSubmitting} />
