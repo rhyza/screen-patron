@@ -49,8 +49,10 @@ export function ButtonTab({
   id,
   children,
   className,
+  isDisabled = false,
 }: {
   id: string;
+  isDisabled?: boolean;
 } & React.ComponentProps<'span'>) {
   const { activeTab, handlePress } = useContext(ButtonTabContext);
   const active = id === activeTab ? 'bg-foreground text-background' : '';
@@ -59,6 +61,7 @@ export function ButtonTab({
     <Button
       className={cn(active, className)}
       id={id}
+      isDisabled={isDisabled}
       key={id}
       onPress={() => handlePress(id)}
       radius="full"

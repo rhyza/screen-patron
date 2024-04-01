@@ -67,8 +67,14 @@ export default function EventForm({
       <div className="flex-auto space-y-2 min-w-[300px] max-w-xl">
         {id && (
           <ButtonTabs className="pb-2" defaultTab="info" setTabContent={setTabContent}>
-            <ButtonTab id="info">Event Info</ButtonTab>
-            <EventSettingsDropdown eventId={id} name={eventFormValues?.name || undefined} />
+            <ButtonTab id="info" isDisabled={isSubmitting}>
+              Event Info
+            </ButtonTab>
+            <EventSettingsDropdown
+              eventId={id}
+              isDisabled={isSubmitting}
+              name={eventFormValues?.name || undefined}
+            />
           </ButtonTabs>
         )}
         {currentTab === 'info' && (
@@ -110,14 +116,28 @@ export default function EventForm({
   );
 }
 
-function EventSettingsDropdown({ eventId, name }: { eventId: string; name?: string }) {
+function EventSettingsDropdown({
+  eventId,
+  name,
+  isDisabled = false,
+}: {
+  eventId: string;
+  name?: string;
+  isDisabled?: boolean;
+}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
       <Dropdown backdrop="opaque">
         <DropdownTrigger>
-          <Button aria-label="settings" isIconOnly radius="full" variant="light">
+          <Button
+            aria-label="settings"
+            isDisabled={isDisabled}
+            isIconOnly
+            radius="full"
+            variant="light"
+          >
             <EllipsisVerticalIcon />
           </Button>
         </DropdownTrigger>
