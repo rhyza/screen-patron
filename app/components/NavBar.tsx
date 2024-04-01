@@ -25,9 +25,14 @@ import type { User } from '~/models/user.server';
 export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
   const location = useLocation();
   const navigate = useNavigate();
+  const isLandingPage = location.pathname === '/';
 
   return (
-    <Navbar maxWidth="full">
+    <Navbar
+      className={cn(!isLandingPage && 'bg-transparent')}
+      isBlurred={isLandingPage}
+      maxWidth="full"
+    >
       <NavbarBrand as={NavLink} onClick={() => navigate('/')}>
         <FilmIcon classNames="max-sm:hidden mr-2" />
         <p className="font-bold text-inherit uppercase">Screen Patron</p>
