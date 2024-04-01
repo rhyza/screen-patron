@@ -69,7 +69,7 @@ export default function EventProfile({
     <div className="flex flex-wrap-reverse gap-6 justify-center">
       <div className="flex-auto space-y-4 min-w-[300px] max-w-xl ">
         <div className="flex items-center gap-6">
-          <h1 className="text-6xl font-medium">{name}</h1>
+          <h1 className="text-5xl sm:text-6xl font-medium">{name}</h1>
           {isHosting && (
             <Button as={NavLink} to="./edit" radius="none">
               Edit
