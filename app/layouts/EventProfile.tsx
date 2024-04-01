@@ -109,7 +109,7 @@ export default function EventProfile({
           />
         )}
         {description && <p>{description}</p>}
-        <Guests guests={guests} guestCount={guestCount} />
+        {guestCount.TOTAL_GUESTS > 0 && <Guests guests={guests} guestCount={guestCount} />}
       </div>
       <div className="flex-auto max-w-80 sm:max-w-96">
         <Image
