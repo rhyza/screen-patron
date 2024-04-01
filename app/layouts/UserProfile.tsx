@@ -1,5 +1,5 @@
 import { NavLink } from '@remix-run/react';
-import { Button, Link } from '@nextui-org/react';
+import { Button, Image, Link } from '@nextui-org/react';
 
 import { userPlaceholderImage } from '~/assets';
 import { InstagramIcon, LinkIcon, TwitterIcon } from '~/components/Icons';
@@ -36,7 +36,7 @@ export default function UserProfile({
     <div className="flex flex-wrap md:flex-nowrap gap-6 justify-center">
       <div className="flex-auto space-y-6 max-w-fit min-w-80">
         <div className="flex justify-center">
-          <img
+          <Image
             alt={name ? `${name}'s profile photo` : `Anonymous Patron's profile photo`}
             className="rounded-full object-cover size-64"
             src={photo || userPlaceholderImage}
