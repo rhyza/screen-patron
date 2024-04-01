@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useNavigation } from '@remix-run/react';
 
 import { eventPlaceholderImage, eventsStoragePath } from '~/assets';
 import EventForm from '~/layouts/EventForm';
@@ -46,10 +46,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
  */
 export default function EditEvent() {
   const { event } = useLoaderData<typeof loader>();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.formAction === `/e/${event.id}/edit`;
 
   return (
     <div className="page-container">
-      <EventForm {...retypeNull(event)} />
+      <EventForm {...retypeNull(event)} isSubmitting={isSubmitting} />
     </div>
   );
 }

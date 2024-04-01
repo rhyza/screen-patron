@@ -13,7 +13,7 @@ import {
 import { eventPlaceholderImage } from '~/assets';
 import { ButtonTab, ButtonTabs } from '~/components/ButtonTabs';
 import DeleteEventModal from '~/components/DeleteEventModal';
-import { EllipsisVerticalIcon } from '~/components/Icons';
+import { EllipsisVerticalIcon, PendingIcon } from '~/components/Icons';
 import InputImage from '~/components/InputImage';
 import EventInfoForm from '~/layouts/EventInfoForm';
 
@@ -21,6 +21,7 @@ type EventFormProps = {
   id?: string;
   defaultTab?: string;
   isDisabled?: boolean;
+  isSubmitting?: boolean;
 } & EventFormValues;
 
 type EventFormValues = {
@@ -45,6 +46,7 @@ export default function EventForm({
   defaultTab = 'info',
   photo,
   isDisabled = false,
+  isSubmitting = false,
   ...eventFormValues
 }: EventFormProps) {
   const navigate = useNavigate();
@@ -70,7 +72,11 @@ export default function EventForm({
           </ButtonTabs>
         )}
         {currentTab === 'info' && (
-          <EventInfoForm setSubmitDisabled={setSubmitDisabled} {...eventFormValues} />
+          <EventInfoForm
+            isDisabled={isSubmitting}
+            setSubmitDisabled={setSubmitDisabled}
+            {...eventFormValues}
+          />
         )}
       </div>
       <div className="flex-auto justify-center space-y-6 max-w-80 sm:max-w-96">
@@ -83,13 +89,19 @@ export default function EventForm({
         <div className="flex justify-center">
           <Button
             className="w-32 bg-primary"
-            isDisabled={submitDisabled}
+            isDisabled={submitDisabled || isSubmitting}
             radius="none"
+            startContent={isSubmitting && <PendingIcon />}
             type="submit"
           >
             Save
           </Button>
-          <Button className="w-32" onPress={() => navigate(-1)} radius="none">
+          <Button
+            className="w-32"
+            isDisabled={isSubmitting}
+            onPress={() => navigate(-1)}
+            radius="none"
+          >
             Cancel
           </Button>
         </div>

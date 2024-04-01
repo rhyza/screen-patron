@@ -1,3 +1,5 @@
+import { CircularProgress } from '@nextui-org/react';
+
 type IconProps = {
   classNames?: string;
 } & React.ComponentProps<'svg'>;
@@ -132,6 +134,10 @@ export function MapPinIcon(props: IconProps) {
       />
     </Svg>
   );
+}
+
+export function PendingIcon(props: IconProps) {
+  return <CircularProgress classNames={{ svg: ['w-6 h-6 ', props.classNames] }} />;
 }
 
 export function PlayIcon(props: IconProps) {

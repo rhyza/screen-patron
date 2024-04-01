@@ -7,6 +7,7 @@ import type { EventFormValues } from '~/models/event.server';
 import { getDateInputString, getLocalTimeZone, getTimeZones } from '~/utils/format';
 
 type EventFormProps = {
+  isDisabled?: boolean;
   setSubmitDisabled: (x: boolean | (() => boolean)) => void;
 } & EventFormValues;
 
@@ -19,6 +20,7 @@ export default function EventInfoForm({
   cost,
   capacity,
   description,
+  isDisabled = false,
   setSubmitDisabled,
 }: EventFormProps) {
   const today = getDateInputString(Date.now(), timeZone);
@@ -60,7 +62,7 @@ export default function EventInfoForm({
   };
 
   return (
-    <>
+    <fieldset className="flex-auto space-y-2 min-w-[300px] max-w-xl" disabled={isDisabled}>
       <Input
         classNames={{
           label: [
@@ -164,6 +166,6 @@ export default function EventInfoForm({
         label="Description"
         radius="none"
       />
-    </>
+    </fieldset>
   );
 }
