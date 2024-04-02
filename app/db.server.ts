@@ -1,8 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { createBrowserClient, createServerClient, parse, serialize } from '@supabase/ssr';
-import type { SupabaseClient } from '@supabase/supabase-js';
-import type { Session } from '@supabase/supabase-js';
-import type { User } from '@supabase/supabase-js';
+import type { Session, SupabaseClient, User } from '@supabase/supabase-js';
 
 import { invariant, singleton } from './utils/validate';
 
