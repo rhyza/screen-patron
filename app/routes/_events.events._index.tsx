@@ -4,7 +4,7 @@ import { json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
 import { ButtonTab, ButtonTabs } from '~/components/ButtonTabs';
-import EventCards from '~/layouts/EventCards';
+import EventCards from '~/templates/EventCards';
 
 import { getSupabaseServerClient, getUserId } from '~/db.server';
 import { getEventsHosting, getEventsResponded } from '~/models/user.server';

@@ -15,7 +15,7 @@ import { ButtonTab, ButtonTabs } from '~/components/ButtonTabs';
 import DeleteEventModal from '~/components/DeleteEventModal';
 import { EllipsisVerticalIcon, PendingIcon } from '~/components/Icons';
 import InputImage from '~/components/InputImage';
-import EventInfoForm from '~/layouts/EventInfoForm';
+import EventInfoForm from '~/templates/EventInfoForm';
 import type { EventFormValues } from '~/models/event.server';
 
 type EventFormProps = {

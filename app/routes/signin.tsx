@@ -3,7 +3,7 @@ import { json } from '@remix-run/node';
 import { useFetcher } from '@remix-run/react';
 import { Card, cn } from '@nextui-org/react';
 
-import SignInFlow from '~/layouts/SignInFlow';
+import SignInFlow from '~/components/SignInFlow';
 
 import { getSupabaseServerClient } from '~/db.server';
 import { signIn } from '~/models/user.server';

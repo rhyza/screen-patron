@@ -3,8 +3,8 @@ import { json, redirect } from '@remix-run/node';
 import { useFetcher, useLoaderData, useNavigation } from '@remix-run/react';
 import { Modal, ModalContent } from '@nextui-org/react';
 
-import EventForm from '~/layouts/EventForm';
-import SignInFlow from '~/layouts/SignInFlow';
+import SignInFlow from '~/components/SignInFlow';
+import EventForm from '~/templates/EventForm';
 
 import { getSupabaseServerClient, getUserId, uploadImage } from '~/db.server';
 import { signIn } from '~/models/user.server';

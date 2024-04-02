@@ -3,7 +3,7 @@ import { json, redirect } from '@remix-run/node';
 import { useLoaderData, useNavigation } from '@remix-run/react';
 
 import { eventPlaceholderImage, eventsStoragePath } from '~/assets';
-import EventForm from '~/layouts/EventForm';
+import EventForm from '~/templates/EventForm';
 
 import { getSupabaseServerClient, getUserId, uploadImage, deleteImage } from '~/db.server';
 import { getEvent, updateEvent } from '~/models/event.server';

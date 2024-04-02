@@ -4,7 +4,7 @@ import { useLoaderData } from '@remix-run/react';
 import { cn } from '@nextui-org/react';
 
 import { eventPlaceholderImage } from '~/assets';
-import EventProfile from '~/layouts/EventProfile';
+import EventProfile from '~/templates/EventProfile';
 
 import { getSupabaseServerClient, getUserId } from '~/db.server';
 import { getEvent } from '~/models/event.server';

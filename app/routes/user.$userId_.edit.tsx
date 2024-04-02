@@ -3,7 +3,7 @@ import { redirect } from '@remix-run/node';
 import { useNavigation, useOutletContext } from '@remix-run/react';
 
 import { profilesStoragePath, userPlaceholderImage } from '~/assets';
-import UserForm from '~/layouts/UserForm';
+import UserForm from '~/templates/UserForm';
 
 import type { OutletContext } from '~/db.server';
 import { getSupabaseServerClient, getUserId, uploadImage, deleteImage } from '~/db.server';

@@ -2,7 +2,7 @@ import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData, useOutletContext } from '@remix-run/react';
 
-import UserProfile from '~/layouts/UserProfile';
+import UserProfile from '~/templates/UserProfile';
 
 import type { OutletContext } from '~/db.server';
 import type { User } from '~/models/user.server';
