@@ -18,7 +18,11 @@ export const meta: MetaFunction = () => {
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const q = retypeNull(url.searchParams.get('q'));
-  const events = await getEvents(q);
+  const events = await getEvents({
+    dateStart: {
+      gte: new Date(Date.now()),
+    },
+  });
   return json({ events, q });
 };
 

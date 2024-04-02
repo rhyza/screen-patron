@@ -29,7 +29,11 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
   const onEventPage = currentPath.startsWith('/e/');
 
   return (
-    <Navbar className={cn(onEventPage && 'bg-transparent')} isBlurred={!onEventPage} maxWidth="full">
+    <Navbar
+      className={cn(onEventPage && 'bg-transparent')}
+      isBlurred={!onEventPage}
+      maxWidth="full"
+    >
       <NavbarBrand as={NavLink} onClick={() => navigate('/')}>
         <FilmIcon classNames="max-sm:hidden mr-2" />
         <p className="font-bold text-inherit uppercase">Screen Patron</p>

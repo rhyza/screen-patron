@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
-import { useActionData, useFetcher, useLoaderData, useNavigation } from '@remix-run/react';
+import { useFetcher, useLoaderData, useNavigation } from '@remix-run/react';
 import { Modal, ModalContent } from '@nextui-org/react';
 
 import EventForm from '~/layouts/EventForm';
