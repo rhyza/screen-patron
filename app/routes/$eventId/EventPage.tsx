@@ -9,7 +9,7 @@ import {
   UserGroupIcon,
   VideoCameraOutlineIcon,
 } from '~/components/Icons';
-import RSVPModal from '~/components/RSVPModal';
+import RSVPModal from '~/components/RSVP';
 
 import type { JsonifiedEvent } from '~/models/event.server';
 import type { HostInfo } from '~/models/host.server';
@@ -43,7 +43,7 @@ type EventProfileProps = {
  * @param isHosting Booleann for is the current user hosting this event?
  * @param rsvp The current user's RSVP info
  */
-export default function EventProfile({
+export default function EventPage({
   event: {
     id,
     name,
@@ -211,10 +211,10 @@ function ShareLinks({ eventId }: { eventId: string }) {
       await navigator.share({
         title: 'Screen Patron',
         text: 'Check out this event!',
-        url: `http://localhost:3000/e/${eventId}`,
+        url: `http://localhost:3000/${eventId}`,
       });
     } catch (err) {
-      navigator.clipboard.writeText(`http://localhost:3000/e/${eventId}`);
+      navigator.clipboard.writeText(`http://localhost:3000/${eventId}`);
       setIsOpen(() => true);
     }
   };

@@ -1,8 +1,8 @@
 import type { FetcherWithComponents } from '@remix-run/react';
 import { Button, Input, RadioGroup } from '@nextui-org/react';
 
-import { PendingIcon } from './Icons';
-import RadioIcon from './RadioIcon';
+import { PendingIcon } from '~/components/Icons';
+import RadioIcon from '~/components/RadioIcon';
 
 /**
  * Modal containing an RSVP form

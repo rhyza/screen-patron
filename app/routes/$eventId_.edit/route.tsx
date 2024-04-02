@@ -2,8 +2,8 @@ import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remi
 import { json, redirect } from '@remix-run/node';
 import { useLoaderData, useNavigation } from '@remix-run/react';
 
+import EventForms from '~/components/EventForms';
 import { eventPlaceholderImage, eventsStoragePath } from '~/assets';
-import EventForm from '~/templates/EventForm';
 
 import { getSupabaseServerClient, getUserId, uploadImage, deleteImage } from '~/db.server';
 import { getEvent, updateEvent } from '~/models/event.server';
@@ -29,29 +29,29 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   // Check if user is signed in
   if (!userId) {
-    throw redirect(`/e/${params.eventId}`, 302);
+    throw redirect(`/${params.eventId}`, 302);
   }
 
   // Check if user is a host of this event
   const host = await isHost(params.eventId, userId);
   if (!host) {
-    throw redirect(`/e/${params.eventId}`, 302);
+    throw redirect(`/${params.eventId}`, 302);
   }
 
   return json({ event });
 };
 
 /**
- * `/e/$eventId/edit` — Page for editing an existing Event.
+ * `/$eventId/edit` — Page for editing an existing Event.
  */
-export default function EditEvent() {
+export default function EditEventRoute() {
   const { event } = useLoaderData<typeof loader>();
   const navigation = useNavigation();
-  const isSubmitting = navigation.formAction === `/e/${event.id}/edit`;
+  const isSubmitting = navigation.formAction === `/${event.id}/edit`;
 
   return (
     <div className="page-container">
-      <EventForm {...retypeNull(event)} isSubmitting={isSubmitting} />
+      <EventForms {...retypeNull(event)} isSubmitting={isSubmitting} />
     </div>
   );
 }
@@ -64,13 +64,13 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   const { supabase } = getSupabaseServerClient(request);
   const userId = await getUserId(supabase);
   if (!userId) {
-    throw redirect(`/e/${params.eventId}`, 302);
+    throw redirect(`/${params.eventId}`, 302);
   }
 
   // Check if user is a host of this event
   const host = await isHost(params.eventId, userId);
   if (!host) {
-    throw redirect(`/e/${params.eventId}`, 302);
+    throw redirect(`/${params.eventId}`, 302);
   }
 
   // eslint-disable-next-line prefer-const
@@ -106,5 +106,5 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   }
 
   await updateEvent(params.eventId, updates);
-  return redirect(`/e/${params.eventId}`);
+  return redirect(`/${params.eventId}`);
 };

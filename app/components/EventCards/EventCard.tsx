@@ -32,7 +32,7 @@ export default function EventCard({
 
   const navigate = useNavigate();
   const handlePress = () => {
-    navigate('/e/' + id);
+    navigate('/' + id);
   };
 
   return (

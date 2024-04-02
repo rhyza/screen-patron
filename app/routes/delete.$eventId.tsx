@@ -19,7 +19,7 @@ export async function action({ params, request }: ActionFunctionArgs) {
   const { supabase, headers } = getSupabaseServerClient(request);
   const userId = await getUserId(supabase);
   if (!userId) {
-    throw redirect(`/e/${params.eventId}`, 302);
+    throw redirect(`/${params.eventId}`, 302);
   }
 
   const [host, event] = await Promise.all([
@@ -29,7 +29,7 @@ export async function action({ params, request }: ActionFunctionArgs) {
 
   // Check if user is a host of this event
   if (!host) {
-    throw redirect(`/e/${params.eventId}`, 302);
+    throw redirect(`/${params.eventId}`, 302);
   }
 
   // Check if event had a photo

@@ -2,8 +2,8 @@ import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remi
 import { redirect } from '@remix-run/node';
 import { useNavigation, useOutletContext } from '@remix-run/react';
 
+import UserForm from './UserForm';
 import { profilesStoragePath, userPlaceholderImage } from '~/assets';
-import UserForm from '~/templates/UserForm';
 
 import type { OutletContext } from '~/db.server';
 import { getSupabaseServerClient, getUserId, uploadImage, deleteImage } from '~/db.server';
@@ -39,7 +39,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 /**
  * `/user/$userId/edit` — Page for editing an existing User's profile.
  */
-export default function EditUser() {
+export default function EditUserRoute() {
   const { user } = useOutletContext<OutletContext>();
   const navigation = useNavigation();
   const isSubmitting = navigation.formAction === `/user/${user.id}/edit`;

@@ -1,4 +1,4 @@
-import { Form, NavLink, useLocation, useNavigate } from '@remix-run/react';
+import { Form, NavLink, useLocation, useNavigate, useParams } from '@remix-run/react';
 import {
   Avatar,
   Button,
@@ -23,10 +23,13 @@ import type { User } from '~/models/user.server';
  * @param sessionUser The currently signed in User
  */
 export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
-  const location = useLocation();
   const navigate = useNavigate();
+
+  const params = useParams();
+  const onEventPage = params.eventId != null;
+
+  const location = useLocation();
   const currentPath = location.pathname;
-  const onEventPage = currentPath.startsWith('/e/');
 
   return (
     <Navbar

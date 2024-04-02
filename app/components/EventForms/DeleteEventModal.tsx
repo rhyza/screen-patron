@@ -8,6 +8,13 @@ import {
   ModalFooter,
 } from '@nextui-org/react';
 
+/**
+ * Modal confirming whether user wants to delete an event.
+ * @param eventId The Event to delete
+ * @param name (optional) The name of the Event if any
+ * @param isOpen Boolean denoting whether the modal is open
+ * @param onOpenChange Callback function that listens to when the modal opens or closes
+ */
 export default function DeleteEventModal({
   eventId,
   name,
@@ -24,7 +31,7 @@ export default function DeleteEventModal({
       <ModalContent>
         {(onClose) => (
           <>
-            <Form action={`/e/${eventId}/delete`} method="post">
+            <Form action={`/delete/${eventId}`} method="post">
               <ModalHeader className="flex flex-col gap-1">
                 <h1>
                   Are you sure you want to delete your event

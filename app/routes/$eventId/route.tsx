@@ -3,8 +3,8 @@ import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { cn } from '@nextui-org/react';
 
+import EventPage from './EventPage';
 import { eventPlaceholderImage } from '~/assets';
-import EventProfile from '~/templates/EventProfile';
 
 import { getSupabaseServerClient, getUserId } from '~/db.server';
 import { getEvent } from '~/models/event.server';
@@ -39,16 +39,16 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 };
 
 /**
- * `/e/$eventId` — Page displaying an Event's details and where Users can RSVP.
+ * `/$eventId` — Page displaying an Event's details and where Users can RSVP.
  */
-export default function EventPage() {
+export default function EventRoute() {
   const { event, hosts, guests, guestCount, isHosting, rsvp } =
     useLoaderData<typeof loader>();
 
   return (
     <>
       <div className="page-container">
-        <EventProfile
+        <EventPage
           event={event}
           hosts={hosts}
           guests={guests}

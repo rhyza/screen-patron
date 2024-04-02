@@ -12,7 +12,7 @@ export const meta: MetaFunction = () => {
 /**
  * `/` — Landing Page
  */
-export default function HomePage() {
+export default function LandingPage() {
   const [counter, setCounter] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {

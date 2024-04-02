@@ -1,21 +1,13 @@
 import { useState } from 'react';
 import { Form, useNavigate } from '@remix-run/react';
-import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownSection,
-  DropdownTrigger,
-  useDisclosure,
-} from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 
+import EventInfoForm from './EventInfoForm';
+import EventSettingsDropdown from './EventSettingsDropdown';
 import { eventPlaceholderImage } from '~/assets';
 import { ButtonTab, ButtonTabs } from '~/components/ButtonTabs';
-import DeleteEventModal from '~/components/DeleteEventModal';
-import { EllipsisVerticalIcon, PendingIcon } from '~/components/Icons';
+import { PendingIcon } from '~/components/Icons';
 import InputImage from '~/components/InputImage';
-import EventInfoForm from '~/templates/EventInfoForm';
 import type { EventFormValues } from '~/models/event.server';
 
 type EventFormProps = {
@@ -31,7 +23,7 @@ type EventFormProps = {
  * @param EventFormValues Any Event info to pre-populate the field data with
  * @param isDisabled Sets submit button to disabled
  */
-export default function EventForm({
+export default function EventForms({
   id,
   defaultTab = 'info',
   photo,
@@ -104,53 +96,5 @@ export default function EventForm({
         </div>
       </div>
     </Form>
-  );
-}
-
-function EventSettingsDropdown({
-  eventId,
-  name,
-  isDisabled = false,
-}: {
-  eventId: string;
-  name?: string;
-  isDisabled?: boolean;
-}) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  return (
-    <>
-      <Dropdown backdrop="opaque">
-        <DropdownTrigger>
-          <Button isDisabled={isDisabled} isIconOnly radius="full" variant="light">
-            <EllipsisVerticalIcon />
-          </Button>
-        </DropdownTrigger>
-        <DropdownMenu aria-label="Settings Menu">
-          <DropdownSection className="hidden" title="Actions" showDivider>
-            <DropdownItem description="Make your event public" key="publish">
-              Publish Event
-            </DropdownItem>
-          </DropdownSection>
-          <DropdownSection title="Danger zone">
-            <DropdownItem
-              className="text-danger"
-              color="danger"
-              description="Permanently delete this event"
-              key="delete"
-              onPress={onOpen}
-            >
-              Cancel Event
-            </DropdownItem>
-          </DropdownSection>
-        </DropdownMenu>
-      </Dropdown>
-      <DeleteEventModal
-        eventId={eventId}
-        name={name}
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-      />
-    </>
   );
 }

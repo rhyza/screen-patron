@@ -2,7 +2,7 @@ import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData, useOutletContext } from '@remix-run/react';
 
-import UserProfile from '~/templates/UserProfile';
+import UserProfile from './UserProfile';
 
 import type { OutletContext } from '~/db.server';
 import type { User } from '~/models/user.server';
@@ -26,7 +26,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 /**
  * `/user/$userId` — Page displaying a User's profile.
  */
-export default function UserPage() {
+export default function UserRoute() {
   const {
     user: { id, name, photo, bio, instagram, twitter, website },
   } = useLoaderData<typeof loader>();

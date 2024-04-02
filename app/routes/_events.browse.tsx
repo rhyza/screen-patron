@@ -3,7 +3,7 @@ import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Autocomplete, AutocompleteItem, Button } from '@nextui-org/react';
 
-import EventCards from '~/templates/EventCards';
+import EventCards from '~/components/EventCards';
 
 import { getEvents } from '~/models/event.server';
 import { retypeNull } from '~/utils/validate';
