@@ -29,7 +29,8 @@ export function addTimeZone(date: string, timeZone?: string) {
 
 /**
  * Takes a date representation and returns a string in the format 'YYYY-MM-DDTHH:MM'
- * or if a null value is passed, an empty string.
+ * or if a null value is passed, an empty string. This is the format accepted by html
+ * "datetime-local" inputs.
  * @param date The date as a Date object, a date string, or a number representing the date
  * in miliseconds
  * @param timeZone The timezone to convert the date into
