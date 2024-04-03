@@ -11,6 +11,9 @@ import {
 import DeleteEventModal from './DeleteEventModal';
 import { EllipsisVerticalIcon } from '~/components/Icons';
 
+/**
+ * Dropdown menu for accessing actions to delete or publish an Event.
+ */
 export default function EventSettingsDropdown({
   eventId,
   name,

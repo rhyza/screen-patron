@@ -154,6 +154,10 @@ export default function UserForm({
   );
 }
 
+/**
+ * Renders a text input field with a leading icon and text that indicates to the user how
+ * their input should be formatted.
+ */
 function SocialInput({
   defaultValue,
   icon,

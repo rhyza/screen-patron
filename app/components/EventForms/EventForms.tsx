@@ -18,10 +18,14 @@ type EventFormProps = {
 } & EventFormValues;
 
 /**
- * Form for modifying an Event's name, description, poster, start date, end date,
- * location, cost, and venue capacity.
- * @param EventFormValues Any Event info to pre-populate the field data with
+ * Form for modifying an Event's basic information as well as its settings. Basic info and
+ * settings are organized under tabs. The settings tab and navigation only appears if the
+ * Event already exists.
+ * @param eventFormValues Any Event info to pre-populate the field data with
+ * @param id (optional) The `eventId` if the Event already exists
  * @param isDisabled Sets submit button to disabled
+ * @param isSubmitting Disables the form after submitting the form to the database
+ * @param photo The Event's poster image
  */
 export default function EventForms({
   id,

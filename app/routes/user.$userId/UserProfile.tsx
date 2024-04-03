@@ -60,23 +60,23 @@ export default function UserProfile({
             <div className="flex gap-2 justify-center md:justify-start">
               {instagram && (
                 <SocialChip
+                  icon={<InstagramIcon className="w-4 h-4" />}
                   label={`@${instagram}`}
                   url={`https://www.instagram.com/${instagram}`}
-                  icon={<InstagramIcon className="w-4 h-4" />}
                 />
               )}
               {twitter && (
                 <SocialChip
+                  icon={<TwitterIcon className="w-4 h-4" />}
                   label={`@${twitter}`}
                   url={`https://www.twitter.com/${twitter}`}
-                  icon={<TwitterIcon className="w-4 h-4" />}
                 />
               )}
               {website && (
                 <SocialChip
+                  icon={<LinkIcon className="w-5 h-5" />}
                   label="Website"
                   url={`https://${website}`}
-                  icon={<LinkIcon className="w-5 h-5" />}
                 />
               )}
             </div>
@@ -87,7 +87,13 @@ export default function UserProfile({
   );
 }
 
-function SocialChip({ label, url, icon }: { label: string; url: string; icon: JSX.Element }) {
+/**
+ * Renders a stylized button that opens a URL to the user's socials in a new tab.
+ * @param icon The icon that is displayed in front of the label
+ * @param label The button's label
+ * @param url The URL the user should be directed to
+ */
+function SocialChip({ icon, label, url }: { icon: JSX.Element; label: string; url: string }) {
   return (
     <Button
       as={Link}

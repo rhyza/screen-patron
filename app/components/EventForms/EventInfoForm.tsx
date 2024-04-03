@@ -11,6 +11,13 @@ type EventFormProps = {
   setSubmitDisabled: (x: boolean | (() => boolean)) => void;
 } & EventFormValues;
 
+/**
+ * Form for modifying an Event's name, description, poster, start date, end date,
+ * location, cost, and venue capacity.
+ * @param eventFormValues Any Event info to pre-populate the field data with
+ * @param isDisabled Disables the form input fields
+ * @param setSubmitDisabled A callback function for setting the value of `isDisabled`
+ */
 export default function EventInfoForm({
   name,
   dateStart,
