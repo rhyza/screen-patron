@@ -38,8 +38,12 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
       maxWidth="full"
     >
       <NavbarBrand as={NavLink} onClick={() => navigate('/')}>
-        <FilmIcon classNames="max-sm:hidden mr-2" />
-        <p className="font-bold text-inherit uppercase">Screen Patron</p>
+        <FilmIcon classNames="mr-2" />
+        <p className="max-sm:hidden text-inherit font-bold uppercase">Screen Patron</p>
+        <div className="sm:hidden flex flex-col">
+          <p className="leading-4 text-md font-bold uppercase">Screen</p>
+          <p className="leading-4 text-md font-bold uppercase">Patron</p>
+        </div>
       </NavbarBrand>
 
       <NavbarContent as="div" justify="end">
