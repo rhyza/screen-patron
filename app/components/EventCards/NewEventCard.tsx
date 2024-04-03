@@ -1,5 +1,5 @@
 import { useNavigate } from '@remix-run/react';
-import { Card, CardFooter, CardHeader } from '@nextui-org/react';
+import { Card, CardFooter, CardHeader, Image, cn } from '@nextui-org/react';
 
 import { eventPlaceholderImage } from '~/assets';
 
@@ -9,7 +9,10 @@ import { eventPlaceholderImage } from '~/assets';
  * @param cardProps (optional) Any additional props are applied to the component's container,
  * reference the NextUI Card docs for available options
  */
-export function NewEventCard(cardProps: React.ComponentPropsWithRef<typeof Card>) {
+export default function NewEventCard({
+  imageClassName,
+  ...cardProps
+}: { imageClassName?: string } & React.ComponentPropsWithRef<typeof Card>) {
   const navigate = useNavigate();
   const handlePress = () => {
     navigate('/create');
@@ -30,9 +33,10 @@ export function NewEventCard(cardProps: React.ComponentPropsWithRef<typeof Card>
           No Screenings
         </p>
       </CardHeader>
-      <img
+      <Image
         alt={`Event poster`}
-        className={'object-cover rounded-md size-80'}
+        className={cn('object-cover size-80', imageClassName)}
+        radius="md"
         src={eventPlaceholderImage}
       />
       <CardFooter className="absolute z-10 w-80 bottom-1 flex-col items-end">

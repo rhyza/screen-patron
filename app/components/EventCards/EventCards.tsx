@@ -1,5 +1,5 @@
 import EventCard from './EventCard';
-import { NewEventCard } from './NewEventCard';
+import NewEventCard from './NewEventCard';
 
 import type { EventCardInfo } from '~/models/event.server';
 

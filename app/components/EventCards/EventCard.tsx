@@ -17,7 +17,7 @@ import { retypeNull } from '~/utils/validate';
  */
 export default function EventCard({
   event: { id, name, photo, dateStart, timeZone, cost },
-  imageClassName = 'size-80',
+  imageClassName,
   ...cardProps
 }: {
   event: EventCardInfo;
@@ -47,7 +47,7 @@ export default function EventCard({
     >
       <Image
         alt={`Event poster for ${name} event poster`}
-        className={cn('object-cover', imageClassName)}
+        className={cn('object-cover size-80', imageClassName)}
         radius="md"
         src={retypeNull(photo, eventPlaceholderImage)}
       />
