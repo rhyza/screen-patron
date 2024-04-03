@@ -29,7 +29,7 @@ export default function ShareLinks({ eventId }: { eventId: string }) {
         isOpen={isOpen}
         onOpenChange={() => setIsOpen(false)}
       >
-        <Button className="btn-link" onPress={handleShare}>
+        <Button className="link" onPress={handleShare}>
           share event
         </Button>
       </Tooltip>

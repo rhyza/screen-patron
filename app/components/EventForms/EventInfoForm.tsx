@@ -76,7 +76,7 @@ export default function EventInfoForm({
             'text-3xl group-data-[filled-within=true]:scale-[.475]',
             'group-data-[filled-within=true]:-translate-y-[calc(38%_+_theme(fontSize.small)/2_-_8px)]',
           ],
-          inputWrapper: 'h-20 bg-subtle data-[hover=true]:bg-subtle-hover',
+          inputWrapper: 'h-20',
           input: 'text-3xl',
         }}
         defaultValue={name}
@@ -88,7 +88,6 @@ export default function EventInfoForm({
         type="text"
       />
       <Input
-        classNames={{ inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' }}
         isDisabled={isDisabled}
         label="Start Date"
         min={today}
@@ -101,7 +100,6 @@ export default function EventInfoForm({
       />
       {showEndDateInput && (
         <Input
-          classNames={{ inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' }}
           errorMessage={errorMessage}
           isDisabled={isDisabled}
           label="End Date"
@@ -116,7 +114,7 @@ export default function EventInfoForm({
       )}
       {dateStartValue && !showEndDateInput && (
         <Button
-          className="btn-link"
+          className="link"
           isDisabled={isDisabled}
           onPress={() => setShowEndDateInput(() => !showEndDateInput)}
         >
@@ -125,9 +123,6 @@ export default function EventInfoForm({
       )}
       <Autocomplete
         defaultSelectedKey={timeZone || getLocalTimeZone()}
-        inputProps={{
-          classNames: { inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' },
-        }}
         isDisabled={isDisabled}
         label="Time Zone"
         name="timeZone"
@@ -140,7 +135,6 @@ export default function EventInfoForm({
         ))}
       </Autocomplete>
       <Input
-        classNames={{ inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' }}
         defaultValue={location}
         isDisabled={isDisabled}
         placeholder="Location"
@@ -150,7 +144,6 @@ export default function EventInfoForm({
         type="text"
       />
       <Input
-        classNames={{ inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' }}
         defaultValue={`${capacity}`}
         isDisabled={isDisabled}
         name="capacity"
@@ -160,7 +153,6 @@ export default function EventInfoForm({
         type="number"
       />
       <Input
-        classNames={{ inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' }}
         defaultValue={`${cost}`}
         isDisabled={isDisabled}
         name="cost"
@@ -175,7 +167,6 @@ export default function EventInfoForm({
         type="number"
       />
       <Textarea
-        classNames={{ inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' }}
         defaultValue={description}
         isDisabled={isDisabled}
         name="description"

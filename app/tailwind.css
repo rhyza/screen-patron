@@ -11,10 +11,6 @@
     @apply bg-gradient-to-br from-indigo-500 to-pink-500 text-white;
   }
 
-  .btn-link {
-    @apply cursor-pointer bg-transparent p-0 underline underline-offset-4 text-small uppercase text-foreground hover:text-indigo-400 decoration-indigo-600 decoration-2;
-  }
-
   .page-container {
     @apply w-full p-6;
   }
@@ -26,12 +22,18 @@
   .text-gradient {
     @apply bg-gradient-to-r from-pink-500 to-indigo-500 inline-block text-transparent bg-clip-text
   }
+}
 
-  .bg-subtle {
-    @apply bg-default-50 hover:bg-subtle-hover
+@layer components {
+  button.link {
+    @apply cursor-pointer bg-transparent p-0 underline underline-offset-4 text-small uppercase text-foreground hover:text-indigo-400 decoration-indigo-600 decoration-2;
   }
 
-  .bg-subtle-hover {
+  div[data-slot="input-wrapper"] {
+    @apply bg-default-50 hover:bg-default-100
+  }
+
+  div[data-slot="input-wrapper"][data-hover="true"] {
     @apply bg-default-100
   }
 }

@@ -101,7 +101,7 @@ export default function UserForm({
                 'text-3xl group-data-[filled-within=true]:scale-[.475]',
                 'group-data-[filled-within=true]:-translate-y-[calc(38%_+_theme(fontSize.small)/2_-_8px)]',
               ],
-              inputWrapper: 'h-20 bg-subtle data-[hover=true]:bg-subtle-hover',
+              inputWrapper: 'h-20',
               input: 'text-3xl',
             }}
             defaultValue={name}
@@ -115,7 +115,6 @@ export default function UserForm({
         </div>
         <div className="grid gap-4">
           <Textarea
-            classNames={{ inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' }}
             defaultValue={bio}
             isDisabled={isSubmitting}
             label="Bio"
@@ -177,7 +176,6 @@ function SocialInput({
 }) {
   return (
     <Input
-      classNames={{ inputWrapper: 'bg-subtle data-[hover=true]:bg-subtle-hover' }}
       defaultValue={defaultValue}
       isDisabled={isDisabled}
       name={name}
