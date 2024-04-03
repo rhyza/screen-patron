@@ -1,7 +1,8 @@
-import { useState } from 'react';
 import { NavLink } from '@remix-run/react';
-import { Avatar, Button, Image, Tooltip } from '@nextui-org/react';
+import { Avatar, Button, Image } from '@nextui-org/react';
 
+import GuestAvatars from './GuestAvatars';
+import ShareLinks from './ShareLinks';
 import { eventPlaceholderImage } from '~/assets';
 import {
   MapPinIcon,
@@ -13,7 +14,7 @@ import RSVPModal from '~/components/RSVP';
 
 import type { JsonifiedEvent } from '~/models/event.server';
 import type { HostInfo } from '~/models/host.server';
-import type { GuestCount, RsvpInfo } from '~/models/rsvp.server';
+import type { RsvpInfo } from '~/models/rsvp.server';
 import { getDateString, getTimeString, getLocalTimeZone } from '~/utils/format';
 import { retypeNull } from '~/utils/validate';
 
@@ -33,7 +34,7 @@ type EventProfileProps = {
 };
 
 /**
- * Layout for displaying an Event's name, description, poster, start date, end date,
+ * Template for displaying an Event's name, description, poster, start date, end date,
  * location, cost, and venue capacity.
  * @param event JSONified Event object, e.g. dateStart is stored as a Date on the db but
  * gets transformed as a string when retrieved by a GET request.
@@ -109,7 +110,9 @@ export default function EventPage({
           />
         )}
         {description && <p>{description}</p>}
-        {guestCount.TOTAL_GUESTS > 0 && <Guests guests={guests} guestCount={guestCount} />}
+        {guestCount.TOTAL_GUESTS > 0 && (
+          <GuestAvatars guests={guests} guestCount={guestCount} />
+        )}
       </div>
       <div className="flex-auto max-w-80 sm:max-w-96">
         <Image
@@ -124,6 +127,18 @@ export default function EventPage({
   );
 }
 
+/**
+ * Renders a formatted and stylized date range according to the following format:
+ * * The day of week, the starting time / month / date, and ending time (if given) always
+ * renders.
+ * * The year is omitted unless either date's year is different than the current year.
+ * * The timezone is omitted unless it is different than the user's system default timezone.
+ * * The ending month / date is omitted unless it is different than the start date.
+ * @param start The Event's start date and time
+ * @param end (optional) The Event's end date and time
+ * @param timeZone (optional) The timezone to use to calculate the times to display, defaults
+ * to the user's system default timezone
+ */
 function DateRange({
   start,
   end,
@@ -169,68 +184,14 @@ function DateRange({
   );
 }
 
-function Guests({ guests, guestCount }: { guests: RsvpInfo[]; guestCount: GuestCount }) {
-  return (
-    <>
-      <div className="flex items-center gap-2">
-        <span className="flex-none">{guestCount.GOING} Going</span>
-        {guestCount.MAYBE > 0 && <span className="flex-none">{guestCount.MAYBE} Maybe</span>}
-      </div>
-      <div className="flex items-center gap-2">
-        {guests
-          .filter((guest) => guest.status != 'NOT_GOING')
-          .map((guest, index) => {
-            return (
-              <Tooltip
-                content={retypeNull(guest.name, guest.user.name) || 'Attendee'}
-                key={index}
-              >
-                <Avatar showFallback src={retypeNull(guest.user.photo)} />
-              </Tooltip>
-            );
-          })}
-        {guestCount.TOTAL_GUESTS > 6 && <Avatar name={`+${guestCount.TOTAL_GUESTS - 6}`} />}
-      </div>
-    </>
-  );
-}
-
+/**
+ * Renders an icon followed by a line of text for displaying info.
+ */
 function InfoField({ icon, text }: { icon: JSX.Element; text: JSX.Element | string }) {
   return (
     <div className="flex items-center gap-2">
       <span className="flex-none">{icon}</span>
       <span className="flex-initial">{text}</span>
-    </div>
-  );
-}
-
-function ShareLinks({ eventId }: { eventId: string }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const handleShare = async () => {
-    try {
-      await navigator.share({
-        title: 'Screen Patron',
-        text: 'Check out this event!',
-        url: `http://localhost:3000/${eventId}`,
-      });
-    } catch (err) {
-      navigator.clipboard.writeText(`http://localhost:3000/${eventId}`);
-      setIsOpen(() => true);
-    }
-  };
-
-  return (
-    <div className="flex gap-6 items-center">
-      <Tooltip
-        closeDelay={1000}
-        content={'Link copied!'}
-        isOpen={isOpen}
-        onOpenChange={() => setIsOpen(false)}
-      >
-        <Button className="btn-link" onPress={handleShare}>
-          share event
-        </Button>
-      </Tooltip>
     </div>
   );
 }
