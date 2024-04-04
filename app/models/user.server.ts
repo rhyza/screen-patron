@@ -42,10 +42,13 @@ export async function signIn(
   emailRedirect?: string,
 ) {
   invariant(email && typeof email === 'string', 'No email provided');
+  const useLocal = process.env.NODE_ENV === 'development';
+  const url = useLocal ? 'http://localhost:5173' : 'https://screenpatron.com'
+
   return client.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: emailRedirect || 'http://localhost:5173/auth/confirm',
+      emailRedirectTo: emailRedirect || `${url}/auth/confirm`,
     },
   });
 }

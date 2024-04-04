@@ -7,16 +7,19 @@ import { Button, Tooltip } from '@nextui-org/react';
  * @param eventId The id of the event to share
  */
 export default function ShareLinks({ eventId }: { eventId: string }) {
+  const useLocal = process.env.NODE_ENV === 'development';
+  const url = useLocal ? 'http://localhost:5173/' : 'https://screenpatron.com/'
+
   const [isOpen, setIsOpen] = useState(false);
   const handleShare = async () => {
     try {
       await navigator.share({
         title: 'Screen Patron',
         text: 'Check out this event!',
-        url: `http://localhost:5173/${eventId}`,
+        url: `${url}${eventId}`,
       });
     } catch (err) {
-      navigator.clipboard.writeText(`http://localhost:5173/${eventId}`);
+      navigator.clipboard.writeText(`${url}${eventId}`);
       setIsOpen(() => true);
     }
   };

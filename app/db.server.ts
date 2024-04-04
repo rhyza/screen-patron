@@ -18,7 +18,7 @@ export type OutletContext = {
 
 function getPrismaClient() {
   const { DATABASE_URL, LOCAL_DATABASE_URL } = process.env;
-  const useLocal = false; // process.env.NODE_ENV === 'development';
+  const useLocal = process.env.NODE_ENV === 'development';
   const url = useLocal ? LOCAL_DATABASE_URL : DATABASE_URL;
   invariant(typeof url === 'string', 'DATABASE_URL env var not set');
 
