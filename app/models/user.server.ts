@@ -43,7 +43,7 @@ export async function signIn(
 ) {
   invariant(email && typeof email === 'string', 'No email provided');
   const useLocal = process.env.NODE_ENV === 'development';
-  const url = useLocal ? 'http://localhost:5173' : 'https://screenpatron.com'
+  const url = useLocal ? 'http://localhost:5173' : 'https://screenpatron.com';
 
   return client.auth.signInWithOtp({
     email,

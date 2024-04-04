@@ -1,5 +1,3 @@
-import { parse } from '@supabase/ssr';
-
 const isProduction: boolean = process.env.NODE_ENV === 'production';
 
 /**
@@ -57,18 +55,6 @@ export function isValidDate(value: unknown) {
 }
 
 /**
- * @returns The session cookie in JSON form
- */
-export function parseAuthCookie(request: Request) {
-  const cookies = parse(request.headers.get('Cookie') ?? '');
-  try {
-    return JSON.parse(cookies['sb-nxqeybdopyqtnmgtrmvf-auth-token']);
-  } catch {
-    return null;
-  }
-}
-
-/**
  * Returns `value` type as a number. If number isn't valid, then returns null instead of NaN.
  */
 export function retypeAsNum(value: unknown) {
@@ -78,13 +64,13 @@ export function retypeAsNum(value: unknown) {
 
 /**
  * Returns `value` unchanged if not falsy. If `value` is falsy, returns `alt` if given or
- * explicitly `null`. If `value` is an object, then any property that's falsy gets set to
- * `alt` if given or explicitly `null`.
+ * `undefined`. If `value` is an object, then any property that's falsy gets set to `alt`
+ * if given or `undefined`.
  * @param value The variable to retype
- * @param alt The value to change the variable to if falsy, defaults to `null`
+ * @param alt The value to change the variable to if falsy, defaults to `undefined`
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function retypeFalsyAsNull(value: any, alt: any = null) {
+export function retypeFalsy(value: any, alt?: any) {
   if (typeof value === 'object' && value != null) {
     const keys = Object.keys(value);
     keys.forEach((key) => {

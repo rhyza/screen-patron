@@ -1,7 +1,7 @@
 import type { Event, User } from '@prisma/client';
 import { prisma } from '~/db.server';
 import { addTimeZone } from '~/utils/format';
-import { isValidDate, retypeAsNum, retypeFalsyAsNull } from '~/utils/validate';
+import { isValidDate, retypeAsNum, retypeFalsy } from '~/utils/validate';
 
 export type { Event, Status } from '@prisma/client';
 
@@ -178,7 +178,7 @@ export function retypeAsDate(value: string, timeZone?: string) {
  * @returns Object containing type safe event data
  */
 function retypeEventInput(input: { [x: string]: unknown }) {
-  const data = retypeFalsyAsNull(input);
+  const data = retypeFalsy(input, null);
 
   data.timeZone = data?.timeZone.replaceAll(' ', '_') || undefined;
   data.dateStart = data?.dateStart && retypeAsDate(data.dateStart, data.timeZone);

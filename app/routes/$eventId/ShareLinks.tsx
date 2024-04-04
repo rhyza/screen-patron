@@ -8,7 +8,7 @@ import { Button, Tooltip } from '@nextui-org/react';
  */
 export default function ShareLinks({ eventId }: { eventId: string }) {
   const useLocal = process.env.NODE_ENV === 'development';
-  const url = useLocal ? 'http://localhost:5173/' : 'https://screenpatron.com/'
+  const url = useLocal ? 'http://localhost:5173/' : 'https://screenpatron.com/';
 
   const [isOpen, setIsOpen] = useState(false);
   const handleShare = async () => {
