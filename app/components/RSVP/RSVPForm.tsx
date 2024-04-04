@@ -43,12 +43,16 @@ export default function RSVPForm({
         </RadioIcon>
       </RadioGroup>
       <Input
+        classNames={{
+          inputWrapper: '!bg-transparent',
+        }}
         label="Your Name"
         isDisabled={isSubmitting}
         name="name"
         radius="none"
         size="lg"
         type="text"
+        variant="underlined"
       />
       <div className="flex justify-center">
         <Button

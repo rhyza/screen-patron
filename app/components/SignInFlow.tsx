@@ -71,7 +71,7 @@ export function SignInForm({
       <Input
         classNames={{
           inputWrapper: [
-            'border-indigo-100 after:bg-indigo-500 ',
+            'border-indigo-100 after:bg-indigo-500 !bg-transparent',
             'hover:border-indigo-400 active:border-indigo-400 focus:border-indigo-400',
           ],
         }}

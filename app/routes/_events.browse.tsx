@@ -51,7 +51,7 @@ export default function BrowseEvents() {
           inputProps={{
             classNames: {
               input: 'ml-1',
-              inputWrapper: 'h-10 bg-default',
+              inputWrapper: 'h-10 !bg-default',
             },
           }}
           isClearable={false}
