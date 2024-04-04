@@ -45,7 +45,7 @@ export async function signIn(
   return client.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: emailRedirect || 'http://localhost:3000/auth/confirm',
+      emailRedirectTo: emailRedirect || 'http://localhost:5173/auth/confirm',
     },
   });
 }

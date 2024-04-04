@@ -89,11 +89,11 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
           </Button>
         </NavbarItem>
         <Dropdown placement="bottom-end">
-          <DropdownTrigger className={cn(!sessionUser && 'hidden')}>
+          <DropdownTrigger>
             <Avatar
               isBordered
               as="button"
-              className="transition-transform"
+              className={cn('transition-transform', !sessionUser && 'hidden')}
               color="secondary"
               name="Jason Hughes"
               size="sm"

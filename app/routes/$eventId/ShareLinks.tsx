@@ -13,10 +13,10 @@ export default function ShareLinks({ eventId }: { eventId: string }) {
       await navigator.share({
         title: 'Screen Patron',
         text: 'Check out this event!',
-        url: `http://localhost:3000/${eventId}`,
+        url: `http://localhost:5173/${eventId}`,
       });
     } catch (err) {
-      navigator.clipboard.writeText(`http://localhost:3000/${eventId}`);
+      navigator.clipboard.writeText(`http://localhost:5173/${eventId}`);
       setIsOpen(() => true);
     }
   };

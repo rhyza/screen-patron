@@ -7,7 +7,6 @@ import { invariant, singleton } from './utils/validate';
 // Hard-code a unique key, so client can be looked up when this module gets re-imported
 export const prisma = singleton('prisma', getPrismaClient);
 export const supabase = singleton('supabase', getSupabaseBrowserClient);
-const useLocal = process.env.NODE_ENV === 'development';
 
 export type OutletContext = {
   session: Session;
@@ -18,6 +17,7 @@ export type OutletContext = {
 
 function getPrismaClient() {
   const { DATABASE_URL, LOCAL_DATABASE_URL } = process.env;
+  const useLocal = process.env.NODE_ENV === 'development';
   const url = useLocal ? LOCAL_DATABASE_URL : DATABASE_URL;
   invariant(typeof url === 'string', 'DATABASE_URL env var not set');
 

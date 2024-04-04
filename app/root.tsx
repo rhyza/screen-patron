@@ -1,9 +1,7 @@
-import { cssBundleHref } from '@remix-run/css-bundle';
 import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -15,12 +13,9 @@ import { NextUIProvider } from '@nextui-org/react';
 import NavBar from '~/components/NavBar';
 import { getSession, getSupabaseServerClient } from './db.server';
 import { getUser } from './models/user.server';
-import stylesheet from '~/tailwind.css';
+import styles from '~/tailwind.css?url';
 
-export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: stylesheet },
-  ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { supabase, headers } = getSupabaseServerClient(request);
@@ -47,7 +42,6 @@ export default function App() {
           <Outlet context={{ session, user }} />
           <ScrollRestoration />
           <Scripts />
-          <LiveReload />
         </NextUIProvider>
       </body>
     </html>
