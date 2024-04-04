@@ -20,9 +20,9 @@ import type { User } from '~/models/user.server';
 
 /**
  * Navigation Bar for the entire app.
- * @param sessionUser The currently signed in User
+ * @param user The currently signed in User
  */
-export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
+export default function NavBar({ user }: { user: User | null }) {
   const navigate = useNavigate();
 
   const params = useParams();
@@ -77,7 +77,7 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
             Create
           </Button>
         </NavbarItem>
-        <NavbarItem className={cn((sessionUser || currentPath === '/signin') && 'hidden')}>
+        <NavbarItem className={cn((user || currentPath === '/signin') && 'hidden')}>
           <Button
             as={NavLink}
             className="bg-foreground text-primary"
@@ -93,11 +93,11 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
             <Avatar
               isBordered
               as="button"
-              className={cn('transition-transform', !sessionUser && 'hidden')}
+              className={cn('transition-transform', !user && 'hidden')}
               color="secondary"
               name="Jason Hughes"
               size="sm"
-              src={sessionUser?.photo || userPlaceholderImage}
+              src={user?.photo || userPlaceholderImage}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -134,7 +134,7 @@ export default function NavBar({ sessionUser }: { sessionUser: User | null }) {
               </DropdownItem>
               <DropdownItem
                 key="profile"
-                onPress={() => navigate(`user/${sessionUser?.id}`)}
+                onPress={() => navigate(`user/${user?.id}`)}
                 textValue="My Profile"
               >
                 My Profile

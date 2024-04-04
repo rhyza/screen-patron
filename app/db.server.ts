@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { createBrowserClient, createServerClient, parse, serialize } from '@supabase/ssr';
-import type { Session, SupabaseClient, User } from '@supabase/supabase-js';
+import type { SupabaseClient, User as AuthUser } from '@supabase/supabase-js';
+import type { User } from '@prisma/client';
 
 import { invariant, singleton } from './utils/validate';
 
@@ -9,7 +10,7 @@ export const prisma = singleton('prisma', getPrismaClient);
 export const supabase = singleton('supabase', getSupabaseBrowserClient);
 
 export type OutletContext = {
-  session: Session;
+  authUser: AuthUser;
   user: User;
 };
 
@@ -17,7 +18,7 @@ export type OutletContext = {
 
 function getPrismaClient() {
   const { DATABASE_URL, LOCAL_DATABASE_URL } = process.env;
-  const useLocal = process.env.NODE_ENV === 'development';
+  const useLocal = false; // process.env.NODE_ENV === 'development';
   const url = useLocal ? LOCAL_DATABASE_URL : DATABASE_URL;
   invariant(typeof url === 'string', 'DATABASE_URL env var not set');
 
@@ -93,7 +94,7 @@ export async function getSession(client?: SupabaseClient<any, 'public', any>) {
  * @returns User object if someone is signed in else undefined.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function getUser(client?: SupabaseClient<any, 'public', any>) {
+export async function getAuthUser(client?: SupabaseClient<any, 'public', any>) {
   const {
     data: { user },
   } = client ? await client.auth.getUser() : await supabase.auth.getUser();
@@ -108,10 +109,10 @@ export async function getUser(client?: SupabaseClient<any, 'public', any>) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getUserId(client?: SupabaseClient<any, 'public', any>) {
   const {
-    data: { session },
-  } = client ? await client.auth.getSession() : await supabase.auth.getSession();
+    data: { user },
+  } = client ? await client.auth.getUser() : await supabase.auth.getUser();
 
-  return session?.user?.id;
+  return user?.id;
 }
 
 /* ----------------------------------- STORAGE ACCESS ----------------------------------- */

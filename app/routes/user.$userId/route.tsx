@@ -30,7 +30,7 @@ export default function UserRoute() {
   const {
     user: { id, name, photo, bio, instagram, twitter, website },
   } = useLoaderData<typeof loader>();
-  const session = useOutletContext<OutletContext>();
+  const { authUser } = useOutletContext<OutletContext>();
 
   return (
     <div className="page-container">
@@ -41,7 +41,7 @@ export default function UserRoute() {
         instagram={instagram}
         twitter={twitter}
         website={website}
-        isUser={session?.user?.id === id}
+        isUser={authUser.id === id}
       />
     </div>
   );

@@ -21,7 +21,7 @@ export default function RSVPModal({
 }: {
   rsvp: RsvpInfo | null;
 } & Partial<React.ComponentPropsWithRef<typeof Modal>>) {
-  const { session } = useOutletContext<OutletContext>();
+  const { authUser } = useOutletContext<OutletContext>();
 
   const fetcher = useFetcher<{ success: string | null; error: string | null }>();
   const fetcherData = fetcher.data?.success;
@@ -39,7 +39,7 @@ export default function RSVPModal({
 
   // Show confirmation messages on each successful submission
   useEffect(() => {
-    if (session) {
+    if (authUser) {
       setContent(fetcherData ? 'rsvpConfirmed' : 'rsvpForm');
     } else {
       setContent(fetcherData ? 'signInConfirmed' : 'signIn');
@@ -86,7 +86,10 @@ export default function RSVPModal({
                 </div>
               )}
               {(content === 'signIn' || content === 'signInConfirmed') && (
-                <SignInFlow fetcher={fetcher} />
+                <SignInFlow
+                  fetcher={fetcher}
+                  showConfirmation={content === 'signInConfirmed'}
+                />
               )}
             </ModalBody>
           )}

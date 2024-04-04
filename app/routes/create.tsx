@@ -19,9 +19,9 @@ export const meta: MetaFunction = () => {
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { supabase } = getSupabaseServerClient(request);
-  const session = await getUserId(supabase);
+  const userId = await getUserId(supabase);
 
-  return { isSignedIn: session != null };
+  return { isSignedIn: userId != null };
 };
 
 /**

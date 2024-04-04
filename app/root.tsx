@@ -11,7 +11,7 @@ import {
 import { NextUIProvider } from '@nextui-org/react';
 
 import NavBar from '~/components/NavBar';
-import { getSession, getSupabaseServerClient } from './db.server';
+import { getAuthUser, getSupabaseServerClient } from './db.server';
 import { getUser } from './models/user.server';
 import styles from '~/tailwind.css?url';
 
@@ -19,14 +19,14 @@ export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { supabase, headers } = getSupabaseServerClient(request);
-  const session = await getSession(supabase);
-  const user = session?.user?.id ? await getUser(session?.user?.id) : null;
+  const authUser = await getAuthUser(supabase);
+  const user = authUser?.id ? await getUser(authUser?.id) : null;
 
-  return json({ session, user }, { headers });
+  return json({ authUser, user }, { headers });
 };
 
 export default function App() {
-  const { session, user } = useLoaderData<typeof loader>();
+  const { authUser, user } = useLoaderData<typeof loader>();
 
   return (
     <html lang="en" className="dark text-foreground bg-background">
@@ -38,8 +38,8 @@ export default function App() {
       </head>
       <body>
         <NextUIProvider>
-          <NavBar sessionUser={user} />
-          <Outlet context={{ session, user }} />
+          <NavBar user={user} />
+          <Outlet context={{ authUser, user }} />
           <ScrollRestoration />
           <Scripts />
         </NextUIProvider>

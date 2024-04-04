@@ -9,21 +9,27 @@ import { Button, Input, cn } from '@nextui-org/react';
  * a success message upon submission. Made for use within Cards, Modals, or other containers.
  * @param classnames (optional) Any Tailwind classes to apply to the success message div
  * @param fetcher An instantiation of useFetcher()
+ * @param showConfirmation (optional) Boolean indicating whether or not to show the
+ * confirmation message. SignInFlow will show a confirmation message automatically, use this
+ * to manually control that state.
  */
 export default function SignInFlow({
   classNames,
   fetcher,
+  showConfirmation,
 }: {
   classNames?: string;
   fetcher: FetcherWithComponents<{ success: string | boolean | null; error: string | null }>;
+  showConfirmation?: boolean;
 }) {
   const success = fetcher.data?.success || null;
   const hasEmailSent = success === true || success != null;
+  const confirmation = showConfirmation != undefined ? showConfirmation : hasEmailSent;
 
   return (
     <>
-      {!hasEmailSent && <SignInForm fetcher={fetcher} />}
-      {hasEmailSent && (
+      {!confirmation && <SignInForm fetcher={fetcher} />}
+      {confirmation && (
         <div className={cn('grid content-center justify-center my-8', classNames)}>
           <p className="text-2xl text-center">Check your email for your sign in link!</p>
         </div>

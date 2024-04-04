@@ -7,7 +7,7 @@ import type { OutletContext } from '~/db.server';
  * The common Navigation header for both the `/browse` and `/events` pages.
  */
 export default function EventPages() {
-  const { session, user } = useOutletContext<OutletContext>();
+  const { authUser, user } = useOutletContext<OutletContext>();
 
   const getClassName = ({ isActive }: { isActive: boolean }) => {
     return cn(
@@ -24,14 +24,14 @@ export default function EventPages() {
             <NavLink className={getClassName} end id="browse" to="/browse">
               {`What's On`}
             </NavLink>
-            {session && (
+            {authUser && (
               <NavLink className={getClassName} end id="events" to="/events">
                 My Events
               </NavLink>
             )}
           </div>
         </div>
-        <Outlet context={{ session, user }} />
+        <Outlet context={{ authUser, user }} />
       </div>
     </div>
   );
