@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form, useNavigate } from '@remix-run/react';
+import { Form } from '@remix-run/react';
 
 import EventInfoForm from './EventInfoForm';
 import EventSettingsDropdown from './EventSettingsDropdown';
@@ -34,7 +34,6 @@ export default function EventForms({
   isSubmitting = false,
   ...eventFormValues
 }: EventFormProps) {
-  const navigate = useNavigate();
   const [currentTab, setCurrentTab] = useState(defaultTab);
   const [submitDisabled, setSubmitDisabled] = useState(isDisabled);
 

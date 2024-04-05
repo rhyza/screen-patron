@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form, useNavigate } from '@remix-run/react';
+import { Form } from '@remix-run/react';
 import { Input, Textarea } from '@nextui-org/react';
 
 import { userPlaceholderImage } from '~/assets';
@@ -37,7 +37,6 @@ export default function UserForm({
   isDisabled = false,
   isSubmitting = false,
 }: UserFormProps) {
-  const navigate = useNavigate();
   const [submitDisabled, setSubmitDisabled] = useState(isDisabled);
 
   const validateSocialInput = (value: string) => {
