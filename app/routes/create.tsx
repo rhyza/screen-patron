@@ -39,12 +39,12 @@ export default function CreateEvent() {
     <div className="page-container">
       <Modal
         backdrop="opaque"
+        classNames={{ backdrop: 'bg-gradient mix-blend-multiply' }}
         defaultOpen={!isSignedIn && !hasSent}
         hideCloseButton={!hasSent}
         isDismissable={hasSent}
         placement="center"
         size="md"
-        classNames={{ backdrop: 'bg-gradient mix-blend-multiply' }}
       >
         <ModalContent className="p-10">
           <SignInFlow fetcher={fetcher} />

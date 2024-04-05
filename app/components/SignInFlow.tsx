@@ -87,7 +87,7 @@ export function SignInForm({
       <Button
         className="w-32 bg-gradient"
         isDisabled={!isValid || isSubmitting}
-        radius="none"
+        radius="full"
         type="submit"
       >
         Next

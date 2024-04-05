@@ -49,13 +49,13 @@ export default function NavBar({ user }: { user: User | null }) {
       <NavbarContent as="div" justify="end">
         <NavbarItem>
           <NavLink
-            className={cn('max-sm:hidden', currentPath != '/signin' && 'mr-2')}
+            className={cn('max-sm:hidden', currentPath != '/signin' && 'mr-1')}
             to="browse"
           >
             Browse Events
           </NavLink>
           <NavLink
-            className={cn('sm:hidden', currentPath != '/signin' && 'mr-2')}
+            className={cn('sm:hidden', currentPath != '/signin' && 'mr-1')}
             to="browse"
           >
             Browse
@@ -69,8 +69,8 @@ export default function NavBar({ user }: { user: User | null }) {
         >
           <Button
             as={NavLink}
-            className="bg-primary mr-2"
-            radius="none"
+            className="bg-primary mr-1"
+            radius="full"
             to="create"
             variant="flat"
           >
@@ -81,7 +81,7 @@ export default function NavBar({ user }: { user: User | null }) {
           <Button
             as={NavLink}
             className="bg-foreground text-primary"
-            radius="none"
+            radius="full"
             to="signin"
             variant="flat"
           >
