@@ -9,7 +9,7 @@ import {
   cn,
 } from '@nextui-org/react';
 
-import { EditIcon } from './Icons';
+import { EditIcon, ExclamationOutlineIcon } from './Icons';
 import { uploadPlaceholderImage } from '~/assets';
 import { validateFile } from '~/utils/validate';
 
@@ -69,7 +69,7 @@ export default function InputImage({
 
   return (
     <>
-      <Card {...cardProps} isPressable onPress={handleImageUpload}>
+      <Card isPressable onPress={handleImageUpload} radius="sm" {...cardProps}>
         <VisuallyHidden>
           <input
             accept="image/*"
@@ -84,17 +84,18 @@ export default function InputImage({
         <Image
           alt="Preview of uploaded file"
           className={cn(
-            'object-cover size-80',
+            'object-cover rounded-[10px] size-80',
             isPending && 'brightness-50',
             classNames?.image,
           )}
-          radius="none"
           src={src}
         />
         {(error || errorMessage) && (
-          <CardBody className="overflow-hidden absolute justify-center inset-0 z-10">
-            <div className="overflow-hidden z-10 rounded-large bg-red-800/65 shadow-small py-1 px-4 text-center drop-shadow-sm">
-              {error || errorMessage}
+          <CardBody className="overflow-hidden absolute inset-0 z-10">
+            <div className="flex justify-between overflow-hidden z-10 rounded-full border-2 border-red-600/85 bg-black/80 shadow-small py-1 px-1 text-center drop-shadow-sm">
+              <ExclamationOutlineIcon />
+              <span className="justify-self-end">{error || errorMessage}</span>
+              <div />
             </div>
           </CardBody>
         )}

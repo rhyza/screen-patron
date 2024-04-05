@@ -47,8 +47,7 @@ export default function EventCard({
     >
       <Image
         alt={`Event poster for ${name} event poster`}
-        className={cn('object-cover size-80', imageClassName)}
-        radius="md"
+        className={cn('object-cover rounded-[10px] size-80', imageClassName)}
         src={retypeNull(photo, eventPlaceholderImage)}
       />
       <CardFooter className="flex flex-col items-start">

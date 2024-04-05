@@ -117,8 +117,7 @@ export default function EventPage({
       <div className="flex-auto max-w-80 sm:max-w-96">
         <Image
           alt={`Event poster for ${name}`}
-          className="size-80 sm:size-96 object-cover"
-          radius="none"
+          className="rounded-[10px] size-80 sm:size-96 object-cover"
           src={photo || eventPlaceholderImage}
         />
         {!isHosting && <RSVPModal rsvp={rsvp} />}
