@@ -72,7 +72,14 @@ export default function EventPage({
         <div className="flex items-center gap-6">
           <h1 className="text-5xl sm:text-6xl font-medium">{name}</h1>
           {isHosting && (
-            <Button as={NavLink} to="./edit" radius="none">
+            <Button
+              as={NavLink}
+              className="text-foreground"
+              color="secondary"
+              to="./edit"
+              radius="none"
+              variant="ghost"
+            >
               Edit
             </Button>
           )}

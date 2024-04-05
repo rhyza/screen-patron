@@ -7,12 +7,20 @@
     @apply bg-gradient-to-br from-indigo-500 to-violet-500 text-white
   }
 
+  .bg-secondary {
+    @apply !bg-indigo-500
+  }
+
   .bg-gradient {
     @apply bg-gradient-to-br from-indigo-500 to-pink-500 text-white
   }
 
   .border-primary {
     @apply border-violet-500
+  }
+
+  .border-secondary {
+    @apply border-indigo-500
   }
 
   .page-container {

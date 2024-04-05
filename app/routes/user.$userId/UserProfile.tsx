@@ -44,7 +44,7 @@ export default function UserProfile({
         </div>
         <div className="flex justify-center">
           {isUser && (
-            <Button as={NavLink} className="w-64" to="./edit" radius="none">
+            <Button as={NavLink} className="w-64" to="./edit" radius="none" variant="ghost">
               Edit
             </Button>
           )}
