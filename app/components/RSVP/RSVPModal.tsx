@@ -21,7 +21,7 @@ export default function RSVPModal({
 }: {
   rsvp: RsvpInfo | null;
 } & Partial<React.ComponentPropsWithRef<typeof Modal>>) {
-  const { authUser } = useOutletContext<OutletContext>();
+  const { authUser, user } = useOutletContext<OutletContext>();
 
   const fetcher = useFetcher<{ success: string | null; error: string | null }>();
   const fetcherData = fetcher.data?.success;
@@ -78,7 +78,12 @@ export default function RSVPModal({
           {(onClose) => (
             <ModalBody className="p-6">
               {content === 'rsvpForm' && (
-                <RSVPForm onClose={onClose} fetcher={fetcher} selected={status} />
+                <RSVPForm
+                  fetcher={fetcher}
+                  name={rsvp?.name || user?.name || undefined}
+                  onClose={onClose}
+                  selected={status}
+                />
               )}
               {content === 'rsvpConfirmed' && (
                 <div className="grid content-center justify-center my-8">

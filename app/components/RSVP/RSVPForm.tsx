@@ -13,10 +13,12 @@ import RadioIcon from '~/components/RadioIcon';
  */
 export default function RSVPForm({
   fetcher,
+  name,
   onClose,
   selected,
 }: {
   fetcher: FetcherWithComponents<{ success: string | null; error: string | null }>;
+  name?: string;
   onClose: () => void;
   selected?: string;
 }) {
@@ -46,6 +48,7 @@ export default function RSVPForm({
         classNames={{
           inputWrapper: '!bg-transparent',
         }}
+        defaultValue={name}
         label="Your Name"
         isDisabled={isSubmitting}
         name="name"
