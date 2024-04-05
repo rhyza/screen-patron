@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Form, useNavigate } from '@remix-run/react';
-import { Button, Input, Textarea } from '@nextui-org/react';
+import { Input, Textarea } from '@nextui-org/react';
 
 import { userPlaceholderImage } from '~/assets';
-import { InstagramIcon, LinkIcon, PendingIcon, TwitterIcon } from '~/components/Icons';
+import DualButton from '~/components/DualButton';
+import { InstagramIcon, LinkIcon, TwitterIcon } from '~/components/Icons';
 import InputImage from '~/components/InputImage';
 
 type UserFormProps = {
@@ -71,23 +72,7 @@ export default function UserForm({
           />
         </div>
         <div className="flex justify-center">
-          <Button
-            className="w-32 bg-primary"
-            isDisabled={submitDisabled || isSubmitting}
-            radius="none"
-            startContent={isSubmitting && <PendingIcon />}
-            type="submit"
-          >
-            Save
-          </Button>
-          <Button
-            className="w-32"
-            isDisabled={isSubmitting}
-            onPress={() => navigate(-1)}
-            radius="none"
-          >
-            Cancel
-          </Button>
+          <DualButton isSubmitting={isSubmitting} submitDisabled={submitDisabled} />
         </div>
       </div>
       <fieldset

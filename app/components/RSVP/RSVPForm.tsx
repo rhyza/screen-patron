@@ -1,7 +1,7 @@
 import type { FetcherWithComponents } from '@remix-run/react';
-import { Button, Input, RadioGroup } from '@nextui-org/react';
+import { Input, RadioGroup } from '@nextui-org/react';
 
-import { PendingIcon } from '~/components/Icons';
+import DualButton from '~/components/DualButton';
 import RadioIcon from '~/components/RadioIcon';
 
 /**
@@ -55,18 +55,7 @@ export default function RSVPForm({
         variant="underlined"
       />
       <div className="flex justify-center">
-        <Button
-          className="w-32 bg-primary"
-          isDisabled={isSubmitting}
-          radius="none"
-          startContent={isSubmitting && <PendingIcon />}
-          type="submit"
-        >
-          Save
-        </Button>
-        <Button className="w-32" isDisabled={isSubmitting} onPress={onClose} radius="none">
-          Cancel
-        </Button>
+        <DualButton isSubmitting={isSubmitting} secondaryProps={{ onPress: onClose }} />
       </div>
     </fetcher.Form>
   );

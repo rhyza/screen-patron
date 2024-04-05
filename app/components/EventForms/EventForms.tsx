@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { Form, useNavigate } from '@remix-run/react';
-import { Button } from '@nextui-org/react';
 
 import EventInfoForm from './EventInfoForm';
 import EventSettingsDropdown from './EventSettingsDropdown';
 import { eventPlaceholderImage } from '~/assets';
 import { ButtonTab, ButtonTabs } from '~/components/ButtonTabs';
-import { PendingIcon } from '~/components/Icons';
+import DualButton from '~/components/DualButton';
 import InputImage from '~/components/InputImage';
 import type { EventFormValues } from '~/models/event.server';
 
@@ -80,23 +79,7 @@ export default function EventForms({
           name="photo"
         />
         <div className="flex justify-center">
-          <Button
-            className="w-32 bg-primary"
-            isDisabled={submitDisabled || isSubmitting}
-            radius="none"
-            startContent={isSubmitting && <PendingIcon />}
-            type="submit"
-          >
-            Save
-          </Button>
-          <Button
-            className="w-32"
-            isDisabled={isSubmitting}
-            onPress={() => navigate(-1)}
-            radius="none"
-          >
-            Cancel
-          </Button>
+          <DualButton isSubmitting={isSubmitting} submitDisabled={submitDisabled} />
         </div>
       </div>
     </Form>

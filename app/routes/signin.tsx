@@ -28,7 +28,7 @@ export default function SignInPage() {
           'w-[20rem] md:w-[30rem] max-w-md md:max-w-5xl',
           'bg-default-100/50 border-none p-8',
         )}
-        radius="md"
+        radius="sm"
         shadow="sm"
       >
         <SignInFlow fetcher={fetcher} />

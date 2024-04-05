@@ -4,15 +4,19 @@
 
 @layer utilities {
   .bg-primary {
-    @apply bg-gradient-to-br from-indigo-500 to-violet-500 text-white;
+    @apply bg-gradient-to-br from-indigo-500 to-violet-500 text-white
   }
 
   .bg-gradient {
-    @apply bg-gradient-to-br from-indigo-500 to-pink-500 text-white;
+    @apply bg-gradient-to-br from-indigo-500 to-pink-500 text-white
+  }
+
+  .border-primary {
+    @apply border-violet-500
   }
 
   .page-container {
-    @apply w-full p-6;
+    @apply w-full p-6
   }
 
   .text-primary {
@@ -26,7 +30,7 @@
 
 @layer components {
   button.link {
-    @apply cursor-pointer bg-transparent p-0 underline underline-offset-4 text-small uppercase text-foreground hover:text-indigo-400 decoration-indigo-600 decoration-2;
+    @apply cursor-pointer bg-transparent p-0 underline underline-offset-4 text-small uppercase text-foreground hover:text-indigo-400 decoration-indigo-600 decoration-2
   }
 
   div[data-slot="input-wrapper"] {
