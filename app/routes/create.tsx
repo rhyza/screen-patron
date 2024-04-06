@@ -8,7 +8,7 @@ import SignInFlow from '~/components/SignInFlow';
 
 import { getSupabaseServerClient, getUserId, uploadImage } from '~/db.server';
 import { signIn } from '~/models/user.server';
-import { createEvent, updateEvent } from '~/models/event.server';
+import { createEvent } from '~/models/event.server';
 
 export const meta: MetaFunction = () => {
   return [
@@ -71,27 +71,27 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   // If signed in, continue with new event submission
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { photo, prevPhoto, ...updates } = Object.fromEntries(await formData);
-  const event = await createEvent(userId, { ...updates });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, prefer-const
+  let { photo, prevPhoto, ...updates } = Object.fromEntries(await formData);
 
-  // Need eventId before photo can be uploaded, check if user added a photo
+  // Check if user added a photo
   if (typeof photo === 'object' && photo.size != 0) {
     // Try to upload the photo to storage, wait for returned public url
     const { path, error } = await uploadImage(
       supabase,
       'events',
-      `${event.id}_${Date.now()}`,
+      `${userId}_${Date.now()}`,
       photo,
     );
 
     if (!error) {
-      // If no errors, update the photo URL
-      await updateEvent(event.id, { photo: path });
+      // If no errors, add the photo URL
+      updates = { ...updates, photo: path };
     } else {
       console.log(error);
     }
   }
 
+  const event = await createEvent(userId, updates);
   return redirect(`/${event.id}`);
 };
