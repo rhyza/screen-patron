@@ -1,10 +1,10 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { cn } from '@nextui-org/react';
 
 import EventPage from './EventPage';
 import { eventPlaceholderImage } from '~/assets';
+import BackgroundGradient from '~/components/BackgroundGradient';
 
 import { getSupabaseServerClient, getUserId } from '~/db.server';
 import { getEvent } from '~/models/event.server';
@@ -57,20 +57,7 @@ export default function EventRoute() {
           rsvp={rsvp}
         />
       </div>
-      <div
-        className={cn(
-          'z-[-9] absolute inset-0 h-full w-full',
-          'bg-gradient-to-t from-black from-30% to-black/60',
-        )}
-      />
-      <img
-        alt=""
-        className={cn(
-          'z-[-10] absolute inset-0 object-cover h-[80vh] w-full',
-          'blur-3xl overflow-hidden',
-        )}
-        src={event?.photo || eventPlaceholderImage}
-      />
+      <BackgroundGradient photo={event?.photo || eventPlaceholderImage} />
     </>
   );
 }
