@@ -41,7 +41,7 @@ export default function UserRoute() {
         instagram={instagram}
         twitter={twitter}
         website={website}
-        isUser={authUser.id === id}
+        isUser={authUser?.id === id}
       />
     </div>
   );
