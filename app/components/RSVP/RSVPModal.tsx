@@ -72,6 +72,7 @@ export default function RSVPModal({
         isOpen={isOpen}
         onClose={onClose}
         onOpenChange={onOpenChange}
+        placement="center"
         {...modalProps}
       >
         <ModalContent className="dark">
