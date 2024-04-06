@@ -2,8 +2,9 @@ import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remi
 import { json, redirect } from '@remix-run/node';
 import { useLoaderData, useNavigation } from '@remix-run/react';
 
-import EventForms from '~/components/EventForms';
 import { eventPlaceholderImage, eventsStoragePath } from '~/assets';
+import BackgroundGradient from '~/components/BackgroundGradient';
+import EventForms from '~/components/EventForms';
 
 import { getSupabaseServerClient, getUserId, uploadImage, deleteImage } from '~/db.server';
 import { getEvent, updateEvent } from '~/models/event.server';
@@ -50,9 +51,12 @@ export default function EditEventRoute() {
   const isSubmitting = navigation.formAction === `/${event.id}/edit`;
 
   return (
-    <div className="page-container">
-      <EventForms {...retypeNull(event)} isSubmitting={isSubmitting} />
-    </div>
+    <>
+      <div className="page-container">
+        <EventForms {...retypeNull(event)} isSubmitting={isSubmitting} />
+      </div>
+      <BackgroundGradient photo={event?.photo || eventPlaceholderImage} />
+    </>
   );
 }
 
