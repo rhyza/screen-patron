@@ -38,7 +38,7 @@ export default function App() {
       </head>
       <body>
         <NextUIProvider>
-          <NavBar user={user} />
+          <NavBar isSignedIn={authUser != null} user={user} />
           <Outlet context={{ authUser, user }} />
           <ScrollRestoration />
           <Scripts />

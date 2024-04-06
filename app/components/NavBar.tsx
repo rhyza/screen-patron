@@ -22,7 +22,13 @@ import type { User } from '~/models/user.server';
  * Navigation Bar for the entire app.
  * @param user The currently signed in User
  */
-export default function NavBar({ user }: { user: User | null }) {
+export default function NavBar({
+  isSignedIn,
+  user,
+}: {
+  isSignedIn: boolean;
+  user: User | null;
+}) {
   const navigate = useNavigate();
 
   const params = useParams();
@@ -77,7 +83,7 @@ export default function NavBar({ user }: { user: User | null }) {
             Create
           </Button>
         </NavbarItem>
-        <NavbarItem className={cn((user || currentPath === '/signin') && 'hidden')}>
+        <NavbarItem className={cn((isSignedIn || currentPath === '/signin') && 'hidden')}>
           <Button
             as={NavLink}
             className="bg-foreground text-primary"
@@ -93,7 +99,7 @@ export default function NavBar({ user }: { user: User | null }) {
             <Avatar
               isBordered
               as="button"
-              className={cn('transition-transform', !user && 'hidden')}
+              className={cn('transition-transform', !isSignedIn && 'hidden')}
               color="secondary"
               name="Jason Hughes"
               size="sm"
