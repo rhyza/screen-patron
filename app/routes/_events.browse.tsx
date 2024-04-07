@@ -4,6 +4,7 @@ import { useLoaderData } from '@remix-run/react';
 import { Autocomplete, AutocompleteItem, Button } from '@nextui-org/react';
 
 import EventCards from '~/components/EventCards';
+import { CalendarIcon, DollarIcon } from '~/components/Icons';
 
 import { getEvents } from '~/models/event.server';
 import { retypeNull } from '~/utils/validate';
@@ -59,8 +60,24 @@ export default function BrowseEvents() {
         >
           {(item) => <AutocompleteItem key={item.id}>{item.name}</AutocompleteItem>}
         </Autocomplete>
-        <Button radius="full">Date</Button>
-        <Button radius="full">Cost</Button>
+        <Button className="max-md:hidden" radius="full" startContent={<CalendarIcon />}>
+          Date
+        </Button>
+        <Button className="max-md:hidden" radius="full" startContent={<DollarIcon />}>
+          Cost
+        </Button>
+        <Button
+          className="md:hidden"
+          isIconOnly
+          radius="full"
+          startContent={<CalendarIcon />}
+        />
+        <Button
+          className="md:hidden"
+          isIconOnly
+          radius="full"
+          startContent={<DollarIcon />}
+        />
       </div>
       <EventCards events={events} />
     </>
