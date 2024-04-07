@@ -23,13 +23,7 @@ export default function LandingPage() {
 
   return (
     <div className="container overflow-clip overscroll-none py-10">
-      <div
-        className={cn(
-          'absolute z-10 landscape:bottom-0 left-0 text-balance',
-          'portrait:top-1/4',
-          'lg:pr-12',
-        )}
-      >
+      <div className="absolute z-10 bottom-0 left-0 text-balance lg:pr-12">
         <h1
           className={cn(
             'landscape:text-5xl sm:landscape:text-6xl md:landscape:text-7xl',
@@ -55,19 +49,19 @@ export default function LandingPage() {
       </div>
       <div
         className={cn(
-          'absolute z-0 landscape:bottom-1/4 right-0',
-          'portrait:top-0',
-          'min-[2000px]:left-1/2',
+          'absolute z-0',
+          'landscape:bottom-1/4 landscape:right-0 min-[2000px]:landscape:left-1/2',
+          'portrait:top-0 portrait:inset-0 portrait:grid portrait:place-content-center',
         )}
       >
         {heroImages.map((src, i) => (
           <img
             alt="People making films and attending film screenings"
             className={cn(
-              'h-[20rem] sm:h-[30rem] md:h-[35rem]',
-              'lg:h-[40rem] xl:h-[45rem] 2xl:h-[50rem]',
+              'h-[20rem] sm:h-[30rem] md:h-[35rem] lg:h-[40rem] xl:h-[45rem] 2xl:h-[50rem]',
               'min-[2000px]:h-[55rem] min-[2600px]:h-[60rem]',
               'min-[2800px]:h-[65rem] min-[3400px]:h-[80rem]',
+              'portrait:h-[85svh]',
               'object-contain p-8 saturate-[.85]',
               counter % heroImages.length === i ? '' : 'hidden',
             )}
