@@ -71,18 +71,6 @@ export default function EventPage({
       <div className="flex-auto space-y-4 min-w-[300px] max-w-xl ">
         <div className="flex items-center gap-6">
           <h1 className="text-5xl sm:text-6xl font-medium">{name}</h1>
-          {isHosting && (
-            <Button
-              as={NavLink}
-              className="text-foreground"
-              color="secondary"
-              to="./edit"
-              radius="none"
-              variant="ghost"
-            >
-              Edit
-            </Button>
-          )}
         </div>
         {start ? (
           <DateRange start={start} end={end} timeZone={timeZone} />
@@ -120,14 +108,28 @@ export default function EventPage({
         {guestCount.TOTAL_GUESTS > 0 && (
           <GuestAvatars guests={guests} guestCount={guestCount} />
         )}
-        <br/>
+        <br />
       </div>
-      <div className="flex-auto max-w-80 sm:max-w-96">
+      <div className="flex-auto space-y-6 max-w-80 sm:max-w-96">
         <Image
           alt={`Event poster for ${name}`}
           className="rounded-[10px] size-80 sm:size-96 object-cover"
           src={photo || eventPlaceholderImage}
         />
+        {isHosting && (
+          <div className="flex justify-center">
+            <Button
+              as={NavLink}
+              className="w-64 text-foreground"
+              color="secondary"
+              to="./edit"
+              radius="none"
+              variant="ghost"
+            >
+              Edit
+            </Button>
+          </div>
+        )}
         {!isHosting && <RSVPModal rsvp={rsvp} />}
       </div>
     </div>
