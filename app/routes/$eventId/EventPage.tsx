@@ -120,6 +120,7 @@ export default function EventPage({
         {guestCount.TOTAL_GUESTS > 0 && (
           <GuestAvatars guests={guests} guestCount={guestCount} />
         )}
+        <br/>
       </div>
       <div className="flex-auto max-w-80 sm:max-w-96">
         <Image
