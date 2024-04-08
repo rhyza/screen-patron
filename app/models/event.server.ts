@@ -29,6 +29,11 @@ export type EventFormValues = {
   description?: string;
 };
 
+export type EventFormProps = {
+  isDisabled?: boolean;
+  setSubmitDisabled: (x: boolean | (() => boolean)) => void;
+} & EventFormValues;
+
 export type JsonifiedEvent = {
   id?: string;
   name?: string | null;

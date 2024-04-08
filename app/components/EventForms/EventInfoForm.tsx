@@ -3,13 +3,8 @@ import { Autocomplete, AutocompleteItem, Button, Input, Textarea } from '@nextui
 
 import { MapPinIcon, PlayIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
 
-import type { EventFormValues } from '~/models/event.server';
+import type { EventFormProps } from '~/models/event.server';
 import { getDateInputString, getLocalTimeZone, getTimeZones } from '~/utils/format';
-
-type EventFormProps = {
-  isDisabled?: boolean;
-  setSubmitDisabled: (x: boolean | (() => boolean)) => void;
-} & EventFormValues;
 
 /**
  * Form for modifying an Event's name, description, poster, start date, end date,
