@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer utilities {
+  .bg-invert {
+    @apply bg-foreground text-background
+  }
+
   .bg-primary {
     @apply bg-gradient-to-br from-indigo-500 to-violet-500 text-white
   }
@@ -37,10 +41,6 @@
 }
 
 @layer components {
-  button.bg-invert {
-    @apply bg-foreground text-background
-  }
-
   button.isIconOnly {
     @apply max-md:px-unit-0 max-md:min-w-unit-10
   }

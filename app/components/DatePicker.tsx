@@ -46,7 +46,7 @@ export default function DatePicker() {
           <ButtonTab id="tomorrow">Tomorrow</ButtonTab>
           <ButtonTab id="this-week">This Week</ButtonTab>
         </ButtonTabs>
-        <Card className="w-[18.5rem] p-4 bg-foreground text-background" radius="sm">
+        <Card className="w-[18.5rem] bg-invert p-4" radius="sm">
           <span className="text-center text-small font-medium">{range}</span>
         </Card>
       </PopoverContent>

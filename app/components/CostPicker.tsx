@@ -36,7 +36,7 @@ export default function CostPicker() {
           <span className="max-md:hidden">Cost</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-60 py-4 px-6 bg-foreground text-background">
+      <PopoverContent className="w-[18.5rem] bg-invert py-4 px-6">
         <Slider
           arai-label="Price Range"
           step={1}
