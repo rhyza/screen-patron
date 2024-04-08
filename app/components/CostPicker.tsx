@@ -16,6 +16,7 @@ export default function CostPicker() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [range, setRange] = useState<number[]>([0, 100]);
   const handleChange = (input: number[]) => {
+    setRange(input);
     setSearchParams((prev) => {
       if (input[0] > 0) {
         prev.set('costMin', input[0].toString());
@@ -29,8 +30,6 @@ export default function CostPicker() {
       }
       return prev;
     });
-
-    setRange(input);
   };
 
   const [min, max] = range;

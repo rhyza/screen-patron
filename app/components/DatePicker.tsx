@@ -1,31 +1,60 @@
 import { useState } from 'react';
+import { useSearchParams } from '@remix-run/react';
 import { Button, Card, Popover, PopoverContent, PopoverTrigger, cn } from '@nextui-org/react';
 
 import { ButtonTabs, ButtonTab } from './ButtonTabs';
 import { CalendarIcon } from './Icons';
 
-import { getDateString, getFutureDate } from '~/utils/format';
+import { getDateInputString, getDateString, getFutureDate } from '~/utils/format';
 
 export default function DatePicker() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [searchParams, setSearchParams] = useSearchParams();
   const [range, setRange] = useState('All Dates');
-  const setContent = (id: string) => {
-    const dateOptions = {
-      omitSameYear: true,
-      fullWeekDay: true,
-      fullMonth: true,
-    };
-    const todayString = getDateString({ date: getFutureDate(0), ...dateOptions });
-    const tomorrowString = getDateString({ date: getFutureDate(1), ...dateOptions });
-    const oneWeekString = getDateString({ date: getFutureDate(6), ...dateOptions });
 
+  const dateOptions = {
+    omitSameYear: true,
+    fullWeekDay: true,
+    fullMonth: true,
+  };
+  const today = getFutureDate(0);
+  const tomorrow = getFutureDate(1);
+  const oneWeek = getFutureDate(6);
+  const todayString = getDateString({ date: today, ...dateOptions });
+  const tomorrowString = getDateString({ date: tomorrow, ...dateOptions });
+  const oneWeekString = getDateString({ date: oneWeek, ...dateOptions });
+  const todayParamString = getDateInputString(today, undefined, true);
+  const tomorrowParamString = getDateInputString(tomorrow, undefined, true);
+  const oneWeekParamString = getDateInputString(oneWeek, undefined, true);
+
+  const setContent = (id: string) => {
     if (id === 'today') {
-      setRange(todayString);
+      setSearchParams((prev) => {
+        setRange(todayString);
+        prev.set('dateMax', todayParamString);
+        return prev;
+      });
     } else if (id === 'tomorrow') {
       setRange(tomorrowString);
+      setSearchParams((prev) => {
+        prev.set('dateMin', tomorrowParamString);
+        prev.set('dateMax', tomorrowParamString);
+        return prev;
+      });
     } else if (id === 'this-week') {
       setRange(`${todayString} — ${oneWeekString}`);
+      setSearchParams((prev) => {
+        prev.set('dateMin', todayParamString);
+        prev.set('dateMax', oneWeekParamString);
+        return prev;
+      });
     } else {
       setRange('All Dates');
+      setSearchParams((prev) => {
+        prev.delete('dateMin');
+        prev.delete('dateMax');
+        return prev;
+      });
     }
   };
 

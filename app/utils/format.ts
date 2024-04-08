@@ -36,7 +36,11 @@ export function addTimeZone(date: string, timeZone?: string) {
  * @param timeZone The timezone to convert the date into
  * @returns Date string in the format 'YYYY-MM-DDT00:00'
  */
-export function getDateInputString(value: Date | string | number | null, timeZone?: string) {
+export function getDateInputString(
+  value: Date | string | number | null,
+  timeZone?: string,
+  dateOnly?: boolean,
+) {
   if (value === null) return '';
 
   const date = new Date(value);
@@ -51,7 +55,7 @@ export function getDateInputString(value: Date | string | number | null, timeZon
   }).format(date);
   const dateParts = dateString.split(', ');
 
-  return dateParts[0] + 'T' + dateParts[1];
+  return dateOnly ? dateParts[0] : dateParts[0] + 'T' + dateParts[1];
 }
 
 /**
