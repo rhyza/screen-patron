@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSearchParams } from '@remix-run/react';
 import {
   Button,
   Popover,
@@ -11,9 +12,29 @@ import {
 import { DollarIcon } from './Icons';
 
 export default function CostPicker() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [searchParams, setSearchParams] = useSearchParams();
   const [range, setRange] = useState<number[]>([0, 100]);
+  const handleChange = (input: number[]) => {
+    setSearchParams((prev) => {
+      if (input[0] > 0) {
+        prev.set('costMin', input[0].toString());
+      } else {
+        prev.delete('costMin');
+      }
+      if (input[1] < 100) {
+        prev.set('costMax', input[1].toString());
+      } else {
+        prev.delete('costMax');
+      }
+      return prev;
+    });
+
+    setRange(input);
+  };
+
   const [min, max] = range;
-  const getPriceRange = () => {
+  const getRangeString = () => {
     if (!min && !max) {
       return 'Free Only';
     } else if (!min && max === 100) {
@@ -43,10 +64,10 @@ export default function CostPicker() {
           minValue={0}
           maxValue={100}
           value={range}
-          onChange={(input) => typeof input != 'number' && setRange(input)}
+          onChange={(input) => typeof input != 'number' && handleChange(input)}
           className="max-w-md"
         />
-        <span className="mt-4 text-small font-medium">{getPriceRange()}</span>
+        <span className="mt-4 text-small font-medium">{getRangeString()}</span>
       </PopoverContent>
     </Popover>
   );
