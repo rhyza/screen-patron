@@ -26,8 +26,10 @@ export default function DatePicker() {
       setRange(todayString);
     } else if (id === 'tomorrow') {
       setRange(tomorrowString);
-    } else {
+    } else if (id === 'this-week') {
       setRange(`${todayString} — ${oneWeekString}`);
+    } else {
+      setRange('All Dates');
     }
   };
 
@@ -46,7 +48,7 @@ export default function DatePicker() {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="bg-transparent shadow-none">
-        <ButtonTabs className="p-2" setTabContent={setContent}>
+        <ButtonTabs className="p-2" isDeselectable setTabContent={setContent}>
           <ButtonTab id="today">Today</ButtonTab>
           <ButtonTab id="tomorrow">Tomorrow</ButtonTab>
           <ButtonTab id="this-week">This Week</ButtonTab>

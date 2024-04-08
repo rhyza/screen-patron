@@ -20,15 +20,22 @@ export function ButtonTabs({
   children,
   className = '',
   defaultTab = '',
+  isDeselectable = false,
   setTabContent,
 }: {
   defaultTab?: string;
+  isDeselectable?: boolean;
   setTabContent: (id: string) => void;
 } & React.ComponentProps<'div'>) {
   const [activeTab, setActiveTab] = useState(defaultTab);
   const handlePress = (id: string) => {
-    setActiveTab(() => id);
-    setTabContent(id);
+    if (isDeselectable && activeTab === id) {
+      setActiveTab(() => '');
+      setTabContent('');
+    } else {
+      setActiveTab(() => id);
+      setTabContent(id);
+    }
   };
 
   return (
