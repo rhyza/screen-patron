@@ -8,7 +8,6 @@ import DatePicker from '~/components/DatePicker';
 import EventCards from '~/components/EventCards';
 
 import { getEvents } from '~/models/event.server';
-import { retypeNull } from '~/utils/validate';
 
 export const meta: MetaFunction = () => {
   return [
@@ -18,14 +17,23 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const url = new URL(request.url);
-  const q = retypeNull(url.searchParams.get('q'));
+  const params = new URL(request.url).searchParams;
+  const costMin = params.get('costMin') || 0;
+  const costMax = params.get('costMax') || 100;
+  const dateMin = params.get('dateMin') || Date.now();
+  const dateMax = params.get('dateMax') || undefined;
   const events = await getEvents({
     dateStart: {
-      gte: new Date(Date.now()),
+      gte: new Date(dateMin),
+      lte: dateMax && new Date(dateMax),
+    },
+    cost: {
+      gte: Number(costMin),
+      lte: Number(costMax),
     },
   });
-  return json({ events, q });
+
+  return json({ events });
 };
 
 /**
