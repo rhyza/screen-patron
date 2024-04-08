@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Card, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
+import { Button, Card, Popover, PopoverContent, PopoverTrigger, cn } from '@nextui-org/react';
 
 import { ButtonTabs, ButtonTab } from './ButtonTabs';
 import { CalendarIcon } from './Icons';
@@ -35,7 +35,10 @@ export default function DatePicker() {
     <Popover backdrop="opaque" offset={10} placement="bottom">
       <PopoverTrigger>
         <Button
-          className="max-md:px-unit-0 max-md:min-w-unit-10"
+          className={cn(
+            'max-md:px-unit-0 max-md:min-w-unit-10',
+            range != 'All Dates' ? 'bg-foreground text-background' : '',
+          )}
           radius="full"
           startContent={<CalendarIcon />}
         >

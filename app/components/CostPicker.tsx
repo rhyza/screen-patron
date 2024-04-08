@@ -1,12 +1,19 @@
 import { useState } from 'react';
-import { Button, Popover, PopoverContent, PopoverTrigger, Slider } from '@nextui-org/react';
+import {
+  Button,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Slider,
+  cn,
+} from '@nextui-org/react';
 
 import { DollarIcon } from './Icons';
 
 export default function CostPicker() {
   const [range, setRange] = useState<number[]>([0, 100]);
+  const [min, max] = range;
   const getPriceRange = () => {
-    const [min, max] = range;
     if (!min && !max) {
       return 'Free Only';
     } else if (!min && max === 100) {
@@ -22,7 +29,10 @@ export default function CostPicker() {
     <Popover backdrop="opaque" offset={10} placement="bottom">
       <PopoverTrigger>
         <Button
-          className="max-md:px-unit-0 max-md:min-w-unit-10"
+          className={cn(
+            'max-md:px-unit-0 max-md:min-w-unit-10',
+            min || max < 100 ? 'bg-foreground text-background' : '',
+          )}
           radius="full"
           startContent={<DollarIcon />}
         >
