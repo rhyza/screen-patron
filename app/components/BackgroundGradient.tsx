@@ -12,7 +12,7 @@ export default function BackgroundGradient({ photo }: { photo: string }) {
       <img
         alt=""
         className={cn(
-          'z-[-10] absolute inset-0 object-cover h-[80vh] w-full',
+          'z-[-10] absolute inset-0 -top-8 object-cover h-[80vh] w-full',
           'blur-3xl overflow-hidden',
         )}
         src={photo}

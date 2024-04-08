@@ -18,10 +18,8 @@ export default function VideoModal({ link }: { link: string }) {
 
   return (
     <>
-      <Button className="w-full justify-between" onPress={onOpen} radius="none" variant="ghost">
-        <PlayIcon />
-        <span>Play Trailer</span>
-        <span />
+      <Button className="link" onPress={onOpen} radius="none" startContent={<PlayIcon />}>
+        Play Trailer
       </Button>
       <Modal
         className="aspect-video max-h-full overflow-clip m-2"

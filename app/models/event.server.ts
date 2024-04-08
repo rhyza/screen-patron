@@ -25,6 +25,7 @@ export type EventFormValues = {
   location?: string;
   cost?: number;
   capacity?: number;
+  trailer?: string;
   description?: string;
 };
 
@@ -38,6 +39,7 @@ export type JsonifiedEvent = {
   location?: string | null;
   cost?: number | null;
   capacity?: number | null;
+  trailer?: string | null;
   description?: string | null;
 };
 
@@ -89,6 +91,7 @@ export async function getEvent(
     location: true,
     cost: true,
     capacity: true,
+    trailer: true,
     description: true,
   };
 

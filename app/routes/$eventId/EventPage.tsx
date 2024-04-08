@@ -3,6 +3,7 @@ import { Avatar, Button, Image } from '@nextui-org/react';
 
 import GuestAvatars from './GuestAvatars';
 import ShareLinks from './ShareLinks';
+import VideoModal from './VideoModal';
 import { eventPlaceholderImage } from '~/assets';
 import {
   MapPinIcon,
@@ -55,6 +56,7 @@ export default function EventPage({
     location,
     cost,
     capacity,
+    trailer,
     description,
   },
   hosts,
@@ -77,7 +79,10 @@ export default function EventPage({
         ) : (
           <p className="text-2xl font-medium">Date & Time TBD</p>
         )}
-        <ShareLinks eventId={id || ''} />
+        <div className="flex gap-8 items-center">
+          {trailer && <VideoModal link={trailer} />}
+          <ShareLinks eventId={id || ''} />
+        </div>
         <InfoField
           icon={<VideoCameraOutlineIcon />}
           text={
