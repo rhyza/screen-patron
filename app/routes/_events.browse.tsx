@@ -1,14 +1,14 @@
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { Autocomplete, AutocompleteItem, Button } from '@nextui-org/react';
+import { Autocomplete, AutocompleteItem } from '@nextui-org/react';
 
+import CostPicker from '~/components/CostPicker';
+import DatePicker from '~/components/DatePicker';
 import EventCards from '~/components/EventCards';
-import { CalendarIcon } from '~/components/Icons';
 
 import { getEvents } from '~/models/event.server';
 import { retypeNull } from '~/utils/validate';
-import CostPicker from '~/components/CostPicker';
 
 export const meta: MetaFunction = () => {
   return [
@@ -61,15 +61,7 @@ export default function BrowseEvents() {
         >
           {(item) => <AutocompleteItem key={item.id}>{item.name}</AutocompleteItem>}
         </Autocomplete>
-        <Button className="max-md:hidden" radius="full" startContent={<CalendarIcon />}>
-          Date
-        </Button>
-        <Button
-          className="md:hidden"
-          isIconOnly
-          radius="full"
-          startContent={<CalendarIcon />}
-        />
+        <DatePicker />
         <CostPicker />
       </div>
       <EventCards events={events} />

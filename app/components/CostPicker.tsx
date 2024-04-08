@@ -8,15 +8,15 @@ export default function CostPicker() {
   const getPriceRange = () => {
     const [min, max] = range;
     if (!min && !max) {
-      return 'Free Only'
+      return 'Free Only';
     } else if (!min && max === 100) {
-      return 'No Limits'
+      return 'No Limits';
     } else {
       const minString = min ? `$${min}` : 'Free';
       const maxString = max < 100 ? `$${max}` : 'Any';
       return minString + ' — ' + maxString;
     }
-  }
+  };
 
   return (
     <Popover backdrop="opaque" offset={10} placement="bottom">
@@ -39,9 +39,7 @@ export default function CostPicker() {
           onChange={(input) => typeof input != 'number' && setRange(input)}
           className="max-w-md"
         />
-        <span className="mt-4 text-small font-medium">
-          {getPriceRange()}
-        </span>
+        <span className="mt-4 text-small font-medium">{getPriceRange()}</span>
       </PopoverContent>
     </Popover>
   );
