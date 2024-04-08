@@ -62,11 +62,10 @@ export function ButtonTab({
   isDisabled?: boolean;
 } & React.ComponentProps<'span'>) {
   const { activeTab, handlePress } = useContext(ButtonTabContext);
-  const active = id === activeTab ? 'bg-foreground text-background' : '';
 
   return (
     <Button
-      className={cn(active, className)}
+      className={cn(id === activeTab && 'bg-invert', className)}
       id={id}
       isDisabled={isDisabled}
       key={id}

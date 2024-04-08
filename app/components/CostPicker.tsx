@@ -29,10 +29,7 @@ export default function CostPicker() {
     <Popover backdrop="opaque" offset={10} placement="bottom">
       <PopoverTrigger>
         <Button
-          className={cn(
-            'max-md:px-unit-0 max-md:min-w-unit-10',
-            min || max < 100 ? 'bg-foreground text-background' : '',
-          )}
+          className={cn('max-md:isIconOnly', (min || max < 100) && 'bg-invert')}
           radius="full"
           startContent={<DollarIcon />}
         >

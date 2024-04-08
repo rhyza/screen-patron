@@ -33,10 +33,7 @@ export default function DatePicker() {
     <Popover backdrop="opaque" offset={10} placement="bottom">
       <PopoverTrigger>
         <Button
-          className={cn(
-            'max-md:px-unit-0 max-md:min-w-unit-10',
-            range != 'All Dates' ? 'bg-foreground text-background' : '',
-          )}
+          className={cn('max-md:isIconOnly', range != 'All Dates' && 'bg-invert')}
           radius="full"
           startContent={<CalendarIcon />}
         >
