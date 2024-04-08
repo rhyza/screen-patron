@@ -170,7 +170,7 @@ export default function EventInfoForm({
       <Input
         defaultValue={trailer}
         isDisabled={isDisabled}
-        placeholder="Trailer"
+        placeholder="Add a YouTube or Vimeo link to your trailer"
         name="trailer"
         radius="none"
         startContent={<PlayIcon />}
