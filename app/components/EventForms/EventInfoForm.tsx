@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Autocomplete, AutocompleteItem, Button, Input, Textarea } from '@nextui-org/react';
 
-import { MapPinIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
+import { MapPinIcon, PlayIcon, TicketIcon, UserGroupIcon } from '~/components/Icons';
 
 import type { EventFormValues } from '~/models/event.server';
 import { getDateInputString, getLocalTimeZone, getTimeZones } from '~/utils/format';
@@ -26,6 +26,7 @@ export default function EventInfoForm({
   location,
   cost,
   capacity,
+  trailer,
   description,
   isDisabled = false,
   setSubmitDisabled,
@@ -165,6 +166,15 @@ export default function EventInfoForm({
           </>
         }
         type="number"
+      />
+      <Input
+        defaultValue={trailer}
+        isDisabled={isDisabled}
+        placeholder="Trailer"
+        name="trailer"
+        radius="none"
+        startContent={<PlayIcon />}
+        type="text"
       />
       <Textarea
         defaultValue={description}
