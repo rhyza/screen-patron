@@ -119,6 +119,14 @@ export function getTimeString({ date, timeZone, includeTimeZone }: DateOptions) 
 }
 
 /**
+ * @param days The number of days into the future with 0 being today
+ * @returns A Date object for a given number of days in the future
+ */
+export function getFutureDate(days: number) {
+  return new Date(Date.now() + 3600 * 1000 * 24 * days);
+}
+
+/**
  * @returns The user's system's default time zone, e.g. "America/New_York"
  */
 export function getLocalTimeZone() {

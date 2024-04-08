@@ -4,23 +4,19 @@ import { Button, Card, Popover, PopoverContent, PopoverTrigger, cn } from '@next
 import { ButtonTabs, ButtonTab } from './ButtonTabs';
 import { CalendarIcon } from './Icons';
 
-import { getDateString } from '~/utils/format';
+import { getDateString, getFutureDate } from '~/utils/format';
 
 export default function DatePicker() {
-  const dateOptions = {
-    omitSameYear: true,
-    fullWeekDay: true,
-    fullMonth: true,
-  };
-  const today = new Date(Date.now());
-  const tomorrow = new Date(Date.now() + 3600 * 1000 * 24 * 1);
-  const oneWeek = new Date(Date.now() + 3600 * 1000 * 24 * 6);
-
   const [range, setRange] = useState('All Dates');
   const setContent = (id: string) => {
-    const todayString = getDateString({ date: today, ...dateOptions });
-    const tomorrowString = getDateString({ date: tomorrow, ...dateOptions });
-    const oneWeekString = getDateString({ date: oneWeek, ...dateOptions });
+    const dateOptions = {
+      omitSameYear: true,
+      fullWeekDay: true,
+      fullMonth: true,
+    };
+    const todayString = getDateString({ date: getFutureDate(0), ...dateOptions });
+    const tomorrowString = getDateString({ date: getFutureDate(1), ...dateOptions });
+    const oneWeekString = getDateString({ date: getFutureDate(6), ...dateOptions });
 
     if (id === 'today') {
       setRange(todayString);
