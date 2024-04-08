@@ -55,6 +55,19 @@ export function isValidDate(value: unknown) {
 }
 
 /**
+ * Returns `value` as is if valid, else returns `undefined`.
+ * @param value The value to check if valid
+ * @param validator The function to use to validate value
+ */
+export function returnIfValid(value: unknown, validator: (x: unknown) => boolean) {
+  if (validator(value)) {
+    return value;
+  } else {
+    return undefined;
+  }
+}
+
+/**
  * Returns `value` type as a number. If number isn't valid, then returns null instead of NaN.
  */
 export function retypeAsNum(value: unknown) {
