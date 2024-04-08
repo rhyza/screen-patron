@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form } from '@remix-run/react';
+import { Form, useLocation } from '@remix-run/react';
 
 import EventInfoForm from './EventInfoForm';
 import EventSettingsDropdown from './EventSettingsDropdown';
@@ -34,9 +34,9 @@ export default function EventForms({
   isSubmitting = false,
   ...eventFormValues
 }: EventFormProps) {
-  const [currentTab, setCurrentTab] = useState(defaultTab);
+  const currentPath = useLocation().pathname;
   const [submitDisabled, setSubmitDisabled] = useState(isDisabled);
-
+  const [currentTab, setCurrentTab] = useState(defaultTab);
   const setTabContent = (id: string) => {
     setCurrentTab(() => id);
     return id;
@@ -78,7 +78,11 @@ export default function EventForms({
           name="photo"
         />
         <div className="flex justify-center">
-          <DualButton isSubmitting={isSubmitting} submitDisabled={submitDisabled} />
+          <DualButton
+            primaryLabel={currentPath === '/create' ? 'Create' : 'Save'}
+            isSubmitting={isSubmitting}
+            submitDisabled={submitDisabled}
+          />
         </div>
       </div>
     </Form>
