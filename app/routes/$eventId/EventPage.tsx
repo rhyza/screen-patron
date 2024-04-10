@@ -1,5 +1,5 @@
 import { NavLink } from '@remix-run/react';
-import { Avatar, Button, Image } from '@nextui-org/react';
+import { Avatar, Button, Divider, Image } from '@nextui-org/react';
 
 import GuestAvatars from './GuestAvatars';
 import ShareLinks from './ShareLinks';
@@ -71,7 +71,7 @@ export default function EventPage({
   return (
     <div className="flex flex-wrap-reverse gap-6 justify-center">
       <div className="flex-auto space-y-4 min-w-[300px] max-w-xl ">
-        <div className="flex items-center gap-6">
+        <div className="flex items-center">
           <h1 className="text-5xl sm:text-6xl font-medium">{name}</h1>
         </div>
         {start ? (
@@ -83,33 +83,43 @@ export default function EventPage({
           {trailer && <VideoModal link={trailer} />}
           <ShareLinks eventId={id || ''} />
         </div>
-        <InfoField
-          icon={<VideoCameraOutlineIcon />}
-          text={
-            <div className="flex items-center gap-2">
-              Presented by <Avatar showFallback src={retypeNull(hosts[0].user.photo)} />{' '}
-              <NavLink to={`/user/${hosts[0].userId}`}>
-                {retypeNull(hosts[0].name, hosts[0].user.name) || 'Anonymous Filmmaker'}
-              </NavLink>
-            </div>
-          }
-        />
-        <InfoField icon={<MapPinIcon />} text={location || 'Location TBD'} />
-        {cost != undefined && (
-          <InfoField icon={<TicketIcon />} text={cost > 0 ? `$${cost} per person` : 'Free'} />
-        )}
-        {capacity != undefined && capacity > 0 && (
+
+        <Divider className="!mt-7" />
+        <div className="flex-auto space-y-4">
           <InfoField
-            icon={<UserGroupIcon />}
+            icon={<VideoCameraOutlineIcon />}
             text={
-              <p>
-                <span className="text-primary">{capacity - guestCount.GOING}</span>
-                &nbsp;/ {capacity} spots left
-              </p>
+              <div className="flex items-center gap-2">
+                Presented by <Avatar showFallback src={retypeNull(hosts[0].user.photo)} />{' '}
+                <NavLink to={`/user/${hosts[0].userId}`}>
+                  {retypeNull(hosts[0].name, hosts[0].user.name) || 'Anonymous Filmmaker'}
+                </NavLink>
+              </div>
             }
           />
-        )}
-        {description && <p>{description}</p>}
+          <InfoField icon={<MapPinIcon />} text={location || 'Location TBD'} />
+          {cost != undefined && (
+            <InfoField
+              icon={<TicketIcon />}
+              text={cost > 0 ? `$${cost} per person` : 'Free'}
+            />
+          )}
+          {capacity != undefined && capacity > 0 && (
+            <InfoField
+              icon={<UserGroupIcon />}
+              text={
+                <p>
+                  <span className="text-primary">{capacity - guestCount.GOING}</span>
+                  &nbsp;/ {capacity} spots left
+                </p>
+              }
+            />
+          )}
+        </div>
+
+        {description && <Divider className="!my-6" />}
+        {description && <p className="whitespace-pre-wrap">{description}</p>}
+
         {guestCount.TOTAL_GUESTS > 0 && (
           <GuestAvatars guests={guests} guestCount={guestCount} />
         )}
