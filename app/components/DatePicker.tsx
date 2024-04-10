@@ -10,7 +10,11 @@ import { getDateInputString, getDateString, getFutureDate } from '~/utils/format
 export default function DatePicker() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
+  const [tab, setTab] = useState('all');
   const [range, setRange] = useState('All Dates');
+  const dateMin = searchParams.get('dateMin');
+  const dateMax = searchParams.get('dateMax');
+  const isActive = dateMin || dateMax;
 
   const dateOptions = {
     omitSameYear: true,
@@ -31,6 +35,7 @@ export default function DatePicker() {
     if (id === 'today') {
       setSearchParams((prev) => {
         setRange(todayString);
+        prev.set('dateMin', todayParamString);
         prev.set('dateMax', todayParamString);
         return prev;
       });
@@ -58,19 +63,24 @@ export default function DatePicker() {
     }
   };
 
+  const clearContent = () => {
+    setTab(() => 'all');
+    setContent('all');
+  };
+
   return (
     <Popover backdrop="opaque" offset={10} placement="bottom">
       <PopoverTrigger>
         <Button
-          className={cn('max-md:isIconOnly', range != 'All Dates' && 'bg-invert')}
+          className={cn('max-md:isIconOnly', isActive && 'bg-invert')}
           radius="full"
           startContent={<CalendarIcon />}
         >
           <span className="max-md:hidden">Date</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="bg-transparent shadow-none">
-        <ButtonTabs className="p-2" isDeselectable setTabContent={setContent}>
+      <PopoverContent className="bg-transparent shadow-none flex gap-2">
+        <ButtonTabs isDeselectable onTabChange={setTab} setTabContent={setContent} tab={tab}>
           <ButtonTab id="today">Today</ButtonTab>
           <ButtonTab id="tomorrow">Tomorrow</ButtonTab>
           <ButtonTab id="this-week">This Week</ButtonTab>
@@ -78,6 +88,9 @@ export default function DatePicker() {
         <Card className="w-[18.5rem] bg-invert p-4" radius="sm">
           <span className="text-center text-small font-medium">{range}</span>
         </Card>
+        <Button className="bg-invert" onPress={clearContent} radius="full">
+          Clear
+        </Button>
       </PopoverContent>
     </Popover>
   );
