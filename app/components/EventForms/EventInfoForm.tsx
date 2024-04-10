@@ -77,6 +77,7 @@ export default function EventInfoForm({
         }}
         defaultValue={name}
         isDisabled={isDisabled}
+        isRequired
         label="Event Name"
         name="name"
         radius="none"
