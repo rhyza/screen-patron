@@ -28,10 +28,15 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       gte: returnIfValid(new Date(dateMin), isValidDate) || new Date(Date.now()),
       lte: dateMax && returnIfValid(new Date(dateMax), isValidDate),
     },
-    cost: {
-      gte: retypeAsNum(costMin) || undefined,
-      lte: retypeAsNum(costMax) || undefined,
-    },
+    OR: [
+      {
+        cost: {
+          gte: retypeAsNum(costMin) || undefined,
+          lte: retypeAsNum(costMax) || undefined,
+        },
+      },
+      { cost: !retypeAsNum(costMin) ? null : undefined },
+    ],
   });
 
   return json({ events });
