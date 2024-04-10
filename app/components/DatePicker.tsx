@@ -15,7 +15,7 @@ export default function DatePicker() {
   const dateOptions = {
     omitSameYear: true,
     fullWeekDay: true,
-    fullMonth: true,
+    fullMonth: false,
   };
   const today = getFutureDate(0);
   const tomorrow = getFutureDate(1);
