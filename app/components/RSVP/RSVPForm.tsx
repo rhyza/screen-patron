@@ -34,13 +34,13 @@ export default function RSVPForm({
         name="status"
         orientation="horizontal"
       >
-        <RadioIcon description="Going" size="lg" value="GOING">
+        <RadioIcon description="Going" value="GOING">
           👍
         </RadioIcon>
-        <RadioIcon description="Maybe" size="lg" value="MAYBE">
+        <RadioIcon description="Maybe" value="MAYBE">
           🤔
         </RadioIcon>
-        <RadioIcon description="Can't Go" size="lg" value="NOT_GOING">
+        <RadioIcon description="Can't Go" value="NOT_GOING">
           😢
         </RadioIcon>
       </RadioGroup>

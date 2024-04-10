@@ -7,14 +7,14 @@ import { VisuallyHidden, cn, useRadio } from '@nextui-org/react';
  * @param size (optional) The size of the button, options are `sm`, `md`, or `lg`,
  * default value is `md`
  */
-export default function RadioIcon({ size = 'md', ...props }: { size: string } & RadioProps) {
+export default function RadioIcon({ size = 'md', ...props }: { size?: string } & RadioProps) {
   const { Component, children, description, isDisabled, getBaseProps, getInputProps } =
     useRadio(props);
 
   const sizeMap = {
-    sm: 'text-2xl sm:text-3xl size-16 p-4',
-    md: 'text-3xl sm:text-4xl size-20 p-4',
-    lg: 'text-4xl sm:text-5xl size-28 p-4',
+    sm: 'text-2xl sm:text-3xl size-16 md:size-20 p-4',
+    md: 'text-3xl sm:text-4xl size-20 md:size-24 p-4',
+    lg: 'text-4xl sm:text-5xl size-24 lg:size-28 p-4',
   };
 
   return (
