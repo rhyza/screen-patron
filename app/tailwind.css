@@ -49,7 +49,7 @@
     @apply cursor-pointer bg-transparent p-0 underline underline-offset-4 text-small uppercase text-foreground hover:text-indigo-400 decoration-indigo-600 decoration-2
   }
 
-  div[data-slot="input-wrapper"], button[data-slot="trigger"] {
+  div[data-slot="input-wrapper"], button[aria-haspopup="listbox"][data-slot="trigger"] {
     @apply bg-default-50 hover:bg-default-100
   }
 
