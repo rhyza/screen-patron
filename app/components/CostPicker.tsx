@@ -11,10 +11,15 @@ import {
 
 import { DollarIcon } from './Icons';
 
+import { retypeAsNum } from '~/utils/validate';
+
 export default function CostPicker() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
-  const [range, setRange] = useState<number[]>([0, 100]);
+  const min = retypeAsNum(searchParams.get('costMin')) || 0;
+  const max = retypeAsNum(searchParams.get('costMax')) || 100;
+
+  const [range, setRange] = useState<number[]>([min, max]);
   const handleChange = (input: number[]) => {
     setRange(input);
     setSearchParams((prev) => {
@@ -32,7 +37,6 @@ export default function CostPicker() {
     });
   };
 
-  const [min, max] = range;
   const getRangeString = () => {
     if (!min && !max) {
       return 'Free Only';
