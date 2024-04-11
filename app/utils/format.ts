@@ -59,6 +59,29 @@ export function getDateInputString(
 }
 
 /**
+ * Returns a date string for filtering by dates. The date given is set to either midnight
+ * (00:00) or a minute before midnight (23:59) and then converted to UTC.
+ * @param date The date as a Date object, a date string, or a number representing the date
+ * in miliseconds
+ * @param timeZone (optional) The timezone to convert the date into, defaults to user's
+ * system default
+ * @param atMidnight (optional) Sets the time to 00:00 if `true`, otherwise 23:59.
+ * @returns Date string in the format 'YYYY-MM-DDT00:00±HH:MM' or if a null value is passed,
+ * an empty string.
+ */
+export function getDateSearchString(
+  value: Date | string | number | null,
+  timeZone?: string,
+  atMidnight: boolean = true,
+) {
+  if (!value) return '';
+
+  let string = getDateInputString(value, timeZone, true);
+  string += atMidnight ? 'T00:00' : 'T23:59';
+  return addTimeZone(string, timeZone);
+}
+
+/**
  * Takes a Date object, `date` (**required**), and formats it into a String based off of
  * additional specifications (**optional**).
  *
