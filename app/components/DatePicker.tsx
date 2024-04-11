@@ -11,37 +11,15 @@ export default function DatePicker() {
   const [tab, setTab] = useState('all');
   const [searchParams, setSearchParams] = useSearchParams();
   const [dateMin, dateMax] = [searchParams.get('dateMin'), searchParams.get('dateMax')];
-  const isActive = dateMin || dateMax;
 
+  const today = getFutureDate(0);
+  const tomorrow = getFutureDate(1);
+  const oneWeek = getFutureDate(6);
   const dateOptions = {
     omitSameYear: true,
     fullWeekDay: true,
     fullMonth: false,
     timeZone: 'UTC',
-  };
-  const today = getFutureDate(0);
-  const tomorrow = getFutureDate(1);
-  const oneWeek = getFutureDate(6);
-  const todayString = getDateString({ date: today, ...dateOptions, timeZone: undefined });
-
-  const getRangeString = () => {
-    if (!dateMin && !dateMax) return 'All Dates';
-
-    const min = dateMin?.slice(0, 10);
-    const max = dateMax?.slice(0, 10);
-    const minString = min ? getDateString({ date: new Date(min), ...dateOptions }) : '';
-    const maxString = max ? getDateString({ date: new Date(max), ...dateOptions }) : '';
-    let rangeString = min ? minString : maxString;
-
-    if (min && max && min != max) {
-      rangeString += ` — ${maxString}`;
-    } else if (!max && min != todayString) {
-      rangeString += ' and later';
-    } else if (!min && max != todayString) {
-      rangeString += ' and earlier';
-    }
-
-    return rangeString;
   };
 
   const setContent = (id: string) => {
@@ -77,11 +55,32 @@ export default function DatePicker() {
     setContent('all');
   };
 
+  const todayString = getDateString({ date: today, ...dateOptions, timeZone: undefined });
+  const getRangeString = () => {
+    if (!dateMin && !dateMax) return 'All Dates';
+
+    const min = dateMin?.slice(0, 10);
+    const max = dateMax?.slice(0, 10);
+    const minString = min ? getDateString({ date: new Date(min), ...dateOptions }) : '';
+    const maxString = max ? getDateString({ date: new Date(max), ...dateOptions }) : '';
+    let rangeString = min ? minString : maxString;
+
+    if (min && max && min != max) {
+      rangeString += ` — ${maxString}`;
+    } else if (!max && min != todayString) {
+      rangeString += ' and later';
+    } else if (!min && max != todayString) {
+      rangeString += ' and earlier';
+    }
+
+    return rangeString;
+  };
+
   return (
     <Popover backdrop="opaque" offset={10} placement="bottom">
       <PopoverTrigger>
         <Button
-          className={cn('max-md:isIconOnly', isActive && 'bg-invert')}
+          className={cn('max-md:isIconOnly', (dateMin || dateMax) && 'bg-invert')}
           radius="full"
           startContent={<CalendarIcon />}
         >
