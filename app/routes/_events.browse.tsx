@@ -26,7 +26,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const events = await getEvents({
     dateStart: {
       gte: returnIfValid(new Date(dateMin), isValidDate) || new Date(Date.now()),
-      lte: dateMax && returnIfValid(new Date(dateMax), isValidDate),
+      lte: dateMax ? returnIfValid(new Date(dateMax), isValidDate) : undefined,
     },
     OR: [
       {

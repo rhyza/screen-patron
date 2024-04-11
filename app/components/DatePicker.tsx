@@ -5,56 +5,65 @@ import { Button, Card, Popover, PopoverContent, PopoverTrigger, cn } from '@next
 import { ButtonTabs, ButtonTab } from './ButtonTabs';
 import { CalendarIcon } from './Icons';
 
-import { getDateInputString, getDateString, getFutureDate } from '~/utils/format';
+import { getDateString, getDateSearchString, getFutureDate } from '~/utils/format';
 
 export default function DatePicker() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
   const [tab, setTab] = useState('all');
-  const [range, setRange] = useState('All Dates');
-  const dateMin = searchParams.get('dateMin');
-  const dateMax = searchParams.get('dateMax');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [dateMin, dateMax] = [searchParams.get('dateMin'), searchParams.get('dateMax')];
   const isActive = dateMin || dateMax;
 
   const dateOptions = {
     omitSameYear: true,
     fullWeekDay: true,
     fullMonth: false,
+    timeZone: 'UTC',
   };
   const today = getFutureDate(0);
   const tomorrow = getFutureDate(1);
   const oneWeek = getFutureDate(6);
-  const todayString = getDateString({ date: today, ...dateOptions });
-  const tomorrowString = getDateString({ date: tomorrow, ...dateOptions });
-  const oneWeekString = getDateString({ date: oneWeek, ...dateOptions });
-  const todayParamString = getDateInputString(today, undefined, true);
-  const tomorrowParamString = getDateInputString(tomorrow, undefined, true);
-  const oneWeekParamString = getDateInputString(oneWeek, undefined, true);
+  const todayString = getDateString({ date: today, ...dateOptions, timeZone: undefined });
+
+  const getRangeString = () => {
+    if (!dateMin && !dateMax) return 'All Dates';
+
+    const min = dateMin?.slice(0, 10);
+    const max = dateMax?.slice(0, 10);
+    const minString = min ? getDateString({ date: new Date(min), ...dateOptions }) : '';
+    const maxString = max ? getDateString({ date: new Date(max), ...dateOptions }) : '';
+    let rangeString = min ? minString : maxString;
+
+    if (min && max && min != max) {
+      rangeString += ` — ${maxString}`;
+    } else if (!max && min != todayString) {
+      rangeString += ' and later';
+    } else if (!min && max != todayString) {
+      rangeString += ' and earlier';
+    }
+
+    return rangeString;
+  };
 
   const setContent = (id: string) => {
     if (id === 'today') {
       setSearchParams((prev) => {
-        setRange(todayString);
-        prev.set('dateMin', todayParamString);
-        prev.set('dateMax', todayParamString);
+        prev.set('dateMin', getDateSearchString(today, undefined, true));
+        prev.set('dateMax', getDateSearchString(today, undefined, false));
         return prev;
       });
     } else if (id === 'tomorrow') {
-      setRange(tomorrowString);
       setSearchParams((prev) => {
-        prev.set('dateMin', tomorrowParamString);
-        prev.set('dateMax', tomorrowParamString);
+        prev.set('dateMin', getDateSearchString(tomorrow, undefined, true));
+        prev.set('dateMax', getDateSearchString(tomorrow, undefined, false));
         return prev;
       });
     } else if (id === 'this-week') {
-      setRange(`${todayString} — ${oneWeekString}`);
       setSearchParams((prev) => {
-        prev.set('dateMin', todayParamString);
-        prev.set('dateMax', oneWeekParamString);
+        prev.set('dateMin', getDateSearchString(today, undefined, true));
+        prev.set('dateMax', getDateSearchString(oneWeek, undefined, false));
         return prev;
       });
     } else {
-      setRange('All Dates');
       setSearchParams((prev) => {
         prev.delete('dateMin');
         prev.delete('dateMax');
@@ -86,7 +95,7 @@ export default function DatePicker() {
           <ButtonTab id="this-week">This Week</ButtonTab>
         </ButtonTabs>
         <Card className="w-[18.5rem] bg-invert p-4" radius="sm">
-          <span className="text-center text-small font-medium">{range}</span>
+          <span className="text-center text-small font-medium">{getRangeString()}</span>
         </Card>
         <Button className="bg-invert" onPress={clearContent} radius="full">
           Clear
