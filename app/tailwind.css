@@ -42,7 +42,7 @@
 
 @layer components {
   button.isIconOnly {
-    @apply max-md:px-unit-0 max-md:min-w-unit-10
+    @apply max-md:px-0 max-md:min-w-10
   }
 
   button.link {
